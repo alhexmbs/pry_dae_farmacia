@@ -21,7 +21,7 @@ public class JdInicioSesion extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txtUsuario = new javax.swing.JTextField();
-        txtContraseÃ±a = new javax.swing.JPasswordField();
+        txtContraseña = new javax.swing.JPasswordField();
         btnLogin = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -48,15 +48,15 @@ public class JdInicioSesion extends javax.swing.JDialog {
         jPanel2.setBackground(new java.awt.Color(242, 247, 251));
 
         jLabel2.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
-        jLabel2.setText("Â¡Bienvenido de nuevo!");
+        jLabel2.setText("¡Bienvenido de nuevo!");
 
         txtUsuario.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
-        txtContraseÃ±a.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        txtContraseña.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
         btnLogin.setBackground(new java.awt.Color(155, 179, 232));
         btnLogin.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
-        btnLogin.setText("Iniciar sesiÃ³n");
+        btnLogin.setText("Iniciar sesión");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginActionPerformed(evt);
@@ -67,7 +67,7 @@ public class JdInicioSesion extends javax.swing.JDialog {
         jLabel3.setText("Usuario:");
 
         jLabel4.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
-        jLabel4.setText("ContraseÃ±a:");
+        jLabel4.setText("Contrasena:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -81,7 +81,7 @@ public class JdInicioSesion extends javax.swing.JDialog {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(67, 67, 67)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtContraseÃ±a)
+                            .addComponent(txtContraseña)
                             .addComponent(txtUsuario)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4)
@@ -100,7 +100,7 @@ public class JdInicioSesion extends javax.swing.JDialog {
                 .addGap(36, 36, 36)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtContraseÃ±a, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(60, 60, 60)
                 .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -118,10 +118,7 @@ public class JdInicioSesion extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -142,7 +139,7 @@ public class JdInicioSesion extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPasswordField txtContraseÃ±a;
+    private javax.swing.JPasswordField txtContraseña;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }
