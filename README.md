@@ -1,6 +1,6 @@
 # Guía de Colaboración
 
-👽👻
+🐸🐼🐧🦊🦁
 
 ## Flujo de Trabajo
 
@@ -42,33 +42,42 @@ git checkout -b rama-tuNombre
 
 ## 2. Subir tus cambios
 Cuando hayas hecho todos los cambios en tu módulo, sigue estos pasos para guardarlos en GitHub:
+1. Añadir los archivos modificados
 ```bash
 git add .
 ````
+
+2. Hacer un commit con un mensaje claro
 ```bash
 git commit -m "Implementé la validación de formularios"
 ````
+
+3. Sube tu rama a GitHub
 ```bash
-git push origin rama-alex
+git push origin rama-tuNombre
 ````
 
-Si ya terminaste y todo está correcto regresa a la rama principal (**main**):
+## 3. Si ya terminaste y todo está correcto regresa a la rama principal (**main**):
 ```bash
 git checkout main
 ````
 
-⚠️ Esto para que la proxima que quieras modificar hagas lo siguiente: ⚠️
+---
 
 # SI EL PROYECTO YA HA SIDO MODIFICADO
-Traer los cambios más recientes:
+## 1. Traer los cambios recientes de main
+Es posible que otros miembros hayan hecho cambios en el proyecto. Antes de seguir trabajando, asegúrate de traer los cambios más recientes.
+Primero, asegúrate de estar en la rama main y luego actualiza tu copia local con los cambios más recientes del repositorio remoto:
 ```bash
 git pull origin main
 ````
-Cambiar de vuelta a tu rama de trabajo:
+## 2. Cambia a tu rama
+Una vez que has actualizado tu proyecto, puedes volver a tu rama personal y continuar trabajando:
 ```bash
-git checkout rama-alex
+git checkout rama-tuNombre
 ````
+>⚠️ Recuerda: Siempre sincroniza los cambios de main antes de comenzar a trabajar para evitar conflictos.
 
 #### Y así repites el proceso
 
-Happy coding :)
+Happy coding 😊👨‍💻👩‍💻
