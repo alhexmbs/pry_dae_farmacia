@@ -16,7 +16,7 @@ git clone https://github.com/alhexmbs/pry_dae_farmacia.git
 ```bash
 cd pry_dae_farmacia
 ````
-Abres ese proyecto en NetBeans.
+Abres ese proyecto en NetBeans. No cierres la terminal.
 
 ## ⚠️ No modifiques el main. Solo modifica partes de tu módulo. No toques el módulo ni las interfaces de otro :) ⚠️
 
