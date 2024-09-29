@@ -372,7 +372,7 @@ public class jdPromocion extends javax.swing.JDialog {
         ResultSet rsPromocion = null;
         try {
             if (txtId2.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Debe ingresar un cÃ³digo para buscar");
+                JOptionPane.showMessageDialog(this, "Debe ingresar un código para buscar");
             } else {
                 rsPromocion = obj.buscarPromocion(Integer.parseInt(txtId2.getText()));
 
@@ -382,7 +382,7 @@ public class jdPromocion extends javax.swing.JDialog {
                     jcFechaFin.setDate(rsPromocion.getDate("fecha_fin"));
                     rsPromocion.close();
                 } else {
-                    JOptionPane.showMessageDialog(this, "CÃ³digo de promociÃ³n no existe");
+                    JOptionPane.showMessageDialog(this, "Código de promoción no existe");
                     limpiar();
                 }
             }
