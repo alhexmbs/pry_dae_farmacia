@@ -71,7 +71,7 @@ public class jdManUsuario extends javax.swing.JDialog {
         jLabel69.setText("Edad:");
 
         jLabel71.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel71.setText("N煤mero de telefono:");
+        jLabel71.setText("N鷐ero de telefono:");
 
         txtCorreo.setBackground(new java.awt.Color(239, 237, 220));
         txtCorreo.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -100,7 +100,7 @@ public class jdManUsuario extends javax.swing.JDialog {
         txtApellidos.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         jLabel73.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel73.setText("Direcci贸n:");
+        jLabel73.setText("Direcci髇:");
 
         txtTelefono.setBackground(new java.awt.Color(239, 237, 220));
         txtTelefono.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -241,7 +241,7 @@ public class jdManUsuario extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Codigo", "Fecha", "Cantidad (Kg)", "Clasificaci贸n", "Categorizaci贸n", "Peligrosidad", "Responsable "
+                "Codigo", "Fecha", "Cantidad (Kg)", "Clasificaci髇", "Categorizaci髇", "Peligrosidad", "Responsable "
             }
         ));
         tablaSimular.setShowGrid(false);
@@ -377,7 +377,7 @@ public class jdManUsuario extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Codigo", "Fecha", "Cantidad (Kg)", "Clasificaci贸n", "Categorizaci贸n", "Peligrosidad", "Responsable "
+                "Codigo", "Fecha", "Cantidad (Kg)", "Clasificaci髇", "Categorizaci髇", "Peligrosidad", "Responsable "
             }
         ));
         TablaGuardarda.setShowGrid(false);
@@ -405,16 +405,16 @@ public class jdManUsuario extends javax.swing.JDialog {
                 .addGap(22, 22, 22)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(btnSimular, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnSimular1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(btnSimular, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnSimular1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 882, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 884, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
