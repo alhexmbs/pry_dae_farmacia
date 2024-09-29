@@ -16,10 +16,13 @@ git clone https://github.com/alhexmbs/pry_dae_farmacia.git
 ```bash
 cd pry_dae_farmacia
 ````
-Abres ese proyecto en NetBeans. No cierres la terminal.
+Abres ese proyecto en NetBeans.
+
+(A partir de ahora abrirás la terminal en ese directorio siempre que quieras avanzar en el proyecto. En pry_dae_farmacia)
 
 ## ⚠️ No modifiques el main. Solo modifica partes de tu módulo. No toques el módulo ni las interfaces de otro :) ⚠️
 
+# PRIMEROS PASOS
 Si es la primera vez que entras, vas a estar en la rama main, debe crear una rama para poder hacer cambios y no generar errores. Así:
 ```bash
 git checkout -b rama-alex
@@ -37,3 +40,24 @@ git commit -m "Implementé la validación de formularios"
 ```bash
 git push origin rama-alex
 ````
+
+Si ya terminaste y todo está correcto regresa a la rama principal:
+```bash
+git checkout main
+````
+
+⚠️ Esto para que la proxima que quieras modificar hagas lo siguiente: ⚠️
+
+# SI EL PROYECTO YA HA SIDO MODIFICADO
+Traer los cambios más recientes:
+```bash
+git pull origin main
+````
+Cambiar de vuelta a tu rama de trabajo:
+```bash
+git checkout rama-alex
+````
+
+#### Y así repites el proceso
+
+Happy coding :)
