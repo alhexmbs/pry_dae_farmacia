@@ -25,6 +25,8 @@ Abres ese proyecto en NetBeans.
 - No modifiques el main: Solo trabaja en tu propio módulo o sección asignada.
 - Respeta el trabajo de tus compañeros: No modifiques los módulos o interfaces de otros sin su consentimiento.
 
+---
+
 # PRIMEROS PASOS
 ## 1. Crea una rama nueva
 Si es la primera vez que trabajas en el proyecto, estarás en la rama **main**. Crea tu propia rama para trabajar y evitar conflictos con el código principal:
