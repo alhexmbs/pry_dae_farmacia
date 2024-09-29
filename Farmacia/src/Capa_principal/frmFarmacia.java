@@ -107,7 +107,7 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenuBar1.add(jMenu2);
 
         jMenu6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pago.png"))); // NOI18N
-        jMenu6.setText("FacturaciÃ³n y pago");
+        jMenu6.setText("Facturación y pago");
 
         jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/sale.png"))); // NOI18N
         jMenuItem5.setText("Registrar venta");
