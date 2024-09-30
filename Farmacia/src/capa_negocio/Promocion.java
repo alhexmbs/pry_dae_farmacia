@@ -98,4 +98,19 @@ public class Promocion {
             throw new Exception("Error al buscar promoción por fecha --> " + e.getMessage());
         }
     }
+
+    public Integer obtenerCodigoPromocion(String dscto) throws Exception {
+        strsql = "SELECT id_promocion FROM promocion WHERE dscto = '" + dscto + "'";
+
+        try {
+            rs = objconectar.consultarBD(strsql);
+            if (rs.next()) {
+                return rs.getInt("id_promocion");
+            }
+        } catch (Exception e) {
+            throw new Exception("Error al buscar promociones --> " + e.getMessage());
+        }
+        return 0;
+    }
+
 }
