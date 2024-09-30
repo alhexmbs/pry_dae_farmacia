@@ -1,10 +1,13 @@
 
 package Capa_principal;
 
+import capa_negocio.Cliente;
 import capa_negocio.TipoDocumento;
 import javax.swing.DefaultComboBoxModel;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -13,6 +16,7 @@ import javax.swing.JOptionPane;
 public class jdManCliente extends javax.swing.JDialog {
 
     TipoDocumento objTD = new TipoDocumento();
+    Cliente objC = new Cliente();
     
     public jdManCliente(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -20,6 +24,10 @@ public class jdManCliente extends javax.swing.JDialog {
         
         btnGroupSexo.add(opMasculino);
         btnGroupSexo.add(opFemenino);
+        opMasculino.setSelected(true);
+        
+        listarTipoDocumentos();
+        listarClientes();
     }
 
     /**
@@ -162,6 +170,7 @@ public class jdManCliente extends javax.swing.JDialog {
         cboTipoDoc.setBackground(new java.awt.Color(239, 237, 220));
 
         jdateFechaNacCliente.setBackground(new java.awt.Color(239, 237, 220));
+        jdateFechaNacCliente.setDateFormatString("yyyy-MM-dd");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -478,6 +487,76 @@ public class jdManCliente extends javax.swing.JDialog {
         }
     }
     
+    private void listarClientes(){
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID");
+        modelo.addColumn("Documento");
+        modelo.addColumn("Nro. Documento");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Ap. Paterno");
+        modelo.addColumn("Ap. Materno");
+        modelo.addColumn("Fecha Nacimiento");
+        modelo.addColumn("Sexo");
+        modelo.addColumn("Email");
+        
+        tblClientes.setModel(modelo);
+        
+        ResultSet rs = null;
+        try{
+            rs = objC.listarTodosCliente();
+            while(rs.next()){
+                Object[] fila = new Object[9];
+                fila[0] = rs.getInt("id_cliente");
+                fila[1] = cboTipoDoc.getSelectedItem().toString();
+                fila[2] = rs.getString("nro_documento");
+                fila[3] = rs.getString("nombre");
+                fila[4] = rs.getString("ape_paterno");
+                fila[5] = rs.getString("ape_materno");
+                fila[6] = rs.getDate("fecha_nacimiento");
+                fila[7] = rs.getString("sexo");
+                fila[8] = rs.getString("email");
+                
+                modelo.addRow(fila);
+            }
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado", "Error al obtener los clientes", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void insertar(){
+        try{
+            SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+            
+            if(btnNuevo.getText().equals("NUEVO")){
+                btnNuevo.setText("GUARDAR");
+                limpiarFormulario();
+                txtIDCliente.requestFocus();
+                
+                int idC = objC.genenrarIDCliente();
+                txtIDCliente.setText(""+idC);
+            }else{
+                btnNuevo.setText("NUEVO");
+                
+                int idCliente = Integer.parseInt(txtIDCliente.getText());
+                String numDoc = txtNumDocCliente.getText();
+                String nombre = txtNombreCliente.getText();
+                String apPat = txtApPaternoCliente.getText();
+                String apMat = txtApMaternoCliente.getText();
+                String fechaNac = date.format(jdateFechaNacCliente.getDate());
+                boolean sexo = opMasculino.isSelected();
+                String email = txtEmailCliente.getText();
+                int tipoDoc = objTD.obtenerIDTipoDoc(numDoc);
+                
+                objC.insertarCliente(idCliente, numDoc, nombre, apPat, apMat, fechaNac, sexo, email, tipoDoc);
+                
+                limpiarFormulario();
+                listarClientes();
+            }
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this, "Error al intentar insertar el cliente", "Ocurrió un error inesperado", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
     private void btnSimularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimularActionPerformed
 
    
@@ -488,7 +567,7 @@ public class jdManCliente extends javax.swing.JDialog {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-
+        limpiarFormulario();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -504,7 +583,7 @@ public class jdManCliente extends javax.swing.JDialog {
     }//GEN-LAST:event_btnDarBajaActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-
+        insertar();
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void txtNombreClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreClienteKeyTyped
