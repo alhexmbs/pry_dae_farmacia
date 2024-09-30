@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 
 /**
  *
- * @author Admin
+ * @author Leonardo José Medina Flores
  */
 public class Comprobante {
     
