@@ -1,5 +1,7 @@
 package capa_negocio;
 
+/*Hola que hace*/
+
 import capaDatos.datos;
 import java.sql.ResultSet;
 
