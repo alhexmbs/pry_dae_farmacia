@@ -10,23 +10,23 @@ import java.sql.ResultSet;
  */
 public class Comprobante {
     
-    public class ComprobanteDAO {
+    
     datos objconectar = new datos();
     String strsql;
     ResultSet rs = null;
 
-    // Listar comprobantes con opciÃ³n de filtro
+    // Listar comprobantes con opción de filtro
     public ResultSet listarComprobantes(String filtro) throws Exception {
         strsql = "SELECT * FROM COMPROBANTE";
-
         switch (filtro) {
-            case "General":
-                break;
             case "Mayor a menor":
                 strsql += " ORDER BY importe_total DESC";
                 break;
             case "Menor a mayor":
                 strsql += " ORDER BY importe_total ASC";
+                break;
+            default:
+                // El caso "General" no requiere cambios, así que no se hace nada.
                 break;
         }
 
@@ -49,7 +49,7 @@ public class Comprobante {
         }
     }
 
-    // Generar el prÃ³ximo cÃ³digo de comprobante
+    // Generar el próximo código de comprobante
     public int generarCodigoComprobante() throws Exception {
         strsql = "SELECT COALESCE(MAX(id_comprobante), 0) + 1 AS codigo FROM COMPROBANTE";
         try {
@@ -58,9 +58,9 @@ public class Comprobante {
                 return rs.getInt("codigo");
             }
         } catch (Exception e) {
-            throw new Exception("Error al generar cÃ³digo de comprobante --> " + e.getMessage());
+            throw new Exception("Error al generar código de comprobante --> " + e.getMessage());
         }
-        return 0;
+        return 0; // En caso de que no se encuentre un código válido
     }
 
     // Registrar un nuevo comprobante
@@ -76,6 +76,7 @@ public class Comprobante {
 
     // Modificar un comprobante existente
     public void modificarComprobante(int id_comprobante, String serie_nro_comprobante, Date fecha_emision, float importe_total, int id_cliente, int id_usuario, int id_tipo_comprobante, int id_pedido) throws Exception {
+        // Consulta SQL para actualizar los datos del comprobante
         strsql = "UPDATE COMPROBANTE SET serie_nro_comprobante = '" + serie_nro_comprobante
                 + "', fecha_emision = '" + fecha_emision + "', importe_total = " + importe_total
                 + ", id_cliente = " + id_cliente + ", id_usuario = " + id_usuario
@@ -84,6 +85,7 @@ public class Comprobante {
         try {
             objconectar.ejecutarBd(strsql);
         } catch (Exception e) {
+            // Manejo de excepciones en caso de error
             throw new Exception("Error al modificar comprobante --> " + e.getMessage());
         }
     }
@@ -108,80 +110,5 @@ public class Comprobante {
             throw new Exception("Error al buscar comprobantes por fecha --> " + e.getMessage());
         }
     }
-}
-
-public class TipoComprobanteDAO {
-    datos objconectar = new datos();
-    String strsql;
-    ResultSet rs = null;
-
-    // Listar todos los tipos de comprobantes
-    public ResultSet listarTiposComprobante() throws Exception {
-        strsql = "SELECT * FROM TIPO_COMPROBANTE";
-        try {
-            rs = objconectar.consultarBD(strsql);
-            return rs;
-        } catch (Exception e) {
-            throw new Exception("Error al listar tipos de comprobante --> " + e.getMessage());
-        }
-    }
-
-    // Buscar un tipo de comprobante por ID
-    public ResultSet buscarTipoComprobante(int id_tipo_comprobante) throws Exception {
-        strsql = "SELECT * FROM TIPO_COMPROBANTE WHERE id_tipo_comprobante = " + id_tipo_comprobante;
-        try {
-            rs = objconectar.consultarBD(strsql);
-            return rs;
-        } catch (Exception e) {
-            throw new Exception("Error al buscar tipo de comprobante --> " + e.getMessage());
-        }
-    }
-
-    // Generar el prÃ³ximo cÃ³digo de tipo de comprobante
-    public int generarCodigoTipoComprobante() throws Exception {
-        strsql = "SELECT COALESCE(MAX(id_tipo_comprobante), 0) + 1 AS codigo FROM TIPO_COMPROBANTE";
-        try {
-            rs = objconectar.consultarBD(strsql);
-            if (rs.next()) {
-                return rs.getInt("codigo");
-            }
-        } catch (Exception e) {
-            throw new Exception("Error al generar cÃ³digo de tipo de comprobante --> " + e.getMessage());
-        }
-        return 0;
-    }
-
-    // Registrar un nuevo tipo de comprobante
-    public void registrarTipoComprobante(int id_tipo_comprobante, String tipo_comprobante) throws Exception {
-        strsql = "INSERT INTO TIPO_COMPROBANTE (id_tipo_comprobante, tipo_comprobante) VALUES ("
-                + id_tipo_comprobante + ", '" + tipo_comprobante + "')";
-        try {
-            objconectar.ejecutarBd(strsql);
-        } catch (Exception e) {
-            throw new Exception("Error al registrar tipo de comprobante --> " + e.getMessage());
-        }
-    }
-
-    // Modificar un tipo de comprobante existente
-    public void modificarTipoComprobante(int id_tipo_comprobante, String tipo_comprobante) throws Exception {
-        strsql = "UPDATE TIPO_COMPROBANTE SET tipo_comprobante = '" + tipo_comprobante
-                + "' WHERE id_tipo_comprobante = " + id_tipo_comprobante;
-        try {
-            objconectar.ejecutarBd(strsql);
-        } catch (Exception e) {
-            throw new Exception("Error al modificar tipo de comprobante --> " + e.getMessage());
-        }
-    }
-
-    // Eliminar un tipo de comprobante
-    public void eliminarTipoComprobante(int id_tipo_comprobante) throws Exception {
-        strsql = "DELETE FROM TIPO_COMPROBANTE WHERE id_tipo_comprobante = " + id_tipo_comprobante;
-        try {
-            objconectar.ejecutarBd(strsql);
-        } catch (Exception e) {
-            throw new Exception("Error al eliminar tipo de comprobante --> " + e.getMessage());
-        }
-    }
-}
 
 }

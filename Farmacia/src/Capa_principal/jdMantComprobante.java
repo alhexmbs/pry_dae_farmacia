@@ -4,20 +4,29 @@
  */
 package Capa_principal;
 
+
+import capa_negocio.Comprobante;
+import capa_negocio.TipoComprobante;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import java.sql.*;
+
 /**
  *
  * @author Admin
  */
 public class jdMantComprobante extends javax.swing.JDialog {
 
-    /**
-     * Creates new form jdMantComprobante
-     */
+   
+
+   
     public jdMantComprobante(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
-
+    Comprobante objCompro = new Comprobante();
+    
+    TipoComprobante objTCom= new TipoComprobante();
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -34,16 +43,26 @@ public class jdMantComprobante extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtNComprobante = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        txtIdCliente = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
+        txtIdUsuario = new javax.swing.JTextField();
+        cbTipoComprobante = new javax.swing.JComboBox<>();
+        txtImporteTotal = new javax.swing.JTextField();
+        txtNomCliente = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jcFechaEmision = new com.toedter.calendar.JDateChooser();
+        jLabel10 = new javax.swing.JLabel();
+        txtPedido = new javax.swing.JTextField();
+        btnNuevo = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TablaComprobante = new javax.swing.JTable();
+        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -51,6 +70,7 @@ public class jdMantComprobante extends javax.swing.JDialog {
 
         jPanel2.setBackground(new java.awt.Color(170, 215, 217));
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("Datos Comprobante: ");
 
         jLabel2.setText("N° Comprobante: ");
@@ -65,15 +85,24 @@ public class jdMantComprobante extends javax.swing.JDialog {
 
         jLabel7.setText("ID Usuario: ");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Boleta", "Factura" }));
+        cbTipoComprobante.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Boleta", "Factura" }));
 
-        jTextField6.addActionListener(new java.awt.event.ActionListener() {
+        txtNomCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
+                txtNomClienteActionPerformed(evt);
             }
         });
 
         jLabel8.setText("Nombre: ");
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/agregar.png"))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel10.setText("ID Pedido: ");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -82,11 +111,8 @@ public class jdMantComprobante extends javax.swing.JDialog {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(36, 36, 36)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -97,30 +123,45 @@ public class jdMantComprobante extends javax.swing.JDialog {
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField2)
-                                    .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
-                                    .addComponent(jTextField4))
-                                .addGap(43, 43, 43)
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(txtImporteTotal, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cbTipoComprobante, javax.swing.GroupLayout.Alignment.LEADING, 0, 131, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton1))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(txtIdCliente)
+                                            .addComponent(txtIdUsuario)
+                                            .addComponent(jcFechaEmision, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(txtNComprobante, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(44, Short.MAX_VALUE))))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtNomCliente)
+                                    .addComponent(txtPedido, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))))))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(34, 34, 34)
                 .addComponent(jLabel1)
-                .addGap(28, 28, 28)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(3, 3, 3)
+                .addGap(36, 36, 36)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtNComprobante, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10))
+                        .addGap(3, 3, 3))
+                    .addComponent(txtPedido))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(30, 30, 30)
@@ -128,43 +169,118 @@ public class jdMantComprobante extends javax.swing.JDialog {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtNomCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8))))
                 .addGap(17, 17, 17)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtIdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(jLabel4))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jcFechaEmision, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(14, 14, 14)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5)
+                        .addComponent(cbTipoComprobante, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton1))
                 .addGap(25, 25, 25)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(37, Short.MAX_VALUE))
+                    .addComponent(txtImporteTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
+
+        btnNuevo.setBackground(new java.awt.Color(236, 177, 89));
+        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/agregar.png"))); // NOI18N
+        btnNuevo.setText("NUEVO");
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
+
+        btnModificar.setBackground(new java.awt.Color(236, 177, 89));
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/edity.png"))); // NOI18N
+        btnModificar.setText("MODIFICAR");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
+
+        btnLimpiar.setBackground(new java.awt.Color(236, 177, 89));
+        btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/limpiar.png"))); // NOI18N
+        btnLimpiar.setText("LIMPIAR");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+
+        btnEliminar.setBackground(new java.awt.Color(236, 177, 89));
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
+        btnEliminar.setText("ELIMINAR");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+
+        TablaComprobante.setBackground(new java.awt.Color(170, 215, 217));
+        jScrollPane1.setViewportView(TablaComprobante);
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel9.setText("Listado de Comprobante ");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(74, 74, 74)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(289, Short.MAX_VALUE))
+                .addGap(80, 80, 80)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(42, 42, 42)
+                        .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(59, 59, 59)
+                        .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(46, 46, 46)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(50, 50, 50))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(45, 45, 45)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(57, 57, 57)
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnNuevo)
+                    .addComponent(btnModificar)
+                    .addComponent(btnLimpiar)
+                    .addComponent(btnEliminar))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -175,25 +291,235 @@ public class jdMantComprobante extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    private void limpiarFormulario() {
+    // Limpiar campos de texto
+    txtNComprobante.setText("");
+    txtIdCliente.setText("");
+    txtIdUsuario.setText("");
+    txtNomCliente.setText("");
+    txtImporteTotal.setText("");
 
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
+    // Limpiar el combo box (Tipo de comprobante)
+    cbTipoComprobante.setSelectedIndex(0);  // Selecciona el primer ítem del combo box (por ejemplo, "Boleta")
+
+    // Limpiar el campo de fecha
+    jcFechaEmision.setDate(null);  // Esto establece el campo de fecha en vacío
+
+    // Limpiar cualquier otro campo necesario (si tienes más)
+}
+    private void listarComprobantes(String filtro) {
+    try {
+        // Crear el modelo para la tabla
+        DefaultTableModel modelo = (DefaultTableModel) TablaComprobante.getModel();
+        modelo.setRowCount(0);  // Limpiar la tabla antes de llenarla con nuevos datos
+
+        // Obtener los datos de la base de datos
+        ResultSet rs = objCompro.listarComprobantes(filtro);
+
+        // Recorrer el ResultSet y agregar los datos a la tabla
+        while (rs.next()) {
+            Object[] fila = new Object[6];  // Ajusta el tamaño según el número de columnas que tengas
+            fila[0] = rs.getInt("id_comprobante");
+            fila[1] = rs.getString("serie_nro_comprobante");
+            fila[2] = rs.getDate("fecha_emision");
+            fila[3] = rs.getFloat("importe_total");
+            fila[4] = rs.getInt("id_cliente");
+            fila[5] = rs.getInt("id_usuario");
+            // Puedes añadir más columnas según los datos que necesites mostrar
+            
+            // Agregar la fila al modelo de la tabla
+            modelo.addRow(fila);
+        }
+
+        // Actualizar la tabla con el modelo
+        TablaComprobante.setModel(modelo);
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al listar comprobantes: " + e.getMessage());
+    }
+}
+
+    private void txtNomClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomClienteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField6ActionPerformed
+    }//GEN-LAST:event_txtNomClienteActionPerformed
+
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        
+        try {
+        if (btnNuevo.getText().equals("NUEVO")) {
+            // Cambiar el texto del botón a "GUARDAR"
+            btnNuevo.setText("GUARDAR");
+
+            // Generar un nuevo código para el comprobante y llenar el campo de texto
+            txtNComprobante.setText(String.valueOf(objCompro.generarCodigoComprobante()));
+
+            // Colocar el foco en el campo de la serie del comprobante para que el usuario lo complete
+            txtNComprobante.requestFocus();
+        } else {
+            // Obtener los datos del formulario
+            int idComprobante = Integer.parseInt(txtNComprobante.getText());
+            String serieComprobante = txtNComprobante.getText();
+            java.sql.Date fechaEmision = new java.sql.Date(jcFechaEmision.getDate().getTime());
+            float importeTotal = Float.parseFloat(txtImporteTotal.getText());
+            int idCliente = Integer.parseInt(txtIdCliente.getText());
+            int idUsuario = Integer.parseInt(txtIdUsuario.getText());
+            int idTipoComprobante = cbTipoComprobante.getSelectedIndex() + 1; // Selecciona el índice del tipo de comprobante
+            int idPedido = Integer.parseInt(txtPedido.getText());
+
+            // Validación de los campos obligatorios
+            if (!serieComprobante.isEmpty() && importeTotal > 0 && idCliente > 0 && idUsuario > 0 && idTipoComprobante > 0 && idPedido > 0) {
+                // Llamar al método registrarComprobante de la clase Comprobante
+                objCompro.registrarComprobante(idComprobante, serieComprobante, fechaEmision, importeTotal, idCliente, idUsuario, idTipoComprobante, idPedido);
+
+                // Cambiar el texto del botón nuevamente a "NUEVO"
+                btnNuevo.setText("NUEVO");
+
+                // Limpiar los campos del formulario
+                limpiarFormulario();
+
+                // Refrescar la lista de comprobantes
+                listarComprobantes("General");
+
+                // Mostrar mensaje de éxito
+                JOptionPane.showMessageDialog(this, "Comprobante guardado correctamente");
+            } else {
+                // Mostrar mensaje de error si faltan campos
+                JOptionPane.showMessageDialog(this, "Ingrese información en todos los campos");
+            }
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al insertar comprobante: " + e.getMessage());
+    }
+        
+    }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+       if (txtNComprobante.getText().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Debe ingresar un código de comprobante a modificar");
+    } else {
+        // Obtener los valores del formulario
+        int idComprobante = Integer.parseInt(txtNComprobante.getText());
+        String serieComprobante = txtNComprobante.getText();
+        java.sql.Date fechaEmision = new java.sql.Date(jcFechaEmision.getDate().getTime());  // Obtenemos la fecha de emisión
+        float importeTotal = Float.parseFloat(txtImporteTotal.getText());
+        int idCliente = Integer.parseInt(txtIdCliente.getText());
+        int idUsuario = Integer.parseInt(txtIdUsuario.getText());
+        int idTipoComprobante = cbTipoComprobante.getSelectedIndex() + 1;  // Selecciona el índice del tipo de comprobante
+        int idPedido = Integer.parseInt(txtPedido.getText());
+
+        // Validar que no haya campos vacíos
+        if (!serieComprobante.isEmpty() && importeTotal > 0 && idCliente > 0 && idUsuario > 0 && idTipoComprobante > 0 && idPedido > 0) {
+            try {
+                // Confirmar modificación del comprobante
+                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea modificar este comprobante?");
+                if (confirmacion == JOptionPane.YES_OPTION) {
+                    // Llamada al método modificarComprobante
+                    objCompro.modificarComprobante(idComprobante, serieComprobante, fechaEmision, importeTotal, idCliente, idUsuario, idTipoComprobante, idPedido);
+
+                    // Limpiar formulario
+                    limpiarFormulario();
+
+                    // Refrescar la lista de comprobantes
+                    listarComprobantes("General");
+
+                    // Mensaje de éxito
+                    JOptionPane.showMessageDialog(this, "Comprobante modificado correctamente");
+                }
+            } catch (Exception e) {
+                // Mostrar mensaje de error si ocurre algún problema
+                JOptionPane.showMessageDialog(this, "Error al modificar comprobante: " + e.getMessage());
+            }
+        } else {
+            // Mostrar mensaje si faltan campos por completar
+            JOptionPane.showMessageDialog(this, "Ingrese información en todos los campos");
+        }
+    }
+    
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        limpiarFormulario();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+                                                    
+        try {
+        // Verificar si el campo N° Comprobante está vacío
+        if (txtNComprobante.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un número de comprobante a eliminar");
+        } else {
+            // Confirmar la eliminación del comprobante
+            int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea eliminar este comprobante?");
+            if (confirmacion == JOptionPane.YES_OPTION) {
+                // Llamar al método de eliminar comprobante en la clase correspondiente (por ejemplo, objC)
+                objCompro.eliminarComprobante(Integer.parseInt(txtNComprobante.getText()));
+
+                // Limpiar el formulario
+                limpiarFormulario();
+
+                // Refrescar la lista de comprobantes (si tienes una tabla o lista)
+                listarComprobantes("General");
+
+                // Mensaje de éxito
+                JOptionPane.showMessageDialog(this, "Comprobante eliminado correctamente");
+            }
+        }
+    } catch (Exception e) {
+        // Manejo de errores
+        JOptionPane.showMessageDialog(this, "Error al eliminar comprobante: " + e.getMessage());
+    }
+
+
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       // Crear un cuadro de diálogo para solicitar el nombre del nuevo tipo de comprobante
+    String nuevoTipoComprobante = JOptionPane.showInputDialog(this, "Ingrese el nuevo tipo de comprobante:");
+
+    if (nuevoTipoComprobante != null && !nuevoTipoComprobante.trim().isEmpty()) {
+        try {
+            // Generar un nuevo código para el tipo de comprobante
+            int idNuevoTipo = objTCom.generarCodigoTipoComprobante();
+
+            // Registrar el nuevo tipo de comprobante en la base de datos
+            objTCom.registrarTipoComprobante(idNuevoTipo, nuevoTipoComprobante);
+
+            // Actualizar el ComboBox con el nuevo tipo de comprobante
+            cbTipoComprobante.addItem(nuevoTipoComprobante);
+
+            // Seleccionar automáticamente el nuevo tipo en el ComboBox
+            cbTipoComprobante.setSelectedItem(nuevoTipoComprobante);
+
+            // Mostrar mensaje de éxito
+            JOptionPane.showMessageDialog(this, "Nuevo tipo de comprobante agregado correctamente.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al agregar el nuevo tipo de comprobante: " + e.getMessage());
+        }
+    } else {
+        // Mostrar un mensaje si no se ingresó ningún valor
+        JOptionPane.showMessageDialog(this, "Debe ingresar un nombre para el nuevo tipo de comprobante.");
+    }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JTable TablaComprobante;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnModificar;
+    private javax.swing.JButton btnNuevo;
+    private javax.swing.JComboBox<String> cbTipoComprobante;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -201,13 +527,16 @@ public class jdMantComprobante extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private com.toedter.calendar.JDateChooser jcFechaEmision;
+    private javax.swing.JTextField txtIdCliente;
+    private javax.swing.JTextField txtIdUsuario;
+    private javax.swing.JTextField txtImporteTotal;
+    private javax.swing.JTextField txtNComprobante;
+    private javax.swing.JTextField txtNomCliente;
+    private javax.swing.JTextField txtPedido;
     // End of variables declaration//GEN-END:variables
 }
