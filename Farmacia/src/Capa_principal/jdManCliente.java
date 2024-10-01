@@ -26,8 +26,8 @@ public class jdManCliente extends javax.swing.JDialog {
         btnGroupSexo.add(opFemenino);
         opMasculino.setSelected(true);
         
-        listarTipoDocumentos();
-        listarClientes();
+        //listarTipoDocumentos();
+        //listarClientes();
     }
 
     /**
@@ -555,6 +555,59 @@ public class jdManCliente extends javax.swing.JDialog {
         }catch(Exception ex){
             JOptionPane.showMessageDialog(this, "Error al intentar insertar el cliente", "Ocurrió un error inesperado", JOptionPane.ERROR_MESSAGE);
         }
+    }
+    
+    private void modificar(){
+        try{
+            if(txtIDCliente.getText().equals("")){
+                JOptionPane.showMessageDialog(this, "Por favor ingrese el ID del cliente", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+                int rpta = JOptionPane.showConfirmDialog(this, "¿Desea eliminar este producto?", "Seleccione una opción", JOptionPane.YES_NO_OPTION);
+                
+                if(rpta == 0){
+                    int idCliente = Integer.parseInt(txtIDCliente.getText());
+                    String numDoc = txtNumDocCliente.getText();
+                    String nombre = txtNombreCliente.getText();
+                    String apPat = txtApPaternoCliente.getText();
+                    String apMat = txtApMaternoCliente.getText();
+                    String fechaNac = date.format(jdateFechaNacCliente.getDate());
+                    boolean sexo = opMasculino.isSelected();
+                    String email = txtEmailCliente.getText();
+                    int tipoDoc = objTD.obtenerIDTipoDoc(numDoc);
+                    
+                    objC.modificarCliente(idCliente, numDoc, nombre, apPat, apMat, fechaNac, sexo, email, tipoDoc);
+                    
+                    limpiarFormulario();
+                    listarClientes();
+                }
+            }
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this, "Error al intentar modificar el cliente", "Ocurrió un error inesperado", JOptionPane.ERROR_MESSAGE);            
+        }
+    }
+    
+    private void eliminar(){
+        try{
+            if(txtIDCliente.getText().equals("")){
+                JOptionPane.showMessageDialog(this, "Por favor ingrese el ID del cliente", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                int rpta = JOptionPane.showConfirmDialog(this, "¿Desea eliminar este producto?", "Seleccione una opción", JOptionPane.YES_NO_OPTION);
+                
+                if(rpta == 0){
+                    int idCliente = Integer.parseInt(txtIDCliente.getText());
+                    objC.eliminarCliente(idCliente);
+                    limpiarFormulario();
+                    listarClientes();
+                }
+            }
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this, "Error al intentar eliminar el cliente", "Ocurrió un error inesperado", JOptionPane.ERROR_MESSAGE);            
+        }
+    }
+    
+    private void filtrarID(){
+        
     }
     
     private void btnSimularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimularActionPerformed
