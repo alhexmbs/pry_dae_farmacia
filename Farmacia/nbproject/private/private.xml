@@ -4,7 +4,9 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Admin/OneDrive/Escritorio/CLON_FARMACIA/pry_dae_farmacia/Farmacia/src/Capa_principal/jdManProducto.java</file>
+            <file>file:/C:/Users/Admin/OneDrive/Escritorio/CLON_FARMACIA/pry_dae_farmacia/Farmacia/src/capa_negocio/MetodoPago.java</file>
             <file>file:/C:/Users/Admin/OneDrive/Escritorio/CLON_FARMACIA/pry_dae_farmacia/Farmacia/src/Capa_principal/jdFormFarmaceutica.java</file>
+            <file>file:/C:/Users/Admin/OneDrive/Escritorio/CLON_FARMACIA/pry_dae_farmacia/Farmacia/src/Capa_principal/jdRubro.java</file>
             <file>file:/C:/Users/Admin/OneDrive/Escritorio/CLON_FARMACIA/pry_dae_farmacia/Farmacia/src/Capa_principal/jdPromocion.java</file>
             <file>file:/C:/Users/Admin/OneDrive/Escritorio/CLON_FARMACIA/pry_dae_farmacia/Farmacia/src/Capa_principal/jdPago_Admin.java</file>
             <file>file:/C:/Users/Admin/OneDrive/Escritorio/CLON_FARMACIA/pry_dae_farmacia/Farmacia/src/Capa_principal/jdMantComprobante.java</file>
@@ -12,13 +14,13 @@
             <file>file:/C:/Users/Admin/OneDrive/Escritorio/CLON_FARMACIA/pry_dae_farmacia/Farmacia/src/Capa_principal/jdPago_Cajero.java</file>
             <file>file:/C:/Users/Admin/OneDrive/Escritorio/CLON_FARMACIA/pry_dae_farmacia/Farmacia/src/Capa_principal/jdManUsuario.java</file>
             <file>file:/C:/Users/Admin/OneDrive/Escritorio/CLON_FARMACIA/pry_dae_farmacia/Farmacia/src/Capa_principal/appPrincipal.java</file>
+            <file>file:/C:/Users/Admin/OneDrive/Escritorio/CLON_FARMACIA/pry_dae_farmacia/Farmacia/src/capa_negocio/Lote.java</file>
             <file>file:/C:/Users/Admin/OneDrive/Escritorio/CLON_FARMACIA/pry_dae_farmacia/Farmacia/src/capa_negocio/Comprobante.java</file>
             <file>file:/C:/Users/Admin/OneDrive/Escritorio/CLON_FARMACIA/pry_dae_farmacia/Farmacia/src/Capa_principal/jdFabricante.java</file>
             <file>file:/C:/Users/Admin/OneDrive/Escritorio/CLON_FARMACIA/pry_dae_farmacia/Farmacia/src/Capa_principal/frmFarmacia.java</file>
             <file>file:/C:/Users/Admin/OneDrive/Escritorio/CLON_FARMACIA/pry_dae_farmacia/Farmacia/src/capa_negocio/Fabricante.java</file>
-            <file>file:/C:/Users/Admin/OneDrive/Escritorio/CLON_FARMACIA/pry_dae_farmacia/Farmacia/src/capa_negocio/TipoComprobante.java</file>
             <file>file:/C:/Users/Admin/OneDrive/Escritorio/CLON_FARMACIA/pry_dae_farmacia/Farmacia/src/capa_negocio/Pago.java</file>
-            <file>file:/C:/Users/Admin/OneDrive/Escritorio/CLON_FARMACIA/pry_dae_farmacia/Farmacia/src/Capa_principal/jdTipoComprobante.java</file>
+            <file>file:/C:/Users/Admin/OneDrive/Escritorio/CLON_FARMACIA/pry_dae_farmacia/Farmacia/src/capa_negocio/Forma_farmaceutica.java</file>
             <file>file:/C:/Users/Admin/OneDrive/Escritorio/CLON_FARMACIA/pry_dae_farmacia/Farmacia/src/Capa_principal/JdInicioSesion.java</file>
         </group>
     </open-files>

@@ -18,9 +18,10 @@ public class Comprobante {
     // Listar comprobantes con opción de filtro
 public ResultSet listarComprobantes() throws Exception {
     strsql = "SELECT cv.id_comprobante, cv.serie_nro_comprobante, cv.fecha_emision, cv.importe_total, " +
-             "c.id_cliente, c.nombre AS cliente_nombre, tc.tipo_comprobante, cv.id_pedido " +
+             "cv.id_cliente, u.id_usuario, tc.tipo_comprobante, cv.id_pedido " +
              "FROM COMPROBANTE_VENTA cv " +
              "INNER JOIN CLIENTE c ON cv.id_cliente = c.id_cliente " +
+             "INNER JOIN USUARIO u ON cv.id_usuario = u.id_usuario " +  // Asegúrate de que la tabla y campo sean correctos
              "INNER JOIN TIPO_COMPROBANTE tc ON cv.id_tipo_comprobante = tc.id_tipo_comprobante " +
              "INNER JOIN PEDIDO p ON cv.id_pedido = p.id_pedido";
     try {
@@ -58,20 +59,22 @@ public ResultSet listarComprobantes() throws Exception {
     }
 
     // Modificar un comprobante existente
-    public void modificarComprobante(int id_comprobante, String serie_nro_comprobante, Date fecha_emision, float importe_total, int id_cliente, int id_usuario, int id_tipo_comprobante, int id_pedido) throws Exception {
-        // Consulta SQL para actualizar los datos del comprobante
-        strsql = "UPDATE COMPROBANTE SET serie_nro_comprobante = '" + serie_nro_comprobante
-                + "', fecha_emision = '" + fecha_emision + "', importe_total = " + importe_total
-                + ", id_cliente = " + id_cliente + ", id_usuario = " + id_usuario
-                + ", id_tipo_comprobante = " + id_tipo_comprobante + ", id_pedido = " + id_pedido
-                + " WHERE id_comprobante = " + id_comprobante;
-        try {
-            objconectar.ejecutarBd(strsql);
-        } catch (Exception e) {
-            // Manejo de excepciones en caso de error
-            throw new Exception("Error al modificar comprobante --> " + e.getMessage());
-        }
+   public void modificarComprobante(int id_comprobante, String serie_nro_comprobante, Date fecha_emision, float importe_total, int id_cliente, int id_usuario, int id_tipo_comprobante, int id_pedido) throws Exception {
+    // Asegurarte de que el nombre de la tabla es correcto (COMPROBANTE_VENTA por ejemplo, si es necesario)
+     strsql = "UPDATE COMPROBANTE_VENTA SET serie_nro_comprobante = '" + serie_nro_comprobante
+            + "', fecha_emision = '" + fecha_emision + "', importe_total = " + importe_total
+            + ", id_cliente = " + id_cliente + ", id_usuario = " + id_usuario
+            + ", id_tipo_comprobante = " + id_tipo_comprobante + ", id_pedido = " + id_pedido
+            + " WHERE id_comprobante = " + id_comprobante;
+
+    try {
+        // Ejecutar la consulta SQL
+        objconectar.ejecutarBd(strsql);
+    } catch (Exception e) {
+        // Manejo de excepciones en caso de error
+        throw new Exception("Error al modificar comprobante --> " + e.getMessage());
     }
+}
 
     // Eliminar un comprobante
     public void eliminarComprobante(int id_comprobante) throws Exception {
