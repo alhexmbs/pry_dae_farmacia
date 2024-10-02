@@ -4,20 +4,62 @@
  */
 package Capa_principal;
 
+import capa_negocio.Cliente;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
- * @author jenny
+ * @author joseph
  */
 public class jdListCliente extends javax.swing.JDialog {
 
+    Cliente objC = new Cliente();
+    
     /**
      * Creates new form jdListCliente
      */
     public jdListCliente(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        listarClientes();
     }
 
+    private void listarClientes(){
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID");
+        modelo.addColumn("Nro. Documento");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Ap. Paterno");
+        modelo.addColumn("Ap. Materno");
+        modelo.addColumn("Fecha Nacimiento");
+        modelo.addColumn("Sexo");
+        modelo.addColumn("Email");
+        
+        tblClientes.setModel(modelo);
+        
+        ResultSet rs = null;
+        try{
+            rs = objC.listarTodosCliente();
+            while(rs.next()){
+                Object[] fila = new Object[9];
+                fila[0] = rs.getInt("id_cliente");
+                fila[1] = rs.getString("nro_documento");
+                fila[2] = rs.getString("nombre");
+                fila[3] = rs.getString("ape_paterno");
+                fila[4] = rs.getString("ape_materno");
+                fila[5] = rs.getDate("fecha_nacimiento");
+                fila[6] = rs.getString("sexo");
+                fila[7] = rs.getString("email");
+                
+                modelo.addRow(fila);
+            }
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado", "Error al obtener los clientes", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -33,9 +75,9 @@ public class jdListCliente extends javax.swing.JDialog {
         jLabel68 = new javax.swing.JLabel();
         txtBuscarCodigo = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tblProducto = new javax.swing.JTable();
-        btnEliminar1 = new javax.swing.JButton();
-        btnEliminar2 = new javax.swing.JButton();
+        tblClientes = new javax.swing.JTable();
+        btnCancelar = new javax.swing.JButton();
+        btnListar = new javax.swing.JButton();
         btnEliminar3 = new javax.swing.JButton();
         btnEliminar4 = new javax.swing.JButton();
 
@@ -85,9 +127,9 @@ public class jdListCliente extends javax.swing.JDialog {
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
-        tblProducto.setAutoCreateRowSorter(true);
-        tblProducto.setBackground(new java.awt.Color(170, 215, 217));
-        tblProducto.setModel(new javax.swing.table.DefaultTableModel(
+        tblClientes.setAutoCreateRowSorter(true);
+        tblClientes.setBackground(new java.awt.Color(170, 215, 217));
+        tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -95,34 +137,39 @@ public class jdListCliente extends javax.swing.JDialog {
 
             }
         ));
-        tblProducto.setShowGrid(false);
-        jScrollPane3.setViewportView(tblProducto);
+        tblClientes.setShowGrid(false);
+        tblClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblClientesMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tblClientes);
 
-        btnEliminar1.setBackground(new java.awt.Color(236, 177, 89));
-        btnEliminar1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnEliminar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
-        btnEliminar1.setText("Nuevo");
-        btnEliminar1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btnEliminar1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnEliminar1.setPreferredSize(new java.awt.Dimension(45, 60));
-        btnEliminar1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnEliminar1.addActionListener(new java.awt.event.ActionListener() {
+        btnCancelar.setBackground(new java.awt.Color(236, 177, 89));
+        btnCancelar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/darBaja.png"))); // NOI18N
+        btnCancelar.setText("CANCELAR");
+        btnCancelar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnCancelar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnCancelar.setPreferredSize(new java.awt.Dimension(45, 60));
+        btnCancelar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminar1ActionPerformed(evt);
+                btnCancelarActionPerformed(evt);
             }
         });
 
-        btnEliminar2.setBackground(new java.awt.Color(236, 177, 89));
-        btnEliminar2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnEliminar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
-        btnEliminar2.setText("Nuevo");
-        btnEliminar2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btnEliminar2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnEliminar2.setPreferredSize(new java.awt.Dimension(45, 60));
-        btnEliminar2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnEliminar2.addActionListener(new java.awt.event.ActionListener() {
+        btnListar.setBackground(new java.awt.Color(236, 177, 89));
+        btnListar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnListar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/new.png"))); // NOI18N
+        btnListar.setText("LISTAR");
+        btnListar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnListar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnListar.setPreferredSize(new java.awt.Dimension(45, 60));
+        btnListar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnListar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminar2ActionPerformed(evt);
+                btnListarActionPerformed(evt);
             }
         });
 
@@ -167,9 +214,9 @@ public class jdListCliente extends javax.swing.JDialog {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnEliminar2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnListar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnEliminar1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnEliminar3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -182,8 +229,8 @@ public class jdListCliente extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnEliminar1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminar2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnListar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -197,13 +244,13 @@ public class jdListCliente extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnEliminar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar1ActionPerformed
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnEliminar1ActionPerformed
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void btnEliminar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar2ActionPerformed
+    private void btnListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnEliminar2ActionPerformed
+    }//GEN-LAST:event_btnListarActionPerformed
 
     private void btnEliminar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar3ActionPerformed
         // TODO add your handling code here:
@@ -213,19 +260,22 @@ public class jdListCliente extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEliminar4ActionPerformed
 
+    private void tblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesMouseClicked
+        
+    }//GEN-LAST:event_tblClientesMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnEliminar1;
-    private javax.swing.JButton btnEliminar2;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEliminar3;
     private javax.swing.JButton btnEliminar4;
-    private javax.swing.JButton btnSimular;
+    private javax.swing.JButton btnListar;
     private javax.swing.JLabel jLabel66;
     private javax.swing.JLabel jLabel68;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable tblProducto;
+    private javax.swing.JTable tblClientes;
     private javax.swing.JTextField txtBuscarCodigo;
     // End of variables declaration//GEN-END:variables
 }
