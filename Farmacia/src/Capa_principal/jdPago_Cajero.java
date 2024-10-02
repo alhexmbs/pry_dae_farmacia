@@ -9,6 +9,10 @@ public class jdPago_Cajero extends javax.swing.JDialog {
         initComponents();
     }
     
+    private void listarMetodosPago () {
+        
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
