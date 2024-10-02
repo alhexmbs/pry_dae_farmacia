@@ -16,38 +16,21 @@ public class Comprobante {
     ResultSet rs = null;
 
     // Listar comprobantes con opción de filtro
-    public ResultSet listarComprobantes(String filtro) throws Exception {
-        strsql = "SELECT * FROM COMPROBANTE";
-        switch (filtro) {
-            case "Mayor a menor":
-                strsql += " ORDER BY importe_total DESC";
-                break;
-            case "Menor a mayor":
-                strsql += " ORDER BY importe_total ASC";
-                break;
-            default:
-                // El caso "General" no requiere cambios, así que no se hace nada.
-                break;
-        }
-
-        try {
-            rs = objconectar.consultarBD(strsql);
-            return rs;
-        } catch (Exception e) {
-            throw new Exception("Error al listar comprobantes --> " + e.getMessage());
-        }
+public ResultSet listarComprobantes() throws Exception {
+    strsql = "SELECT cv.id_comprobante, cv.serie_nro_comprobante, cv.fecha_emision, cv.importe_total, " +
+             "c.id_cliente, c.nombre AS cliente_nombre, tc.tipo_comprobante, cv.id_pedido " +
+             "FROM COMPROBANTE_VENTA cv " +
+             "INNER JOIN CLIENTE c ON cv.id_cliente = c.id_cliente " +
+             "INNER JOIN TIPO_COMPROBANTE tc ON cv.id_tipo_comprobante = tc.id_tipo_comprobante " +
+             "INNER JOIN PEDIDO p ON cv.id_pedido = p.id_pedido";
+    try {
+        rs = objconectar.consultarBD(strsql);
+        return rs;
+    } catch (Exception e) {
+        throw new Exception("Error al listar comprobantes: " + e.getMessage());
     }
+}
 
-    // Buscar comprobante por ID
-    public ResultSet buscarComprobante(int id_comprobante) throws Exception {
-        strsql = "SELECT * FROM COMPROBANTE WHERE id_comprobante = " + id_comprobante;
-        try {
-            rs = objconectar.consultarBD(strsql);
-            return rs;
-        } catch (Exception e) {
-            throw new Exception("Error al buscar comprobante --> " + e.getMessage());
-        }
-    }
 
     // Generar el próximo código de comprobante
     public int generarCodigoComprobante() throws Exception {
@@ -99,16 +82,35 @@ public class Comprobante {
             throw new Exception("Error al eliminar comprobante --> " + e.getMessage());
         }
     }
-
-    // Buscar comprobantes por un rango de fechas
-    public ResultSet buscarComprobantePorFecha(Date fecha_inicio, Date fecha_fin) throws Exception {
-        strsql = "SELECT * FROM COMPROBANTE WHERE fecha_emision >= '" + fecha_inicio + "' AND fecha_emision <= '" + fecha_fin + "'";
-        try {
-            rs = objconectar.consultarBD(strsql);
-            return rs;
-        } catch (Exception e) {
-            throw new Exception("Error al buscar comprobantes por fecha --> " + e.getMessage());
-        }
+    
+    public ResultSet buscarComprobantePorCliente(int id_cliente) throws Exception {
+    strsql = "SELECT cv.id_comprobante, cv.serie_nro_comprobante, cv.fecha_emision, cv.importe_total, " +
+             "c.id_cliente, c.nombre AS cliente_nombre, tc.tipo_comprobante, cv.id_pedido, " +
+             "cv.id_usuario " +  // Aquí incluimos el id_usuario en la selección
+             "FROM COMPROBANTE_VENTA cv " +
+             "INNER JOIN CLIENTE c ON cv.id_cliente = c.id_cliente " +
+             "INNER JOIN TIPO_COMPROBANTE tc ON cv.id_tipo_comprobante = tc.id_tipo_comprobante " +
+             "INNER JOIN PEDIDO p ON cv.id_pedido = p.id_pedido " +
+             "WHERE c.id_cliente = " + id_cliente;
+    try {
+        rs = objconectar.consultarBD(strsql);
+        return rs;
+    } catch (Exception e) {
+        throw new Exception("Error al buscar comprobantes por cliente --> " + e.getMessage());
     }
+}
+
+    public ResultSet listarTiposComprobante() throws Exception {
+    String strSQL = "SELECT tipo_comprobante FROM TIPO_COMPROBANTE";
+    try {
+        ResultSet rs = objconectar.consultarBD(strSQL);  // Ejecutar la consulta
+        return rs;  // Retornar el ResultSet con los tipos de comprobante
+    } catch (Exception e) {
+        throw new Exception("Error al listar los tipos de comprobante: " + e.getMessage());
+    }
+}
+
+
+
 
 }

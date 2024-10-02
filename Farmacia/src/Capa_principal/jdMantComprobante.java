@@ -6,10 +6,14 @@ package Capa_principal;
 
 
 import capa_negocio.Comprobante;
-import capa_negocio.TipoComprobante;
+
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
+import java.util.Date;
+import javax.swing.DefaultComboBoxModel;
+
+
 
 /**
  *
@@ -23,10 +27,13 @@ public class jdMantComprobante extends javax.swing.JDialog {
     public jdMantComprobante(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        listarTipoComprobante();
+        listarComprobantes();
+        jcFechaEmision.setMinSelectableDate(new Date());
     }
     Comprobante objCompro = new Comprobante();
     
-    TipoComprobante objTCom= new TipoComprobante();
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,9 +57,6 @@ public class jdMantComprobante extends javax.swing.JDialog {
         txtIdUsuario = new javax.swing.JTextField();
         cbTipoComprobante = new javax.swing.JComboBox<>();
         txtImporteTotal = new javax.swing.JTextField();
-        txtNomCliente = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         jcFechaEmision = new com.toedter.calendar.JDateChooser();
         jLabel10 = new javax.swing.JLabel();
         txtPedido = new javax.swing.JTextField();
@@ -63,6 +67,9 @@ public class jdMantComprobante extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaComprobante = new javax.swing.JTable();
         jLabel9 = new javax.swing.JLabel();
+        txtIDClienteBusqueda = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        btnBuscarIDCliente = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -85,22 +92,7 @@ public class jdMantComprobante extends javax.swing.JDialog {
 
         jLabel7.setText("ID Usuario: ");
 
-        cbTipoComprobante.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Boleta", "Factura" }));
-
-        txtNomCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNomClienteActionPerformed(evt);
-            }
-        });
-
-        jLabel8.setText("Nombre: ");
-
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/agregar.png"))); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        cbTipoComprobante.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2" }));
 
         jLabel10.setText("ID Pedido: ");
 
@@ -123,29 +115,21 @@ public class jdMantComprobante extends javax.swing.JDialog {
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(txtImporteTotal, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cbTipoComprobante, javax.swing.GroupLayout.Alignment.LEADING, 0, 131, Short.MAX_VALUE))
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton1))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(txtImporteTotal, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(cbTipoComprobante, javax.swing.GroupLayout.Alignment.LEADING, 0, 131, Short.MAX_VALUE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(txtIdCliente)
-                                            .addComponent(txtIdUsuario)
-                                            .addComponent(jcFechaEmision, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(txtIdCliente)
+                                        .addComponent(txtIdUsuario)
+                                        .addComponent(jcFechaEmision, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE))
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(txtNComprobante, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtNomCliente)
-                                    .addComponent(txtPedido, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))))))
+                                .addComponent(txtPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(44, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -168,10 +152,7 @@ public class jdMantComprobante extends javax.swing.JDialog {
                         .addComponent(jLabel3))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNomCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8))))
+                        .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(17, 17, 17)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -183,12 +164,10 @@ public class jdMantComprobante extends javax.swing.JDialog {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jcFechaEmision, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(14, 14, 14)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel5)
-                        .addComponent(cbTipoComprobante, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton1))
+                .addGap(25, 25, 25)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(cbTipoComprobante, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -238,6 +217,15 @@ public class jdMantComprobante extends javax.swing.JDialog {
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel9.setText("Listado de Comprobante ");
 
+        jLabel11.setText("Buscar por ID Cliente:");
+
+        btnBuscarIDCliente.setText("Buscar");
+        btnBuscarIDCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarIDClienteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -257,9 +245,16 @@ public class jdMantComprobante extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtIDClienteBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnBuscarIDCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(50, 50, 50))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -268,7 +263,11 @@ public class jdMantComprobante extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(57, 57, 57)
-                        .addComponent(jLabel9)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(txtIDClienteBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel11)
+                            .addComponent(btnBuscarIDCliente))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -301,7 +300,7 @@ public class jdMantComprobante extends javax.swing.JDialog {
     txtNComprobante.setText("");
     txtIdCliente.setText("");
     txtIdUsuario.setText("");
-    txtNomCliente.setText("");
+    
     txtImporteTotal.setText("");
 
     // Limpiar el combo box (Tipo de comprobante)
@@ -312,86 +311,123 @@ public class jdMantComprobante extends javax.swing.JDialog {
 
     // Limpiar cualquier otro campo necesario (si tienes más)
 }
-    private void listarComprobantes(String filtro) {
+    private void listarComprobantes() {
+        DefaultTableModel modelo = new DefaultTableModel();
+    
+    // Añadir las columnas al modelo
+    modelo.addColumn("ID Comprobante");
+    modelo.addColumn("Serie");
+    modelo.addColumn("Fecha Emisión");
+    modelo.addColumn("Importe Total");
+    modelo.addColumn("ID Cliente");
+    modelo.addColumn("ID Usuario");
+    modelo.addColumn("Tipo Comprobante");
+    modelo.addColumn("ID Pedido");
+    
     try {
-        // Crear el modelo para la tabla
-        DefaultTableModel modelo = (DefaultTableModel) TablaComprobante.getModel();
-        modelo.setRowCount(0);  // Limpiar la tabla antes de llenarla con nuevos datos
-
         // Obtener los datos de la base de datos
-        ResultSet rs = objCompro.listarComprobantes(filtro);
-
-        // Recorrer el ResultSet y agregar los datos a la tabla
+        ResultSet rs = objCompro.listarComprobantes();
+        
+        // Recorrer el ResultSet y añadir los datos a la tabla
         while (rs.next()) {
-            Object[] fila = new Object[6];  // Ajusta el tamaño según el número de columnas que tengas
-            fila[0] = rs.getInt("id_comprobante");
-            fila[1] = rs.getString("serie_nro_comprobante");
-            fila[2] = rs.getDate("fecha_emision");
-            fila[3] = rs.getFloat("importe_total");
-            fila[4] = rs.getInt("id_cliente");
-            fila[5] = rs.getInt("id_usuario");
-            // Puedes añadir más columnas según los datos que necesites mostrar
-            
-            // Agregar la fila al modelo de la tabla
-            modelo.addRow(fila);
+            Object datos[] = new Object[8];  // Ajustar según el número de columnas
+
+            // Llenar los datos
+            datos[0] = rs.getInt("id_comprobante");  // ID Comprobante
+            datos[1] = rs.getString("serie_nro_comprobante");  // Serie
+            datos[2] = rs.getDate("fecha_emision");  // Fecha Emisión
+            datos[3] = rs.getFloat("importe_total");  // Importe Total
+            datos[4] = rs.getInt("id_cliente");  // ID Cliente
+            datos[5] = rs.getInt("id_usuario");  // ID Usuario
+            datos[6] = rs.getString("tipo_comprobante");  // Tipo Comprobante
+            datos[7] = rs.getInt("id_pedido");  // ID Pedido
+
+            // Añadir la fila al modelo
+            modelo.addRow(datos);
         }
 
-        // Actualizar la tabla con el modelo
+        // Asignar el modelo a la tabla
         TablaComprobante.setModel(modelo);
 
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Error al listar comprobantes: " + e.getMessage());
     }
+    
+}
+    private void listarTipoComprobante() {
+    ResultSet rsTipo = null;
+    DefaultComboBoxModel modelo = new DefaultComboBoxModel();  // Crear el modelo para el ComboBox
+
+    try {
+        // Llamar al método listarTiposComprobante() para obtener los tipos de comprobante desde la base de datos
+        rsTipo = objCompro.listarTiposComprobante();
+
+        // Recorrer el ResultSet y agregar cada tipo de comprobante al modelo del ComboBox
+        while (rsTipo.next()) {
+            modelo.addElement(rsTipo.getString("tipo_comprobante"));  // Agregar el tipo de comprobante (columna en la BD)
+        }
+
+        // Asignar el modelo al ComboBox
+        cbTipoComprobante.setModel(modelo);
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al listar tipos de comprobante: " + e.getMessage());
+    } finally {
+        // Cerrar el ResultSet
+        if (rsTipo != null) {
+            try {
+                rsTipo.close();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Error al cerrar el ResultSet: " + ex.getMessage());
+            }
+        }
+    }
 }
 
-    private void txtNomClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomClienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNomClienteActionPerformed
+
+
+
+
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         
-        try {
+         try {
         if (btnNuevo.getText().equals("NUEVO")) {
-            // Cambiar el texto del botón a "GUARDAR"
             btnNuevo.setText("GUARDAR");
-
-            // Generar un nuevo código para el comprobante y llenar el campo de texto
             txtNComprobante.setText(String.valueOf(objCompro.generarCodigoComprobante()));
-
-            // Colocar el foco en el campo de la serie del comprobante para que el usuario lo complete
             txtNComprobante.requestFocus();
         } else {
-            // Obtener los datos del formulario
             int idComprobante = Integer.parseInt(txtNComprobante.getText());
             String serieComprobante = txtNComprobante.getText();
             java.sql.Date fechaEmision = new java.sql.Date(jcFechaEmision.getDate().getTime());
             float importeTotal = Float.parseFloat(txtImporteTotal.getText());
             int idCliente = Integer.parseInt(txtIdCliente.getText());
             int idUsuario = Integer.parseInt(txtIdUsuario.getText());
-            int idTipoComprobante = cbTipoComprobante.getSelectedIndex() + 1; // Selecciona el índice del tipo de comprobante
+            int idTipoComprobante = cbTipoComprobante.getSelectedIndex() + 1;
             int idPedido = Integer.parseInt(txtPedido.getText());
+
+            // Obtener la fecha actual para comparar
+            Date fechaActual = new Date();
+
+            // Validar que la fecha de emisión no sea anterior a la fecha actual
+            if (fechaEmision.before(fechaActual)) {
+                JOptionPane.showMessageDialog(this, "La fecha de emisión no puede ser anterior a hoy.");
+                return;
+            }
 
             // Validación de los campos obligatorios
             if (!serieComprobante.isEmpty() && importeTotal > 0 && idCliente > 0 && idUsuario > 0 && idTipoComprobante > 0 && idPedido > 0) {
-                // Llamar al método registrarComprobante de la clase Comprobante
                 objCompro.registrarComprobante(idComprobante, serieComprobante, fechaEmision, importeTotal, idCliente, idUsuario, idTipoComprobante, idPedido);
-
-                // Cambiar el texto del botón nuevamente a "NUEVO"
                 btnNuevo.setText("NUEVO");
-
-                // Limpiar los campos del formulario
                 limpiarFormulario();
-
-                // Refrescar la lista de comprobantes
-                listarComprobantes("General");
-
-                // Mostrar mensaje de éxito
+                listarComprobantes();
                 JOptionPane.showMessageDialog(this, "Comprobante guardado correctamente");
             } else {
-                // Mostrar mensaje de error si faltan campos
-                JOptionPane.showMessageDialog(this, "Ingrese información en todos los campos");
+                JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos obligatorios");
             }
         }
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Error en la conversión de datos: " + e.getMessage());
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Error al insertar comprobante: " + e.getMessage());
     }
@@ -399,23 +435,22 @@ public class jdMantComprobante extends javax.swing.JDialog {
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-       if (txtNComprobante.getText().isEmpty()) {
+        if (txtNComprobante.getText().isEmpty()) {
         JOptionPane.showMessageDialog(this, "Debe ingresar un código de comprobante a modificar");
     } else {
-        // Obtener los valores del formulario
-        int idComprobante = Integer.parseInt(txtNComprobante.getText());
-        String serieComprobante = txtNComprobante.getText();
-        java.sql.Date fechaEmision = new java.sql.Date(jcFechaEmision.getDate().getTime());  // Obtenemos la fecha de emisión
-        float importeTotal = Float.parseFloat(txtImporteTotal.getText());
-        int idCliente = Integer.parseInt(txtIdCliente.getText());
-        int idUsuario = Integer.parseInt(txtIdUsuario.getText());
-        int idTipoComprobante = cbTipoComprobante.getSelectedIndex() + 1;  // Selecciona el índice del tipo de comprobante
-        int idPedido = Integer.parseInt(txtPedido.getText());
+        try {
+            // Obtener los valores del formulario
+            int idComprobante = Integer.parseInt(txtNComprobante.getText());
+            String serieComprobante = txtNComprobante.getText();
+            java.sql.Date fechaEmision = new java.sql.Date(jcFechaEmision.getDate().getTime());
+            float importeTotal = Float.parseFloat(txtImporteTotal.getText());
+            int idCliente = Integer.parseInt(txtIdCliente.getText());
+            int idUsuario = Integer.parseInt(txtIdUsuario.getText());
+            int idTipoComprobante = cbTipoComprobante.getSelectedIndex() + 1;
+            int idPedido = Integer.parseInt(txtPedido.getText());
 
-        // Validar que no haya campos vacíos
-        if (!serieComprobante.isEmpty() && importeTotal > 0 && idCliente > 0 && idUsuario > 0 && idTipoComprobante > 0 && idPedido > 0) {
-            try {
-                // Confirmar modificación del comprobante
+            // Validación de los campos
+            if (!serieComprobante.isEmpty() && importeTotal > 0 && idCliente > 0 && idUsuario > 0 && idTipoComprobante > 0 && idPedido > 0) {
                 int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea modificar este comprobante?");
                 if (confirmacion == JOptionPane.YES_OPTION) {
                     // Llamada al método modificarComprobante
@@ -425,18 +460,18 @@ public class jdMantComprobante extends javax.swing.JDialog {
                     limpiarFormulario();
 
                     // Refrescar la lista de comprobantes
-                    listarComprobantes("General");
+                    listarComprobantes();
 
                     // Mensaje de éxito
                     JOptionPane.showMessageDialog(this, "Comprobante modificado correctamente");
                 }
-            } catch (Exception e) {
-                // Mostrar mensaje de error si ocurre algún problema
-                JOptionPane.showMessageDialog(this, "Error al modificar comprobante: " + e.getMessage());
+            } else {
+                JOptionPane.showMessageDialog(this, "Ingrese información en todos los campos");
             }
-        } else {
-            // Mostrar mensaje si faltan campos por completar
-            JOptionPane.showMessageDialog(this, "Ingrese información en todos los campos");
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Error en la conversión de datos: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al modificar comprobante: " + e.getMessage());
         }
     }
     
@@ -448,63 +483,79 @@ public class jdMantComprobante extends javax.swing.JDialog {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
                                                     
-        try {
-        // Verificar si el campo N° Comprobante está vacío
+       try {
         if (txtNComprobante.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe ingresar un número de comprobante a eliminar");
         } else {
-            // Confirmar la eliminación del comprobante
             int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea eliminar este comprobante?");
             if (confirmacion == JOptionPane.YES_OPTION) {
-                // Llamar al método de eliminar comprobante en la clase correspondiente (por ejemplo, objC)
+                // Llamar al método eliminarComprobante
                 objCompro.eliminarComprobante(Integer.parseInt(txtNComprobante.getText()));
 
                 // Limpiar el formulario
                 limpiarFormulario();
 
-                // Refrescar la lista de comprobantes (si tienes una tabla o lista)
-                listarComprobantes("General");
+                // Refrescar la lista de comprobantes
+                listarComprobantes();
 
                 // Mensaje de éxito
                 JOptionPane.showMessageDialog(this, "Comprobante eliminado correctamente");
             }
         }
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Error en la conversión de datos: " + e.getMessage());
     } catch (Exception e) {
-        // Manejo de errores
         JOptionPane.showMessageDialog(this, "Error al eliminar comprobante: " + e.getMessage());
     }
 
 
     }//GEN-LAST:event_btnEliminarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       // Crear un cuadro de diálogo para solicitar el nombre del nuevo tipo de comprobante
-    String nuevoTipoComprobante = JOptionPane.showInputDialog(this, "Ingrese el nuevo tipo de comprobante:");
-
-    if (nuevoTipoComprobante != null && !nuevoTipoComprobante.trim().isEmpty()) {
-        try {
-            // Generar un nuevo código para el tipo de comprobante
-            int idNuevoTipo = objTCom.generarCodigoTipoComprobante();
-
-            // Registrar el nuevo tipo de comprobante en la base de datos
-            objTCom.registrarTipoComprobante(idNuevoTipo, nuevoTipoComprobante);
-
-            // Actualizar el ComboBox con el nuevo tipo de comprobante
-            cbTipoComprobante.addItem(nuevoTipoComprobante);
-
-            // Seleccionar automáticamente el nuevo tipo en el ComboBox
-            cbTipoComprobante.setSelectedItem(nuevoTipoComprobante);
-
-            // Mostrar mensaje de éxito
-            JOptionPane.showMessageDialog(this, "Nuevo tipo de comprobante agregado correctamente.");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al agregar el nuevo tipo de comprobante: " + e.getMessage());
+    private void btnBuscarIDClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarIDClienteActionPerformed
+         try {
+        // Obtener el valor ingresado en el campo de texto
+        String idClienteTexto = txtIDClienteBusqueda.getText().trim();
+        
+        // Validar que no esté vacío
+        if (idClienteTexto.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese un ID de cliente válido.");
+            return;
         }
-    } else {
-        // Mostrar un mensaje si no se ingresó ningún valor
-        JOptionPane.showMessageDialog(this, "Debe ingresar un nombre para el nuevo tipo de comprobante.");
+
+        // Convertir el valor ingresado a entero
+        int idCliente = Integer.parseInt(idClienteTexto);
+
+        // Crear el modelo para la tabla
+        DefaultTableModel modelo = (DefaultTableModel) TablaComprobante.getModel();
+        modelo.setRowCount(0);  // Limpiar la tabla antes de llenarla con nuevos datos
+
+        // Llamar al método buscarComprobantePorCliente en la clase Comprobante
+        ResultSet rs = objCompro.buscarComprobantePorCliente(idCliente);
+
+        // Llenar la tabla con los resultados obtenidos
+        while (rs.next()) {
+            Object[] fila = new Object[8];  // Ajusta según el número de columnas que tengas
+            fila[0] = rs.getInt("id_comprobante");
+            fila[1] = rs.getString("serie_nro_comprobante");
+            fila[2] = rs.getDate("fecha_emision");
+            fila[3] = rs.getFloat("importe_total");
+            fila[4] = rs.getInt("id_cliente");
+            fila[5] = rs.getInt("id_usuario");
+            fila[6] = rs.getString("tipo_comprobante");
+            fila[7] = rs.getInt("id_pedido");
+
+            modelo.addRow(fila);  // Añadir la fila al modelo de la tabla
+        }
+
+        // Actualizar la tabla con el nuevo modelo
+        TablaComprobante.setModel(modelo);
+
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "El ID de cliente debe ser un número.");
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al buscar comprobantes: " + e.getMessage());
     }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnBuscarIDClienteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -512,31 +563,31 @@ public class jdMantComprobante extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TablaComprobante;
+    private javax.swing.JButton btnBuscarIDCliente;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JComboBox<String> cbTipoComprobante;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private com.toedter.calendar.JDateChooser jcFechaEmision;
+    private javax.swing.JTextField txtIDClienteBusqueda;
     private javax.swing.JTextField txtIdCliente;
     private javax.swing.JTextField txtIdUsuario;
     private javax.swing.JTextField txtImporteTotal;
     private javax.swing.JTextField txtNComprobante;
-    private javax.swing.JTextField txtNomCliente;
     private javax.swing.JTextField txtPedido;
     // End of variables declaration//GEN-END:variables
 }
