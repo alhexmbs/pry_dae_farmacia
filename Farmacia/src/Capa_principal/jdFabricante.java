@@ -349,10 +349,10 @@ public class jdFabricante extends javax.swing.JDialog {
         }
         }
 
-        public void limpiar() {
-            txtId2.setText("");
-            txtNombre.setText("");
-        }
+            public void limpiar() {
+                txtId2.setText("");
+                txtNombre.setText("");
+            }
 
         public void listar(String tipo) {
             ResultSet lista = null;
