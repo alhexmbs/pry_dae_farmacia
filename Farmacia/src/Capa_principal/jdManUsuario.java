@@ -4,21 +4,40 @@
  */
 package Capa_principal;
 
+import capa_negocio.Caja;
+import capa_negocio.Rol;
+import capa_negocio.TipoDocumento;
+import capa_negocio.Usuario;
+import java.math.BigDecimal;
+import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Jesus
  */
 public class jdManUsuario extends javax.swing.JDialog {
 
-    /**
-     * Creates new form jdManUsuario
-     */
+    TipoDocumento objTD = new TipoDocumento();
+    Rol objR = new Rol();
+    Caja objCa = new Caja();
+    Usuario objU = new Usuario();
+    
     public jdManUsuario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         
         btnSexoUsuario.add(opMasculino);
         btnSexoUsuario.add(opFemenino);
+        
+        listarTipoDocumentos();
+        listarRoles();
+        listarCajas();
+        listarUsuarios();
     }
 
     /**
@@ -67,6 +86,10 @@ public class jdManUsuario extends javax.swing.JDialog {
         txtUsername = new javax.swing.JTextField();
         jLabel77 = new javax.swing.JLabel();
         txtContrasena = new javax.swing.JTextField();
+        jLabel78 = new javax.swing.JLabel();
+        cboRol = new javax.swing.JComboBox<>();
+        jLabel79 = new javax.swing.JLabel();
+        cboCaja = new javax.swing.JComboBox<>();
         btnSimular = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
@@ -241,6 +264,16 @@ public class jdManUsuario extends javax.swing.JDialog {
             }
         });
 
+        jLabel78.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel78.setText("Rol:");
+
+        cboRol.setBackground(new java.awt.Color(239, 237, 220));
+
+        jLabel79.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel79.setText("Caja Asignada:");
+
+        cboCaja.setBackground(new java.awt.Color(239, 237, 220));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -262,7 +295,8 @@ public class jdManUsuario extends javax.swing.JDialog {
                             .addComponent(jLabel71)
                             .addComponent(jLabel66)
                             .addComponent(jLabel75)
-                            .addComponent(jLabel70))
+                            .addComponent(jLabel70)
+                            .addComponent(jLabel78))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtIDUsuario)
@@ -272,7 +306,8 @@ public class jdManUsuario extends javax.swing.JDialog {
                             .addComponent(jdateFechaNacUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtDireccionUsuario)
                             .addComponent(txtSueldoUsuario)
-                            .addComponent(txtUsername))
+                            .addComponent(txtUsername)
+                            .addComponent(cboRol, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(103, 103, 103)
@@ -285,7 +320,8 @@ public class jdManUsuario extends javax.swing.JDialog {
                                     .addComponent(jLabel74, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel68, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel76, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel77, javax.swing.GroupLayout.Alignment.TRAILING))))
+                                    .addComponent(jLabel77, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel79, javax.swing.GroupLayout.Alignment.TRAILING))))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -297,7 +333,8 @@ public class jdManUsuario extends javax.swing.JDialog {
                             .addComponent(txtApMaternoUsuario)
                             .addComponent(txtCelularUsuario)
                             .addComponent(txtHorarioUsuario)
-                            .addComponent(txtContrasena))))
+                            .addComponent(txtContrasena)
+                            .addComponent(cboCaja, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(27, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -349,6 +386,12 @@ public class jdManUsuario extends javax.swing.JDialog {
                     .addComponent(jLabel73)
                     .addComponent(jLabel69)
                     .addComponent(cboTipoDoc, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel78)
+                    .addComponent(cboRol, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel79)
+                    .addComponent(cboCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel70)
@@ -564,6 +607,289 @@ public class jdManUsuario extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void limpiarFormulario(){
+        txtFiltrarID.setText("");
+        txtIDUsuario.setText("");
+        txtNombreUsuario.setText("");
+        txtApPaternoUsuario.setText("");
+        txtApMaternoUsuario.setText("");
+        txtDireccionUsuario.setText("");
+        txtCelularUsuario.setText("");
+        txtEmailUsuario.setText("");
+        btnSexoUsuario.clearSelection();
+        txtSueldoUsuario.setText("");
+        txtHorarioUsuario.setText("");
+        cboTipoDoc.setSelectedIndex(-1);
+        txtNumDocUsuario.setText("");
+        txtUsername.setText("");
+        txtContrasena.setText("");
+        jdateFechaNacUsuario.setDate(null);
+    }
+    
+    private void listarTipoDocumentos(){
+        ResultSet rs = null;
+        DefaultComboBoxModel modeloTipoDoc = new DefaultComboBoxModel();
+        cboTipoDoc.setModel(modeloTipoDoc);
+        
+        try{
+            rs = objTD.listarTodosTipoDoc();
+            while(rs.next()){
+                modeloTipoDoc.addElement(rs.getString("tipo_doc"));
+            }
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Error al obtener los tipos de documentos");
+        }
+    }
+    
+    private void listarRoles(){
+        ResultSet rs = null;
+        DefaultComboBoxModel modeloRol = new DefaultComboBoxModel();
+        cboRol.setModel(modeloRol);
+        
+        try{
+            rs = objR.listarTodosRol();
+            while(rs.next()){
+                modeloRol.addElement(rs.getString("rol"));
+            }
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Error al obtener los roles");
+        }
+    }
+    
+    private void listarCajas(){
+        ResultSet rs = null;
+        DefaultComboBoxModel modeloCaja = new DefaultComboBoxModel();
+        cboCaja.setModel(modeloCaja);
+        
+        try{
+            rs = objCa.listarTodosCaja();
+            while(rs.next()){
+                modeloCaja.addElement(rs.getString("numero_caja"));
+            }
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Error al obtener las cajas");
+        }
+    }
+    
+    private void listarUsuarios(){
+        ResultSet rs = null;
+        
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID");
+        modelo.addColumn("Documento");
+        modelo.addColumn("Nro. Documento");
+        modelo.addColumn("Rol");
+        modelo.addColumn("Nro. Caja que atiende");
+        modelo.addColumn("Nombre Completo");
+        modelo.addColumn("Fecha Nacimiento");
+        modelo.addColumn("Dirección");
+        modelo.addColumn("Celular");
+        modelo.addColumn("Sexo");
+        modelo.addColumn("Email");
+        modelo.addColumn("Sueldo");
+        modelo.addColumn("Horario");
+        modelo.addColumn("Username");
+        modelo.addColumn("Contraseña");
+        modelo.addColumn("Último login");
+        tblUsuarios.setModel(modelo);
+        
+        try{
+            rs = objU.listarTodosUsuario();
+            while(rs.next()){
+                Object[] fila = new Object[16];
+                fila[0] = rs.getInt("id_usuario");
+                fila[1] = rs.getString("tipo_doc");
+                fila[2] = rs.getString("nro_documento");
+                fila[3] = rs.getString("rol");
+                fila[4] = rs.getString("numero_caja");
+                fila[5] = rs.getString("nombre") + " " + rs.getString("ape_paterno") + " " + rs.getString("ape_materno");
+                fila[6] = rs.getDate("fecha_nacimiento");
+                fila[7] = rs.getString("direccion");
+                fila[8] = rs.getString("nro_celular");
+                fila[9] = rs.getString("sexo");
+                fila[10] = rs.getString("email");
+                fila[11] = rs.getString("sueldo");
+                fila[12] = rs.getString("horario");
+                fila[13] = rs.getString("username");
+                fila[14] = rs.getString("contraseÃ±a");
+                fila[15] = rs.getTimestamp("ultimo_login");
+                
+                modelo.addRow(fila);
+            }
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this, "Error al obtener los usuarios", "Ocurrió un error inesperado", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void buscarUsuario(){
+        ResultSet rs = null;
+        
+        try{
+            if(txtFiltrarID.getText().equals("")){
+                JOptionPane.showMessageDialog(this, "Por favor ingrese el ID del cliente", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                int idUsuarioFiltro = Integer.parseInt(txtFiltrarID.getText());
+                rs = objU.listarPorIDUsuario(idUsuarioFiltro);
+                
+                if(rs.next()){
+                    txtFiltrarID.setText(rs.getString("id_usuario"));
+                    txtIDUsuario.setText(rs.getString("id_usuario"));
+                    txtNombreUsuario.setText(rs.getString("nombre"));
+                    txtApPaternoUsuario.setText(rs.getString("ape_paterno"));
+                    txtApMaternoUsuario.setText(rs.getString("ape_materno"));
+                    txtDireccionUsuario.setText(rs.getString("direccion"));
+                    txtCelularUsuario.setText(rs.getString("nro_celular"));
+                    txtEmailUsuario.setText(rs.getString("email"));
+                    boolean sexo = rs.getBoolean("sexo");
+                    if(sexo == true){
+                        opMasculino.setSelected(true);
+                    }else{
+                        opFemenino.setSelected(true);
+                    }
+                    txtSueldoUsuario.setText(rs.getString("sueldo"));
+                    txtHorarioUsuario.setText(rs.getString("horario"));
+                    cboTipoDoc.setSelectedIndex(rs.getInt("id_tipo_doc")-1);
+                    txtNumDocUsuario.setText(rs.getString("nro_documento"));
+                    cboRol.setSelectedIndex(rs.getInt("id_rol")-1);
+                    cboCaja.setSelectedIndex(rs.getInt("id_caja")-1);
+                    txtUsername.setText(rs.getString("username"));
+                    txtContrasena.setText(rs.getString("contraseÃ±a"));
+                    jdateFechaNacUsuario.setDate(rs.getDate("fecha_nacimiento"));
+                }
+            }
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this, "Error al buscar el usuario", "Ocurrió un error inesperado", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    public boolean validarFecha(Date fechaNac){
+        Date fechaActual = new Date();
+        if(fechaNac.after(fechaActual)){
+            return false;
+        }
+        return true;
+    }
+    
+    private void ingresar(){
+        try{
+            SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+            
+            if(btnNuevo.getText().equals("NUEVO")){
+                btnNuevo.setText("GUARDAR");
+                limpiarFormulario();
+                opMasculino.setSelected(true);
+                txtIDUsuario.requestFocus();
+                
+                int idU = objU.genenrarIDUsuario();
+                txtIDUsuario.setText(""+idU);
+            }else{
+                Date fechaSeleccionada = jdateFechaNacUsuario.getDate();
+                if(validarFecha(fechaSeleccionada) == false){
+                    JOptionPane.showMessageDialog(this, "Por favor ingrese una fecha válida", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+                }else{
+                    btnNuevo.setText("NUEVO");                
+                    String nombreTipoDoc = cboTipoDoc.getSelectedItem().toString();
+                    String nombreRol = cboRol.getSelectedItem().toString();
+                    String numCaja = cboCaja.getSelectedItem().toString();
+
+                    int idUsuario = Integer.parseInt(txtIDUsuario.getText());
+                    String numDoc = txtNumDocUsuario.getText();
+                    String nombre = txtNombreUsuario.getText();
+                    String apPat = txtApPaternoUsuario.getText();
+                    String apMat = txtApMaternoUsuario.getText();
+                    String fechaNac = date.format(fechaSeleccionada);
+                    String direccion = txtDireccionUsuario.getText();
+                    String celular = txtCelularUsuario.getText();
+                    BigDecimal sueldo = new BigDecimal(txtSueldoUsuario.getText());
+                    String horario = txtHorarioUsuario.getText();
+                    boolean sexo = opMasculino.isSelected();
+                    String email = txtEmailUsuario.getText();
+                    int tipoDoc = objTD.obtenerIDTipoDoc(nombreTipoDoc);
+                    int rol = objR.obtenerIDRol(nombreRol);
+                    int caja = objCa.obtenerIDCaja(numCaja);
+                    
+                    String username = txtUsername.getText();
+                    String contrasena = txtContrasena.getText();
+
+                    objU.insertarUsuario(idUsuario, nombre, apPat, apMat, numDoc, fechaNac, direccion, celular, sexo, sueldo, horario, username, email, contrasena, rol, tipoDoc, caja);
+
+                    limpiarFormulario();
+                    listarUsuarios();
+                }
+                
+            }
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this, "Error al intentar insertar el usuario", "Ocurrió un error inesperado", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void modificar(){
+        try{
+            if(txtIDUsuario.getText().equals("")){
+                JOptionPane.showMessageDialog(this, "Por favor ingrese el ID del usuario", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+                int rpta = JOptionPane.showConfirmDialog(this, "¿Desea eliminar este usuario?", "Seleccione una opción", JOptionPane.YES_NO_OPTION);
+                
+                if(rpta == 0){
+                    Date fechaSeleccionada = jdateFechaNacUsuario.getDate();
+                    if(validarFecha(fechaSeleccionada) == false){
+                        JOptionPane.showMessageDialog(this, "Por favor ingrese una fecha válida", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+                    }else{
+                        String nombreTipoDoc = cboTipoDoc.getSelectedItem().toString();
+                        String nombreRol = cboRol.getSelectedItem().toString();
+                        String numCaja = cboCaja.getSelectedItem().toString();
+
+                        int idUsuario = Integer.parseInt(txtIDUsuario.getText());
+                        String numDoc = txtNumDocUsuario.getText();
+                        String nombre = txtNombreUsuario.getText();
+                        String apPat = txtApPaternoUsuario.getText();
+                        String apMat = txtApMaternoUsuario.getText();
+                        String fechaNac = date.format(fechaSeleccionada);
+                        String direccion = txtDireccionUsuario.getText();
+                        String celular = txtCelularUsuario.getText();
+                        BigDecimal sueldo = new BigDecimal(txtSueldoUsuario.getText());
+                        String horario = txtHorarioUsuario.getText();
+                        boolean sexo = opMasculino.isSelected();
+                        String email = txtEmailUsuario.getText();
+                        int tipoDoc = objTD.obtenerIDTipoDoc(nombreTipoDoc);
+                        int rol = objR.obtenerIDRol(nombreRol);
+                        int caja = objCa.obtenerIDCaja(numCaja);
+
+                        String username = txtUsername.getText();
+                        String contrasena = txtContrasena.getText();
+
+                        objU.modificarUsuario(idUsuario, nombre, apPat, apMat, numDoc, fechaNac, direccion, celular, sexo, sueldo, horario, username, email, contrasena, rol, tipoDoc, caja);
+
+                        limpiarFormulario();
+                        listarUsuarios();
+                    }
+                }
+            }
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this, "Error al intentar modificar el usuario", "Ocurrió un error inesperado", JOptionPane.ERROR_MESSAGE);        
+        }
+    }
+    
+    private void eliminar(){
+        try{
+            if(txtIDUsuario.getText().equals("")){
+                JOptionPane.showMessageDialog(this, "Por favor ingrese el ID del usuario", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                int rpta = JOptionPane.showConfirmDialog(this, "¿Desea eliminar este producto?", "Seleccione una opción", JOptionPane.YES_NO_OPTION);
+                
+                if(rpta == 0){
+                    int idUsuario = Integer.parseInt(txtIDUsuario.getText());
+                    objU.eliminarUsuario(idUsuario);
+                    limpiarFormulario();
+                    listarUsuarios();
+                }
+            }
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this, "Error al intentar eliminar el usuario", "Ocurrió un error inesperado", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
     private void txtEmailUsuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailUsuarioKeyTyped
         // TODO add your handling code here:
         if(txtEmailUsuario.getText().length() >= 200){
@@ -662,19 +988,19 @@ public class jdManUsuario extends javax.swing.JDialog {
     }//GEN-LAST:event_txtFiltrarIDKeyTyped
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        //buscarCliente();
+        buscarUsuario();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        //limpiarFormulario();
+        limpiarFormulario();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        //eliminar();
+        eliminar();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        //modificar();
+        modificar();
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBajaActionPerformed
@@ -689,7 +1015,7 @@ public class jdManUsuario extends javax.swing.JDialog {
     }//GEN-LAST:event_tblUsuariosMouseClicked
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        //insertar();
+        ingresar();
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void txtDireccionUsuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDireccionUsuarioKeyTyped
@@ -748,6 +1074,8 @@ public class jdManUsuario extends javax.swing.JDialog {
     private javax.swing.JButton btnNuevo;
     private javax.swing.ButtonGroup btnSexoUsuario;
     private javax.swing.JButton btnSimular;
+    private javax.swing.JComboBox<String> cboCaja;
+    private javax.swing.JComboBox<String> cboRol;
     private javax.swing.JComboBox<String> cboTipoDoc;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel62;
@@ -766,6 +1094,8 @@ public class jdManUsuario extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel75;
     private javax.swing.JLabel jLabel76;
     private javax.swing.JLabel jLabel77;
+    private javax.swing.JLabel jLabel78;
+    private javax.swing.JLabel jLabel79;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

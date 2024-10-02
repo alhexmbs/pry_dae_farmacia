@@ -619,7 +619,7 @@ public class jdManCliente extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, "Por favor ingrese el ID del cliente", "Alerta", JOptionPane.INFORMATION_MESSAGE);
             }else{
                 SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
-                int rpta = JOptionPane.showConfirmDialog(this, "¿Desea eliminar este producto?", "Seleccione una opción", JOptionPane.YES_NO_OPTION);
+                int rpta = JOptionPane.showConfirmDialog(this, "¿Desea eliminar este cliente?", "Seleccione una opción", JOptionPane.YES_NO_OPTION);
                 
                 if(rpta == 0){
                     String nombreTipoDoc = cboTipoDoc.getSelectedItem().toString();

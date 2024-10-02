@@ -18,7 +18,9 @@ public class Usuario {
     ResultSet rs = null;
     
     public ResultSet listarTodosUsuario() throws Exception{
-        strSQL = "select * from usuario";
+        strSQL = "select * from usuario us inner join rol rl on us.id_rol = rl.id_rol\n" +
+"	inner join tipo_doc td on us.id_tipo_doc = td.id_tipo_doc\n" +
+"	inner join caja cj on us.id_caja = cj.id_caja";
         
         try{
             rs = objConectar.consultarBD(strSQL);
@@ -29,7 +31,10 @@ public class Usuario {
     }
     
     public ResultSet listarPorIDUsuario(int idUsuario) throws Exception{
-        strSQL = "select * from usuario where id_usuario = "+idUsuario;
+        strSQL = "select * from usuario us inner join rol rl on us.id_rol = rl.id_rol\n" +
+"	inner join tipo_doc td on us.id_tipo_doc = td.id_tipo_doc\n" +
+"	inner join caja cj on us.id_caja = cj.id_caja\n" +
+"	where us.id_usuario = "+idUsuario;
         
         try{
             rs = objConectar.consultarBD(strSQL);
@@ -65,7 +70,7 @@ public class Usuario {
     }
     
     public void modificarUsuario(int idUsuario, String nombre, String apPaterno, String apMaterno, String numDoc, String fechaNac, String direccion, String numCelular, boolean sexo, BigDecimal sueldo, String horario, String username, String email, String contrasena, int idRol, int idTipoDoc, int idCaja) throws Exception{
-        strSQL = "update usuario set nombre = '"+nombre+"', ape_paterno = '"+apPaterno+"', ape_materno = '"+apMaterno+"', nro_documento = '"+numDoc+"', fecha_nacimiento = '"+fechaNac+"', direccion = '"+direccion+"', nro_celular = '"+numCelular+"', sexo = "+sexo+", sueldo = "+sueldo+", horario = '"+horario+"', username = '"+username+"', email = '"+email+"', contrasena = '"+contrasena+"', id_rol = "+idRol+", id_tipo_doc = "+idTipoDoc+", id_caja = "+idCaja+" where id_usuario = "+idUsuario;
+        strSQL = "update usuario set nombre = '"+nombre+"', ape_paterno = '"+apPaterno+"', ape_materno = '"+apMaterno+"', nro_documento = '"+numDoc+"', fecha_nacimiento = '"+fechaNac+"', direccion = '"+direccion+"', nro_celular = '"+numCelular+"', sexo = "+sexo+", sueldo = "+sueldo+", horario = '"+horario+"', username = '"+username+"', email = '"+email+"', contraseña = '"+contrasena+"', id_rol = "+idRol+", id_tipo_doc = "+idTipoDoc+", id_caja = "+idCaja+" where id_usuario = "+idUsuario;
         
         try{
             objConectar.ejecutarBd(strSQL);
