@@ -3,20 +3,15 @@ package capa_negocio;
 import capaDatos.datos;
 import java.sql.ResultSet;
 
-/**
- *
- * @author Alex
- */
-
 public class MetodoPago {
 
     datos objConectar = new datos();
     String strSQL;
     ResultSet rs = null;
 
-    // Listar métodos de pago asociados a un pago
-    public ResultSet listarMetodosPorPago(int idPago) throws Exception {
-        strSQL = "SELECT * FROM metodo_pago WHERE id_pago = " + idPago;
+    // Listar todos los métodos de pago
+    public ResultSet listarMetodosPago() throws Exception {
+        strSQL = "SELECT * FROM metodo_pago";
         try {
             rs = objConectar.consultarBD(strSQL);
             return rs;
@@ -25,10 +20,10 @@ public class MetodoPago {
         }
     }
 
-    // Registrar un nuevo método de pago asociado a un pago
-    public void registrarMetodoPago(int idMetodoPago, String metodo, String descripcion, int idPago) throws Exception {
-        strSQL = "INSERT INTO metodo_pago (id_metodo_pago, metodo_pago, descripcion, id_pago) " +
-                 "VALUES (" + idMetodoPago + ", '" + metodo + "', '" + descripcion + "', " + idPago + ")";
+    // Registrar un nuevo método de pago
+    public void registrarMetodoPago(int idMetodoPago, String metodo, String descripcion) throws Exception {
+        strSQL = "INSERT INTO metodo_pago (id_metodo_pago, metodo_pago, descripcion) " +
+                 "VALUES (" + idMetodoPago + ", '" + metodo + "', '" + descripcion + "')";
         try {
             objConectar.ejecutarBd(strSQL);
         } catch (Exception e) {

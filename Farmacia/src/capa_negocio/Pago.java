@@ -3,11 +3,6 @@ package capa_negocio;
 import capaDatos.datos;
 import java.sql.ResultSet;
 
-/**
- *
- * @author Alex
- */
-
 public class Pago {
 
     datos objConectar = new datos();
@@ -26,9 +21,9 @@ public class Pago {
     }
 
     // Registrar un nuevo pago
-    public void registrarPago(int id, double monto, String estado, int idPedido, int idUsuario, int idCliente) throws Exception {
-        strSQL = "INSERT INTO pago (id_pago, monto_pago, estado_pago, id_pedido, id_usuario, id_cliente) " +
-                 "VALUES (" + id + ", " + monto + ", '" + estado + "', " + idPedido + ", " + idUsuario + ", " + idCliente + ")";
+    public void registrarPago(int idPago, double monto, String estado, int idPedido, int idUsuario, int idCliente, int idMetodoPago) throws Exception {
+        strSQL = "INSERT INTO pago (id_pago, monto_pago, estado_pago, id_pedido, id_usuario, id_cliente, id_metodo_pago) " +
+                 "VALUES (" + idPago + ", " + monto + ", '" + estado + "', " + idPedido + ", " + idUsuario + ", " + idCliente + ", " + idMetodoPago + ")";
         try {
             objConectar.ejecutarBd(strSQL);
         } catch (Exception e) {
@@ -48,8 +43,9 @@ public class Pago {
     }
 
     // Modificar un pago
-    public void modificarPago(int id, double monto, String estado) throws Exception {
-        strSQL = "UPDATE pago SET monto_pago = " + monto + ", estado_pago = '" + estado + "' WHERE id_pago = " + id;
+    public void modificarPago(int idPago, double monto, String estado, int idMetodoPago) throws Exception {
+        strSQL = "UPDATE pago SET monto_pago = " + monto + ", estado_pago = '" + estado + "', id_metodo_pago = " + idMetodoPago + 
+                 " WHERE id_pago = " + idPago;
         try {
             objConectar.ejecutarBd(strSQL);
         } catch (Exception e) {

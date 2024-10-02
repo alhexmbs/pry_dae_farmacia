@@ -166,9 +166,13 @@ public class frmFarmacia extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-       jdMantComprobante objC = new jdMantComprobante(null, true);
+       /*jdMantComprobante objC = new jdMantComprobante(null, true);
        objC.setLocationRelativeTo(null);
-       objC.setVisible(true);
+       objC.setVisible(true);*/
+       
+       jdPago_Cajero objPC = new jdPago_Cajero(null, true);
+       objPC.setLocationRelativeTo(null);
+       objPC.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
  
