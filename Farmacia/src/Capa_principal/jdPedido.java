@@ -37,7 +37,7 @@ public class jdPedido extends javax.swing.JDialog {
         jSeparator1 = new javax.swing.JSeparator();
         jLabel68 = new javax.swing.JLabel();
         txtBuscarCodigo = new javax.swing.JTextField();
-        txtBuscar = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
         jLabel63 = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
@@ -114,8 +114,13 @@ public class jdPedido extends javax.swing.JDialog {
         txtBuscarCodigo.setBackground(new java.awt.Color(239, 237, 220));
         txtBuscarCodigo.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
-        txtBuscar.setBackground(new java.awt.Color(236, 177, 89));
-        txtBuscar.setText("Buscar");
+        btnBuscar.setBackground(new java.awt.Color(236, 177, 89));
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         jLabel63.setBackground(new java.awt.Color(0, 0, 0));
         jLabel63.setText("Nro Doc:");
@@ -139,7 +144,7 @@ public class jdPedido extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtBuscarCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtBuscar)
+                        .addComponent(btnBuscar)
                         .addGap(42, 42, 42)
                         .addComponent(jLabel63)
                         .addGap(18, 18, 18)
@@ -156,7 +161,7 @@ public class jdPedido extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtBuscarCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtBuscar)
+                    .addComponent(btnBuscar)
                     .addComponent(jLabel68)
                     .addComponent(jLabel63)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -195,7 +200,7 @@ public class jdPedido extends javax.swing.JDialog {
         txtNombre3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         jLabel70.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel70.setText("ConcentraciÃ³n:");
+        jLabel70.setText("Concentración:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -227,7 +232,6 @@ public class jdPedido extends javax.swing.JDialog {
                                 .addGap(18, 18, 18)
                                 .addComponent(txtNombre2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
                                 .addComponent(jLabel64)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))))
@@ -248,12 +252,13 @@ public class jdPedido extends javax.swing.JDialog {
                     .addComponent(jLabel64)
                     .addComponent(txtNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel65)
-                    .addComponent(txtNombre2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel70)
-                        .addComponent(txtNombre3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtNombre3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel65)
+                        .addComponent(txtNombre2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
@@ -277,7 +282,7 @@ public class jdPedido extends javax.swing.JDialog {
         txtNombre4.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         jLabel73.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel73.setText("NÃºmero:");
+        jLabel73.setText("Número:");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -310,13 +315,14 @@ public class jdPedido extends javax.swing.JDialog {
                     .addComponent(jLabel71)
                     .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtBuscarCodigo2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtBuscar2)
-                    .addComponent(jLabel72)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel73)
-                        .addComponent(txtNombre4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtNombre4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtBuscarCodigo2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtBuscar2)
+                        .addComponent(jLabel72)))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
@@ -621,12 +627,13 @@ public class jdPedido extends javax.swing.JDialog {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel77)
-                    .addComponent(txtNombre5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel78)
-                        .addComponent(txtNombre6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtNombre6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel77)
+                        .addComponent(txtNombre5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -831,9 +838,16 @@ public class jdPedido extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEliminar6ActionPerformed
 
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        jdListCliente obj = new jdListCliente(null, true);
+        obj.setVisible(true);
+        obj.setLocationRelativeTo(null);
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnDarBaja;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnEliminar1;
@@ -883,7 +897,6 @@ public class jdPedido extends javax.swing.JDialog {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTable tblProducto;
-    private javax.swing.JButton txtBuscar;
     private javax.swing.JButton txtBuscar1;
     private javax.swing.JButton txtBuscar2;
     private javax.swing.JTextField txtBuscarCodigo;

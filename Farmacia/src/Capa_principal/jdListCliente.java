@@ -4,11 +4,19 @@
  */
 package Capa_principal;
 
+import capa_negocio.Cliente;
+import java.sql.*;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
- * @author jenny
+ * @author joseph
  */
 public class jdListCliente extends javax.swing.JDialog {
+
+    // Objeto cliente
+    Cliente objC = new Cliente();
 
     /**
      * Creates new form jdListCliente
@@ -16,6 +24,41 @@ public class jdListCliente extends javax.swing.JDialog {
     public jdListCliente(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        listarClientes();
+    }
+
+    private void listarClientes() {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID");
+        modelo.addColumn("Nro. Documento");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Ap. Paterno");
+        modelo.addColumn("Ap. Materno");
+        modelo.addColumn("Fecha Nacimiento");
+        modelo.addColumn("Sexo");
+        modelo.addColumn("Email");
+
+        tblClientes.setModel(modelo);
+
+        ResultSet rs = null;
+        try {
+            rs = objC.listarTodosCliente();
+            while (rs.next()) {
+                Object[] fila = new Object[9];
+                fila[0] = rs.getInt("id_cliente");
+                fila[1] = rs.getString("nro_documento");
+                fila[2] = rs.getString("nombre");
+                fila[3] = rs.getString("ape_paterno");
+                fila[4] = rs.getString("ape_materno");
+                fila[5] = rs.getDate("fecha_nacimiento");
+                fila[6] = rs.getString("sexo");
+                fila[7] = rs.getString("email");
+
+                modelo.addRow(fila);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado", "Error al obtener los clientes", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -33,13 +76,18 @@ public class jdListCliente extends javax.swing.JDialog {
         jLabel68 = new javax.swing.JLabel();
         txtBuscarCodigo = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tblProducto = new javax.swing.JTable();
-        btnEliminar1 = new javax.swing.JButton();
+        tblClientes = new javax.swing.JTable();
+        btnCancelar = new javax.swing.JButton();
         btnEliminar2 = new javax.swing.JButton();
-        btnEliminar3 = new javax.swing.JButton();
-        btnEliminar4 = new javax.swing.JButton();
+        btnAgregar = new javax.swing.JButton();
+        btnRegresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(170, 215, 217));
 
@@ -85,9 +133,9 @@ public class jdListCliente extends javax.swing.JDialog {
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
-        tblProducto.setAutoCreateRowSorter(true);
-        tblProducto.setBackground(new java.awt.Color(170, 215, 217));
-        tblProducto.setModel(new javax.swing.table.DefaultTableModel(
+        tblClientes.setAutoCreateRowSorter(true);
+        tblClientes.setBackground(new java.awt.Color(170, 215, 217));
+        tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -95,27 +143,27 @@ public class jdListCliente extends javax.swing.JDialog {
 
             }
         ));
-        tblProducto.setShowGrid(false);
-        jScrollPane3.setViewportView(tblProducto);
+        tblClientes.setShowGrid(false);
+        jScrollPane3.setViewportView(tblClientes);
 
-        btnEliminar1.setBackground(new java.awt.Color(236, 177, 89));
-        btnEliminar1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnEliminar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
-        btnEliminar1.setText("Nuevo");
-        btnEliminar1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btnEliminar1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnEliminar1.setPreferredSize(new java.awt.Dimension(45, 60));
-        btnEliminar1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnEliminar1.addActionListener(new java.awt.event.ActionListener() {
+        btnCancelar.setBackground(new java.awt.Color(236, 177, 89));
+        btnCancelar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/darBaja.png"))); // NOI18N
+        btnCancelar.setText("CANCELAR");
+        btnCancelar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnCancelar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnCancelar.setPreferredSize(new java.awt.Dimension(45, 60));
+        btnCancelar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminar1ActionPerformed(evt);
+                btnCancelarActionPerformed(evt);
             }
         });
 
         btnEliminar2.setBackground(new java.awt.Color(236, 177, 89));
         btnEliminar2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnEliminar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
-        btnEliminar2.setText("Nuevo");
+        btnEliminar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/new.png"))); // NOI18N
+        btnEliminar2.setText("LISTAR");
         btnEliminar2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnEliminar2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnEliminar2.setPreferredSize(new java.awt.Dimension(45, 60));
@@ -126,31 +174,31 @@ public class jdListCliente extends javax.swing.JDialog {
             }
         });
 
-        btnEliminar3.setBackground(new java.awt.Color(236, 177, 89));
-        btnEliminar3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnEliminar3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
-        btnEliminar3.setText("Nuevo");
-        btnEliminar3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btnEliminar3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnEliminar3.setPreferredSize(new java.awt.Dimension(45, 60));
-        btnEliminar3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnEliminar3.addActionListener(new java.awt.event.ActionListener() {
+        btnAgregar.setBackground(new java.awt.Color(236, 177, 89));
+        btnAgregar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/agregar.png"))); // NOI18N
+        btnAgregar.setText("AGREGAR");
+        btnAgregar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnAgregar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnAgregar.setPreferredSize(new java.awt.Dimension(45, 60));
+        btnAgregar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminar3ActionPerformed(evt);
+                btnAgregarActionPerformed(evt);
             }
         });
 
-        btnEliminar4.setBackground(new java.awt.Color(236, 177, 89));
-        btnEliminar4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnEliminar4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
-        btnEliminar4.setText("Nuevo");
-        btnEliminar4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btnEliminar4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnEliminar4.setPreferredSize(new java.awt.Dimension(45, 60));
-        btnEliminar4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnEliminar4.addActionListener(new java.awt.event.ActionListener() {
+        btnRegresar.setBackground(new java.awt.Color(236, 177, 89));
+        btnRegresar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnRegresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
+        btnRegresar.setText("REGRESAR");
+        btnRegresar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnRegresar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnRegresar.setPreferredSize(new java.awt.Dimension(45, 60));
+        btnRegresar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminar4ActionPerformed(evt);
+                btnRegresarActionPerformed(evt);
             }
         });
 
@@ -169,12 +217,12 @@ public class jdListCliente extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnEliminar2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnEliminar1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnEliminar3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnEliminar4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -182,50 +230,55 @@ public class jdListCliente extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnEliminar1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEliminar2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnEliminar3, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminar4, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnEliminar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnEliminar1ActionPerformed
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnEliminar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEliminar2ActionPerformed
 
-    private void btnEliminar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnEliminar3ActionPerformed
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        jdManCliente obj = new jdManCliente(null, true);
+        obj.setVisible(true);
+        obj.setLocationRelativeTo(null);
+    }//GEN-LAST:event_btnAgregarActionPerformed
 
-    private void btnEliminar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar4ActionPerformed
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnRegresarActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnEliminar4ActionPerformed
+    }//GEN-LAST:event_formWindowOpened
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnEliminar1;
+    private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEliminar2;
-    private javax.swing.JButton btnEliminar3;
-    private javax.swing.JButton btnEliminar4;
-    private javax.swing.JButton btnSimular;
+    private javax.swing.JButton btnRegresar;
     private javax.swing.JLabel jLabel66;
     private javax.swing.JLabel jLabel68;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable tblProducto;
+    private javax.swing.JTable tblClientes;
     private javax.swing.JTextField txtBuscarCodigo;
     // End of variables declaration//GEN-END:variables
 }
