@@ -49,19 +49,19 @@ public ResultSet listarComprobantes() throws Exception {
 
     // Registrar un nuevo comprobante
     public void registrarComprobante(int id_comprobante, String serie_nro_comprobante, Date fecha_emision, float importe_total, int id_cliente, int id_usuario, int id_tipo_comprobante, int id_pedido) throws Exception {
-        strsql = "INSERT INTO COMPROBANTE (id_comprobante, serie_nro_comprobante, fecha_emision, importe_total, id_cliente, id_usuario, id_tipo_comprobante, id_pedido) VALUES ("
-                + id_comprobante + ", '" + serie_nro_comprobante + "', '" + fecha_emision + "', " + importe_total + ", " + id_cliente + ", " + id_usuario + ", " + id_tipo_comprobante + ", " + id_pedido + ")";
-        try {
-            objconectar.ejecutarBd(strsql);
-        } catch (Exception e) {
-            throw new Exception("Error al registrar comprobante --> " + e.getMessage());
-        }
+    strsql = "INSERT INTO COMPROBANTE_VENTA (id_comprobante, serie_nro_comprobante, fecha_emision, importe_total, id_cliente, id_usuario, id_tipo_comprobante, id_pedido) VALUES ("
+            + id_comprobante + ", '" + serie_nro_comprobante + "', '" + fecha_emision + "', " + importe_total + ", " + id_cliente + ", " + id_usuario + ", " + id_tipo_comprobante + ", " + id_pedido + ")";
+    try {
+        objconectar.ejecutarBd(strsql);
+    } catch (Exception e) {
+        throw new Exception("Error al registrar comprobante --> " + e.getMessage());
     }
+}
 
     // Modificar un comprobante existente
-   public void modificarComprobante(int id_comprobante, String serie_nro_comprobante, Date fecha_emision, float importe_total, int id_cliente, int id_usuario, int id_tipo_comprobante, int id_pedido) throws Exception {
-    // Asegurarte de que el nombre de la tabla es correcto (COMPROBANTE_VENTA por ejemplo, si es necesario)
-     strsql = "UPDATE COMPROBANTE_VENTA SET serie_nro_comprobante = '" + serie_nro_comprobante
+public void modificarComprobante(int id_comprobante, String serie_nro_comprobante, Date fecha_emision, float importe_total, int id_cliente, int id_usuario, int id_tipo_comprobante, int id_pedido) throws Exception {
+    // Asegúrate de que el nombre de la tabla es correcto (COMPROBANTE_VENTA)
+    strsql = "UPDATE COMPROBANTE_VENTA SET serie_nro_comprobante = '" + serie_nro_comprobante
             + "', fecha_emision = '" + fecha_emision + "', importe_total = " + importe_total
             + ", id_cliente = " + id_cliente + ", id_usuario = " + id_usuario
             + ", id_tipo_comprobante = " + id_tipo_comprobante + ", id_pedido = " + id_pedido
