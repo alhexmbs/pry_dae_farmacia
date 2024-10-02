@@ -1,7 +1,5 @@
 package capa_negocio;
 
-/*Hola que hace*/
-
 import capaDatos.datos;
 import java.sql.ResultSet;
 
@@ -11,7 +9,7 @@ public class Pago {
     String strSQL;
     ResultSet rs = null;
 
-    // Listar Pagos
+    // Listar todos los pagos
     public ResultSet listarPagos() throws Exception {
         strSQL = "SELECT * FROM pago";
         try {
@@ -22,24 +20,10 @@ public class Pago {
         }
     }
 
-    // Generar código de pago (puedes necesitar esto si el ID no es autoincremental)
-    public Integer generarCodigoPago() throws Exception {
-        strSQL = "SELECT COALESCE(MAX(id_pago), 0) + 1 AS codigo FROM pago";
-        try {
-            rs = objConectar.consultarBD(strSQL);
-            if (rs.next()) {
-                return rs.getInt("codigo");
-            }
-        } catch (Exception e) {
-            throw new Exception("Error al generar código de pago -->" + e.getMessage());
-        }
-        return 0;
-    }
-
     // Registrar un nuevo pago
     public void registrarPago(int id, double monto, String estado, int idPedido, int idUsuario, int idCliente) throws Exception {
-        strSQL = "INSERT INTO pago (id_pago, monto_pago, estado_pago, id_pedido, id_usuario, id_cliente) VALUES (" + 
-                  id + ", " + monto + ", '" + estado + "', " + idPedido + ", " + idUsuario + ", " + idCliente + ")";
+        strSQL = "INSERT INTO pago (id_pago, monto_pago, estado_pago, id_pedido, id_usuario, id_cliente) " +
+                 "VALUES (" + id + ", " + monto + ", '" + estado + "', " + idPedido + ", " + idUsuario + ", " + idCliente + ")";
         try {
             objConectar.ejecutarBd(strSQL);
         } catch (Exception e) {
