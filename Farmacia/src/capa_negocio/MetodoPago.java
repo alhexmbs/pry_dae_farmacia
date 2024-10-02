@@ -3,15 +3,20 @@ package capa_negocio;
 import capaDatos.datos;
 import java.sql.ResultSet;
 
+/**
+ *
+ * @author Alex
+ */
+
 public class MetodoPago {
 
     datos objConectar = new datos();
     String strSQL;
     ResultSet rs = null;
 
-    // Listar métodos de pago
-    public ResultSet listarMetodosPago() throws Exception {
-        strSQL = "SELECT * FROM metodo_pago";
+    // Listar métodos de pago asociados a un pago
+    public ResultSet listarMetodosPorPago(int idPago) throws Exception {
+        strSQL = "SELECT * FROM metodo_pago WHERE id_pago = " + idPago;
         try {
             rs = objConectar.consultarBD(strSQL);
             return rs;
@@ -20,10 +25,10 @@ public class MetodoPago {
         }
     }
 
-    // Registrar un nuevo método de pago
-    public void registrarMetodoPago(int id, String metodo, String descripcion) throws Exception {
-        strSQL = "INSERT INTO metodo_pago (id_metodo_pago, metodo_pago, descripcion) VALUES (" + 
-                  id + ", '" + metodo + "', '" + descripcion + "')";
+    // Registrar un nuevo método de pago asociado a un pago
+    public void registrarMetodoPago(int idMetodoPago, String metodo, String descripcion, int idPago) throws Exception {
+        strSQL = "INSERT INTO metodo_pago (id_metodo_pago, metodo_pago, descripcion, id_pago) " +
+                 "VALUES (" + idMetodoPago + ", '" + metodo + "', '" + descripcion + "', " + idPago + ")";
         try {
             objConectar.ejecutarBd(strSQL);
         } catch (Exception e) {
@@ -31,7 +36,7 @@ public class MetodoPago {
         }
     }
 
-    // Buscar método de pago por ID
+    // Buscar un método de pago por ID
     public ResultSet buscarMetodoPago(int idMetodoPago) throws Exception {
         strSQL = "SELECT * FROM metodo_pago WHERE id_metodo_pago = " + idMetodoPago;
         try {
@@ -42,9 +47,10 @@ public class MetodoPago {
         }
     }
 
-    // Modificar método de pago
-    public void modificarMetodoPago(int id, String metodo, String descripcion) throws Exception {
-        strSQL = "UPDATE metodo_pago SET metodo_pago = '" + metodo + "', descripcion = '" + descripcion + "' WHERE id_metodo_pago = " + id;
+    // Modificar un método de pago
+    public void modificarMetodoPago(int idMetodoPago, String metodo, String descripcion) throws Exception {
+        strSQL = "UPDATE metodo_pago SET metodo_pago = '" + metodo + "', descripcion = '" + descripcion + "' " +
+                 "WHERE id_metodo_pago = " + idMetodoPago;
         try {
             objConectar.ejecutarBd(strSQL);
         } catch (Exception e) {
@@ -52,7 +58,7 @@ public class MetodoPago {
         }
     }
 
-    // Eliminar método de pago
+    // Eliminar un método de pago
     public void eliminarMetodoPago(int idMetodoPago) throws Exception {
         strSQL = "DELETE FROM metodo_pago WHERE id_metodo_pago = " + idMetodoPago;
         try {

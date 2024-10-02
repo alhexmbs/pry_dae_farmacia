@@ -29,6 +29,7 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu9 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
@@ -119,6 +120,14 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenu6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pago.png"))); // NOI18N
         jMenu6.setText("Facturación y pago");
 
+        jMenuItem3.setText("Comprobante");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem3);
+
         jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/sale.png"))); // NOI18N
         jMenuItem5.setText("Registrar venta");
         jMenu6.add(jMenuItem5);
@@ -167,10 +176,16 @@ public class frmFarmacia extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+<<<<<<< HEAD
         // TODO add your handling code here:
         jdManUsuario obju = new jdManUsuario(null, true);
         obju.setLocationRelativeTo(null);
         obju.setVisible(true);
+=======
+       jdMantComprobante objC = new jdMantComprobante(null, true);
+       objC.setLocationRelativeTo(null);
+       objC.setVisible(true);
+>>>>>>> 1d9aad4fce5f1a80f0853b7b37e48ecaa6e7a24a
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
  
