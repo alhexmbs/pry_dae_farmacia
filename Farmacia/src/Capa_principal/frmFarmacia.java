@@ -120,6 +120,11 @@ public class frmFarmacia extends javax.swing.JFrame {
 
         jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/sale.png"))); // NOI18N
         jMenuItem5.setText("Registrar venta");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu6.add(jMenuItem5);
 
         jMenuBar1.add(jMenu6);
@@ -174,6 +179,11 @@ public class frmFarmacia extends javax.swing.JFrame {
        objPC.setLocationRelativeTo(null);
        objPC.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        jdPedido obj = new jdPedido(null, true);
+        obj.setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
  
     // Variables declaration - do not modify//GEN-BEGIN:variables
