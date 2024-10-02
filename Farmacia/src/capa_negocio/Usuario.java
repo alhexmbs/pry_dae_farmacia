@@ -10,12 +10,13 @@ import java.sql.*;
 
 /**
  *
- * @author Jesus
+ * @author Leonardo
  */
 public class Usuario {
     datos objConectar = new datos();
     String strSQL;
     ResultSet rs = null;
+    public String loggedInUsername = "";
     
     public ResultSet listarTodosUsuario() throws Exception{
         strSQL = "select * from usuario";
@@ -108,5 +109,30 @@ public class Usuario {
             throw new Exception("");
         }
     }
+   public String login(String user, String password) throws Exception {
+    // Sentencia SQL ajustada a tu estructura
+    strSQL = "SELECT username FROM usuario WHERE username = '" + user + "' AND contraseÃ±a = '" + password + "'";
+
+    try {
+        // Ejecutar la consulta
+        rs = objConectar.consultarBD(strSQL);
+        
+        // Si encuentra el usuario, lo retorna
+        if (rs.next()) {
+            return rs.getString("username");  // Retorna el nombre de usuario
+        }
+        
+    } catch (Exception e) {
+        // Manejar cualquier excepción que ocurra
+        throw new Exception("Error al iniciar sesión: " + e.getMessage());
+    }
+    
+    // Si no encontró coincidencias, retorna cadena vacía
+    return "";
+}
+
+
+
+
 }
 
