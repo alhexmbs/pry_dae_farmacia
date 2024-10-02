@@ -221,6 +221,8 @@ public class JdInicioSesion extends javax.swing.JDialog {
                     // Si el login es correcto, mostrar el mensaje de bienvenida y cerrar el formulario
                     JOptionPane.showMessageDialog(null, nombreUsuario + ", Bienvenido al sistema! ");
                     this.dispose();
+                    frmFarmacia farmacia = new frmFarmacia();
+                    farmacia.setVisible(true);
                 }
 
             } else {
