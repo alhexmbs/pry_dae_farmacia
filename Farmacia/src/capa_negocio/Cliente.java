@@ -17,7 +17,7 @@ public class Cliente {
     ResultSet rs = null;
     
     public ResultSet listarTodosCliente() throws Exception{
-        strSQL = "select * from cliente";
+        strSQL = "select * from cliente cl inner join tipo_doc td on cl.id_tipo_doc = td.id_tipo_doc";
         
         try{
             rs = objConectar.consultarBD(strSQL);
@@ -28,7 +28,7 @@ public class Cliente {
     }
     
     public ResultSet listarPorIDCliente(int idCliente) throws Exception{
-        strSQL = "select * from cliente where id_cliente = "+idCliente;
+        strSQL = "select * from cliente cl inner join tipo_doc td on cl.id_tipo_doc = td.id_tipo_doc where cl.id_cliente = "+idCliente;
         
         try{
             rs = objConectar.consultarBD(strSQL);
