@@ -3,6 +3,11 @@ package capa_negocio;
 import capaDatos.datos;
 import java.sql.ResultSet;
 
+/**
+ *
+ * @author Alex
+ */
+
 public class MetodoPago {
 
     datos objConectar = new datos();
