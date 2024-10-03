@@ -18,16 +18,9 @@ public class datos {
 
     public datos() {
         this.driver = "org.postgresql.Driver";
-        //this.url = "jdbc:postgresql://25.59.118.186:5432/DAE_FARMACIA";
-<<<<<<< HEAD
-        //this.url = "jdbc:postgresql://localhost:5432/DAE_FARMACIA";
         this.url = "jdbc:postgresql://localhost:5432/BD_DAE_SCRIPT";
-=======
-        this.url = "jdbc:postgresql://localhost:5432/BD_FARMACIA";
->>>>>>> 1c3e4b86abc62f4c86363092b80e9ad6f5820233
         this.user = "postgres";
-        //this.password = "visa2005";
-        this.password = "Us@t2024";
+        this.password = "password";
         this.con = null;
     }
 
