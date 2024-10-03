@@ -17,6 +17,7 @@ public final class JdInicioSesion extends javax.swing.JDialog {
 
     Usuario objUsuario = new Usuario();
     String nombreUsuario = "";
+    String rol = "";
     int intentos = 0;
 
     public JdInicioSesion(java.awt.Frame parent, boolean modal) {
@@ -33,7 +34,7 @@ public final class JdInicioSesion extends javax.swing.JDialog {
         cadena += String.valueOf(numero);
         cadena += letras[objRandom.nextInt(0, 12)];
         cadena += letras[objRandom.nextInt(0, 12)];
-        
+
         lblCaptcha.setText(cadena);
     }
 
@@ -62,6 +63,7 @@ public final class JdInicioSesion extends javax.swing.JDialog {
         lblCaptcha = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Inicio de sesion");
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/login (1).png"))); // NOI18N
 
@@ -107,6 +109,7 @@ public final class JdInicioSesion extends javax.swing.JDialog {
         jLabel5.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
         jLabel5.setText("Captcha:");
 
+        btnValidar.setBackground(new java.awt.Color(255, 255, 254));
         btnValidar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnValidar.setText("Cambiar");
         btnValidar.addActionListener(new java.awt.event.ActionListener() {
@@ -203,36 +206,35 @@ public final class JdInicioSesion extends javax.swing.JDialog {
         String contraseña = txtContraseña.getText();
 
         try {
-            
+
             if (txtValidacion.getText().equals(lblCaptcha.getText())) {
 
-                
                 nombreUsuario = objUsuario.login(usuario, contraseña);
+                rol = objUsuario.cargo(usuario, contraseña);
+                System.out.println(rol);
                 if (nombreUsuario.equals("")) {
-                    
+
                     intentos++;
                     JOptionPane.showMessageDialog(this, "El logeo no es el correcto. Intento " + intentos + " de 3", "Sistema", JOptionPane.ERROR_MESSAGE);
 
-                    
                     if (intentos >= 3) {
                         JOptionPane.showMessageDialog(this, "Demasiados intentos fallidos. Cerrando sistema...", "Sistema", JOptionPane.ERROR_MESSAGE);
                         System.exit(0);
                     }
 
                 } else {
-                    
+
                     JOptionPane.showMessageDialog(null, nombreUsuario + ", Bienvenido al sistema! ");
                     this.dispose();
-                    frmFarmacia farmacia = new frmFarmacia();
+                    frmFarmacia farmacia = new frmFarmacia(rol);
                     farmacia.setVisible(true);
                 }
 
             } else {
-                
+
                 intentos++;
                 JOptionPane.showMessageDialog(this, "El captcha no es el correcto. Intento " + intentos + " de 3", "Sistema", JOptionPane.ERROR_MESSAGE);
 
-                
                 if (intentos >= 3) {
                     JOptionPane.showMessageDialog(this, "Demasiados intentos fallidos. Cerrando sistema...", "Sistema", JOptionPane.ERROR_MESSAGE);
                     System.exit(0);

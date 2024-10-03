@@ -11,7 +11,7 @@ public class Pago {
 
     // Listar todos los pagos
     public ResultSet listarPagos() throws Exception {
-        strSQL = "SELECT * FROM pago";
+        strSQL = "SELECT  P.id_pago, P.monto_pago, P.estado_pago, P.id_pedido, U.username, C.nombre || ' ' ||C.ape_paterno as cliente, MP.metodo_pago  FROM pago P inner join cliente C on P.id_cliente = C.id_cliente inner join usuario U on U.id_usuario = P.id_usuario inner join metodo_pago MP on MP.id_metodo_pago = P.id_metodo_pago";
         try {
             rs = objConectar.consultarBD(strSQL);
             return rs;
@@ -20,10 +20,22 @@ public class Pago {
         }
     }
 
-    // Registrar un nuevo pago
+    public int generarNuevoIdPago() throws Exception {
+        strSQL = "SELECT COALESCE(MAX(id_pago), 0) + 1 AS nuevoIdPago FROM pago";
+        try {
+            rs = objConectar.consultarBD(strSQL);
+            if (rs.next()) {
+                return rs.getInt("nuevoIdPago");
+            }
+        } catch (Exception e) {
+            throw new Exception("Error al generar nuevo ID de pago -->" + e.getMessage());
+        }
+        return 0;
+    }
+
     public void registrarPago(int idPago, double monto, String estado, int idPedido, int idUsuario, int idCliente, int idMetodoPago) throws Exception {
-        strSQL = "INSERT INTO pago (id_pago, monto_pago, estado_pago, id_pedido, id_usuario, id_cliente, id_metodo_pago) " +
-                 "VALUES (" + idPago + ", " + monto + ", '" + estado + "', " + idPedido + ", " + idUsuario + ", " + idCliente + ", " + idMetodoPago + ")";
+        strSQL = "INSERT INTO pago (id_pago, monto_pago, estado_pago, id_pedido, id_usuario, id_cliente, id_metodo_pago) "
+                + "VALUES (" + idPago + ", " + monto + ", '" + estado + "', " + idPedido + ", " + idUsuario + ", " + idCliente + ", " + idMetodoPago + ")";
         try {
             objConectar.ejecutarBd(strSQL);
         } catch (Exception e) {
@@ -33,7 +45,7 @@ public class Pago {
 
     // Buscar un pago por ID
     public ResultSet buscarPago(int idPago) throws Exception {
-        strSQL = "SELECT * FROM pago WHERE id_pago = " + idPago;
+        strSQL = "SELECT  P.id_pago, P.monto_pago, P.estado_pago, P.id_pedido, U.username, C.nombre || ' ' ||C.ape_paterno as cliente, MP.metodo_pago  FROM pago P inner join cliente C on P.id_cliente = C.id_cliente inner join usuario U on U.id_usuario = P.id_usuario inner join metodo_pago MP on MP.id_metodo_pago = P.id_metodo_pago WHERE P.id_pago = " + idPago;
         try {
             rs = objConectar.consultarBD(strSQL);
             return rs;
@@ -44,8 +56,8 @@ public class Pago {
 
     // Modificar un pago
     public void modificarPago(int idPago, double monto, String estado, int idMetodoPago) throws Exception {
-        strSQL = "UPDATE pago SET monto_pago = " + monto + ", estado_pago = '" + estado + "', id_metodo_pago = " + idMetodoPago + 
-                 " WHERE id_pago = " + idPago;
+        strSQL = "UPDATE pago SET monto_pago = " + monto + ", estado_pago = '" + estado + "', id_metodo_pago = " + idMetodoPago
+                + " WHERE id_pago = " + idPago;
         try {
             objConectar.ejecutarBd(strSQL);
         } catch (Exception e) {
