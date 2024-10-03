@@ -63,6 +63,7 @@ public final class JdInicioSesion extends javax.swing.JDialog {
         lblCaptcha = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Inicio de sesion");
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/login (1).png"))); // NOI18N
 
@@ -108,6 +109,7 @@ public final class JdInicioSesion extends javax.swing.JDialog {
         jLabel5.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
         jLabel5.setText("Captcha:");
 
+        btnValidar.setBackground(new java.awt.Color(255, 255, 254));
         btnValidar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnValidar.setText("Cambiar");
         btnValidar.addActionListener(new java.awt.event.ActionListener() {

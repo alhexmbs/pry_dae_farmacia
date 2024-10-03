@@ -153,9 +153,10 @@ public class jdPago_Admin extends javax.swing.JDialog {
         txtMonto = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         cmbMetodoPago = new javax.swing.JComboBox<>();
-        jButton2 = new javax.swing.JButton();
+        btnAgregarMetodo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Gestion de pago");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -286,9 +287,14 @@ public class jdPago_Admin extends javax.swing.JDialog {
         jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 30, -1, -1));
         jPanel3.add(cmbMetodoPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 50, 120, -1));
 
-        jButton2.setBackground(new java.awt.Color(236, 177, 89));
-        jButton2.setText("Agregar");
-        jPanel3.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 50, -1, -1));
+        btnAgregarMetodo.setBackground(new java.awt.Color(236, 177, 89));
+        btnAgregarMetodo.setText("Agregar");
+        btnAgregarMetodo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarMetodoActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnAgregarMetodo, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 50, -1, -1));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 800, 200));
 
@@ -352,14 +358,15 @@ public class jdPago_Admin extends javax.swing.JDialog {
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         if (lbl_id_pago.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar un código de comprobante a modificar");
+            JOptionPane.showMessageDialog(this, "Debe ingresar un código de pago a modificar");
         } else {
             try {
 
                 int idPago = Integer.parseInt(lbl_id_pago.getText());
                 float monto = Float.parseFloat(txtMonto.getText());
                 String estado = (String) cbxEstado.getSelectedItem();
-                int IdMetodoPago = cbxEstado.getSelectedIndex() + 1;
+                int IdMetodoPago = cmbMetodoPago.getSelectedIndex() + 1;
+                System.out.println(IdMetodoPago);
 
                 if (monto <= 0) {
                     JOptionPane.showMessageDialog(this, "El importe total debe ser mayor que 0.");
@@ -368,7 +375,7 @@ public class jdPago_Admin extends javax.swing.JDialog {
 
                 int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea modificar este pago?");
                 if (confirmacion == JOptionPane.YES_OPTION) {
-                    // Llamada al método modificarComprobante
+
                     objPago.modificarPago(idPago, monto, estado, IdMetodoPago);
 
                     limpiarCampos();
@@ -392,7 +399,13 @@ public class jdPago_Admin extends javax.swing.JDialog {
         btnBuscarActionPerformed(null);
     }//GEN-LAST:event_tblPagosMouseClicked
 
+    private void btnAgregarMetodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarMetodoActionPerformed
+        jdAgregarMetodoPago metodo = new jdAgregarMetodoPago(null, true);
+        metodo.setVisible(true);
+    }//GEN-LAST:event_btnAgregarMetodoActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregarMetodo;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnEliminar;
@@ -400,7 +413,6 @@ public class jdPago_Admin extends javax.swing.JDialog {
     private javax.swing.JButton btnModificar;
     private javax.swing.JComboBox<String> cbxEstado;
     private javax.swing.JComboBox<String> cmbMetodoPago;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

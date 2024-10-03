@@ -20,10 +20,23 @@ public class MetodoPago {
         }
     }
 
+    public Integer generarCodigoMetodoPago() throws Exception {
+        strSQL = "SELECT COALESCE(MAX(id_metodo_pago), 0) + 1 AS codigo FROM metodo_pago;";
+        try {
+            rs = objConectar.consultarBD(strSQL);
+            while (rs.next()) {
+                return rs.getInt("codigo");
+            }
+        } catch (Exception e) {
+            throw new Exception("Error al generar el código del metodo de pago farmacéutico --> " + e.getMessage());
+        }
+        return 0;
+    }
+
     // Registrar un nuevo método de pago
     public void registrarMetodoPago(int idMetodoPago, String metodo, String descripcion) throws Exception {
-        strSQL = "INSERT INTO metodo_pago (id_metodo_pago, metodo_pago, descripcion) " +
-                 "VALUES (" + idMetodoPago + ", '" + metodo + "', '" + descripcion + "')";
+        strSQL = "INSERT INTO metodo_pago (id_metodo_pago, metodo_pago, descripcion) "
+                + "VALUES (" + idMetodoPago + ", '" + metodo + "', '" + descripcion + "')";
         try {
             objConectar.ejecutarBd(strSQL);
         } catch (Exception e) {
@@ -44,8 +57,8 @@ public class MetodoPago {
 
     // Modificar un método de pago
     public void modificarMetodoPago(int idMetodoPago, String metodo, String descripcion) throws Exception {
-        strSQL = "UPDATE metodo_pago SET metodo_pago = '" + metodo + "', descripcion = '" + descripcion + "' " +
-                 "WHERE id_metodo_pago = " + idMetodoPago;
+        strSQL = "UPDATE metodo_pago SET metodo_pago = '" + metodo + "', descripcion = '" + descripcion + "' "
+                + "WHERE id_metodo_pago = " + idMetodoPago;
         try {
             objConectar.ejecutarBd(strSQL);
         } catch (Exception e) {
