@@ -34,6 +34,20 @@ public class Cliente {
             throw new Exception("Error al filtrar clientes por ID --> " + ex.getMessage());
         }
     }
+    
+     public int buscarClientePorDoc(String nroDoc) throws Exception {
+        strSQL = "SELECT ID_CLIENTE FROM CLIENTE WHERE NRO_DOCUMENTO = '"+nroDoc+"'";
+        int idCliente = 0;
+        try {
+            rs = objConectar.consultarBD(strSQL);
+            if(rs.next()){
+                return rs.getInt("ID_CLIENTE");
+            }
+        } catch (Exception ex) {
+            throw new Exception("Error al buscar cliente por nroDocumento --> " + ex.getMessage());
+        }
+        return 0;
+    }
 
     public int genenrarIDCliente() throws Exception {
         strSQL = "select coalesce(max(id_cliente),0)+1 as idCliente from cliente";
