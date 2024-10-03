@@ -15,6 +15,7 @@ public class jdPedido extends javax.swing.JDialog {
 
     public jdPedido(java.awt.Frame parent, boolean modal) {
 
+        
         super(parent, modal);
         initComponents();
         try {
@@ -23,6 +24,8 @@ public class jdPedido extends javax.swing.JDialog {
         } catch (Exception e) {
             System.out.println("Error al generar el ID del pedido: " + e.getMessage());
         }
+        // Desactivados       
+        lblTotalVenta.setEditable(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -42,7 +45,7 @@ public class jdPedido extends javax.swing.JDialog {
         jSeparator2 = new javax.swing.JSeparator();
         jLabel69 = new javax.swing.JLabel();
         txtBuscarCodigo1 = new javax.swing.JTextField();
-        txtBuscar1 = new javax.swing.JButton();
+        btnBuscarProductos = new javax.swing.JButton();
         jLabel64 = new javax.swing.JLabel();
         txtNombre1 = new javax.swing.JTextField();
         jLabel65 = new javax.swing.JLabel();
@@ -78,10 +81,10 @@ public class jdPedido extends javax.swing.JDialog {
         btnEliminar5 = new javax.swing.JButton();
         btnEliminar6 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
-        txtNombre5 = new javax.swing.JTextField();
+        txtCantidad = new javax.swing.JTextField();
         jLabel77 = new javax.swing.JLabel();
         jLabel78 = new javax.swing.JLabel();
-        txtNombre6 = new javax.swing.JTextField();
+        lblTotalVenta = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblProducto = new javax.swing.JTable();
         jPanel8 = new javax.swing.JPanel();
@@ -178,8 +181,13 @@ public class jdPedido extends javax.swing.JDialog {
         txtBuscarCodigo1.setBackground(new java.awt.Color(239, 237, 220));
         txtBuscarCodigo1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
-        txtBuscar1.setBackground(new java.awt.Color(236, 177, 89));
-        txtBuscar1.setText("Buscar");
+        btnBuscarProductos.setBackground(new java.awt.Color(236, 177, 89));
+        btnBuscarProductos.setText("Buscar");
+        btnBuscarProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarProductosActionPerformed(evt);
+            }
+        });
 
         jLabel64.setBackground(new java.awt.Color(0, 0, 0));
         jLabel64.setText("Stock:");
@@ -221,7 +229,7 @@ public class jdPedido extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtNombre3)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtBuscar1)
+                        .addComponent(btnBuscarProductos)
                         .addGap(40, 40, 40)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -244,7 +252,7 @@ public class jdPedido extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtBuscarCodigo1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtBuscar1)
+                    .addComponent(btnBuscarProductos)
                     .addComponent(jLabel69)
                     .addComponent(jLabel64)
                     .addComponent(txtNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -267,7 +275,7 @@ public class jdPedido extends javax.swing.JDialog {
         jLabel71.setText("Comprobante:");
 
         btnPagar.setBackground(new java.awt.Color(236, 177, 89));
-        btnPagar.setText("Pagar");
+        btnPagar.setText("Buscar");
         btnPagar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPagarActionPerformed(evt);
@@ -356,7 +364,7 @@ public class jdPedido extends javax.swing.JDialog {
         btnSave.setBackground(new java.awt.Color(236, 177, 89));
         btnSave.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/save.png"))); // NOI18N
-        btnSave.setText("GUARDAR");
+        btnSave.setText("AGREGAR");
         btnSave.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnSave.setPreferredSize(new java.awt.Dimension(60, 36));
         btnSave.addActionListener(new java.awt.event.ActionListener() {
@@ -598,8 +606,13 @@ public class jdPedido extends javax.swing.JDialog {
 
         jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
 
-        txtNombre5.setBackground(new java.awt.Color(239, 237, 220));
-        txtNombre5.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        txtCantidad.setBackground(new java.awt.Color(239, 237, 220));
+        txtCantidad.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        txtCantidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCantidadActionPerformed(evt);
+            }
+        });
 
         jLabel77.setBackground(new java.awt.Color(0, 0, 0));
         jLabel77.setText("CANTIDAD:");
@@ -607,8 +620,8 @@ public class jdPedido extends javax.swing.JDialog {
         jLabel78.setBackground(new java.awt.Color(0, 0, 0));
         jLabel78.setText("TOTAL:");
 
-        txtNombre6.setBackground(new java.awt.Color(51, 255, 204));
-        txtNombre6.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        lblTotalVenta.setBackground(new java.awt.Color(51, 255, 204));
+        lblTotalVenta.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -618,11 +631,11 @@ public class jdPedido extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jLabel77)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtNombre5, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(jLabel78)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtNombre6, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblTotalVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12))
         );
         jPanel7Layout.setVerticalGroup(
@@ -632,10 +645,10 @@ public class jdPedido extends javax.swing.JDialog {
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel78)
-                        .addComponent(txtNombre6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblTotalVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel77)
-                        .addComponent(txtNombre5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -846,14 +859,27 @@ public class jdPedido extends javax.swing.JDialog {
     }//GEN-LAST:event_txtBuscarActionPerformed
 
     private void btnPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagarActionPerformed
-        
-        jdPago_Cajero objPC = new jdPago_Cajero(null, true, codigo_pedido-1);
-        objPC.setLocationRelativeTo(null);
-        objPC.setVisible(true);
+        jdListTipoComprobante obj = new jdListTipoComprobante(null, true);
+        obj.setVisible(true);
+        obj.setLocationRelativeTo(null);
+//        jdPago_Cajero objPC = new jdPago_Cajero(null, true, codigo_pedido-1);
+//        objPC.setLocationRelativeTo(null);
+//        objPC.setVisible(true);
     }//GEN-LAST:event_btnPagarActionPerformed
+
+    private void txtCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCantidadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCantidadActionPerformed
+
+    private void btnBuscarProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarProductosActionPerformed
+       jdListProductos obj = new jdListProductos(null,true);
+       obj.setVisible(true);
+       obj.setLocationRelativeTo(null);
+    }//GEN-LAST:event_btnBuscarProductosActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBuscarProductos;
     private javax.swing.JButton btnDarBaja;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnEliminar1;
@@ -903,21 +929,20 @@ public class jdPedido extends javax.swing.JDialog {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JTextField lblTotalVenta;
     private javax.swing.JTable tblProducto;
     private javax.swing.JButton txtBuscar;
-    private javax.swing.JButton txtBuscar1;
     private javax.swing.JTextField txtBuscarCodigo;
     private javax.swing.JTextField txtBuscarCodigo1;
     private javax.swing.JTextField txtBuscarCodigo2;
     private javax.swing.JTextField txtBuscarIde;
     private javax.swing.JTextField txtBuscarIde1;
+    private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtNombre1;
     private javax.swing.JTextField txtNombre2;
     private javax.swing.JTextField txtNombre3;
     private javax.swing.JTextField txtNombre4;
-    private javax.swing.JTextField txtNombre5;
-    private javax.swing.JTextField txtNombre6;
     private javax.swing.JTextField txtNombre7;
     private javax.swing.JTextField txtNombre8;
     // End of variables declaration//GEN-END:variables
