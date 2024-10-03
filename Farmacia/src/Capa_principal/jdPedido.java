@@ -165,7 +165,7 @@ public class jdPedido extends javax.swing.JDialog {
         jPanel4 = new javax.swing.JPanel();
         btnLimpiar = new javax.swing.JButton();
         btnDarBaja = new javax.swing.JButton();
-        btnSave = new javax.swing.JButton();
+        btnAgregarProducto = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel74 = new javax.swing.JLabel();
@@ -463,15 +463,15 @@ public class jdPedido extends javax.swing.JDialog {
             }
         });
 
-        btnSave.setBackground(new java.awt.Color(236, 177, 89));
-        btnSave.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/save.png"))); // NOI18N
-        btnSave.setText("AGREGAR");
-        btnSave.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btnSave.setPreferredSize(new java.awt.Dimension(60, 36));
-        btnSave.addActionListener(new java.awt.event.ActionListener() {
+        btnAgregarProducto.setBackground(new java.awt.Color(236, 177, 89));
+        btnAgregarProducto.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnAgregarProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/save.png"))); // NOI18N
+        btnAgregarProducto.setText("AGREGAR");
+        btnAgregarProducto.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnAgregarProducto.setPreferredSize(new java.awt.Dimension(60, 36));
+        btnAgregarProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveActionPerformed(evt);
+                btnAgregarProductoActionPerformed(evt);
             }
         });
 
@@ -492,7 +492,7 @@ public class jdPedido extends javax.swing.JDialog {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAgregarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -508,7 +508,7 @@ public class jdPedido extends javax.swing.JDialog {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAgregarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -713,6 +713,11 @@ public class jdPedido extends javax.swing.JDialog {
         txtCantidad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCantidadActionPerformed(evt);
+            }
+        });
+        txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCantidadKeyTyped(evt);
             }
         });
 
@@ -927,9 +932,9 @@ public class jdPedido extends javax.swing.JDialog {
 
     }//GEN-LAST:event_btnDarBajaActionPerformed
 
-    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+    private void btnAgregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProductoActionPerformed
 
-    }//GEN-LAST:event_btnSaveActionPerformed
+    }//GEN-LAST:event_btnAgregarProductoActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
 
@@ -979,8 +984,19 @@ public class jdPedido extends javax.swing.JDialog {
         obj.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnBuscarProductosActionPerformed
 
+    public void calcularTotal(float valor){
+        float precio = Float.parseFloat(txtPrecioProducto.getText());
+        lblTotalVenta.setText(String.valueOf(valor*precio));
+    }
+    
+    private void txtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyTyped
+        float valor = Float.parseFloat(txtCantidad.getText() + evt.getKeyChar());
+        calcularTotal(valor);
+    }//GEN-LAST:event_txtCantidadKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregarProducto;
     private javax.swing.JButton btnBuscarProductos;
     private javax.swing.JButton btnDarBaja;
     private javax.swing.JButton btnEliminar;
@@ -991,7 +1007,6 @@ public class jdPedido extends javax.swing.JDialog {
     private javax.swing.JButton btnEliminar6;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnPagar;
-    private javax.swing.JButton btnSave;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
