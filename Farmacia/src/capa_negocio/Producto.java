@@ -16,13 +16,12 @@ public class Producto {
     ResultSet rs = null;
 
     public ResultSet listarProductos(String filtro) throws Exception {
-    strSQL = "SELECT pro.*, fa.nombre_fabricante, ff.forma_farmaceutica, ru.nombre_rubro, pr.dscto, lo.numero_lote "
+    strSQL = "SELECT pro.*, fa.nombre_fabricante, ff.forma_farmaceutica, ru.nombre_rubro, pr.dscto "
             + "FROM producto_farmaceutico pro "
             + "INNER JOIN fabricante fa ON fa.id_fabricante = pro.id_fabricante "
             + "INNER JOIN forma_farmaceutica ff ON ff.id_frm_farma = pro.id_frm_farma "
             + "INNER JOIN rubro ru ON ru.id_rubro = pro.id_rubro "
-            + "LEFT JOIN promocion pr ON pr.id_promocion = pro.id_promocion "
-            + "INNER JOIN lote lo ON lo.id_lote = pro.id_lote"; 
+            + "LEFT JOIN promocion pr ON pr.id_promocion = pro.id_promocion"; 
 
     if (!filtro.equals("General")) {
         strSQL += " WHERE " + filtro;
@@ -53,13 +52,13 @@ public class Producto {
 
    public void registrarProducto(Integer id_producto, String nombre, double precio_compra, double precio_venta,
         Integer stock, String nro_reg_sanitario, String condicion_venta, Date fecha_entrada,
-        Integer id_fabricante, Integer id_frm_farma, Integer id_rubro, Integer id_promocion, Integer id_lote) throws Exception {
+        Integer id_fabricante, Integer id_frm_farma, Integer id_rubro, Integer id_promocion) throws Exception {
 
     strSQL = "INSERT INTO public.producto_farmaceutico (id_producto, nombre, precio_compra, precio_venta, stock, "
-                + "nro_reg_sanitario, condicion_venta, fecha_entrada, id_fabricante, id_frm_farma, id_rubro, id_promocion, id_lote) "
+                + "nro_reg_sanitario, condicion_venta, fecha_entrada, id_fabricante, id_frm_farma, id_rubro, id_promocion) "
                 + "VALUES (" + id_producto + ", '" + nombre + "', " + precio_compra + ", " + precio_venta + ", " + stock
                 + ", '" + nro_reg_sanitario + "', '" + condicion_venta + "', '" + fecha_entrada + "', "
-                + id_fabricante + ", " + id_frm_farma + ", " + id_rubro + ", " + id_promocion + ", " + id_lote + ")";
+                + id_fabricante + ", " + id_frm_farma + ", " + id_rubro + ", " + id_promocion + ")";
         try {
             objconectar.ejecutarBd(strSQL);
         } catch (Exception e) {
@@ -71,13 +70,12 @@ public class Producto {
     String strSQL = "SELECT pro.id_producto, pro.nombre, pro.precio_compra, pro.precio_venta, pro.stock, "
                     + "pro.nro_reg_sanitario, pro.condicion_venta, pro.fecha_entrada, "
                     + "fa.nombre_fabricante, ff.forma_farmaceutica, ru.nombre_rubro, "
-                    + "COALESCE(pr.dscto, 0) AS descuento, lo.numero_lote " // Usamos COALESCE para manejar valores nulos
+                    + "COALESCE(pr.dscto, 0) AS descuento " 
                     + "FROM producto_farmaceutico pro "
                     + "INNER JOIN fabricante fa ON fa.id_fabricante = pro.id_fabricante "
                     + "INNER JOIN forma_farmaceutica ff ON ff.id_frm_farma = pro.id_frm_farma "
                     + "INNER JOIN rubro ru ON ru.id_rubro = pro.id_rubro "
                     + "LEFT JOIN promocion pr ON pr.id_promocion = pro.id_promocion "
-                    + "INNER JOIN lote lo ON lo.id_lote = pro.id_lote " 
                     + "WHERE pro.id_producto = " + id_producto;
 
     try {
@@ -106,7 +104,7 @@ public class Producto {
         }
     }
 
-   public void modificarProducto(int idProducto, String nombre, float precioCompra, float precioVenta, int stock, String nroRegSanitario, String condicionVenta, Date fechaEntrada, int idFabricante, int idForma, int idRubro, int idPromocion, int idLote) throws Exception {
+   public void modificarProducto(int idProducto, String nombre, float precioCompra, float precioVenta, int stock, String nroRegSanitario, String condicionVenta, Date fechaEntrada, int idFabricante, int idForma, int idRubro, int idPromocion) throws Exception {
     String strSQL = "UPDATE producto_farmaceutico "
                     + "SET nombre = '" + nombre + "', "
                     + "precio_compra = " + precioCompra + ", "
@@ -117,16 +115,29 @@ public class Producto {
                     + "fecha_entrada = '" + fechaEntrada + "', "
                     + "id_fabricante = " + idFabricante + ", "
                     + "id_frm_farma = " + idForma + ", "
-                    + "id_rubro = " + idRubro + ", "
-                    + "id_promocion = " + idPromocion + ", "
-                    + "id_lote = " + idLote + " "
-                    + "WHERE id_producto = " + idProducto;
+                + "id_rubro = " + idRubro + ", "
+                + "id_promocion = " + idPromocion + " "
+                + "WHERE id_producto = " + idProducto;
 
-    try {
-        objconectar.ejecutarBd(strSQL);
-    } catch (Exception e) {
-        throw new Exception("Error al modificar el producto --> " + e.getMessage());
+        try {
+            objconectar.ejecutarBd(strSQL);
+        } catch (Exception e) {
+            throw new Exception("Error al modificar el producto --> " + e.getMessage());
+        }
     }
-}
+
+    public Integer obtenerCodigoProducto(String nombreProducto) throws Exception {
+        strSQL = "SELECT id_producto FROM producto_farmaceutico WHERE nombre = '" + nombreProducto + "'";
+
+        try {
+            rs = objconectar.consultarBD(strSQL);
+            if (rs.next()) {
+                return rs.getInt("id_producto");
+            }
+        } catch (Exception e) {
+            throw new Exception("Error al buscar productos bd --> " + e.getMessage());
+        }
+        return 0;
+    }
 
 }
