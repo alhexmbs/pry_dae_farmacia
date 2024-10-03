@@ -34,6 +34,7 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenu10 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
 
         jMenuItem4.setText("jMenuItem4");
 
@@ -137,6 +138,7 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenu10.setText("Reportes");
         jMenuBar1.add(jMenu10);
 
+        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pago.png"))); // NOI18N
         jMenu3.setText("Pagos");
 
         jMenuItem7.setText("Gestionar pagos");
@@ -146,6 +148,14 @@ public class frmFarmacia extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenuItem7);
+
+        jMenuItem3.setText("Comprobantes");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem3);
 
         jMenuBar1.add(jMenu3);
 
@@ -187,6 +197,11 @@ public class frmFarmacia extends javax.swing.JFrame {
         pagoAdmin.setVisible(true);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        jdMantComprobante comprobante = new jdMantComprobante(this, true);
+        comprobante.setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -205,6 +220,7 @@ public class frmFarmacia extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar3;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
