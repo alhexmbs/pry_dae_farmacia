@@ -36,6 +36,7 @@ public class jdPago_Admin extends javax.swing.JDialog {
         txtMonto = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -135,6 +136,9 @@ public class jdPago_Admin extends javax.swing.JDialog {
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel3.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 50, 120, -1));
 
+        jButton2.setText("Agregar");
+        jPanel3.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 50, -1, -1));
+
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 800, 200));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -160,6 +164,7 @@ public class jdPago_Admin extends javax.swing.JDialog {
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JComboBox<String> cbxEstado;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;

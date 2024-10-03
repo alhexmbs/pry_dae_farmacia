@@ -28,11 +28,12 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu9 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenu10 = new javax.swing.JMenu();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem7 = new javax.swing.JMenuItem();
 
         jMenuItem4.setText("jMenuItem4");
 
@@ -112,14 +113,6 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenu6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pago.png"))); // NOI18N
         jMenu6.setText("Facturación y pago");
 
-        jMenuItem3.setText("Comprobante");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
-            }
-        });
-        jMenu6.add(jMenuItem3);
-
         jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/sale.png"))); // NOI18N
         jMenuItem5.setText("Registrar venta");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
@@ -143,6 +136,18 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenu10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/reporte.png"))); // NOI18N
         jMenu10.setText("Reportes");
         jMenuBar1.add(jMenu10);
+
+        jMenu3.setText("Pagos");
+
+        jMenuItem7.setText("Gestionar pagos");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem7);
+
+        jMenuBar1.add(jMenu3);
 
         setJMenuBar(jMenuBar1);
 
@@ -172,20 +177,15 @@ public class frmFarmacia extends javax.swing.JFrame {
         objp.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-       /*jdMantComprobante objC = new jdMantComprobante(null, true);
-       objC.setLocationRelativeTo(null);
-       objC.setVisible(true);*/
-       
-       /*jdPago_Cajero objPC = new jdPago_Cajero(null, true, 1);
-       objPC.setLocationRelativeTo(null);
-       objPC.setVisible(true);*/
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
-
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         jdPedido obj = new jdPedido(null, true);
         obj.setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        jdPago_Admin pagoAdmin = new jdPago_Admin(this, true);
+        pagoAdmin.setVisible(true);
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
 
  
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -193,6 +193,7 @@ public class frmFarmacia extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu10;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
@@ -204,10 +205,10 @@ public class frmFarmacia extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar3;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
