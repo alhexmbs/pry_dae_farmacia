@@ -1,11 +1,17 @@
 package Capa_principal;
 
+import javax.swing.JOptionPane;
+
 public class frmFarmacia extends javax.swing.JFrame {
 
-    public frmFarmacia() {
+    String rolUsuario;
+
+    public frmFarmacia(String rol) {
         initComponents();
         setTitle("Sistema de farmacia");
+        System.out.println(rol);
         //setExtendedState(MAXIMIZED_BOTH);
+        rolUsuario = rol;
     }
 
     @SuppressWarnings("unchecked")
@@ -130,6 +136,11 @@ public class frmFarmacia extends javax.swing.JFrame {
 
         jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/desechomedicamento.png"))); // NOI18N
         jMenuItem6.setText("Registrar desecho de medicamento");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
         jMenu9.add(jMenuItem6);
 
         jMenuBar1.add(jMenu9);
@@ -176,15 +187,24 @@ public class frmFarmacia extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        jdManCliente objm = new jdManCliente(null, true);
-        objm.setLocationRelativeTo(null);
-        objm.setVisible(true);
+        if (rolUsuario.equals("Administrador")) {
+            jdManCliente objm = new jdManCliente(null, true);
+            objm.setLocationRelativeTo(null);
+            objm.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta sección");
+        }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        jdManProducto objp= new jdManProducto(null, true);
-        objp.setLocationRelativeTo(null);
-        objp.setVisible(true);
+
+        if (rolUsuario.equals("Administrador")) {
+            jdManProducto objp = new jdManProducto(null, true);
+            objp.setLocationRelativeTo(null);
+            objp.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta sección");
+        }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
@@ -193,16 +213,34 @@ public class frmFarmacia extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        jdPago_Admin pagoAdmin = new jdPago_Admin(this, true);
-        pagoAdmin.setVisible(true);
+        if (rolUsuario.equals("Administrador")) {
+            jdPago_Admin pagoAdmin = new jdPago_Admin(this, true);
+            pagoAdmin.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta sección");
+        }
+
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        jdMantComprobante comprobante = new jdMantComprobante(this, true);
-        comprobante.setVisible(true);
+        if (rolUsuario.equals("Administrador")) {
+            jdMantComprobante comprobante = new jdMantComprobante(this, true);
+            comprobante.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta sección");
+        }
+
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
- 
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        if (rolUsuario.equals("Administrador")) {
+            JOptionPane.showMessageDialog(this, "En mantenimiento");
+        } else {
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta sección");
+        }
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;

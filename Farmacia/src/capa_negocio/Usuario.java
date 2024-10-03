@@ -129,4 +129,21 @@ public class Usuario {
         return "";
     }
 
+    public String cargo(String user, String password) throws Exception {
+        strSQL = "select R.rol as rol from usuario U inner join rol R on U.id_rol = R.id_rol WHERE U.username = '" + user + "' AND contrasena = '" + password + "'";
+
+        try {
+            rs = objConectar.consultarBD(strSQL);
+
+            if (rs.next()) {
+                return rs.getString("rol");  // Retorna el nombre de usuario
+            }
+
+        } catch (Exception e) {
+            throw new Exception("Error al iniciar sesión: " + e.getMessage());
+        }
+
+        return "";
+    }
+
 }
