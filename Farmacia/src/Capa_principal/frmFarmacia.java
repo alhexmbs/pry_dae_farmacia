@@ -227,7 +227,7 @@ public class frmFarmacia extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        jdPedido obj = new jdPedido(null, true);
+        jdPedido obj = new jdPedido(null, false);
         obj.setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
