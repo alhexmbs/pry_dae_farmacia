@@ -4,9 +4,7 @@
  */
 package Capa_principal;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
-
+import javax.swing.JTextField;
 
 /**
  *
@@ -18,9 +16,17 @@ public class jdPedido extends javax.swing.JDialog {
      * Creates new form jdPedido
      */
     public jdPedido(java.awt.Frame parent, boolean modal) {
-        
+
         super(parent, modal);
         initComponents();
+    }
+
+    public JTextField getTxtBuscarCodigo() {
+        return txtBuscarCodigo;
+    }
+
+    public void setTxtBuscarCodigo(String idCliente) {
+        txtBuscarCodigo.setText(idCliente);
     }
 
     /**
@@ -605,7 +611,7 @@ public class jdPedido extends javax.swing.JDialog {
         jLabel78.setBackground(new java.awt.Color(0, 0, 0));
         jLabel78.setText("TOTAL:");
 
-        txtNombre6.setBackground(new java.awt.Color(51, 255, 204));
+        txtNombre6.setBackground(new java.awt.Color(255, 255, 204));
         txtNombre6.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
@@ -843,7 +849,6 @@ public class jdPedido extends javax.swing.JDialog {
         obj.setVisible(true);
     }//GEN-LAST:event_txtBuscarActionPerformed
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDarBaja;
