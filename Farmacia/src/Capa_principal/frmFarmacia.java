@@ -166,7 +166,7 @@ public class frmFarmacia extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        jdManCliente objm = new jdManCliente(null, true);
+        jdManCliente objm = new jdManCliente(null, false);
         objm.setLocationRelativeTo(null);
         objm.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -178,7 +178,7 @@ public class frmFarmacia extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        jdPedido obj = new jdPedido(null, true);
+        jdPedido obj = new jdPedido(null, false);
         obj.setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 

@@ -16,7 +16,12 @@ import capa_negocio.TipoCompobante;
 public class jdListTipoComprobante extends javax.swing.JDialog {
 
     TipoCompobante objC = new TipoCompobante();
-    
+    //
+    jdPedido objJpPedido = new jdPedido(null, false);
+    // 
+    frmFarmacia obj = new frmFarmacia();
+  
+
     /**
      * Creates new form jdListTipoComprobante
      */
@@ -25,29 +30,28 @@ public class jdListTipoComprobante extends javax.swing.JDialog {
         initComponents();
         listarTiposDeComprobante();
     }
-    
-    private void listarTiposDeComprobante(){
+
+    private void listarTiposDeComprobante() {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("ID");
         modelo.addColumn("TIPO DE COMPROBANTE");
-        
+
         tblTiposComprobante.setModel(modelo);
-        
+
         ResultSet rs = null;
-        try{
+        try {
             rs = objC.listarTipoDeComprobante();
-            while(rs.next()){
+            while (rs.next()) {
                 Object[] fila = new Object[9];
                 fila[0] = rs.getInt("id_tipo_comprobante");
                 fila[1] = rs.getString("tipo_comprobante");
-                
+
                 modelo.addRow(fila);
             }
-        }catch(Exception ex){
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado", "Error al obtener los tipos de comprobantes", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -81,6 +85,11 @@ public class jdListTipoComprobante extends javax.swing.JDialog {
 
             }
         ));
+        tblTiposComprobante.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblTiposComprobanteMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblTiposComprobante);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -181,16 +190,21 @@ public class jdListTipoComprobante extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar3ActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnEliminar3ActionPerformed
 
     private void btnEliminar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar4ActionPerformed
-        // TODO add your handling code here:
+        objJpPedido.getTxtComprobante().setText("HOLA");
+        objJpPedido.setVisible(true);
+        
     }//GEN-LAST:event_btnEliminar4ActionPerformed
 
     private void btnEliminar5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar5ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEliminar5ActionPerformed
+
+    private void tblTiposComprobanteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTiposComprobanteMouseClicked
+        int id = Integer.parseInt(tblTiposComprobante.getValueAt(tblTiposComprobante.getSelectedRow(), 0).toString());
+    }//GEN-LAST:event_tblTiposComprobanteMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
