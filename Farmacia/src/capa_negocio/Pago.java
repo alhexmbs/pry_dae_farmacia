@@ -11,7 +11,7 @@ public class Pago {
 
     // Listar todos los pagos
     public ResultSet listarPagos() throws Exception {
-        strSQL = "SELECT * FROM pago";
+        strSQL = "SELECT  P.id_pago, P.monto_pago, P.estado_pago, P.id_pedido, U.username, C.nombre || ' ' ||C.ape_paterno as cliente, MP.metodo_pago  FROM pago P inner join cliente C on P.id_cliente = C.id_cliente inner join usuario U on U.id_usuario = P.id_usuario inner join metodo_pago MP on MP.id_metodo_pago = P.id_metodo_pago";
         try {
             rs = objConectar.consultarBD(strSQL);
             return rs;
@@ -45,7 +45,7 @@ public class Pago {
 
     // Buscar un pago por ID
     public ResultSet buscarPago(int idPago) throws Exception {
-        strSQL = "SELECT * FROM pago WHERE id_pago = " + idPago;
+        strSQL = "SELECT  P.id_pago, P.monto_pago, P.estado_pago, P.id_pedido, U.username, C.nombre || ' ' ||C.ape_paterno as cliente, MP.metodo_pago  FROM pago P inner join cliente C on P.id_cliente = C.id_cliente inner join usuario U on U.id_usuario = P.id_usuario inner join metodo_pago MP on MP.id_metodo_pago = P.id_metodo_pago WHERE P.id_pago = " + idPago;
         try {
             rs = objConectar.consultarBD(strSQL);
             return rs;

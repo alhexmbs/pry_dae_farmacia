@@ -4,7 +4,6 @@
  */
 package Capa_principal;
 
-
 import capa_negocio.Comprobante;
 
 import javax.swing.JOptionPane;
@@ -13,17 +12,12 @@ import java.sql.*;
 import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
 
-
-
 /**
  *
  * @author Admin
  */
 public class jdMantComprobante extends javax.swing.JDialog {
 
-   
-
-   
     public jdMantComprobante(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -32,8 +26,7 @@ public class jdMantComprobante extends javax.swing.JDialog {
         jcFechaEmision.setMinSelectableDate(new Date());
     }
     Comprobante objCompro = new Comprobante();
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -298,200 +291,196 @@ public class jdMantComprobante extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private void limpiarFormulario() {
-    // Limpiar campos de texto
-    txtNComprobante.setText("");
-    txtIdCliente.setText("");
-    txtIdUsuario.setText("");
-    
-    txtImporteTotal.setText("");
+        // Limpiar campos de texto
+        txtNComprobante.setText("");
+        txtIdCliente.setText("");
+        txtIdUsuario.setText("");
 
-    // Limpiar el combo box (Tipo de comprobante)
-    cbTipoComprobante.setSelectedIndex(0);  // Selecciona el primer ítem del combo box (por ejemplo, "Boleta")
+        txtImporteTotal.setText("");
 
-    // Limpiar el campo de fecha
-    jcFechaEmision.setDate(null); 
-    txtPedido.setText("");
+        // Limpiar el combo box (Tipo de comprobante)
+        cbTipoComprobante.setSelectedIndex(0);  // Selecciona el primer ítem del combo box (por ejemplo, "Boleta")
+
+        // Limpiar el campo de fecha
+        jcFechaEmision.setDate(null);
+        txtPedido.setText("");
 // Esto establece el campo de fecha en vacío
 
-    // Limpiar cualquier otro campo necesario (si tienes más)
-}
-    private void listarComprobantes() {
-    DefaultTableModel modelo = new DefaultTableModel();
-    
-    // Añadir las columnas al modelo, ya sin el nombre del cliente
-    modelo.addColumn("ID Comprobante");
-    modelo.addColumn("Serie");
-    modelo.addColumn("Fecha Emisión");
-    modelo.addColumn("Importe Total");
-    modelo.addColumn("ID Cliente");
-    modelo.addColumn("ID Usuario");
-    modelo.addColumn("Tipo Comprobante");
-    modelo.addColumn("ID Pedido");
-    
-    try {
-        // Obtener los datos de la base de datos
-        ResultSet rs = objCompro.listarComprobantes();
-        
-        // Recorrer el ResultSet y añadir los datos a la tabla
-        while (rs.next()) {
-            Object datos[] = new Object[8];  // Ajustar según el número de columnas
-
-            // Llenar los datos sin el nombre del cliente
-            datos[0] = rs.getInt("id_comprobante");  // ID Comprobante
-            datos[1] = rs.getString("serie_nro_comprobante");  // Serie
-            datos[2] = rs.getDate("fecha_emision");  // Fecha Emisión
-            datos[3] = rs.getFloat("importe_total");  // Importe Total
-            datos[4] = rs.getInt("id_cliente");  // ID Cliente
-            datos[5] = rs.getInt("id_usuario");  // ID Usuario
-            datos[6] = rs.getString("tipo_comprobante");  // Tipo Comprobante
-            datos[7] = rs.getInt("id_pedido");  // ID Pedido
-
-            // Añadir la fila al modelo
-            modelo.addRow(datos);
-        }
-
-        // Asignar el modelo a la tabla
-        TablaComprobante.setModel(modelo);
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al listar comprobantes: " + e.getMessage());
+        // Limpiar cualquier otro campo necesario (si tienes más)
     }
 
+    private void listarComprobantes() {
+        DefaultTableModel modelo = new DefaultTableModel();
 
-}
-    private void listarTipoComprobante() {
-    ResultSet rsTipo = null;
-    DefaultComboBoxModel modelo = new DefaultComboBoxModel();  // Crear el modelo para el ComboBox
+        // Añadir las columnas al modelo, ya sin el nombre del cliente
+        modelo.addColumn("ID Comprobante");
+        modelo.addColumn("Serie");
+        modelo.addColumn("Fecha Emisión");
+        modelo.addColumn("Importe Total");
+        modelo.addColumn("ID Cliente");
+        modelo.addColumn("ID Usuario");
+        modelo.addColumn("Tipo Comprobante");
+        modelo.addColumn("ID Pedido");
 
-    try {
-        // Llamar al método listarTiposComprobante() para obtener los tipos de comprobante desde la base de datos
-        rsTipo = objCompro.listarTiposComprobante();
+        try {
+            // Obtener los datos de la base de datos
+            ResultSet rs = objCompro.listarComprobantes();
 
-        // Recorrer el ResultSet y agregar cada tipo de comprobante al modelo del ComboBox
-        while (rsTipo.next()) {
-            modelo.addElement(rsTipo.getString("tipo_comprobante"));  // Agregar el tipo de comprobante (columna en la BD)
+            // Recorrer el ResultSet y añadir los datos a la tabla
+            while (rs.next()) {
+                Object datos[] = new Object[8];  // Ajustar según el número de columnas
+
+                // Llenar los datos sin el nombre del cliente
+                datos[0] = rs.getInt("id_comprobante");  // ID Comprobante
+                datos[1] = rs.getString("serie_nro_comprobante");  // Serie
+                datos[2] = rs.getDate("fecha_emision");  // Fecha Emisión
+                datos[3] = rs.getFloat("importe_total");  // Importe Total
+                datos[4] = rs.getInt("id_cliente");  // ID Cliente
+                datos[5] = rs.getInt("id_usuario");  // ID Usuario
+                datos[6] = rs.getString("tipo_comprobante");  // Tipo Comprobante
+                datos[7] = rs.getInt("id_pedido");  // ID Pedido
+
+                // Añadir la fila al modelo
+                modelo.addRow(datos);
+            }
+
+            // Asignar el modelo a la tabla
+            TablaComprobante.setModel(modelo);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al listar comprobantes: " + e.getMessage());
         }
 
-        // Asignar el modelo al ComboBox
-        cbTipoComprobante.setModel(modelo);
+    }
 
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al listar tipos de comprobante: " + e.getMessage());
-    } finally {
-        // Cerrar el ResultSet
-        if (rsTipo != null) {
-            try {
-                rsTipo.close();
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(this, "Error al cerrar el ResultSet: " + ex.getMessage());
+    private void listarTipoComprobante() {
+        ResultSet rsTipo = null;
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();  // Crear el modelo para el ComboBox
+
+        try {
+            // Llamar al método listarTiposComprobante() para obtener los tipos de comprobante desde la base de datos
+            rsTipo = objCompro.listarTiposComprobante();
+
+            // Recorrer el ResultSet y agregar cada tipo de comprobante al modelo del ComboBox
+            while (rsTipo.next()) {
+                modelo.addElement(rsTipo.getString("tipo_comprobante"));  // Agregar el tipo de comprobante (columna en la BD)
+            }
+
+            // Asignar el modelo al ComboBox
+            cbTipoComprobante.setModel(modelo);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al listar tipos de comprobante: " + e.getMessage());
+        } finally {
+            // Cerrar el ResultSet
+            if (rsTipo != null) {
+                try {
+                    rsTipo.close();
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(this, "Error al cerrar el ResultSet: " + ex.getMessage());
+                }
             }
         }
     }
-}
-
-
-
-
 
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        
-         try {
-        if (btnNuevo.getText().equals("NUEVO")) {
-            btnNuevo.setText("GUARDAR");
-            txtNComprobante.setText(String.valueOf(objCompro.generarCodigoComprobante()));
-            txtNComprobante.requestFocus();
-        } else {
-            int idComprobante = Integer.parseInt(txtNComprobante.getText());
-            String serieComprobante = txtNComprobante.getText();
-            java.sql.Date fechaEmision = new java.sql.Date(jcFechaEmision.getDate().getTime());
-            float importeTotal = Float.parseFloat(txtImporteTotal.getText());
-            int idCliente = Integer.parseInt(txtIdCliente.getText());
-            int idUsuario = Integer.parseInt(txtIdUsuario.getText());
-            int idTipoComprobante = cbTipoComprobante.getSelectedIndex() + 1;
-            int idPedido = Integer.parseInt(txtPedido.getText());
 
-            // Obtener la fecha actual para comparar
-            Date fechaActual = new Date();
-
-            // Validar que la fecha de emisión no sea anterior a la fecha actual
-            if (fechaEmision.before(fechaActual)) {
-                JOptionPane.showMessageDialog(this, "La fecha de emisión no puede ser anterior a hoy.");
-                return;
-            }
-
-            // Validación de los campos obligatorios
-            if (!serieComprobante.isEmpty() && importeTotal > 0 && idCliente > 0 && idUsuario > 0 && idTipoComprobante > 0 && idPedido > 0) {
-                objCompro.registrarComprobante(idComprobante, serieComprobante, fechaEmision, importeTotal, idCliente, idUsuario, idTipoComprobante, idPedido);
-                btnNuevo.setText("NUEVO");
-                limpiarFormulario();
-                listarComprobantes();
-                JOptionPane.showMessageDialog(this, "Comprobante guardado correctamente");
+        try {
+            if (btnNuevo.getText().equals("NUEVO")) {
+                btnNuevo.setText("GUARDAR");
+                txtNComprobante.setText(String.valueOf(objCompro.generarCodigoComprobante()));
+                txtNComprobante.requestFocus();
             } else {
-                JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos obligatorios");
+                int idComprobante = Integer.parseInt(txtNComprobante.getText());
+                String serieComprobante = txtNComprobante.getText();
+                java.sql.Date fechaEmision = new java.sql.Date(jcFechaEmision.getDate().getTime());
+                float importeTotal = Float.parseFloat(txtImporteTotal.getText());
+                int idCliente = Integer.parseInt(txtIdCliente.getText());
+                int idUsuario = Integer.parseInt(txtIdUsuario.getText());
+                int idTipoComprobante = cbTipoComprobante.getSelectedIndex() + 1;
+                int idPedido = Integer.parseInt(txtPedido.getText());
+
+                // Obtener la fecha actual para comparar
+                Date fechaActual = new Date();
+
+                // Validar que la fecha de emisión no sea anterior a la fecha actual
+                if (fechaEmision.before(fechaActual)) {
+                    JOptionPane.showMessageDialog(this, "La fecha de emisión no puede ser anterior a hoy.");
+                    return;
+                }
+
+                // Validación de los campos obligatorios
+                if (!serieComprobante.isEmpty() && importeTotal > 0 && idCliente > 0 && idUsuario > 0 && idTipoComprobante > 0 && idPedido > 0) {
+                    objCompro.registrarComprobante(idComprobante, serieComprobante, fechaEmision, importeTotal, idCliente, idUsuario, idTipoComprobante, idPedido);
+                    btnNuevo.setText("NUEVO");
+                    limpiarFormulario();
+                    listarComprobantes();
+                    JOptionPane.showMessageDialog(this, "Comprobante guardado correctamente");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos obligatorios");
+                }
             }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Error en la conversión de datos: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al insertar comprobante: " + e.getMessage());
         }
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Error en la conversión de datos: " + e.getMessage());
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al insertar comprobante: " + e.getMessage());
-    }
-        
+
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         if (txtNComprobante.getText().isEmpty()) {
-    JOptionPane.showMessageDialog(this, "Debe ingresar un código de comprobante a modificar");
-} else {
-    try {
-        // Obtener los valores del formulario
-        int idComprobante = Integer.parseInt(txtNComprobante.getText());
-        String serieComprobante = txtNComprobante.getText();
-        java.sql.Date fechaEmision = new java.sql.Date(jcFechaEmision.getDate().getTime());
-        float importeTotal = Float.parseFloat(txtImporteTotal.getText());
-        int idCliente = Integer.parseInt(txtIdCliente.getText());
-        int idUsuario = Integer.parseInt(txtIdUsuario.getText());
-        int idTipoComprobante = cbTipoComprobante.getSelectedIndex() + 1;
-        int idPedido = Integer.parseInt(txtPedido.getText());
+            JOptionPane.showMessageDialog(this, "Debe ingresar un código de comprobante a modificar");
+        } else {
+            try {
+                // Obtener los valores del formulario
+                int idComprobante = Integer.parseInt(txtNComprobante.getText());
+                String serieComprobante = txtNComprobante.getText();
+                java.sql.Date fechaEmision = new java.sql.Date(jcFechaEmision.getDate().getTime());
+                float importeTotal = Float.parseFloat(txtImporteTotal.getText());
+                int idCliente = Integer.parseInt(txtIdCliente.getText());
+                int idUsuario = Integer.parseInt(txtIdUsuario.getText());
+                int idTipoComprobante = cbTipoComprobante.getSelectedIndex() + 1;
+                int idPedido = Integer.parseInt(txtPedido.getText());
 
-        // Validación de los campos
-        if (serieComprobante.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "El campo de serie no puede estar vacío.");
-            return;
+                // Validación de los campos
+                if (serieComprobante.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "El campo de serie no puede estar vacío.");
+                    return;
+                }
+                if (importeTotal <= 0) {
+                    JOptionPane.showMessageDialog(this, "El importe total debe ser mayor que 0.");
+                    return;
+                }
+                if (idCliente <= 0 || idUsuario <= 0 || idTipoComprobante <= 0 || idPedido <= 0) {
+                    JOptionPane.showMessageDialog(this, "Debe ingresar valores válidos para cliente, usuario, tipo de comprobante y pedido.");
+                    return;
+                }
+
+                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea modificar este comprobante?");
+                if (confirmacion == JOptionPane.YES_OPTION) {
+                    // Llamada al método modificarComprobante
+                    objCompro.modificarComprobante(idComprobante, serieComprobante, fechaEmision, importeTotal, idCliente, idUsuario, idTipoComprobante, idPedido);
+
+                    // Limpiar formulario
+                    limpiarFormulario();
+
+                    // Refrescar la lista de comprobantes
+                    listarComprobantes();
+
+                    // Mensaje de éxito
+                    JOptionPane.showMessageDialog(this, "Comprobante modificado correctamente");
+                }
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Error en la conversión de datos: " + e.getMessage());
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error al modificar comprobante: " + e.getMessage());
+            }
+
         }
-        if (importeTotal <= 0) {
-            JOptionPane.showMessageDialog(this, "El importe total debe ser mayor que 0.");
-            return;
-        }
-        if (idCliente <= 0 || idUsuario <= 0 || idTipoComprobante <= 0 || idPedido <= 0) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar valores válidos para cliente, usuario, tipo de comprobante y pedido.");
-            return;
-        }
 
-        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea modificar este comprobante?");
-        if (confirmacion == JOptionPane.YES_OPTION) {
-            // Llamada al método modificarComprobante
-            objCompro.modificarComprobante(idComprobante, serieComprobante, fechaEmision, importeTotal, idCliente, idUsuario, idTipoComprobante, idPedido);
-
-            // Limpiar formulario
-            limpiarFormulario();
-
-            // Refrescar la lista de comprobantes
-            listarComprobantes();
-
-            // Mensaje de éxito
-            JOptionPane.showMessageDialog(this, "Comprobante modificado correctamente");
-        }
-
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Error en la conversión de datos: " + e.getMessage());
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al modificar comprobante: " + e.getMessage());
-    }
-
-
-    }
-    
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
@@ -499,100 +488,100 @@ public class jdMantComprobante extends javax.swing.JDialog {
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-                                                    
-       try {
-        if (txtNComprobante.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar un número de comprobante a eliminar");
-        } else {
-            int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea eliminar este comprobante?");
-            if (confirmacion == JOptionPane.YES_OPTION) {
-                // Llamar al método eliminarComprobante
-                objCompro.eliminarComprobante(Integer.parseInt(txtNComprobante.getText()));
 
-                // Limpiar el formulario
-                limpiarFormulario();
+        try {
+            if (txtNComprobante.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Debe ingresar un número de comprobante a eliminar");
+            } else {
+                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea eliminar este comprobante?");
+                if (confirmacion == JOptionPane.YES_OPTION) {
+                    // Llamar al método eliminarComprobante
+                    objCompro.eliminarComprobante(Integer.parseInt(txtNComprobante.getText()));
 
-                // Refrescar la lista de comprobantes
-                listarComprobantes();
+                    // Limpiar el formulario
+                    limpiarFormulario();
 
-                // Mensaje de éxito
-                JOptionPane.showMessageDialog(this, "Comprobante eliminado correctamente");
+                    // Refrescar la lista de comprobantes
+                    listarComprobantes();
+
+                    // Mensaje de éxito
+                    JOptionPane.showMessageDialog(this, "Comprobante eliminado correctamente");
+                }
             }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Error en la conversión de datos: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al eliminar comprobante: " + e.getMessage());
         }
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Error en la conversión de datos: " + e.getMessage());
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al eliminar comprobante: " + e.getMessage());
-    }
 
 
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnBuscarIDClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarIDClienteActionPerformed
-         try {
-        // Obtener el valor ingresado en el campo de texto
-        String idClienteTexto = txtIDClienteBusqueda.getText().trim();
-        
-        // Validar que no esté vacío
-        if (idClienteTexto.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Ingrese un ID de cliente válido.");
-            return;
+        try {
+            // Obtener el valor ingresado en el campo de texto
+            String idClienteTexto = txtIDClienteBusqueda.getText().trim();
+
+            // Validar que no esté vacío
+            if (idClienteTexto.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Ingrese un ID de cliente válido.");
+                return;
+            }
+
+            // Convertir el valor ingresado a entero
+            int idCliente = Integer.parseInt(idClienteTexto);
+
+            // Crear el modelo para la tabla
+            DefaultTableModel modelo = (DefaultTableModel) TablaComprobante.getModel();
+            modelo.setRowCount(0);  // Limpiar la tabla antes de llenarla con nuevos datos
+
+            // Llamar al método buscarComprobantePorCliente en la clase Comprobante
+            ResultSet rs = objCompro.buscarComprobantePorCliente(idCliente);
+
+            // Llenar la tabla con los resultados obtenidos
+            while (rs.next()) {
+                Object[] fila = new Object[8];  // Ajusta según el número de columnas que tengas
+                fila[0] = rs.getInt("id_comprobante");
+                fila[1] = rs.getString("serie_nro_comprobante");
+                fila[2] = rs.getDate("fecha_emision");
+                fila[3] = rs.getFloat("importe_total");
+                fila[4] = rs.getInt("id_cliente");
+                fila[5] = rs.getInt("id_usuario");
+                fila[6] = rs.getString("tipo_comprobante");
+                fila[7] = rs.getInt("id_pedido");
+
+                modelo.addRow(fila);  // Añadir la fila al modelo de la tabla
+            }
+
+            // Actualizar la tabla con el nuevo modelo
+            TablaComprobante.setModel(modelo);
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El ID de cliente debe ser un número.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al buscar comprobantes: " + e.getMessage());
         }
-
-        // Convertir el valor ingresado a entero
-        int idCliente = Integer.parseInt(idClienteTexto);
-
-        // Crear el modelo para la tabla
-        DefaultTableModel modelo = (DefaultTableModel) TablaComprobante.getModel();
-        modelo.setRowCount(0);  // Limpiar la tabla antes de llenarla con nuevos datos
-
-        // Llamar al método buscarComprobantePorCliente en la clase Comprobante
-        ResultSet rs = objCompro.buscarComprobantePorCliente(idCliente);
-
-        // Llenar la tabla con los resultados obtenidos
-        while (rs.next()) {
-            Object[] fila = new Object[8];  // Ajusta según el número de columnas que tengas
-            fila[0] = rs.getInt("id_comprobante");
-            fila[1] = rs.getString("serie_nro_comprobante");
-            fila[2] = rs.getDate("fecha_emision");
-            fila[3] = rs.getFloat("importe_total");
-            fila[4] = rs.getInt("id_cliente");
-            fila[5] = rs.getInt("id_usuario");
-            fila[6] = rs.getString("tipo_comprobante");
-            fila[7] = rs.getInt("id_pedido");
-
-            modelo.addRow(fila);  // Añadir la fila al modelo de la tabla
-        }
-
-        // Actualizar la tabla con el nuevo modelo
-        TablaComprobante.setModel(modelo);
-
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "El ID de cliente debe ser un número.");
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al buscar comprobantes: " + e.getMessage());
-    }
     }//GEN-LAST:event_btnBuscarIDClienteActionPerformed
 
     private void TablaComprobanteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaComprobanteMouseClicked
-       
-   int filaSeleccionada = TablaComprobante.getSelectedRow();
 
-    if (filaSeleccionada != -1) {
-        txtNComprobante.setText(TablaComprobante.getValueAt(filaSeleccionada, 0).toString()); 
-        txtIdCliente.setText(TablaComprobante.getValueAt(filaSeleccionada, 4).toString()); 
-        txtIdUsuario.setText(TablaComprobante.getValueAt(filaSeleccionada, 5).toString()); 
-        txtPedido.setText(TablaComprobante.getValueAt(filaSeleccionada, 7).toString()); 
-        txtImporteTotal.setText(TablaComprobante.getValueAt(filaSeleccionada, 3).toString()); 
+        int filaSeleccionada = TablaComprobante.getSelectedRow();
 
-        java.sql.Date fechaSQL = (java.sql.Date) TablaComprobante.getValueAt(filaSeleccionada, 2);
-        jcFechaEmision.setDate(new java.util.Date(fechaSQL.getTime()));
+        if (filaSeleccionada != -1) {
+            txtNComprobante.setText(TablaComprobante.getValueAt(filaSeleccionada, 0).toString());
+            txtIdCliente.setText(TablaComprobante.getValueAt(filaSeleccionada, 4).toString());
+            txtIdUsuario.setText(TablaComprobante.getValueAt(filaSeleccionada, 5).toString());
+            txtPedido.setText(TablaComprobante.getValueAt(filaSeleccionada, 7).toString());
+            txtImporteTotal.setText(TablaComprobante.getValueAt(filaSeleccionada, 3).toString());
 
-        String tipoComprobante = TablaComprobante.getValueAt(filaSeleccionada, 6).toString();
-        cbTipoComprobante.setSelectedItem(tipoComprobante);
-    }
-        
-        
+            java.sql.Date fechaSQL = (java.sql.Date) TablaComprobante.getValueAt(filaSeleccionada, 2);
+            jcFechaEmision.setDate(new java.util.Date(fechaSQL.getTime()));
+
+            String tipoComprobante = TablaComprobante.getValueAt(filaSeleccionada, 6).toString();
+            cbTipoComprobante.setSelectedItem(tipoComprobante);
+        }
+
+
     }//GEN-LAST:event_TablaComprobanteMouseClicked
 
     /**
