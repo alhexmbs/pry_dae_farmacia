@@ -707,7 +707,7 @@ public class jdManUsuario extends javax.swing.JDialog {
                 fila[11] = rs.getString("sueldo");
                 fila[12] = rs.getString("horario");
                 fila[13] = rs.getString("username");
-                fila[14] = rs.getString("contraseña");
+                fila[14] = rs.getString("contrasena");
                 fila[15] = rs.getTimestamp("ultimo_login");
 
                 modelo.addRow(fila);
@@ -749,7 +749,7 @@ public class jdManUsuario extends javax.swing.JDialog {
                     cboRol.setSelectedIndex(rs.getInt("id_rol") - 1);
                     cboCaja.setSelectedIndex(rs.getInt("id_caja") - 1);
                     txtUsername.setText(rs.getString("username"));
-                    txtContrasena.setText(rs.getString("contraseña"));
+                    txtContrasena.setText(rs.getString("contrasena"));
                     jdateFechaNacUsuario.setDate(rs.getDate("fecha_nacimiento"));
                 }
             }
