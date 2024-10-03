@@ -3,6 +3,7 @@ package Capa_principal;
 import capa_negocio.Pedido;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import javax.swing.JTextField;
 
 /**
  *
@@ -27,6 +28,25 @@ public class jdPedido extends javax.swing.JDialog {
         // Desactivados       
         lblTotalVenta.setEditable(false);
     }
+    
+    // Métodos para datos cliente
+    public JTextField getTxtDocCliente() {
+        return txtDocCliente;
+    }
+
+    public void setTxtDocCliente(JTextField txtDocCliente) {
+        this.txtDocCliente = txtDocCliente;
+    }
+
+    public JTextField getTxtNombreCliente() {
+        return txtNombreCliente;
+    }
+
+    public void setTxtNombreCliente(JTextField txtNombreCliente) {
+        this.txtNombreCliente = txtNombreCliente;
+    }
+
+    //    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -36,10 +56,10 @@ public class jdPedido extends javax.swing.JDialog {
         jLabel66 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel68 = new javax.swing.JLabel();
-        txtBuscarCodigo = new javax.swing.JTextField();
+        txtNombreCliente = new javax.swing.JTextField();
         txtBuscar = new javax.swing.JButton();
         jLabel63 = new javax.swing.JLabel();
-        txtNombre = new javax.swing.JTextField();
+        txtDocCliente = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel67 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
@@ -111,8 +131,8 @@ public class jdPedido extends javax.swing.JDialog {
         jLabel68.setBackground(new java.awt.Color(0, 0, 0));
         jLabel68.setText("Cliente:");
 
-        txtBuscarCodigo.setBackground(new java.awt.Color(239, 237, 220));
-        txtBuscarCodigo.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        txtNombreCliente.setBackground(new java.awt.Color(239, 237, 220));
+        txtNombreCliente.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         txtBuscar.setBackground(new java.awt.Color(236, 177, 89));
         txtBuscar.setText("Buscar");
@@ -125,8 +145,8 @@ public class jdPedido extends javax.swing.JDialog {
         jLabel63.setBackground(new java.awt.Color(0, 0, 0));
         jLabel63.setText("Nro Doc:");
 
-        txtNombre.setBackground(new java.awt.Color(239, 237, 220));
-        txtNombre.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        txtDocCliente.setBackground(new java.awt.Color(239, 237, 220));
+        txtDocCliente.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -142,13 +162,13 @@ public class jdPedido extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel68)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtBuscarCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtBuscar)
                         .addGap(42, 42, 42)
                         .addComponent(jLabel63)
                         .addGap(18, 18, 18)
-                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtDocCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -160,11 +180,11 @@ public class jdPedido extends javax.swing.JDialog {
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtBuscarCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtBuscar)
                     .addComponent(jLabel68)
                     .addComponent(jLabel63)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDocCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
@@ -932,18 +952,18 @@ public class jdPedido extends javax.swing.JDialog {
     private javax.swing.JTextField lblTotalVenta;
     private javax.swing.JTable tblProducto;
     private javax.swing.JButton txtBuscar;
-    private javax.swing.JTextField txtBuscarCodigo;
     private javax.swing.JTextField txtBuscarCodigo1;
     private javax.swing.JTextField txtBuscarCodigo2;
     private javax.swing.JTextField txtBuscarIde;
     private javax.swing.JTextField txtBuscarIde1;
     private javax.swing.JTextField txtCantidad;
-    private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtDocCliente;
     private javax.swing.JTextField txtNombre1;
     private javax.swing.JTextField txtNombre2;
     private javax.swing.JTextField txtNombre3;
     private javax.swing.JTextField txtNombre4;
     private javax.swing.JTextField txtNombre7;
     private javax.swing.JTextField txtNombre8;
+    private javax.swing.JTextField txtNombreCliente;
     // End of variables declaration//GEN-END:variables
 }
