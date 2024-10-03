@@ -120,6 +120,7 @@ public class jdPago_Admin extends javax.swing.JDialog {
         txtMonto.setText("");
         cbxEstado.setSelectedIndex(0);
         cmbMetodoPago.setSelectedIndex(0);
+        txtBuscarPago.setText("");
     }
 
     @SuppressWarnings("unchecked")
@@ -306,7 +307,30 @@ public class jdPago_Admin extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        try {
+            if (lbl_id_pago.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Debe ingresar un número de pago a eliminar");
+            } else {
+                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea eliminar este pago?");
+                if (confirmacion == JOptionPane.YES_OPTION) {
+                    // Llamar al método eliminarComprobante
+                    objPago.eliminarPago(Integer.parseInt(lbl_id_pago.getText()));
 
+                    // Limpiar el formulario
+                    limpiarCampos();
+
+                    // Refrescar la lista de comprobantes
+                    listarPagos();
+
+                    // Mensaje de éxito
+                    JOptionPane.showMessageDialog(this, "Pago eliminado correctamente");
+                }
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Error en la conversión de datos: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al eliminar pago: " + e.getMessage());
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -327,53 +351,37 @@ public class jdPago_Admin extends javax.swing.JDialog {
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        if (txtNComprobante.getText().isEmpty()) {
+        if (lbl_id_pago.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe ingresar un código de comprobante a modificar");
         } else {
             try {
-                // Obtener los valores del formulario
-                int idComprobante = Integer.parseInt(txtNComprobante.getText());
-                String serieComprobante = txtNComprobante.getText();
-                java.sql.Date fechaEmision = new java.sql.Date(jcFechaEmision.getDate().getTime());
-                float importeTotal = Float.parseFloat(txtImporteTotal.getText());
-                int idCliente = Integer.parseInt(txtIdCliente.getText());
-                int idUsuario = Integer.parseInt(txtIdUsuario.getText());
-                int idTipoComprobante = cbTipoComprobante.getSelectedIndex() + 1;
-                int idPedido = Integer.parseInt(txtPedido.getText());
 
-                // Validación de los campos
-                if (serieComprobante.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "El campo de serie no puede estar vacío.");
-                    return;
-                }
-                if (importeTotal <= 0) {
+                int idPago = Integer.parseInt(lbl_id_pago.getText());
+                float monto = Float.parseFloat(txtMonto.getText());
+                String estado = (String) cbxEstado.getSelectedItem();
+                int IdMetodoPago = cbxEstado.getSelectedIndex() + 1;
+
+                if (monto <= 0) {
                     JOptionPane.showMessageDialog(this, "El importe total debe ser mayor que 0.");
                     return;
                 }
-                if (idCliente <= 0 || idUsuario <= 0 || idTipoComprobante <= 0 || idPedido <= 0) {
-                    JOptionPane.showMessageDialog(this, "Debe ingresar valores válidos para cliente, usuario, tipo de comprobante y pedido.");
-                    return;
-                }
 
-                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea modificar este comprobante?");
+                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea modificar este pago?");
                 if (confirmacion == JOptionPane.YES_OPTION) {
                     // Llamada al método modificarComprobante
-                    objCompro.modificarComprobante(idComprobante, serieComprobante, fechaEmision, importeTotal, idCliente, idUsuario, idTipoComprobante, idPedido);
+                    objPago.modificarPago(idPago, monto, estado, IdMetodoPago);
 
-                    // Limpiar formulario
-                    limpiarFormulario();
+                    limpiarCampos();
 
-                    // Refrescar la lista de comprobantes
-                    listarComprobantes();
+                    listarPagos();
 
-                    // Mensaje de éxito
-                    JOptionPane.showMessageDialog(this, "Comprobante modificado correctamente");
+                    JOptionPane.showMessageDialog(this, "Pago modificado correctamente");
                 }
 
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "Error en la conversión de datos: " + e.getMessage());
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Error al modificar comprobante: " + e.getMessage());
+                JOptionPane.showMessageDialog(this, "Error al modificar pago: " + e.getMessage());
             }
 
         }
