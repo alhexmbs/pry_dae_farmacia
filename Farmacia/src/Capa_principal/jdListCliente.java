@@ -15,16 +15,17 @@ import javax.swing.table.DefaultTableModel;
  */
 public class jdListCliente extends javax.swing.JDialog {
 
-    Cliente objC = new Cliente();
+    // Referencia dialogo 1    
+    private jdPedido dialog1;
 
-    //
-    jdPedido objJdPedido = new jdPedido(null, true);
+    Cliente objC = new Cliente();
 
     /**
      * Creates new form jdListCliente
      */
-    public jdListCliente(java.awt.Frame parent, boolean modal) {
+    public jdListCliente(java.awt.Frame parent, boolean modal, jdPedido pedido) {
         super(parent, modal);
+        this.dialog1 = pedido;
         initComponents();
         listarClientes();
     }
@@ -256,11 +257,16 @@ public class jdListCliente extends javax.swing.JDialog {
     }//GEN-LAST:event_btnListarActionPerformed
 
     private void btnEliminar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar3ActionPerformed
-        // TODO add your handling code here:
+        dialog1.enviar();
     }//GEN-LAST:event_btnEliminar3ActionPerformed
 
     private void btnEliminar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar4ActionPerformed
-        // TODO add your handling code here:
+        String nroDocumento = "7180723";
+        String nombre = "Joseph";
+
+        dialog1.setNombreCliente(nombre);
+        dialog1.setNroDocumentoCliente(nroDocumento);
+
     }//GEN-LAST:event_btnEliminar4ActionPerformed
 
     private void tblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesMouseClicked
@@ -268,9 +274,12 @@ public class jdListCliente extends javax.swing.JDialog {
         String nroDocumento = tblClientes.getValueAt(tblClientes.getSelectedRow(), 1).toString();
         String nombre = tblClientes.getValueAt(tblClientes.getSelectedRow(), 2).toString();
 
-        objJdPedido.getTxtNombreCliente().setText(nombre);
-        objJdPedido.getTxtDocCliente().setText(nroDocumento);
-        objJdPedido.setVisible(true);
+        dialog1.setNombreCliente(nombre);
+        dialog1.setNroDocumentoCliente(nroDocumento);
+
+        dialog1.enviar();
+
+        this.dispose();
     }//GEN-LAST:event_tblClientesMouseClicked
 
 

@@ -1,5 +1,5 @@
-
 package Capa_principal;
+
 public class appPrincipal {
 
     public static void main(String[] args) {
@@ -8,5 +8,5 @@ public class appPrincipal {
         objm.setVisible(true);
         //...probando
     }
-    
+
 }
