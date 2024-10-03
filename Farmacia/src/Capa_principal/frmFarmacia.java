@@ -177,9 +177,9 @@ public class frmFarmacia extends javax.swing.JFrame {
        objC.setLocationRelativeTo(null);
        objC.setVisible(true);*/
        
-       jdPago_Cajero objPC = new jdPago_Cajero(null, true);
+       /*jdPago_Cajero objPC = new jdPago_Cajero(null, true, 1);
        objPC.setLocationRelativeTo(null);
-       objPC.setVisible(true);
+       objPC.setVisible(true);*/
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed

@@ -427,7 +427,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="txtBuscarCodigo2" min="-2" pref="109" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="txtBuscar2" min="-2" pref="80" max="-2" attributes="0"/>
+                          <Component id="btnPagar" min="-2" pref="80" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                           <Component id="jLabel73" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -454,7 +454,7 @@
                       </Group>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="txtBuscarCodigo2" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
-                          <Component id="txtBuscar2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnPagar" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel72" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -480,13 +480,16 @@
         </Component>
         <Component class="javax.swing.JSeparator" name="jSeparator3">
         </Component>
-        <Component class="javax.swing.JButton" name="txtBuscar2">
+        <Component class="javax.swing.JButton" name="btnPagar">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="59" green="b1" red="ec" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Buscar"/>
+            <Property name="text" type="java.lang.String" value="Pagar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPagarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel72">
           <Properties>
