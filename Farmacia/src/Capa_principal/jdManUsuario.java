@@ -707,7 +707,7 @@ public class jdManUsuario extends javax.swing.JDialog {
                 fila[11] = rs.getString("sueldo");
                 fila[12] = rs.getString("horario");
                 fila[13] = rs.getString("username");
-                fila[14] = rs.getString("contraseÃ±a");
+                fila[14] = rs.getString("contrasena");
                 fila[15] = rs.getTimestamp("ultimo_login");
 
                 modelo.addRow(fila);
@@ -722,7 +722,7 @@ public class jdManUsuario extends javax.swing.JDialog {
 
         try {
             if (txtFiltrarID.getText().equals("")) {
-                JOptionPane.showMessageDialog(this, "Por favor ingrese el ID del cliente", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Por favor ingrese el ID del usuario", "Alerta", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 int idUsuarioFiltro = Integer.parseInt(txtFiltrarID.getText());
                 rs = objU.listarPorIDUsuario(idUsuarioFiltro);
@@ -749,7 +749,7 @@ public class jdManUsuario extends javax.swing.JDialog {
                     cboRol.setSelectedIndex(rs.getInt("id_rol") - 1);
                     cboCaja.setSelectedIndex(rs.getInt("id_caja") - 1);
                     txtUsername.setText(rs.getString("username"));
-                    txtContrasena.setText(rs.getString("contraseÃ±a"));
+                    txtContrasena.setText(rs.getString("contrasena"));
                     jdateFechaNacUsuario.setDate(rs.getDate("fecha_nacimiento"));
                 }
             }
@@ -825,7 +825,7 @@ public class jdManUsuario extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, "Por favor ingrese el ID del usuario", "Alerta", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
-                int rpta = JOptionPane.showConfirmDialog(this, "¿Desea eliminar este usuario?", "Seleccione una opción", JOptionPane.YES_NO_OPTION);
+                int rpta = JOptionPane.showConfirmDialog(this, "¿Desea modificar la información de este usuario?", "Seleccione una opción", JOptionPane.YES_NO_OPTION);
 
                 if (rpta == 0) {
                     Date fechaSeleccionada = jdateFechaNacUsuario.getDate();
@@ -872,7 +872,7 @@ public class jdManUsuario extends javax.swing.JDialog {
             if (txtIDUsuario.getText().equals("")) {
                 JOptionPane.showMessageDialog(this, "Por favor ingrese el ID del usuario", "Alerta", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                int rpta = JOptionPane.showConfirmDialog(this, "¿Desea eliminar este producto?", "Seleccione una opción", JOptionPane.YES_NO_OPTION);
+                int rpta = JOptionPane.showConfirmDialog(this, "¿Desea eliminar permanentemente la información de este usuario?", "Seleccione una opción", JOptionPane.YES_NO_OPTION);
 
                 if (rpta == 0) {
                     int idUsuario = Integer.parseInt(txtIDUsuario.getText());
