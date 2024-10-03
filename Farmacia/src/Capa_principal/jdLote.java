@@ -1,7 +1,9 @@
 
 package Capa_principal;
 import capa_negocio.Lote;
+import capa_negocio.Producto;
 import java.sql.*;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 /**
@@ -10,11 +12,13 @@ import javax.swing.table.DefaultTableModel;
  */
 public class jdLote extends javax.swing.JDialog {
     Lote objLote = new Lote();
+    Producto objProducto = new Producto();
     int idUsuario = 1;
 
     public jdLote(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        listarProductos();
     }
 
  
@@ -35,6 +39,9 @@ public class jdLote extends javax.swing.JDialog {
         jLabel66 = new javax.swing.JLabel();
         jcFechaVencimiento = new com.toedter.calendar.JDateChooser();
         cboEstadoFarmaco = new javax.swing.JComboBox<>();
+        jLabel67 = new javax.swing.JLabel();
+        cboProducto = new javax.swing.JComboBox<>();
+        btnNewProducto = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
         cboFiltros = new javax.swing.JComboBox<>();
@@ -91,6 +98,17 @@ public class jdLote extends javax.swing.JDialog {
 
         cboEstadoFarmaco.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Vigente", "Suspendido", "Cancelado", "Vencido" }));
 
+        jLabel67.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel67.setText("Producto:");
+
+        btnNewProducto.setBackground(new java.awt.Color(236, 177, 89));
+        btnNewProducto.setText("Añadir");
+        btnNewProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewProductoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -98,6 +116,7 @@ public class jdLote extends javax.swing.JDialog {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel67)
                     .addComponent(jLabel62)
                     .addComponent(jLabel68)
                     .addComponent(jLabel64)
@@ -113,7 +132,9 @@ public class jdLote extends javax.swing.JDialog {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jcFechaVencimiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cboEstadoFarmaco, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jSeparator1))
+                    .addComponent(jSeparator1)
+                    .addComponent(cboProducto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnNewProducto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE))
                 .addGap(30, 30, 30))
         );
         jPanel2Layout.setVerticalGroup(
@@ -145,7 +166,13 @@ public class jdLote extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel66)
                     .addComponent(cboEstadoFarmaco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cboProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel67))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnNewProducto)
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         jPanel4.setBackground(new java.awt.Color(246, 244, 235));
@@ -274,16 +301,16 @@ public class jdLote extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(29, 29, 29)
                         .addComponent(btnedit, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(29, 29, 29)
                         .addComponent(btnlimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(29, 29, 29)
                         .addComponent(btneliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -316,6 +343,7 @@ public class jdLote extends javax.swing.JDialog {
                     txtNumeroLote.setText(rsLote.getString("numero_lote"));
                     jcFechaVencimiento.setDate(rsLote.getDate("fecha_vencimiento"));
                     cboEstadoFarmaco.setSelectedItem(rsLote.getString("estado_farmaco"));
+                    cboProducto.setSelectedItem(rsLote.getString("nombre_producto"));
                     rsLote.close();
                 } else {
                     JOptionPane.showMessageDialog(this, "El código del lote no existe");
@@ -346,7 +374,10 @@ public class jdLote extends javax.swing.JDialog {
                     String numeroLote = txtNumeroLote.getText();
                     java.sql.Date fechaVencimiento = new java.sql.Date(jcFechaVencimiento.getDate().getTime());
                     String estadoFarmaco = cboEstadoFarmaco.getSelectedItem().toString();
-                    objLote.registrarLote(codigoLote, numeroLote, fechaVencimiento, estadoFarmaco, idUsuario);
+                    String producto  = cboProducto.getSelectedItem().toString();
+                    int id_producto = objProducto.obtenerCodigoProducto(producto);
+
+                    objLote.registrarLote(codigoLote, numeroLote, fechaVencimiento, estadoFarmaco, idUsuario,id_producto);
 
                     JOptionPane.showMessageDialog(this, "Lote guardado correctamente");
 
@@ -375,8 +406,9 @@ public class jdLote extends javax.swing.JDialog {
                         String numeroLote = txtNumeroLote.getText();
                         java.sql.Date fechaVencimiento = new java.sql.Date(jcFechaVencimiento.getDate().getTime());
                         String estadoFarmaco = cboEstadoFarmaco.getSelectedItem().toString();
-
-                        objLote.modificarLote(idLote, numeroLote, fechaVencimiento, estadoFarmaco);
+                        String producto = cboProducto.getSelectedItem().toString();
+                        int id_producto = objProducto.obtenerCodigoProducto(producto);
+                        objLote.modificarLote(idLote, numeroLote, fechaVencimiento, estadoFarmaco, id_producto);
 
                         JOptionPane.showMessageDialog(this, "Lote modificado correctamente");
 
@@ -398,24 +430,30 @@ public class jdLote extends javax.swing.JDialog {
 
     private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarActionPerformed
         try {
-            if (txtId.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Debe ingresar un código a eliminar");
-            } else {
-                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea eliminar este lote? :O");
-                if (confirmacion == JOptionPane.YES_OPTION) {
-                    int cod = Integer.parseInt(txtId.getText());
+        if (txtId.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar el ID del lote a eliminar.");
+        } else {
+            int confirmacion = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea eliminar este lote?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+
+            if (confirmacion == JOptionPane.YES_OPTION) {
+                int cod = Integer.parseInt(txtId.getText());
+                
+                if (objLote.buscarLote(cod) != null) {
                     objLote.eliminarLote(cod);
-                    JOptionPane.showMessageDialog(this, "Lote eliminado con éxito");
+                    JOptionPane.showMessageDialog(this, "Lote eliminado con éxito.");
+
                     limpiarCampos();
                     listarLotes("General");
                 } else {
-                    JOptionPane.showMessageDialog(this, "No se encontró el lote con ese ID");
+                    JOptionPane.showMessageDialog(this, "No se encontró un lote con ese ID.");
                 }
+            } else {
+                JOptionPane.showMessageDialog(this, "Eliminación cancelada.");
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al eliminar el lote: " + e.getMessage());
-
         }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al eliminar el lote: " + e.getMessage());
+    }
     }//GEN-LAST:event_btneliminarActionPerformed
 
     private void tblFfMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblFfMouseClicked
@@ -431,11 +469,19 @@ public class jdLote extends javax.swing.JDialog {
 
     }//GEN-LAST:event_formWindowOpened
 
+    private void btnNewProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewProductoActionPerformed
+        jdManProducto obj = new jdManProducto(null, true);
+        obj.setLocationRelativeTo(null);
+        obj.setVisible(true);
+    }//GEN-LAST:event_btnNewProductoActionPerformed
+
   private void limpiarCampos() {
         txtNumeroLote.setText("");
         txtId.setText("");
         jcFechaVencimiento.setDate(null);
         cboEstadoFarmaco.setSelectedIndex(0);
+        cboProducto.setSelectedIndex(0);
+                
     }
 
     private void listarLotes(String estado) {
@@ -445,18 +491,20 @@ public class jdLote extends javax.swing.JDialog {
         modelo.addColumn("Fecha Vencimiento");
         modelo.addColumn("Estado Farmaco");
         modelo.addColumn("ID Usuario");
+        modelo.addColumn("Producto");
 
         ResultSet rsLote = null;
         try {
             rsLote = objLote.listarLotes(estado);
 
             while (rsLote.next()) {
-                Object[] fila = new Object[5];
+                Object[] fila = new Object[6];
                 fila[0] = rsLote.getInt("id_lote");
                 fila[1] = rsLote.getString("numero_lote");
                 fila[2] = rsLote.getDate("fecha_vencimiento");
                 fila[3] = rsLote.getString("estado_farmaco");
                 fila[4] = rsLote.getInt("id_usuario");
+                fila[5] = rsLote.getString("nombre_producto");
                 modelo.addRow(fila);
             }
 
@@ -466,21 +514,39 @@ public class jdLote extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Error al listar los lotes: " + e.getMessage());
         }
     }
+    
+    private void listarProductos() {
+    ResultSet listarProductos = null;
+    DefaultComboBoxModel modeloProducto = new DefaultComboBoxModel();
+    cboProducto.setModel(modeloProducto);
+    try {
+        listarProductos = objProducto.listarProductos("General");
+        while (listarProductos.next()) {
+            modeloProducto.addElement(listarProductos.getString("nombre"));  
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al listar productos---> " + e.getMessage());
+    }
+}
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnNewProducto;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnedit;
     private javax.swing.JButton btneliminar;
     private javax.swing.JButton btnlimpiar;
     private javax.swing.JComboBox<String> cboEstadoFarmaco;
     private javax.swing.JComboBox<String> cboFiltros;
+    private javax.swing.JComboBox<String> cboProducto;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel62;
     private javax.swing.JLabel jLabel64;
     private javax.swing.JLabel jLabel65;
     private javax.swing.JLabel jLabel66;
+    private javax.swing.JLabel jLabel67;
     private javax.swing.JLabel jLabel68;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
