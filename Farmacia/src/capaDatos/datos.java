@@ -16,11 +16,12 @@ public class datos {
     private Connection con;
     private Statement sent = null;
 
-     public datos() {
+    public datos() {
         this.driver = "org.postgresql.Driver";
-        this.url = "jdbc:postgresql://localhost:5432/utfar";
+        this.url = "jdbc:postgresql://25.59.118.186:5432/DAE_FARMACIA";
+        //this.url = "jdbc:postgresql://localhost:5432/DAE_FARMACIA";
         this.user = "postgres";
-        this.password = "katia123";
+        this.password = "visa2005";
         this.con = null;
     }
 
