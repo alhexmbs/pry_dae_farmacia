@@ -5,6 +5,7 @@ import capa_negocio.Cliente;
 import capa_negocio.TipoDocumento;
 import javax.swing.DefaultComboBoxModel;
 import java.sql.*;
+import java.util.Date;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -26,8 +27,8 @@ public class jdManCliente extends javax.swing.JDialog {
         btnGroupSexo.add(opFemenino);
         opMasculino.setSelected(true);
         
-        //listarTipoDocumentos();
-        //listarClientes();
+        listarTipoDocumentos();
+        listarClientes();
     }
 
     /**
@@ -399,6 +400,11 @@ public class jdManCliente extends javax.swing.JDialog {
             }
         ));
         tblClientes.setShowGrid(false);
+        tblClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblClientesMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tblClientes);
 
         btnNuevo.setBackground(new java.awt.Color(236, 177, 89));
@@ -507,7 +513,7 @@ public class jdManCliente extends javax.swing.JDialog {
             while(rs.next()){
                 Object[] fila = new Object[9];
                 fila[0] = rs.getInt("id_cliente");
-                fila[1] = cboTipoDoc.getSelectedItem().toString();
+                fila[1] = rs.getString("tipo_doc");
                 fila[2] = rs.getString("nro_documento");
                 fila[3] = rs.getString("nombre");
                 fila[4] = rs.getString("ape_paterno");
@@ -523,6 +529,14 @@ public class jdManCliente extends javax.swing.JDialog {
         }
     }
     
+    public boolean validarFecha(java.util.Date fechaNac) {
+        Date fechaActual = new Date();
+        if (fechaNac.after(fechaActual)) {
+            return false;
+        }
+        return true;
+    }
+    
     private void insertar(){
         try{
             SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
@@ -535,22 +549,28 @@ public class jdManCliente extends javax.swing.JDialog {
                 int idC = objC.genenrarIDCliente();
                 txtIDCliente.setText(""+idC);
             }else{
-                btnNuevo.setText("NUEVO");
-                
-                int idCliente = Integer.parseInt(txtIDCliente.getText());
-                String numDoc = txtNumDocCliente.getText();
-                String nombre = txtNombreCliente.getText();
-                String apPat = txtApPaternoCliente.getText();
-                String apMat = txtApMaternoCliente.getText();
-                String fechaNac = date.format(jdateFechaNacCliente.getDate());
-                boolean sexo = opMasculino.isSelected();
-                String email = txtEmailCliente.getText();
-                int tipoDoc = objTD.obtenerIDTipoDoc(numDoc);
-                
-                objC.insertarCliente(idCliente, numDoc, nombre, apPat, apMat, fechaNac, sexo, email, tipoDoc);
-                
-                limpiarFormulario();
-                listarClientes();
+                Date fechaSeleccionada = jdateFechaNacCliente.getDate();
+                if(validarFecha(fechaSeleccionada) == false){
+                    JOptionPane.showMessageDialog(this, "Por favor ingrese una fecha válida", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+                }else{
+                    btnNuevo.setText("NUEVO");
+                    String nombreTipoDoc = cboTipoDoc.getSelectedItem().toString();
+
+                    int idCliente = Integer.parseInt(txtIDCliente.getText());
+                    String numDoc = txtNumDocCliente.getText();
+                    String nombre = txtNombreCliente.getText();
+                    String apPat = txtApPaternoCliente.getText();
+                    String apMat = txtApMaternoCliente.getText();
+                    String fechaNac = date.format(fechaSeleccionada);
+                    boolean sexo = opMasculino.isSelected();
+                    String email = txtEmailCliente.getText();
+                    int tipoDoc = objTD.obtenerIDTipoDoc(nombreTipoDoc);
+
+                    objC.insertarCliente(idCliente, numDoc, nombre, apPat, apMat, fechaNac, sexo, email, tipoDoc);
+
+                    limpiarFormulario();
+                    listarClientes();
+                }
             }
         }catch(Exception ex){
             JOptionPane.showMessageDialog(this, "Error al intentar insertar el cliente", "Ocurrió un error inesperado", JOptionPane.ERROR_MESSAGE);
@@ -563,23 +583,30 @@ public class jdManCliente extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, "Por favor ingrese el ID del cliente", "Alerta", JOptionPane.INFORMATION_MESSAGE);
             }else{
                 SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
-                int rpta = JOptionPane.showConfirmDialog(this, "¿Desea eliminar este producto?", "Seleccione una opción", JOptionPane.YES_NO_OPTION);
+                int rpta = JOptionPane.showConfirmDialog(this, "¿Desea modificar la información de este cliente?", "Seleccione una opción", JOptionPane.YES_NO_OPTION);
                 
                 if(rpta == 0){
-                    int idCliente = Integer.parseInt(txtIDCliente.getText());
-                    String numDoc = txtNumDocCliente.getText();
-                    String nombre = txtNombreCliente.getText();
-                    String apPat = txtApPaternoCliente.getText();
-                    String apMat = txtApMaternoCliente.getText();
-                    String fechaNac = date.format(jdateFechaNacCliente.getDate());
-                    boolean sexo = opMasculino.isSelected();
-                    String email = txtEmailCliente.getText();
-                    int tipoDoc = objTD.obtenerIDTipoDoc(numDoc);
+                    Date fechaSeleccionada = jdateFechaNacCliente.getDate();
+                    if(validarFecha(fechaSeleccionada) == false){
+                        JOptionPane.showMessageDialog(this, "Por favor ingrese una fecha válida", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+                    }else{
+                        String nombreTipoDoc = cboTipoDoc.getSelectedItem().toString();
                     
-                    objC.modificarCliente(idCliente, numDoc, nombre, apPat, apMat, fechaNac, sexo, email, tipoDoc);
-                    
-                    limpiarFormulario();
-                    listarClientes();
+                        int idCliente = Integer.parseInt(txtIDCliente.getText());
+                        String numDoc = txtNumDocCliente.getText();
+                        String nombre = txtNombreCliente.getText();
+                        String apPat = txtApPaternoCliente.getText();
+                        String apMat = txtApMaternoCliente.getText();
+                        String fechaNac = date.format(fechaSeleccionada);
+                        boolean sexo = opMasculino.isSelected();
+                        String email = txtEmailCliente.getText();
+                        int tipoDoc = objTD.obtenerIDTipoDoc(nombreTipoDoc);
+
+                        objC.modificarCliente(idCliente, numDoc, nombre, apPat, apMat, fechaNac, sexo, email, tipoDoc);
+
+                        limpiarFormulario();
+                        listarClientes();
+                    }
                 }
             }
         }catch(Exception ex){
@@ -592,7 +619,7 @@ public class jdManCliente extends javax.swing.JDialog {
             if(txtIDCliente.getText().equals("")){
                 JOptionPane.showMessageDialog(this, "Por favor ingrese el ID del cliente", "Alerta", JOptionPane.INFORMATION_MESSAGE);
             }else{
-                int rpta = JOptionPane.showConfirmDialog(this, "¿Desea eliminar este producto?", "Seleccione una opción", JOptionPane.YES_NO_OPTION);
+                int rpta = JOptionPane.showConfirmDialog(this, "¿Desea eliminar permanentemente la información de este cliente?", "Seleccione una opción", JOptionPane.YES_NO_OPTION);
                 
                 if(rpta == 0){
                     int idCliente = Integer.parseInt(txtIDCliente.getText());
@@ -606,8 +633,37 @@ public class jdManCliente extends javax.swing.JDialog {
         }
     }
     
-    private void filtrarID(){
+    private void buscarCliente(){
+        ResultSet rs = null;
         
+        try{
+            if(txtFiltrarID.getText().equals("")){
+                JOptionPane.showMessageDialog(this, "Por favor ingrese el ID del cliente", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                int idClienteFiltro = Integer.parseInt(txtFiltrarID.getText());
+                rs = objC.listarPorIDCliente(idClienteFiltro);
+                
+                if(rs.next()){
+                    txtFiltrarID.setText(rs.getString("id_cliente"));
+                    txtIDCliente.setText(rs.getString("id_cliente"));
+                    txtNombreCliente.setText(rs.getString("nombre"));
+                    txtApPaternoCliente.setText(rs.getString("ape_paterno"));
+                    txtApMaternoCliente.setText(rs.getString("ape_materno"));
+                    txtEmailCliente.setText(rs.getString("email"));
+                    boolean sexo = rs.getBoolean("sexo");
+                    if(sexo == true){
+                        opMasculino.setSelected(true);
+                    }else{
+                        opFemenino.setSelected(true);
+                    }
+                    cboTipoDoc.setSelectedIndex(rs.getInt("id_tipo_doc")-1);
+                    txtNumDocCliente.setText(rs.getString("nro_documento"));
+                    jdateFechaNacCliente.setDate(rs.getDate("fecha_nacimiento"));
+                }
+            }
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this, "Error al buscar el cliente", "Ocurrió un error inesperado", JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     private void btnSimularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimularActionPerformed
@@ -616,7 +672,7 @@ public class jdManCliente extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSimularActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-       
+       buscarCliente();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
@@ -624,11 +680,11 @@ public class jdManCliente extends javax.swing.JDialog {
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        
+        eliminar();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-
+        modificar();
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBajaActionPerformed
@@ -731,6 +787,13 @@ public class jdManCliente extends javax.swing.JDialog {
             evt.consume();
         }
     }//GEN-LAST:event_txtFiltrarIDKeyTyped
+
+    private void tblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesMouseClicked
+        // TODO add your handling code here:
+        txtIDCliente.setText(String.valueOf(tblClientes.getValueAt(tblClientes.getSelectedRow(), 0)));
+        txtFiltrarID.setText(String.valueOf(tblClientes.getValueAt(tblClientes.getSelectedRow(), 0)));
+        btnBuscarActionPerformed(null);
+    }//GEN-LAST:event_tblClientesMouseClicked
 
 
 
