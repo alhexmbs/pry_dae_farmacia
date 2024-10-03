@@ -15,14 +15,19 @@ import javax.swing.table.DefaultTableModel;
  */
 public class jdListProductos extends javax.swing.JDialog {
 
+    // Referencia dialogo 1    
+    private jdPedido dialog1;
+
     // Objeto Producto
     Producto objP = new Producto();
+    
 
     /**
      * Creates new form jdListProductos
      */
-    public jdListProductos(java.awt.Frame parent, boolean modal) {
+    public jdListProductos(java.awt.Frame parent, boolean modal, jdPedido pedido) {
         super(parent, modal);
+        this.dialog1 = pedido;
         initComponents();
         listar();
     }
@@ -54,7 +59,6 @@ public class jdListProductos extends javax.swing.JDialog {
                 fila[5] = rs.getString("nro_reg_sanitario");
                 fila[6] = rs.getString("condicion_venta");
                 fila[7] = rs.getDate("fecha_entrada");
-               
 
                 modelo.addRow(fila);
             }
@@ -128,6 +132,11 @@ public class jdListProductos extends javax.swing.JDialog {
             }
         ));
         tblProducto.setShowGrid(false);
+        tblProducto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblProductoMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tblProducto);
 
         btnAgregar.setBackground(new java.awt.Color(236, 177, 89));
@@ -166,16 +175,15 @@ public class jdListProductos extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(0, 0, Short.MAX_VALUE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -204,6 +212,22 @@ public class jdListProductos extends javax.swing.JDialog {
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnRegresarActionPerformed
+
+    private void tblProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductoMouseClicked
+        int idProducto = Integer.parseInt(tblProducto.getValueAt(tblProducto.getSelectedRow(), 0).toString());
+        String nombre = tblProducto.getValueAt(tblProducto.getSelectedRow(), 1).toString();
+        float precio = Float.parseFloat(tblProducto.getValueAt(tblProducto.getSelectedRow(), 3).toString());
+        String concentracion = tblProducto.getValueAt(tblProducto.getSelectedRow(), 6).toString();
+        int stock = Integer.parseInt(tblProducto.getValueAt(tblProducto.getSelectedRow(), 4).toString());
+
+        dialog1.setNombreProducto(nombre);
+        dialog1.setStockProducto(stock);
+        dialog1.setPrecioProducto(precio);
+        dialog1.setConcentracionProducto(concentracion);
+     
+        dialog1.enviarDatoProducto();
+
+    }//GEN-LAST:event_tblProductoMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
