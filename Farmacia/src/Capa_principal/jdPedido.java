@@ -1,16 +1,25 @@
 package Capa_principal;
 
+import capa_negocio.Cliente;
 import capa_negocio.Pedido;
+import capa_negocio.Producto;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author joseph
  */
 public class jdPedido extends javax.swing.JDialog {
-    
+
+    Producto objProducto = new Producto();
+    Cliente objCliente = new Cliente();
+
     Pedido pedido = new Pedido();
     int codigo_pedido;
 
@@ -37,8 +46,8 @@ public class jdPedido extends javax.swing.JDialog {
         txtPrecioProducto.setText(String.valueOf(precioProducto));
         txtConcentracion.setText(concentracionProducto);
     }
-    
-     // Tipo Comprobante enviar Datos        
+
+    // Tipo Comprobante enviar Datos        
     public void enviarDatoComprobante() {
         txtTipoComprobante.setText(tipoComprobante);
     }
@@ -47,69 +56,69 @@ public class jdPedido extends javax.swing.JDialog {
     public String getNombreCliente() {
         return nombreCliente;
     }
-    
+
     public void setNombreCliente(String nombreCliente) {
         this.nombreCliente = nombreCliente;
     }
-    
+
     public String getNroDocumentoCliente() {
         return nroDocumentoCliente;
     }
-    
+
     public void setNroDocumentoCliente(String nroDocumentoCliente) {
         this.nroDocumentoCliente = nroDocumentoCliente;
     }
-    
+
     public String getNombreProducto() {
         return nombreProducto;
     }
-    
+
     public void setNombreProducto(String nombreProducto) {
         this.nombreProducto = nombreProducto;
     }
-    
+
     public String getConcentracionProducto() {
         return concentracionProducto;
     }
-    
+
     public void setConcentracionProducto(String concentracionProducto) {
         this.concentracionProducto = concentracionProducto;
     }
-    
+
     public int getStockProducto() {
         return stockProducto;
     }
-    
+
     public void setStockProducto(int stockProducto) {
         this.stockProducto = stockProducto;
     }
-    
+
     public float getPrecioProducto() {
         return precioProducto;
     }
-    
+
     public void setPrecioProducto(float precioProducto) {
         this.precioProducto = precioProducto;
     }
-    
+
     public String getTipoComprobante() {
         return tipoComprobante;
     }
-    
+
     public void setTipoComprobante(String tipoComprobante) {
         this.tipoComprobante = tipoComprobante;
     }
 
     //
     private String datoRecibido;
-    
+
     public void setDato(String dato) {
         this.datoRecibido = dato;
         System.out.println(datoRecibido);
     }
-    
+
     public jdPedido(java.awt.Frame parent, boolean modal) {
-        
+
         super(parent, modal);
         initComponents();
         try {
@@ -120,7 +129,7 @@ public class jdPedido extends javax.swing.JDialog {
         }
         // Desactivados       
         lblTotalVenta.setEditable(false);
-        
+
         desactivar();
     }
 
@@ -129,7 +138,7 @@ public class jdPedido extends javax.swing.JDialog {
         // Número de venta         
         txtNumeroVenta.setEnabled(false);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -932,7 +941,44 @@ public class jdPedido extends javax.swing.JDialog {
 
     }//GEN-LAST:event_btnDarBajaActionPerformed
 
+
     private void btnAgregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProductoActionPerformed
+        // DATOS DE PRODUCTO PARA VENTA
+        String nombre = txtNombreProducto.getText();
+        int cantidad = Integer.parseInt(txtCantidad.getText());
+        float precio = Float.parseFloat(txtPrecioProducto.getText());
+        float total = precio * cantidad;  // Calcula el total aquí si es la cantidad por precio unitario.
+
+        // Obtener el modelo actual de la tabla
+        DefaultTableModel modelo = (DefaultTableModel) tblProducto.getModel();
+        modelo.addColumn("ID Producto");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Cantidad");
+        modelo.addColumn("Precio");
+        modelo.addColumn("Total");
+        tblProducto.setModel(modelo);
+        // Crear un array de objetos para representar una fila
+        Object[] fila = new Object[5];  // Ajusta el tamaño según el número de columnas de tu tabla
+        try {
+            // Asignar los valores a cada columna
+            fila[0] = objProducto.buscarProductoPorNombre(nombre);   // Nombre del producto
+        } catch (Exception ex) {
+            Logger.getLogger(jdPedido.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        fila[1] = nombre;   // Nombre del producto
+        fila[2] = cantidad; // Cantidad
+        fila[3] = precio;   // Precio unitario
+        fila[4] = total;    // Total (precio * cantidad)
+        int idCliente = 0;
+        try {
+            idCliente = objCliente.obtenerIDCliente(txtDocCliente.getText());
+        } catch (Exception ex) {
+            Logger.getLogger(jdPedido.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println(idCliente);
+        // Agregar la fila al modelo de la tabla
+        modelo.addRow(fila);
+
 
     }//GEN-LAST:event_btnAgregarProductoActionPerformed
 
@@ -945,7 +991,7 @@ public class jdPedido extends javax.swing.JDialog {
     }//GEN-LAST:event_btnEliminar1ActionPerformed
 
     private void btnEliminar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar3ActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnEliminar3ActionPerformed
 
     private void btnEliminar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar4ActionPerformed
@@ -984,11 +1030,11 @@ public class jdPedido extends javax.swing.JDialog {
         obj.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnBuscarProductosActionPerformed
 
-    public void calcularTotal(float valor){
+    public void calcularTotal(float valor) {
         float precio = Float.parseFloat(txtPrecioProducto.getText());
-        lblTotalVenta.setText(String.valueOf(valor*precio));
+        lblTotalVenta.setText(String.valueOf(valor * precio));
     }
-    
+
     private void txtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyTyped
         float valor = Float.parseFloat(txtCantidad.getText() + evt.getKeyChar());
         calcularTotal(valor);

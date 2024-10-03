@@ -82,6 +82,22 @@ public class Producto {
             throw new Exception("Error al registrar un producto farmacéutico --> " + e.getMessage());
         }
     }
+    
+    public int buscarProductoPorNombre(String nombre) throws Exception {
+        String strSQL = "SELECT ID_PRODUCTO FROM PRODUCTO_FARMACEUTICO WHERE NOMBRE ILIKE '"+nombre+"'";
+        int columnCount = 0;
+        try {
+            rs = objconectar.consultarBD(strSQL);
+
+            if (rs.next()) {
+                columnCount = rs.getInt("ID_PRODUCTO");
+            }
+
+            return columnCount;
+        } catch (Exception e) {
+            throw new Exception("Error al buscar producto por nombre --> " + e.getMessage());
+        }
+    }
 
     public ResultSet buscarProducto(Integer id_producto) throws Exception {
         String strSQL = "SELECT pro.id_producto, pro.nombre, pro.precio_compra, pro.precio_venta, pro.stock, "
