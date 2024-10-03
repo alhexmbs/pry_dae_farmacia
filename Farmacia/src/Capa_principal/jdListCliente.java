@@ -16,7 +16,10 @@ import javax.swing.table.DefaultTableModel;
 public class jdListCliente extends javax.swing.JDialog {
 
     Cliente objC = new Cliente();
-    
+
+    //
+    jdPedido objJdPedido = new jdPedido(null, true);
+
     /**
      * Creates new form jdListCliente
      */
@@ -26,7 +29,7 @@ public class jdListCliente extends javax.swing.JDialog {
         listarClientes();
     }
 
-    private void listarClientes(){
+    private void listarClientes() {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("ID");
         modelo.addColumn("Nro. Documento");
@@ -36,13 +39,13 @@ public class jdListCliente extends javax.swing.JDialog {
         modelo.addColumn("Fecha Nacimiento");
         modelo.addColumn("Sexo");
         modelo.addColumn("Email");
-        
+
         tblClientes.setModel(modelo);
-        
+
         ResultSet rs = null;
-        try{
+        try {
             rs = objC.listarTodosCliente();
-            while(rs.next()){
+            while (rs.next()) {
                 Object[] fila = new Object[9];
                 fila[0] = rs.getInt("id_cliente");
                 fila[1] = rs.getString("nro_documento");
@@ -52,14 +55,14 @@ public class jdListCliente extends javax.swing.JDialog {
                 fila[5] = rs.getDate("fecha_nacimiento");
                 fila[6] = rs.getString("sexo");
                 fila[7] = rs.getString("email");
-                
+
                 modelo.addRow(fila);
             }
-        }catch(Exception ex){
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado", "Error al obtener los clientes", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -261,7 +264,13 @@ public class jdListCliente extends javax.swing.JDialog {
     }//GEN-LAST:event_btnEliminar4ActionPerformed
 
     private void tblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesMouseClicked
-        
+        int id = Integer.parseInt(tblClientes.getValueAt(tblClientes.getSelectedRow(), 0).toString());
+        String nroDocumento = tblClientes.getValueAt(tblClientes.getSelectedRow(), 1).toString();
+        String nombre = tblClientes.getValueAt(tblClientes.getSelectedRow(), 2).toString();
+
+        objJdPedido.getTxtNombreCliente().setText(nombre);
+        objJdPedido.getTxtDocCliente().setText(nroDocumento);
+        objJdPedido.setVisible(true);
     }//GEN-LAST:event_tblClientesMouseClicked
 
 
