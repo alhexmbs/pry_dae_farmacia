@@ -33,7 +33,11 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
+<<<<<<< HEAD
+        jMenuItem7 = new javax.swing.JMenuItem();
+=======
         jMenuItem9 = new javax.swing.JMenuItem();
+>>>>>>> cf1a32e66d329f9cf171248d2d2f0797990c3e18
         jMenu6 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu9 = new javax.swing.JMenu();
@@ -118,6 +122,16 @@ public class frmFarmacia extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem2);
 
+<<<<<<< HEAD
+        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Lote.png"))); // NOI18N
+        jMenuItem7.setText("Registrar lote");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem7);
+=======
         jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Lote.png"))); // NOI18N
         jMenuItem9.setText("Registrar Lote");
         jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
@@ -126,6 +140,7 @@ public class frmFarmacia extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jMenuItem9);
+>>>>>>> cf1a32e66d329f9cf171248d2d2f0797990c3e18
 
         jMenuBar1.add(jMenu2);
 
@@ -242,6 +257,14 @@ public class frmFarmacia extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+<<<<<<< HEAD
+        jdLote objL = new jdLote(null, true);
+        objL.setLocationRelativeTo(null);
+        objL.setVisible(true);
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+ 
+=======
         if (rolUsuario.equals("Administrador")) {
             jdPago_Admin pagoAdmin = new jdPago_Admin(this, true);
             pagoAdmin.setVisible(true);
@@ -285,6 +308,7 @@ public class frmFarmacia extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
 
+>>>>>>> cf1a32e66d329f9cf171248d2d2f0797990c3e18
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
@@ -308,8 +332,11 @@ public class frmFarmacia extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+<<<<<<< HEAD
+=======
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
+>>>>>>> cf1a32e66d329f9cf171248d2d2f0797990c3e18
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
