@@ -102,6 +102,7 @@ public class jdManUsuario extends javax.swing.JDialog {
         btnNuevo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Usuaario");
 
         jPanel1.setBackground(new java.awt.Color(246, 244, 235));
 
@@ -732,6 +733,7 @@ public class jdManUsuario extends javax.swing.JDialog {
                 fila[14] = rs.getString("contrasena");
                 fila[15] = vigencia;
                 fila[16] = rs.getTimestamp("ultimo_login");
+                //fila[15] = rs.getTimestamp("ultimo_login");
 
                 modelo.addRow(fila);
             }
@@ -773,7 +775,9 @@ public class jdManUsuario extends javax.swing.JDialog {
                     cboCaja.setSelectedIndex(rs.getInt("id_caja") - 1);
                     txtUsername.setText(rs.getString("username"));
                     txtContrasena.setText(rs.getString("contrasena"));
+
                     chkVigenciaUsuario.setSelected(rs.getBoolean("estado"));
+
                     jdateFechaNacUsuario.setDate(rs.getDate("fecha_nacimiento"));
                 }
             }

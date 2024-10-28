@@ -1,8 +1,15 @@
 package Capa_principal;
 
+import capa_negocio.Cliente;
 import capa_negocio.Pedido;
+import capa_negocio.Producto;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -10,12 +17,108 @@ import java.awt.Toolkit;
  */
 public class jdPedido extends javax.swing.JDialog {
 
+    Producto objProducto = new Producto();
+    Cliente objCliente = new Cliente();
+
     Pedido pedido = new Pedido();
     int codigo_pedido;
 
+    // Datos del formulario
+    private String nombreCliente;
+    private String nroDocumentoCliente;
+    private String nombreProducto;
+    private String concentracionProducto;
+    private int stockProducto;
+    private float precioProducto;
+    private String tipoComprobante;
+    int numeroVenta;
+
+    // Cliente enviar Datos        
+    public void enviar() {
+        txtNombreCliente.setText(nombreCliente);
+        txtDocCliente.setText(nroDocumentoCliente);
+    }
+
+    // Producto enviar Datos        
+    public void enviarDatoProducto() {
+        txtNombreProducto.setText(nombreProducto);
+        txtStockProducto.setText(String.valueOf(stockProducto));
+        txtPrecioProducto.setText(String.valueOf(precioProducto));
+        txtConcentracion.setText(concentracionProducto);
+    }
+
+    // Tipo Comprobante enviar Datos        
+    public void enviarDatoComprobante() {
+        txtTipoComprobante.setText(tipoComprobante);
+    }
+
+    //      
+    public String getNombreCliente() {
+        return nombreCliente;
+    }
+
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
+    }
+
+    public String getNroDocumentoCliente() {
+        return nroDocumentoCliente;
+    }
+
+    public void setNroDocumentoCliente(String nroDocumentoCliente) {
+        this.nroDocumentoCliente = nroDocumentoCliente;
+    }
+
+    public String getNombreProducto() {
+        return nombreProducto;
+    }
+
+    public void setNombreProducto(String nombreProducto) {
+        this.nombreProducto = nombreProducto;
+    }
+
+    public String getConcentracionProducto() {
+        return concentracionProducto;
+    }
+
+    public void setConcentracionProducto(String concentracionProducto) {
+        this.concentracionProducto = concentracionProducto;
+    }
+
+    public int getStockProducto() {
+        return stockProducto;
+    }
+
+    public void setStockProducto(int stockProducto) {
+        this.stockProducto = stockProducto;
+    }
+
+    public float getPrecioProducto() {
+        return precioProducto;
+    }
+
+    public void setPrecioProducto(float precioProducto) {
+        this.precioProducto = precioProducto;
+    }
+
+    public String getTipoComprobante() {
+        return tipoComprobante;
+    }
+
+    public void setTipoComprobante(String tipoComprobante) {
+        this.tipoComprobante = tipoComprobante;
+    }
+
+    //
+    private String datoRecibido;
+
+    public void setDato(String dato) {
+        this.datoRecibido = dato;
+        System.out.println(datoRecibido);
+    }
+
     public jdPedido(java.awt.Frame parent, boolean modal) {
 
-        
         super(parent, modal);
         initComponents();
         try {
@@ -26,6 +129,14 @@ public class jdPedido extends javax.swing.JDialog {
         }
         // Desactivados       
         lblTotalVenta.setEditable(false);
+
+        desactivar();
+    }
+
+    // Método para desactivar los controles
+    public void desactivar() {
+        // Número de venta         
+        txtNumeroVenta.setEnabled(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -36,34 +147,34 @@ public class jdPedido extends javax.swing.JDialog {
         jLabel66 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel68 = new javax.swing.JLabel();
-        txtBuscarCodigo = new javax.swing.JTextField();
+        txtNombreCliente = new javax.swing.JTextField();
         txtBuscar = new javax.swing.JButton();
         jLabel63 = new javax.swing.JLabel();
-        txtNombre = new javax.swing.JTextField();
+        txtDocCliente = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel67 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel69 = new javax.swing.JLabel();
-        txtBuscarCodigo1 = new javax.swing.JTextField();
+        txtNombreProducto = new javax.swing.JTextField();
         btnBuscarProductos = new javax.swing.JButton();
         jLabel64 = new javax.swing.JLabel();
-        txtNombre1 = new javax.swing.JTextField();
+        txtStockProducto = new javax.swing.JTextField();
         jLabel65 = new javax.swing.JLabel();
-        txtNombre2 = new javax.swing.JTextField();
-        txtNombre3 = new javax.swing.JTextField();
+        txtPrecioProducto = new javax.swing.JTextField();
+        txtConcentracion = new javax.swing.JTextField();
         jLabel70 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel71 = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         btnPagar = new javax.swing.JButton();
         jLabel72 = new javax.swing.JLabel();
-        txtBuscarCodigo2 = new javax.swing.JTextField();
-        txtNombre4 = new javax.swing.JTextField();
+        txtTipoComprobante = new javax.swing.JTextField();
+        txtNumeroVenta = new javax.swing.JTextField();
         jLabel73 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         btnLimpiar = new javax.swing.JButton();
         btnDarBaja = new javax.swing.JButton();
-        btnSave = new javax.swing.JButton();
+        btnAgregarProducto = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel74 = new javax.swing.JLabel();
@@ -111,8 +222,8 @@ public class jdPedido extends javax.swing.JDialog {
         jLabel68.setBackground(new java.awt.Color(0, 0, 0));
         jLabel68.setText("Cliente:");
 
-        txtBuscarCodigo.setBackground(new java.awt.Color(239, 237, 220));
-        txtBuscarCodigo.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        txtNombreCliente.setBackground(new java.awt.Color(239, 237, 220));
+        txtNombreCliente.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         txtBuscar.setBackground(new java.awt.Color(236, 177, 89));
         txtBuscar.setText("Buscar");
@@ -125,8 +236,8 @@ public class jdPedido extends javax.swing.JDialog {
         jLabel63.setBackground(new java.awt.Color(0, 0, 0));
         jLabel63.setText("Nro Doc:");
 
-        txtNombre.setBackground(new java.awt.Color(239, 237, 220));
-        txtNombre.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        txtDocCliente.setBackground(new java.awt.Color(239, 237, 220));
+        txtDocCliente.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -142,13 +253,13 @@ public class jdPedido extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel68)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtBuscarCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtBuscar)
                         .addGap(42, 42, 42)
                         .addComponent(jLabel63)
                         .addGap(18, 18, 18)
-                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtDocCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -160,11 +271,11 @@ public class jdPedido extends javax.swing.JDialog {
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtBuscarCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtBuscar)
                     .addComponent(jLabel68)
                     .addComponent(jLabel63)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDocCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
@@ -178,8 +289,8 @@ public class jdPedido extends javax.swing.JDialog {
         jLabel69.setBackground(new java.awt.Color(0, 0, 0));
         jLabel69.setText("Producto:");
 
-        txtBuscarCodigo1.setBackground(new java.awt.Color(239, 237, 220));
-        txtBuscarCodigo1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        txtNombreProducto.setBackground(new java.awt.Color(239, 237, 220));
+        txtNombreProducto.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         btnBuscarProductos.setBackground(new java.awt.Color(236, 177, 89));
         btnBuscarProductos.setText("Buscar");
@@ -192,17 +303,17 @@ public class jdPedido extends javax.swing.JDialog {
         jLabel64.setBackground(new java.awt.Color(0, 0, 0));
         jLabel64.setText("Stock:");
 
-        txtNombre1.setBackground(new java.awt.Color(239, 237, 220));
-        txtNombre1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        txtStockProducto.setBackground(new java.awt.Color(239, 237, 220));
+        txtStockProducto.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         jLabel65.setBackground(new java.awt.Color(0, 0, 0));
         jLabel65.setText("Precio S/:");
 
-        txtNombre2.setBackground(new java.awt.Color(239, 237, 220));
-        txtNombre2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        txtPrecioProducto.setBackground(new java.awt.Color(239, 237, 220));
+        txtPrecioProducto.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
-        txtNombre3.setBackground(new java.awt.Color(239, 237, 220));
-        txtNombre3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        txtConcentracion.setBackground(new java.awt.Color(239, 237, 220));
+        txtConcentracion.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         jLabel70.setBackground(new java.awt.Color(0, 0, 0));
         jLabel70.setText("Concentración:");
@@ -223,11 +334,11 @@ public class jdPedido extends javax.swing.JDialog {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel69)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtBuscarCodigo1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtNombreProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel70)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtNombre3)))
+                                .addComponent(txtConcentracion)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBuscarProductos)
                         .addGap(40, 40, 40)
@@ -235,11 +346,11 @@ public class jdPedido extends javax.swing.JDialog {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel65)
                                 .addGap(18, 18, 18)
-                                .addComponent(txtNombre2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtPrecioProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel64)
                                 .addGap(18, 18, 18)
-                                .addComponent(txtNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(txtStockProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -251,19 +362,19 @@ public class jdPedido extends javax.swing.JDialog {
                     .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtBuscarCodigo1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNombreProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscarProductos)
                     .addComponent(jLabel69)
                     .addComponent(jLabel64)
-                    .addComponent(txtNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtStockProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel70)
-                        .addComponent(txtNombre3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtConcentracion, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel65)
-                        .addComponent(txtNombre2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtPrecioProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
@@ -285,11 +396,11 @@ public class jdPedido extends javax.swing.JDialog {
         jLabel72.setBackground(new java.awt.Color(0, 0, 0));
         jLabel72.setText("Comprobante:");
 
-        txtBuscarCodigo2.setBackground(new java.awt.Color(239, 237, 220));
-        txtBuscarCodigo2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        txtTipoComprobante.setBackground(new java.awt.Color(239, 237, 220));
+        txtTipoComprobante.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
-        txtNombre4.setBackground(new java.awt.Color(239, 237, 220));
-        txtNombre4.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        txtNumeroVenta.setBackground(new java.awt.Color(239, 237, 220));
+        txtNumeroVenta.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         jLabel73.setBackground(new java.awt.Color(0, 0, 0));
         jLabel73.setText("Número:");
@@ -308,13 +419,13 @@ public class jdPedido extends javax.swing.JDialog {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel72)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtBuscarCodigo2, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtTipoComprobante, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(34, 34, 34)
                         .addComponent(jLabel73)
                         .addGap(18, 18, 18)
-                        .addComponent(txtNombre4, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtNumeroVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -328,9 +439,9 @@ public class jdPedido extends javax.swing.JDialog {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel73)
-                        .addComponent(txtNombre4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtNumeroVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtBuscarCodigo2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtTipoComprobante, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnPagar)
                         .addComponent(jLabel72)))
                 .addContainerGap(19, Short.MAX_VALUE))
@@ -361,15 +472,15 @@ public class jdPedido extends javax.swing.JDialog {
             }
         });
 
-        btnSave.setBackground(new java.awt.Color(236, 177, 89));
-        btnSave.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/save.png"))); // NOI18N
-        btnSave.setText("AGREGAR");
-        btnSave.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btnSave.setPreferredSize(new java.awt.Dimension(60, 36));
-        btnSave.addActionListener(new java.awt.event.ActionListener() {
+        btnAgregarProducto.setBackground(new java.awt.Color(236, 177, 89));
+        btnAgregarProducto.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnAgregarProducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/save.png"))); // NOI18N
+        btnAgregarProducto.setText("AGREGAR");
+        btnAgregarProducto.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnAgregarProducto.setPreferredSize(new java.awt.Dimension(60, 36));
+        btnAgregarProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveActionPerformed(evt);
+                btnAgregarProductoActionPerformed(evt);
             }
         });
 
@@ -390,7 +501,7 @@ public class jdPedido extends javax.swing.JDialog {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAgregarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -406,7 +517,7 @@ public class jdPedido extends javax.swing.JDialog {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAgregarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -611,6 +722,11 @@ public class jdPedido extends javax.swing.JDialog {
         txtCantidad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCantidadActionPerformed(evt);
+            }
+        });
+        txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCantidadKeyTyped(evt);
             }
         });
 
@@ -825,9 +941,46 @@ public class jdPedido extends javax.swing.JDialog {
 
     }//GEN-LAST:event_btnDarBajaActionPerformed
 
-    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
 
-    }//GEN-LAST:event_btnSaveActionPerformed
+    private void btnAgregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProductoActionPerformed
+        // DATOS DE PRODUCTO PARA VENTA
+        String nombre = txtNombreProducto.getText();
+        int cantidad = Integer.parseInt(txtCantidad.getText());
+        float precio = Float.parseFloat(txtPrecioProducto.getText());
+        float total = precio * cantidad;  // Calcula el total aquí si es la cantidad por precio unitario.
+
+        // Obtener el modelo actual de la tabla
+        DefaultTableModel modelo = (DefaultTableModel) tblProducto.getModel();
+        modelo.addColumn("ID Producto");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Cantidad");
+        modelo.addColumn("Precio");
+        modelo.addColumn("Total");
+        tblProducto.setModel(modelo);
+        // Crear un array de objetos para representar una fila
+        Object[] fila = new Object[5];  // Ajusta el tamaño según el número de columnas de tu tabla
+        try {
+            // Asignar los valores a cada columna
+            fila[0] = objProducto.buscarProductoPorNombre(nombre);   // Nombre del producto
+        } catch (Exception ex) {
+            Logger.getLogger(jdPedido.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        fila[1] = nombre;   // Nombre del producto
+        fila[2] = cantidad; // Cantidad
+        fila[3] = precio;   // Precio unitario
+        fila[4] = total;    // Total (precio * cantidad)
+        int idCliente = 0;
+        try {
+            idCliente = objCliente.obtenerIDCliente(txtDocCliente.getText());
+        } catch (Exception ex) {
+            Logger.getLogger(jdPedido.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println(idCliente);
+        // Agregar la fila al modelo de la tabla
+        modelo.addRow(fila);
+
+
+    }//GEN-LAST:event_btnAgregarProductoActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
 
@@ -838,7 +991,7 @@ public class jdPedido extends javax.swing.JDialog {
     }//GEN-LAST:event_btnEliminar1ActionPerformed
 
     private void btnEliminar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar3ActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnEliminar3ActionPerformed
 
     private void btnEliminar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar4ActionPerformed
@@ -854,12 +1007,12 @@ public class jdPedido extends javax.swing.JDialog {
     }//GEN-LAST:event_btnEliminar6ActionPerformed
 
     private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
-        jdListCliente obj = new jdListCliente(null, true);
+        jdListCliente obj = new jdListCliente(null, true, this);
         obj.setVisible(true);
     }//GEN-LAST:event_txtBuscarActionPerformed
 
     private void btnPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagarActionPerformed
-        jdListTipoComprobante obj = new jdListTipoComprobante(null, true);
+        jdListTipoComprobante obj = new jdListTipoComprobante(null, true, this);
         obj.setVisible(true);
         obj.setLocationRelativeTo(null);
 //        jdPago_Cajero objPC = new jdPago_Cajero(null, true, codigo_pedido-1);
@@ -872,13 +1025,24 @@ public class jdPedido extends javax.swing.JDialog {
     }//GEN-LAST:event_txtCantidadActionPerformed
 
     private void btnBuscarProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarProductosActionPerformed
-       jdListProductos obj = new jdListProductos(null,true);
-       obj.setVisible(true);
-       obj.setLocationRelativeTo(null);
+        jdListProductos obj = new jdListProductos(null, true, this);
+        obj.setVisible(true);
+        obj.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnBuscarProductosActionPerformed
+
+    public void calcularTotal(float valor) {
+        float precio = Float.parseFloat(txtPrecioProducto.getText());
+        lblTotalVenta.setText(String.valueOf(valor * precio));
+    }
+
+    private void txtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyTyped
+        float valor = Float.parseFloat(txtCantidad.getText() + evt.getKeyChar());
+        calcularTotal(valor);
+    }//GEN-LAST:event_txtCantidadKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregarProducto;
     private javax.swing.JButton btnBuscarProductos;
     private javax.swing.JButton btnDarBaja;
     private javax.swing.JButton btnEliminar;
@@ -889,7 +1053,6 @@ public class jdPedido extends javax.swing.JDialog {
     private javax.swing.JButton btnEliminar6;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnPagar;
-    private javax.swing.JButton btnSave;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -932,18 +1095,18 @@ public class jdPedido extends javax.swing.JDialog {
     private javax.swing.JTextField lblTotalVenta;
     private javax.swing.JTable tblProducto;
     private javax.swing.JButton txtBuscar;
-    private javax.swing.JTextField txtBuscarCodigo;
-    private javax.swing.JTextField txtBuscarCodigo1;
-    private javax.swing.JTextField txtBuscarCodigo2;
     private javax.swing.JTextField txtBuscarIde;
     private javax.swing.JTextField txtBuscarIde1;
     private javax.swing.JTextField txtCantidad;
-    private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextField txtNombre1;
-    private javax.swing.JTextField txtNombre2;
-    private javax.swing.JTextField txtNombre3;
-    private javax.swing.JTextField txtNombre4;
+    private javax.swing.JTextField txtConcentracion;
+    private javax.swing.JTextField txtDocCliente;
     private javax.swing.JTextField txtNombre7;
     private javax.swing.JTextField txtNombre8;
+    private javax.swing.JTextField txtNombreCliente;
+    private javax.swing.JTextField txtNombreProducto;
+    private javax.swing.JTextField txtNumeroVenta;
+    private javax.swing.JTextField txtPrecioProducto;
+    private javax.swing.JTextField txtStockProducto;
+    private javax.swing.JTextField txtTipoComprobante;
     // End of variables declaration//GEN-END:variables
 }

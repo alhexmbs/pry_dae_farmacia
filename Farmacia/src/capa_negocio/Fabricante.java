@@ -8,26 +8,25 @@ import java.sql.*;
  * @author Katia
  */
 public class Fabricante {
-    
-    datos objconectar = new datos(); 
-    String strsql; 
+
+    datos objconectar = new datos();
+    String strsql;
     ResultSet rs = null;
 
     public ResultSet listarFabricantes(String filtro) throws Exception {
         strsql = "SELECT * FROM FABRICANTE";
-        
+
         switch (filtro) {
             case "General":
                 break;
-             case "Nombre ascendente":
-                strsql += " ORDER BY nombre_fabricante ASC"; 
+            case "Nombre ascendente":
+                strsql += " ORDER BY nombre_fabricante ASC";
                 break;
             case "Nombre descente":
-                strsql += " ORDER BY nombre_fabricante DESC"; 
+                strsql += " ORDER BY nombre_fabricante DESC";
                 break;
-           
         }
-        
+
         try {
             rs = objconectar.consultarBD(strsql);
             return rs;
@@ -54,13 +53,15 @@ public class Fabricante {
                 return rs.getInt("codigo");
             }
         } catch (Exception e) {
-            throw new Exception("Error al generar código de fabricante --> " + e.getMessage());
+            throw new Exception("Error al generar codigo de fabricante --> " + e.getMessage());
         }
         return 0;
     }
 
-    public void registrarFabricante(int id_fabricante, String nombre) throws Exception {
-        strsql = "INSERT INTO FABRICANTE (id_fabricante, nombre_fabricante) VALUES (" + id_fabricante + ", '" + nombre + "')";
+    public void registrarFabricante(int id_fabricante, String nombre, boolean estado) throws Exception {
+        strsql = "INSERT INTO FABRICANTE (id_fabricante, nombre_fabricante, estado) VALUES ("
+                + id_fabricante + ", '" + nombre + "', " + estado + ")";
+
         try {
             objconectar.ejecutarBd(strsql);
         } catch (Exception e) {
@@ -68,8 +69,8 @@ public class Fabricante {
         }
     }
 
-    public void modificarFabricante(int id_fabricante, String nombre) throws Exception {
-        strsql = "UPDATE FABRICANTE SET nombre_fabricante = '" + nombre + "' WHERE id_fabricante = " + id_fabricante;
+    public void modificarFabricante(int id_fabricante, String nombre, boolean estado) throws Exception {
+        strsql = "UPDATE FABRICANTE SET nombre_fabricante = '" + nombre + "', estado = " + estado + " WHERE id_fabricante = " + id_fabricante;
         try {
             objconectar.ejecutarBd(strsql);
         } catch (Exception e) {
@@ -85,8 +86,8 @@ public class Fabricante {
             throw new Exception("Error al eliminar fabricante --> " + e.getMessage());
         }
     }
-    
-     public int obtenerIdFabricantePorNombre(String nombreFabricante) throws Exception {
+
+    public int obtenerIdFabricantePorNombre(String nombreFabricante) throws Exception {
         strsql = "SELECT id_fabricante FROM FABRICANTE WHERE nombre_fabricante = '" + nombreFabricante + "'";
         try {
             rs = objconectar.consultarBD(strsql);
@@ -98,5 +99,15 @@ public class Fabricante {
         }
         return 0;
 
+    }
+
+    // Dar de baja un fabricante actualizando el estado a false
+    public void darDeBajaFabricante(int id_fabricante) throws Exception {
+        strsql = "UPDATE FABRICANTE SET estado = FALSE WHERE id_fabricante = " + id_fabricante;
+        try {
+            objconectar.ejecutarBd(strsql);
+        } catch (Exception e) {
+            throw new Exception("Error al dar de baja el fabricante con ID " + id_fabricante + " --> " + e.getMessage());
+        }
     }
 }

@@ -15,18 +15,22 @@ import javax.swing.table.DefaultTableModel;
  */
 public class jdListCliente extends javax.swing.JDialog {
 
+    // Referencia dialogo 1    
+    private jdPedido dialog1;
+
     Cliente objC = new Cliente();
-    
+
     /**
      * Creates new form jdListCliente
      */
-    public jdListCliente(java.awt.Frame parent, boolean modal) {
+    public jdListCliente(java.awt.Frame parent, boolean modal, jdPedido pedido) {
         super(parent, modal);
+        this.dialog1 = pedido;
         initComponents();
         listarClientes();
     }
 
-    private void listarClientes(){
+    private void listarClientes() {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("ID");
         modelo.addColumn("Nro. Documento");
@@ -36,13 +40,13 @@ public class jdListCliente extends javax.swing.JDialog {
         modelo.addColumn("Fecha Nacimiento");
         modelo.addColumn("Sexo");
         modelo.addColumn("Email");
-        
+
         tblClientes.setModel(modelo);
-        
+
         ResultSet rs = null;
-        try{
+        try {
             rs = objC.listarTodosCliente();
-            while(rs.next()){
+            while (rs.next()) {
                 Object[] fila = new Object[9];
                 fila[0] = rs.getInt("id_cliente");
                 fila[1] = rs.getString("nro_documento");
@@ -52,14 +56,14 @@ public class jdListCliente extends javax.swing.JDialog {
                 fila[5] = rs.getDate("fecha_nacimiento");
                 fila[6] = rs.getString("sexo");
                 fila[7] = rs.getString("email");
-                
+
                 modelo.addRow(fila);
             }
-        }catch(Exception ex){
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado", "Error al obtener los clientes", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -82,6 +86,7 @@ public class jdListCliente extends javax.swing.JDialog {
         btnEliminar4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Clientes");
 
         jPanel1.setBackground(new java.awt.Color(170, 215, 217));
 
@@ -253,15 +258,29 @@ public class jdListCliente extends javax.swing.JDialog {
     }//GEN-LAST:event_btnListarActionPerformed
 
     private void btnEliminar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar3ActionPerformed
-        // TODO add your handling code here:
+        dialog1.enviar();
     }//GEN-LAST:event_btnEliminar3ActionPerformed
 
     private void btnEliminar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar4ActionPerformed
-        // TODO add your handling code here:
+        String nroDocumento = "7180723";
+        String nombre = "Joseph";
+
+        dialog1.setNombreCliente(nombre);
+        dialog1.setNroDocumentoCliente(nroDocumento);
+
     }//GEN-LAST:event_btnEliminar4ActionPerformed
 
     private void tblClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesMouseClicked
-        
+        int id = Integer.parseInt(tblClientes.getValueAt(tblClientes.getSelectedRow(), 0).toString());
+        String nroDocumento = tblClientes.getValueAt(tblClientes.getSelectedRow(), 1).toString();
+        String nombre = tblClientes.getValueAt(tblClientes.getSelectedRow(), 2).toString();
+
+        dialog1.setNombreCliente(nombre);
+        dialog1.setNroDocumentoCliente(nroDocumento);
+
+        dialog1.enviar();
+
+        this.dispose();
     }//GEN-LAST:event_tblClientesMouseClicked
 
 

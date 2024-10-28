@@ -21,6 +21,35 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
         initComponents();
     }
 
+    public void limpiar() {
+        txtId2.setText("");
+        txtNombre.setText("");
+        chkVigencia.setSelected(false);
+    }
+
+    public void listarFormasFarmaceuticas(String tipo) {
+        ResultSet lista = null;
+        Vector formaFarmaceutica;
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("Codigo");
+        modelo.addColumn("Forma Farmaceutica");
+        modelo.addColumn("Estado");
+
+        try {
+            lista = objff.listarFormaFarmaceutica(tipo);
+            while (lista.next()) {
+                formaFarmaceutica = new Vector();
+                formaFarmaceutica.add(lista.getInt("id_frm_farma"));
+                formaFarmaceutica.add(lista.getString("forma_farmaceutica"));
+                formaFarmaceutica.add(lista.getBoolean("estado"));
+                modelo.addRow(formaFarmaceutica);
+            }
+            TablaGuardarda1.setModel(modelo);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al listar las formas farmaceuticas: " + e.getMessage());
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -50,6 +79,8 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
         txtNombre = new javax.swing.JTextField();
         txtId2 = new javax.swing.JTextField();
         btnBuscar1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        chkVigencia = new javax.swing.JCheckBox();
         jPanel4 = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
         cboFiltros = new javax.swing.JComboBox<>();
@@ -58,7 +89,7 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
         btnSave = new javax.swing.JButton();
         btnModificaar = new javax.swing.JButton();
         btnNuevo1 = new javax.swing.JButton();
-        btnEliminar1 = new javax.swing.JButton();
+        btnDarBaja = new javax.swing.JButton();
 
         jLabel67.setBackground(new java.awt.Color(0, 0, 0));
         jLabel67.setText("ID producto:");
@@ -76,7 +107,7 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Codigo", "Fecha", "Cantidad (Kg)", "Clasificación", "Categorización", "Peligrosidad", "Responsable "
+                "Codigo", "Fecha", "Cantidad (Kg)", "Clasificaci�n", "Categorizaci�n", "Peligrosidad", "Responsable "
             }
         ));
         TablaGuardarda.setShowGrid(false);
@@ -222,7 +253,7 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
         jLabel62.setBackground(new java.awt.Color(70, 130, 169));
         jLabel62.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel62.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel62.setText("forma farmacéutica:");
+        jLabel62.setText("forma farmac�utica:");
 
         jLabel68.setBackground(new java.awt.Color(0, 0, 0));
         jLabel68.setText("ID forma:");
@@ -251,6 +282,10 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
             }
         });
 
+        jLabel1.setText("Vigencia:");
+
+        chkVigencia.setText("Vigencia");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -261,14 +296,17 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel68)
-                            .addComponent(jLabel64))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel1)
+                                .addComponent(jLabel64)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(txtId2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnBuscar1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(btnBuscar1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(chkVigencia, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel62)
                         .addGap(18, 18, 18)
@@ -295,7 +333,11 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel64))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(chkVigencia))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         jPanel4.setBackground(new java.awt.Color(246, 244, 235));
@@ -334,24 +376,23 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel24)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cboFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel24)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cboFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 30, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
+                .addGap(10, 10, 10)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel24)
                     .addComponent(cboFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -388,14 +429,14 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
             }
         });
 
-        btnEliminar1.setBackground(new java.awt.Color(236, 177, 89));
-        btnEliminar1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnEliminar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
-        btnEliminar1.setText("ELIMINAR");
-        btnEliminar1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btnEliminar1.addActionListener(new java.awt.event.ActionListener() {
+        btnDarBaja.setBackground(new java.awt.Color(236, 177, 89));
+        btnDarBaja.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnDarBaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
+        btnDarBaja.setText("DAR DE BAJA");
+        btnDarBaja.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnDarBaja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminar1ActionPerformed(evt);
+                btnDarBajaActionPerformed(evt);
             }
         });
 
@@ -411,7 +452,7 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(btnEliminar1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnDarBaja, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnNuevo1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnModificaar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
                             .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -422,7 +463,6 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnSave)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -430,10 +470,11 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnNuevo1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnEliminar1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnDarBaja))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -477,10 +518,10 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void cboFiltrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboFiltrosActionPerformed
-    String filtro =  cboFiltros.getSelectedItem().toString();
+        String filtro = cboFiltros.getSelectedItem().toString();
         try {
             listarFormasFarmaceuticas(filtro);
-            
+
         } catch (Exception ex) {
             Logger.getLogger(jdFormFarmaceutica.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -490,15 +531,15 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
         ResultSet rsMarca = null;
         try {
             if (txtId2.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Debe ingresar un código para buscar");
+                JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para buscar");
             } else {
-                rsMarca = objff.buscarFormaFarmaceutica(Integer.parseInt(txtId2.getText()));
+                rsMarca = objff.buscarFormaFarmaceutica(Integer.valueOf(txtId2.getText()));
 
                 if (rsMarca.next()) {
                     txtNombre.setText(rsMarca.getString("forma_farmaceutica"));
                     rsMarca.close();
                 } else {
-                    JOptionPane.showMessageDialog(this, "Código de forma farmacéutica  no existe");
+                    JOptionPane.showMessageDialog(this, "Codigo de forma farmaceutica  no existe");
                     limpiar();
                 }
             }
@@ -511,41 +552,39 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
         limpiar();
     }//GEN-LAST:event_btnNuevo1ActionPerformed
 
-    private void btnEliminar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar1ActionPerformed
+    private void btnDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBajaActionPerformed
         try {
             if (txtId2.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Debe ingresar un código a eliminar");
+                JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para dar de baja");
             } else {
 
-                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea eliminar esta forma farmacéutica?");
+                int confirmacion = JOptionPane.showConfirmDialog(this, "�Desea dar de baja esta forma farmaceutica?");
                 if (confirmacion == JOptionPane.YES_OPTION) {
-                    objff.eliminar(Integer.parseInt(txtId2.getText()));
+                    objff.darBajaForma(Integer.parseInt(txtId2.getText()));
                     limpiar();
                     listarFormasFarmaceuticas("General");
-                    JOptionPane.showMessageDialog(rootPane, "Forma farmacéutica eliminada correctamente");
-
+                    JOptionPane.showMessageDialog(rootPane, "Forma farmaceutica dada de baja correctamente");
                 }
-
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
-    }//GEN-LAST:event_btnEliminar1ActionPerformed
+    }//GEN-LAST:event_btnDarBajaActionPerformed
 
     private void btnModificaarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificaarActionPerformed
         if (txtId2.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar un código a modificar");
+            JOptionPane.showMessageDialog(this, "Debe ingresar un codigo a modificar");
         } else {
             int codigo = Integer.parseInt(txtId2.getText());
             String nombre = txtNombre.getText();
-
+            boolean vigencia = chkVigencia.isSelected();
             try {
-                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea modificar  esta forma farmacéutica?");
+                int confirmacion = JOptionPane.showConfirmDialog(this, "�Desea modificar  esta forma farmaceutica?");
                 if (confirmacion == JOptionPane.YES_OPTION) {
-                    objff.modificarFormaFarmaceutica(codigo, nombre);
+                    objff.modificarFormaFarmaceutica(codigo, nombre, vigencia);
                     limpiar();
                     listarFormasFarmaceuticas("General");
-                    JOptionPane.showMessageDialog(this, "forma farmacéutica  modificada correctamente");
+                    JOptionPane.showMessageDialog(this, "forma farmaceutica  modificada correctamente");
                 }
 
             } catch (Exception e) {
@@ -556,51 +595,24 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
     }//GEN-LAST:event_btnModificaarActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-    try {
-        if (btnSave.getText().equals("NUEVO")) {
+        try {
+            if (btnSave.getText().equals("NUEVO")) {
                 btnSave.setText("GUARDAR");
                 txtId2.setText(objff.generarCodigoformafarmaceutica().toString());
                 txtNombre.requestFocus();
             } else {
                 int codigo = Integer.parseInt(txtId2.getText());
                 String nombre = txtNombre.getText();
-                objff.registrar(codigo, nombre);
+                boolean vigencia = chkVigencia.isSelected();
+                objff.registrar(codigo, nombre, vigencia);
                 btnSave.setText("NUEVO");
                 limpiar();
                 listarFormasFarmaceuticas("General");
-                JOptionPane.showMessageDialog(this, "Forma farmacéutica guardada correctamente");
+                JOptionPane.showMessageDialog(this, "Forma farmaceutica guardada correctamente");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al insertar forma farmacéutica -->"+e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error al insertar forma farmaceutica -->" + e.getMessage());
         }
-    }
-
-    public void limpiar() {
-        txtId2.setText("");
-        txtNombre.setText("");
-    }
-
-    public void listarFormasFarmaceuticas(String tipo) {
-        ResultSet lista = null;
-        Vector formaFarmaceutica;
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("Código");
-        modelo.addColumn("Forma Farmacéutica");
-
-        try {
-            lista = objff.listarFormaFarmaceutica(tipo);
-            while (lista.next()) {
-                formaFarmaceutica = new Vector();
-                formaFarmaceutica.add(lista.getInt("id_frm_farma"));
-                formaFarmaceutica.add(lista.getString("forma_farmaceutica"));
-                modelo.addRow(formaFarmaceutica);
-            }
-            TablaGuardarda1.setModel(modelo);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al listar las formas farmacéuticas: " + e.getMessage());
-        }
-
-
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void txtId2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtId2ActionPerformed
@@ -623,8 +635,8 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
     private javax.swing.JTable TablaGuardarda1;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnBuscar1;
+    private javax.swing.JButton btnDarBaja;
     private javax.swing.JButton btnEliminar;
-    private javax.swing.JButton btnEliminar1;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnModificaar;
     private javax.swing.JButton btnModificar;
@@ -633,6 +645,8 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
     private javax.swing.JButton btnSave;
     private javax.swing.JComboBox<String> cboFiltros;
     private javax.swing.JComboBox<String> cboTipo;
+    private javax.swing.JCheckBox chkVigencia;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;

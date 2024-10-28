@@ -587,11 +587,17 @@ public class jdManCliente extends javax.swing.JDialog {
                     String fechaNac = date.format(fechaSeleccionada);
                     boolean sexo = opMasculino.isSelected();
                     String email = txtEmailCliente.getText();
+
                     boolean estado = chkVigenciaCliente.isSelected();
                     int tipoDoc = objTD.obtenerIDTipoDoc(nombreTipoDoc);
 
                     //objC.insertarCliente(idCliente, numDoc, nombre, apPat, apMat, fechaNac, sexo, email, tipoDoc);
                     objC.insertarCliente(idCliente, numDoc, nombre, apPat, apMat, fechaNac, sexo, email, tipoDoc, estado);
+//=======
+//                    int tipoDoc = objTD.obtenerIDTipoDoc(nombreTipoDoc);
+//
+//                    objC.insertarCliente(idCliente, numDoc, nombre, apPat, apMat, fechaNac, sexo, email, tipoDoc);
+//>>>>>>> main
 
                     limpiarFormulario();
                     listarClientes();
@@ -625,11 +631,17 @@ public class jdManCliente extends javax.swing.JDialog {
                         String fechaNac = date.format(fechaSeleccionada);
                         boolean sexo = opMasculino.isSelected();
                         String email = txtEmailCliente.getText();
+
                         boolean estado = chkVigenciaCliente.isSelected();
                         int tipoDoc = objTD.obtenerIDTipoDoc(nombreTipoDoc);
 
                         //objC.modificarCliente(idCliente, numDoc, nombre, apPat, apMat, fechaNac, sexo, email, tipoDoc);
                         objC.modificarCliente(idCliente, numDoc, nombre, apPat, apMat, fechaNac, sexo, email, tipoDoc, estado);
+//=======
+//                        int tipoDoc = objTD.obtenerIDTipoDoc(nombreTipoDoc);
+//
+//                        objC.modificarCliente(idCliente, numDoc, nombre, apPat, apMat, fechaNac, sexo, email, tipoDoc);
+//>>>>>>> main
 
                         limpiarFormulario();
                         listarClientes();
@@ -686,7 +698,9 @@ public class jdManCliente extends javax.swing.JDialog {
                     cboTipoDoc.setSelectedIndex(rs.getInt("id_tipo_doc")-1);
                     txtNumDocCliente.setText(rs.getString("nro_documento"));
                     jdateFechaNacCliente.setDate(rs.getDate("fecha_nacimiento"));
+
                     chkVigenciaCliente.setSelected(rs.getBoolean("estado"));
+
                 }
             }
         }catch(Exception ex){
@@ -700,7 +714,11 @@ public class jdManCliente extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSimularActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+
         buscarCliente();
+//=======
+//       buscarCliente();
+//>>>>>>> main
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
