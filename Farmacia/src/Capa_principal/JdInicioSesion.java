@@ -87,8 +87,10 @@ public final class JdInicioSesion extends javax.swing.JDialog {
         jLabel2.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
         jLabel2.setText("¡Bienvenido de nuevo!");
 
+        txtUsuario.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtUsuario.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
+        txtContraseña.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtContraseña.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
         btnLogin.setBackground(new java.awt.Color(155, 179, 232));
@@ -118,6 +120,7 @@ public final class JdInicioSesion extends javax.swing.JDialog {
             }
         });
 
+        txtValidacion.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtValidacion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
         lblCaptcha.setBackground(new java.awt.Color(204, 204, 204));
@@ -216,7 +219,9 @@ public final class JdInicioSesion extends javax.swing.JDialog {
 
                     intentos++;
                     JOptionPane.showMessageDialog(this, "El logeo no es el correcto. Intento " + intentos + " de 3", "Sistema", JOptionPane.ERROR_MESSAGE);
-
+                    txtValidacion.setText("");
+                    generarCaptcha();
+                    
                     if (intentos >= 3) {
                         JOptionPane.showMessageDialog(this, "Demasiados intentos fallidos. Cerrando sistema...", "Sistema", JOptionPane.ERROR_MESSAGE);
                         System.exit(0);
@@ -234,7 +239,8 @@ public final class JdInicioSesion extends javax.swing.JDialog {
 
                 intentos++;
                 JOptionPane.showMessageDialog(this, "El captcha no es el correcto. Intento " + intentos + " de 3", "Sistema", JOptionPane.ERROR_MESSAGE);
-
+                txtValidacion.setText("");
+                generarCaptcha();
                 if (intentos >= 3) {
                     JOptionPane.showMessageDialog(this, "Demasiados intentos fallidos. Cerrando sistema...", "Sistema", JOptionPane.ERROR_MESSAGE);
                     System.exit(0);

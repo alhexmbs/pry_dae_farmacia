@@ -23,7 +23,6 @@ public class jdManProducto extends javax.swing.JDialog {
     Promocion objPromocion = new Promocion();
     Fabricante objFabricante = new Fabricante();
     Lote objLote = new Lote();
-    
 
     public jdManProducto(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -32,6 +31,159 @@ public class jdManProducto extends javax.swing.JDialog {
         listarRubros();
         listarPromociones();
         listarFabricantes();
+        listarLotes();
+    }
+
+    private void listarLotes() {
+        ResultSet listarLotes = null;
+        DefaultComboBoxModel modeloLote = new DefaultComboBoxModel();
+        cboLote.setModel(modeloLote);
+        try {
+            listarLotes = objLote.listarLotes("Disponibles");
+            while (listarLotes.next()) {
+                modeloLote.addElement(listarLotes.getString("numero_lote"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al listar los lotes---> " + e.getMessage());
+        }
+    }
+
+    private void listarFormasFarmaceuticas() {
+        ResultSet listarFormas = null;
+        DefaultComboBoxModel modeloForma = new DefaultComboBoxModel();
+        cboForma.setModel(modeloForma);
+        try {
+            listarFormas = objFormaFarmaceutica.listarFormaFarmaceutica("General");
+            while (listarFormas.next()) {
+                modeloForma.addElement(listarFormas.getString("forma_farmaceutica"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al listar formas farmacéuticas---> " + e.getMessage());
+        }
+    }
+
+    private void listarRubros() {
+        ResultSet listarRubros = null;
+        DefaultComboBoxModel modeloRubro = new DefaultComboBoxModel();
+        cboRubro.setModel(modeloRubro);
+        try {
+            listarRubros = objRubro.listarRubros("General");
+            while (listarRubros.next()) {
+                modeloRubro.addElement(listarRubros.getString("nombre_rubro"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al listar rubros---> " + e.getMessage());
+        }
+    }
+
+    private void listarPromociones() {
+        ResultSet listarPromociones = null;
+        DefaultComboBoxModel modeloPromocion = new DefaultComboBoxModel();
+        cboPromocion.setModel(modeloPromocion);
+        try {
+            listarPromociones = objPromocion.listarPromociones("General");
+            while (listarPromociones.next()) {
+                modeloPromocion.addElement(listarPromociones.getString("dscto"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al listar promociones---> " + e.getMessage());
+        }
+    }
+
+    private void listarFabricantes() {
+        ResultSet listarFabricantes = null;
+        DefaultComboBoxModel modeloFabricante = new DefaultComboBoxModel();
+        cboFabricante.setModel(modeloFabricante);
+        try {
+            listarFabricantes = objFabricante.listarFabricantes("General");
+            while (listarFabricantes.next()) {
+                modeloFabricante.addElement(listarFabricantes.getString("nombre_fabricante"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al listar fabricantes---> " + e.getMessage());
+        }
+    }
+
+    private void limpiarFormulario() {
+        txtId.setText("");
+        txtNombre.setText("");
+        txtPrecioVenta.setText("");
+        spStock.setValue(0);
+        txtNumRegisSani.setText("");
+        cboEstado.setSelectedIndex(0);
+        txtPrincipio.setText("");
+        spDosis.setValue(0);
+        cboUnidad.setSelectedIndex(0);
+        cboForma.setSelectedIndex(0);
+        cboRubro.setSelectedIndex(0);
+        cboPromocion.setSelectedIndex(0);
+        cboFabricante.setSelectedIndex(0);
+        cboLote.setSelectedIndex(0);
+
+    }
+
+    private void aplicarFiltro() {
+        String filtroSeleccionado = (String) cboFiltros.getSelectedItem();
+
+        try {
+
+            switch (filtroSeleccionado) {
+                case "General":
+                    listar("General");
+                    break;
+                case "Bajo stock":
+                    listar("pro.stock <= 10");
+                    break;
+
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al aplicar filtro --> " + e.getMessage());
+        }
+    }
+
+    private void listar(String filtro) {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Forma Farmacéutica");
+        modelo.addColumn("Stock");
+        modelo.addColumn("Precio Venta");
+        modelo.addColumn("Estado");
+        modelo.addColumn("Principio Activo");
+        modelo.addColumn("Dosis");
+        modelo.addColumn("Registro Sanitario");
+        modelo.addColumn("Condición Venta");
+        modelo.addColumn("Fabricante");
+        modelo.addColumn("Rubro");
+        modelo.addColumn("Descuento");
+
+        tblProducto.setModel(modelo);
+
+        ResultSet rs = null;
+        try {
+            rs = objProducto.listarProductos(filtro);
+
+            while (rs.next()) {
+                Object[] fila = new Object[13];
+                fila[0] = rs.getInt("id_producto");
+                fila[1] = rs.getString("nombre");
+                fila[2] = rs.getString("forma_farmaceutica");
+                fila[3] = rs.getInt("stock");
+                fila[4] = rs.getDouble("precio_venta");
+                fila[5] = rs.getString("estado");
+                fila[6] = rs.getString("principio_activo");
+                fila[7] = rs.getString("dosis");
+                fila[8] = rs.getString("nro_reg_sanitario");
+                fila[9] = rs.getString("condicion_venta");
+                fila[10] = rs.getString("nombre_fabricante");
+                fila[11] = rs.getString("nombre_rubro");
+                fila[12] = rs.getString("descuento") == null ? "Sin Promoción" : rs.getString("descuento");
+
+                modelo.addRow(fila);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al listar productos --> " + e.getMessage());
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -46,21 +198,17 @@ public class jdManProducto extends javax.swing.JDialog {
         jLabel74 = new javax.swing.JLabel();
         jLabel63 = new javax.swing.JLabel();
         txtPrecioVenta = new javax.swing.JTextField();
-        jLabel64 = new javax.swing.JLabel();
         jLabel67 = new javax.swing.JLabel();
         jLabel72 = new javax.swing.JLabel();
         txtNumRegisSani = new javax.swing.JTextField();
         spStock = new javax.swing.JSpinner();
         txtId = new javax.swing.JTextField();
         jLabel65 = new javax.swing.JLabel();
-        txtPrecioCompra = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
-        jLabel76 = new javax.swing.JLabel();
         jLabel77 = new javax.swing.JLabel();
         jLabel78 = new javax.swing.JLabel();
         cboForma = new javax.swing.JComboBox<>();
-        cboConVenta = new javax.swing.JComboBox<>();
         cboRubro = new javax.swing.JComboBox<>();
         jLabel75 = new javax.swing.JLabel();
         jLabel80 = new javax.swing.JLabel();
@@ -70,8 +218,18 @@ public class jdManProducto extends javax.swing.JDialog {
         btnAr = new javax.swing.JButton();
         btnAp = new javax.swing.JButton();
         btnae = new javax.swing.JButton();
-        jcFechaEntrada = new com.toedter.calendar.JDateChooser();
         jLabel71 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        spDosis = new javax.swing.JSpinner();
+        cboUnidad = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        btnAgregarLote = new javax.swing.JButton();
+        txtPrincipio = new javax.swing.JTextField();
+        cboLote = new javax.swing.JComboBox<>();
+        jLabel76 = new javax.swing.JLabel();
+        cboConVenta = new javax.swing.JComboBox<>();
+        jLabel4 = new javax.swing.JLabel();
+        cboEstado = new javax.swing.JComboBox<>();
         jLabel62 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jPanel3 = new javax.swing.JPanel();
@@ -80,7 +238,7 @@ public class jdManProducto extends javax.swing.JDialog {
         btnLimpiar = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
-        btnEliminar = new javax.swing.JButton();
+        btnDarDeBaja = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblProducto = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
@@ -97,6 +255,7 @@ public class jdManProducto extends javax.swing.JDialog {
         txtCorreo3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Producto");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -120,9 +279,6 @@ public class jdManProducto extends javax.swing.JDialog {
         txtPrecioVenta.setBackground(new java.awt.Color(239, 237, 220));
         txtPrecioVenta.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
-        jLabel64.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel64.setText("Precio de la compra:");
-
         jLabel67.setBackground(new java.awt.Color(0, 0, 0));
         jLabel67.setText("ID producto:");
 
@@ -143,16 +299,10 @@ public class jdManProducto extends javax.swing.JDialog {
         jLabel65.setBackground(new java.awt.Color(0, 0, 0));
         jLabel65.setText("Precio de la venta:");
 
-        txtPrecioCompra.setBackground(new java.awt.Color(239, 237, 220));
-        txtPrecioCompra.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-
         txtNombre.setBackground(new java.awt.Color(239, 237, 220));
         txtNombre.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         jPanel4.setBackground(new java.awt.Color(170, 215, 217));
-
-        jLabel76.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel76.setText("Condición de venta:");
 
         jLabel77.setBackground(new java.awt.Color(0, 0, 0));
         jLabel77.setText("Rubro:");
@@ -165,8 +315,6 @@ public class jdManProducto extends javax.swing.JDialog {
                 cboFormaActionPerformed(evt);
             }
         });
-
-        cboConVenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sin receta", "Con receta", "Ambas" }));
 
         cboRubro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -213,7 +361,23 @@ public class jdManProducto extends javax.swing.JDialog {
         });
 
         jLabel71.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel71.setText("Fecha entrada:");
+        jLabel71.setText("Principio activo");
+
+        jLabel2.setText("Dosis");
+
+        cboUnidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "mg", "g", "µg", "ml" }));
+
+        jLabel3.setText("Lote");
+
+        btnAgregarLote.setBackground(new java.awt.Color(236, 177, 89));
+        btnAgregarLote.setText("Añadir");
+        btnAgregarLote.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarLoteActionPerformed(evt);
+            }
+        });
+
+        txtPrincipio.setBackground(new java.awt.Color(239, 237, 220));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -222,40 +386,48 @@ public class jdManProducto extends javax.swing.JDialog {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(45, 45, 45)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2)
                     .addComponent(jLabel75)
                     .addComponent(jLabel78)
                     .addComponent(jLabel77)
                     .addComponent(jLabel80)
-                    .addComponent(jLabel71)
-                    .addComponent(jLabel76))
+                    .addComponent(jLabel71))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cboConVenta, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cboForma, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cboRubro, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cboPromocion, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cboFabricante, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jcFechaEntrada, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(spDosis, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                        .addComponent(cboUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cboForma, 0, 161, Short.MAX_VALUE)
+                    .addComponent(cboRubro, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cboPromocion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cboFabricante, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtPrincipio)
+                    .addComponent(cboLote, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(30, 30, 30)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnAF, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
                     .addComponent(btnAr, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnAp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnae, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnae, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAgregarLote, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(31, 31, 31))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(6, 6, 6)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel71)
-                    .addComponent(jcFechaEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel71))
+                    .addComponent(txtPrincipio, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel76)
-                    .addComponent(cboConVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(jLabel2)
+                    .addComponent(spDosis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(btnAF)
@@ -280,37 +452,64 @@ public class jdManProducto extends javax.swing.JDialog {
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cboFabricante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel80))))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(btnAgregarLote)
+                    .addComponent(cboLote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
+
+        jLabel76.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel76.setText("Condición de venta:");
+
+        cboConVenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sin receta", "Con receta", "Ambas" }));
+
+        jLabel4.setText("Estado");
+
+        cboEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "A", "C", "T", "I" }));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel67)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel65, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel63, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel72, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtPrecioVenta)
+                                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(spStock, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel74)
                         .addGap(18, 18, 18)
                         .addComponent(txtNumRegisSani, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel67)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(47, 47, 47)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel76))
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel65, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel64, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel63, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel72, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtPrecioVenta)
-                            .addComponent(txtPrecioCompra)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(spStock, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(cboConVenta, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(cboEstado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(55, 55, 55))
         );
@@ -319,6 +518,7 @@ public class jdManProducto extends javax.swing.JDialog {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -329,10 +529,6 @@ public class jdManProducto extends javax.swing.JDialog {
                             .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel64)
-                            .addComponent(txtPrecioCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel65)
                             .addComponent(txtPrecioVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
@@ -340,11 +536,18 @@ public class jdManProducto extends javax.swing.JDialog {
                             .addComponent(spStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel72))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtNumRegisSani, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel74)))
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(59, Short.MAX_VALUE))
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel74)
+                            .addComponent(txtNumRegisSani, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel76)
+                            .addComponent(cboConVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(cboEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
 
         jLabel62.setBackground(new java.awt.Color(70, 130, 169));
@@ -433,14 +636,14 @@ public class jdManProducto extends javax.swing.JDialog {
             }
         });
 
-        btnEliminar.setBackground(new java.awt.Color(236, 177, 89));
-        btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
-        btnEliminar.setText("ELIMINAR");
-        btnEliminar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+        btnDarDeBaja.setBackground(new java.awt.Color(236, 177, 89));
+        btnDarDeBaja.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnDarDeBaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
+        btnDarDeBaja.setText("DAR DE BAJA");
+        btnDarDeBaja.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnDarDeBaja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarActionPerformed(evt);
+                btnDarDeBajaActionPerformed(evt);
             }
         });
 
@@ -460,7 +663,7 @@ public class jdManProducto extends javax.swing.JDialog {
                 .addGap(47, 47, 47)
                 .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
-                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnDarDeBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24))
         );
         jPanel3Layout.setVerticalGroup(
@@ -473,7 +676,7 @@ public class jdManProducto extends javax.swing.JDialog {
                     .addComponent(cboFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel22)
                     .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnDarDeBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
@@ -543,7 +746,7 @@ public class jdManProducto extends javax.swing.JDialog {
         jLabel66.setText("Producto:");
 
         jLabel68.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel68.setText("Buscar id del producto:");
+        jLabel68.setText("Buscar ID del producto:");
 
         txtBuscarCodigo.setBackground(new java.awt.Color(239, 237, 220));
         txtBuscarCodigo.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -649,7 +852,7 @@ public class jdManProducto extends javax.swing.JDialog {
         limpiarFormulario();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+    private void btnDarDeBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarDeBajaActionPerformed
         if (txtBuscarCodigo.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe ingresar un código de producto para eliminar");
         } else {
@@ -658,101 +861,123 @@ public class jdManProducto extends javax.swing.JDialog {
 
                 ResultSet rsProducto = objProducto.buscarProducto(idProducto);
 
-                if (rsProducto.next()) { 
-                    int confirmacion = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea eliminar este producto?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+                if (rsProducto.next()) {
+                    int idFrmFarma = rsProducto.getInt("id_frm_farma");
+                    int confirmacion = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea dar de baja este producto?", "Confirmar", JOptionPane.YES_NO_OPTION);
 
                     if (confirmacion == JOptionPane.YES_OPTION) {
-                        objProducto.eliminarProducto(idProducto);
+                        objProducto.darDeBajaDetProducto(idProducto, idFrmFarma);
                         limpiarFormulario();
                         listar("General");
-                        JOptionPane.showMessageDialog(this, "Producto eliminado correctamente");
+                        JOptionPane.showMessageDialog(this, "Producto dado de baja correctamente");
                     }
                 } else {
                     JOptionPane.showMessageDialog(this, "El código de producto no existe", "Error", JOptionPane.ERROR_MESSAGE);
                 }
 
-                rsProducto.close(); 
+                rsProducto.close();
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Error al eliminar producto --> " + e.getMessage());
+                JOptionPane.showMessageDialog(this, "Error al dar de baja al producto --> " + e.getMessage());
             }
         }
-    }//GEN-LAST:event_btnEliminarActionPerformed
+    }//GEN-LAST:event_btnDarDeBajaActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-       if(txtId.getText().isEmpty()) {
+        if (txtId.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe ingresar un código de producto para modificar");
-        }else {
-        try {
-            int idProducto = Integer.parseInt(txtId.getText());
-            String nombre = txtNombre.getText();
-            float precioCompra = Float.parseFloat(txtPrecioCompra.getText());
-            float precioVenta = Float.parseFloat(txtPrecioVenta.getText());
-            int stock = (int) spStock.getValue();
-            String numRegSanitario = txtNumRegisSani.getText();
-            String condicionVenta = cboConVenta.getSelectedItem().toString();
-            java.sql.Date fechaEntrada = new java.sql.Date(jcFechaEntrada.getDate().getTime());
+        } else {
+            try {
+                int idProducto = Integer.parseInt(txtId.getText());
+                String nombre = txtNombre.getText();
+                float precioVenta = Float.parseFloat(txtPrecioVenta.getText());
+                int stock = (int) spStock.getValue();
+                String numRegSanitario = txtNumRegisSani.getText();
+                String condicionVenta = cboConVenta.getSelectedItem().toString();
+                String principio_activo = txtPrincipio.getText();
+                String dosis = spDosis.getValue().toString() + " - " + cboUnidad.getSelectedItem().toString();
 
-            String formaFarmaceutica = (String) cboForma.getSelectedItem();
-            String rubro = (String) cboRubro.getSelectedItem();
-            String promocion = (String) cboPromocion.getSelectedItem();
-            String fabricante = (String) cboFabricante.getSelectedItem();
+                // Obtener los IDs de forma farmacéutica, rubro, promoción y fabricante
+                String formaFarmaceutica = (String) cboForma.getSelectedItem();
+                String rubro = (String) cboRubro.getSelectedItem();
+                String promocion = (String) cboPromocion.getSelectedItem();
+                String fabricante = (String) cboFabricante.getSelectedItem();
+                char estado = (char) cboEstado.getSelectedItem();
 
-            if (!nombre.isEmpty() && precioCompra > 0 && precioVenta > 0  && !numRegSanitario.isEmpty()) {
-                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea modificar este producto?");
-                if (confirmacion == JOptionPane.YES_OPTION) {
-                    int idForma = objFormaFarmaceutica.obtenerCodigoFormaFarmaceutica(formaFarmaceutica);
-                    int idRubro = objRubro.obtenerCodigoRubro(rubro);
-                    int idPromocion = objPromocion.obtenerCodigoPromocion(promocion);
-                    int idFabricante = objFabricante.obtenerIdFabricantePorNombre(fabricante);
+                if (!nombre.isEmpty() && precioVenta > 0 && !numRegSanitario.isEmpty()) {
+                    int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea modificar este producto?");
+                    if (confirmacion == JOptionPane.YES_OPTION) {
+                        // Obtener los IDs
+                        int idForma = objFormaFarmaceutica.obtenerCodigoFormaFarmaceutica(formaFarmaceutica);
+                        int idRubro = objRubro.obtenerCodigoRubro(rubro);
+                        int idPromocion = objPromocion.obtenerCodigoPromocion(promocion);
+                        int idFabricante = objFabricante.obtenerIdFabricantePorNombre(fabricante);
+                        int idLote = (int) cboLote.getSelectedItem();
 
-                    objProducto.modificarProducto(idProducto, nombre, precioCompra, precioVenta, stock, numRegSanitario, condicionVenta, fechaEntrada, idFabricante, idForma, idRubro, idPromocion);
+                        // Asegúrate de que el método de modificar producto tiene los parámetros correctos
+                        objProducto.modificarProducto(idProducto, nombre, numRegSanitario, condicionVenta, idPromocion, idRubro);
 
-                    limpiarFormulario();
-                    listar("General");
-                    JOptionPane.showMessageDialog(this, "Producto modificado correctamente");
+                        // Aquí deberías modificar el detalle del producto también
+                        objProducto.modificarDetalleProductoForma(idForma, idProducto, stock, precioVenta, estado, principio_activo, dosis, idFabricante, idLote);
+
+                        limpiarFormulario();
+                        listar("General");
+                        JOptionPane.showMessageDialog(this, "Producto modificado correctamente");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Ingrese información en todos los campos obligatorios");
                 }
-            } else {
-                JOptionPane.showMessageDialog(this, "Ingrese información en todos los campos obligatorios");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error al modificar producto --> " + e.getMessage());
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al modificar producto --> " + e.getMessage());
         }
-    }
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         try {
             if (btnSave.getText().equals("NUEVO")) {
                 btnSave.setText("GUARDAR");
-                txtId.setText(String.valueOf(objProducto.generarCodigoProducto()));
+                // Generar código de producto y convertir a String
+                Integer nuevoCodigo = objProducto.generarCodigoProducto();
+                txtId.setText(String.valueOf(nuevoCodigo));
                 txtNombre.requestFocus();
+                limpiarFormulario();
             } else {
+
                 int idProducto = Integer.parseInt(txtId.getText());
                 String nombre = txtNombre.getText();
-                float precioCompra = Float.parseFloat(txtPrecioCompra.getText());
                 float precioVenta = Float.parseFloat(txtPrecioVenta.getText());
                 int stock = (int) spStock.getValue();
                 String numRegSanitario = txtNumRegisSani.getText();
-                java.sql.Date fechaEntrada = new java.sql.Date(jcFechaEntrada.getDate().getTime());
                 String condicionVenta = cboConVenta.getSelectedItem().toString();
+                String principio_activo = txtPrincipio.getText();
+                String dosis = spDosis.getValue().toString() + " - " + cboUnidad.getSelectedItem().toString();
 
+                // Obtener los IDs de forma farmacéutica, rubro, promoción y fabricante
                 String formaFarmaceutica = (String) cboForma.getSelectedItem();
                 String rubro = (String) cboRubro.getSelectedItem();
                 String promocion = (String) cboPromocion.getSelectedItem();
                 String fabricante = (String) cboFabricante.getSelectedItem();
+                String estadoString = (String) cboEstado.getSelectedItem();
+                char estado = estadoString.charAt(0); // Obtener el primer carácter del String
 
                 int idForma = objFormaFarmaceutica.obtenerCodigoFormaFarmaceutica(formaFarmaceutica);
                 int idRubro = objRubro.obtenerCodigoRubro(rubro);
-                int idpromocion = objPromocion.obtenerCodigoPromocion(promocion);
-                int ifabricante = objFabricante.obtenerIdFabricantePorNombre(fabricante);
+                int idPromocion = objPromocion.obtenerCodigoPromocion(promocion);
+                int idFabricante = objFabricante.obtenerIdFabricantePorNombre(fabricante);
+
+                int idLote = 1;
 
                 if (!nombre.isEmpty()) {
+                    // Registrar en producto_farmaceutico
+                    objProducto.registrarProducto(idProducto, nombre, numRegSanitario, condicionVenta, idPromocion, idRubro);
 
-                    objProducto.registrarProducto(idProducto, nombre, precioCompra, precioVenta, stock, numRegSanitario, condicionVenta, fechaEntrada, ifabricante, idForma, idRubro, idpromocion);
+                    // Registrar en detalle_producto_forma
+                    objProducto.registrarDetalleProductoForma(idForma, idProducto, stock, precioVenta, estado, principio_activo, dosis, idFabricante, idLote);
+
                     btnSave.setText("NUEVO");
                     limpiarFormulario();
                     listar("General");
-                    JOptionPane.showMessageDialog(this, "Producto guardado correctamente");
+                    JOptionPane.showMessageDialog(this, "Producto y detalle guardados correctamente");
                 } else {
                     JOptionPane.showMessageDialog(this, "Ingrese información en todos los campos");
                 }
@@ -761,81 +986,6 @@ public class jdManProducto extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Error al insertar Producto --> " + e.getMessage());
         }
     }//GEN-LAST:event_btnSaveActionPerformed
-    private void limpiarFormulario() {
-        txtId.setText("");
-        txtNombre.setText("");
-        txtPrecioCompra.setText("");
-        txtPrecioVenta.setText("");
-        spStock.setValue(0);
-        txtNumRegisSani.setText("");
-        jcFechaEntrada.setDate(null);
-        cboForma.setSelectedIndex(0);
-        cboRubro.setSelectedIndex(0);
-        cboPromocion.setSelectedIndex(0);
-        cboFabricante.setSelectedIndex(0);
-    }
-
-    private void aplicarFiltro() {
-        String filtroSeleccionado = (String) cboFiltros.getSelectedItem();
-
-        try {
-
-            switch (filtroSeleccionado) {
-                case "General":
-                    listar("General");
-                    break;
-                case "Bajo stock":
-                    listar("pro.stock <= 10"); 
-                    break;
-
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al aplicar filtro --> " + e.getMessage());
-        }
-    }
-
-    private void listar(String filtro) {
-    DefaultTableModel modelo = new DefaultTableModel();
-    modelo.addColumn("ID");
-    modelo.addColumn("Nombre");
-    modelo.addColumn("Precio Compra");
-    modelo.addColumn("Precio Venta");
-    modelo.addColumn("Stock");
-    modelo.addColumn("Registro Sanitario");
-    modelo.addColumn("Condición Venta");
-    modelo.addColumn("Fecha Entrada");
-    modelo.addColumn("Fabricante");
-    modelo.addColumn("Forma Farmacéutica");
-    modelo.addColumn("Rubro");
-    modelo.addColumn("Promoción");
-
-    tblProducto.setModel(modelo);
-
-    ResultSet rs = null;
-    try {
-        rs = objProducto.listarProductos(filtro);
-
-        while (rs.next()) {
-            Object[] fila = new Object[12];
-            fila[0] = rs.getInt("id_producto"); 
-            fila[1] = rs.getString("nombre");  
-            fila[2] = rs.getDouble("precio_compra"); 
-            fila[3] = rs.getDouble("precio_venta");
-            fila[4] = rs.getInt("stock");  
-            fila[5] = rs.getString("nro_reg_sanitario");  
-            fila[6] = rs.getString("condicion_venta"); 
-            fila[7] = rs.getDate("fecha_entrada");  
-            fila[8] = rs.getString("nombre_fabricante");  
-            fila[9] = rs.getString("forma_farmaceutica");  
-            fila[10] = rs.getString("nombre_rubro");  
-            fila[11] = rs.getString("dscto") == null ? "Sin Promoción" : rs.getString("dscto");  
-
-            modelo.addRow(fila);
-        }
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al listar productos --> " + e.getMessage());
-    }
-}
 
 
     private void cboRubroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboRubroActionPerformed
@@ -872,7 +1022,6 @@ public class jdManProducto extends javax.swing.JDialog {
         jdPromocion obj = new jdPromocion(null, true);
         obj.setLocationRelativeTo(null);
         obj.setVisible(true);
-
     }//GEN-LAST:event_btnApActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -880,140 +1029,104 @@ public class jdManProducto extends javax.swing.JDialog {
     }//GEN-LAST:event_formWindowOpened
 
     private void buscarProducto() {
-    ResultSet rsProducto = null;
-    try {
-        if (txtBuscarCodigo.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar un código de producto para buscar", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        } else {
-            int idProducto = Integer.parseInt(txtBuscarCodigo.getText());
-            rsProducto = objProducto.buscarProducto(idProducto);
-            
-            if (rsProducto.next()) {
-                txtId.setText(rsProducto.getString("id_producto"));
-                txtNombre.setText(rsProducto.getString("nombre"));
-                                    lblNombreProducto.setText(rsProducto.getString("nombre"));
-
-                txtPrecioCompra.setText(rsProducto.getString("precio_compra"));
-                txtPrecioVenta.setText(rsProducto.getString("precio_venta"));
-                spStock.setValue(rsProducto.getObject("stock"));
-                txtNumRegisSani.setText(rsProducto.getString("nro_reg_sanitario"));
-                cboConVenta.setSelectedItem(rsProducto.getString("condicion_venta"));
-                jcFechaEntrada.setDate(rsProducto.getDate("fecha_entrada"));
-                cboFabricante.setSelectedItem(rsProducto.getString("nombre_fabricante"));
-                cboForma.setSelectedItem(rsProducto.getString("forma_farmaceutica"));
-                cboRubro.setSelectedItem(rsProducto.getString("nombre_rubro"));
-                cboPromocion.setSelectedItem(rsProducto.getString("descuento"));
-
-                rsProducto.close();
+        ResultSet rsProducto = null;
+        try {
+            if (txtBuscarCodigo.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Debe ingresar un código de producto para buscar", "Advertencia", JOptionPane.WARNING_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(this, "El código de producto no existe", "Producto no encontrado", JOptionPane.INFORMATION_MESSAGE);
-                limpiarFormulario();
+                int idProducto = Integer.parseInt(txtBuscarCodigo.getText());
+                rsProducto = objProducto.buscarProducto(idProducto);
+
+                if (rsProducto.next()) {
+                    txtId.setText(rsProducto.getString("id_producto"));
+                    txtNombre.setText(rsProducto.getString("nombre"));
+                    lblNombreProducto.setText(rsProducto.getString("nombre"));
+                    txtPrecioVenta.setText(rsProducto.getString("precio_venta"));
+                    spStock.setValue(rsProducto.getObject("stock"));
+                    txtNumRegisSani.setText(rsProducto.getString("nro_reg_sanitario"));
+                    cboConVenta.setSelectedItem(rsProducto.getString("condicion_venta"));
+
+                    // Asignar estado
+                    char estado = rsProducto.getString("estado").charAt(0); // Cambia a String y luego a char
+                    cboEstado.setSelectedItem(String.valueOf(estado)); // Asegúrate de que el combo tenga el valor como String
+
+                    txtPrincipio.setText(rsProducto.getString("principio_activo"));
+
+                    // Manejar dosis
+                    String dosisCompleta = rsProducto.getString("dosis"); // Por ejemplo: "500 - mg"
+                    if (dosisCompleta != null && !dosisCompleta.isEmpty()) {
+                        String[] partesDosis = dosisCompleta.split(" - "); // Dividir por " - "
+                        if (partesDosis.length == 2) {
+                            spDosis.setValue(Integer.parseInt(partesDosis[0])); // Asignar cantidad al spinner
+                            cboUnidad.setSelectedItem(partesDosis[1]); // Asignar unidad al combo
+                        }
+                    }
+
+                    cboFabricante.setSelectedItem(rsProducto.getString("nombre_fabricante"));
+                    cboForma.setSelectedItem(rsProducto.getString("forma_farmaceutica"));
+                    cboRubro.setSelectedItem(rsProducto.getString("nombre_rubro"));
+                    cboPromocion.setSelectedItem(rsProducto.getString("descuento"));
+
+                    rsProducto.close();
+                } else {
+                    JOptionPane.showMessageDialog(this, "El código de producto no existe", "Producto no encontrado", JOptionPane.INFORMATION_MESSAGE);
+                    limpiarFormulario();
+                }
             }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El código de producto debe ser un número", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al buscar el producto --> " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "El código de producto debe ser un número", "Error", JOptionPane.ERROR_MESSAGE);
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al buscar el producto --> " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
-}
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-buscarProducto();
-
+        buscarProducto();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void tblProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductoMouseClicked
         txtBuscarCodigo.setText(String.valueOf(tblProducto.getValueAt(tblProducto.getSelectedRow(), 0)));
         btnBuscarActionPerformed(null);
-
-
     }//GEN-LAST:event_tblProductoMouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-   
 
     }//GEN-LAST:event_jButton2ActionPerformed
-    private void listarFormasFarmaceuticas() {
-        ResultSet listarFormas = null;
-        DefaultComboBoxModel modeloForma = new DefaultComboBoxModel();
-        cboForma.setModel(modeloForma);
-        try {
-            listarFormas = objFormaFarmaceutica.listarFormaFarmaceutica("General");
-            while (listarFormas.next()) {
-                modeloForma.addElement(listarFormas.getString("forma_farmaceutica"));
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al listar formas farmacéuticas---> " + e.getMessage());
-        }
-    }
 
-    private void listarRubros() {
-        ResultSet listarRubros = null;
-        DefaultComboBoxModel modeloRubro = new DefaultComboBoxModel();
-        cboRubro.setModel(modeloRubro);
-        try {
-            listarRubros = objRubro.listarRubros("General");
-            while (listarRubros.next()) {
-                modeloRubro.addElement(listarRubros.getString("nombre_rubro"));
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al listar rubros---> " + e.getMessage());
-        }
-    }
+    private void btnAgregarLoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarLoteActionPerformed
+        jdLote lote = new jdLote(null, true);
+        lote.setLocationRelativeTo(null);
+        lote.setVisible(true);
+    }//GEN-LAST:event_btnAgregarLoteActionPerformed
 
-    private void listarPromociones() {
-        ResultSet listarPromociones = null;
-        DefaultComboBoxModel modeloPromocion = new DefaultComboBoxModel();
-        cboPromocion.setModel(modeloPromocion);
-        try {
-            listarPromociones = objPromocion.listarPromociones("General");
-            while (listarPromociones.next()) {
-                modeloPromocion.addElement(listarPromociones.getString("dscto"));
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al listar promociones---> " + e.getMessage());
-        }
-    }
-
-    private void listarFabricantes() {
-        ResultSet listarFabricantes = null;
-        DefaultComboBoxModel modeloFabricante = new DefaultComboBoxModel();
-        cboFabricante.setModel(modeloFabricante);
-        try {
-            listarFabricantes = objFabricante.listarFabricantes("General");
-            while (listarFabricantes.next()) {
-                modeloFabricante.addElement(listarFabricantes.getString("nombre_fabricante"));
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al listar fabricantes---> " + e.getMessage());
-        }
-    }
-
- 
-
- 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAF;
+    private javax.swing.JButton btnAgregarLote;
     private javax.swing.JButton btnAp;
     private javax.swing.JButton btnAr;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnDarDeBaja;
     private javax.swing.JButton btnEdit;
-    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnae;
     private javax.swing.JComboBox<String> cboConVenta;
+    private javax.swing.JComboBox<String> cboEstado;
     private javax.swing.JComboBox<String> cboFabricante;
     private javax.swing.JComboBox<String> cboFiltros;
     private javax.swing.JComboBox<String> cboForma;
+    private javax.swing.JComboBox<String> cboLote;
     private javax.swing.JComboBox<String> cboPromocion;
     private javax.swing.JComboBox<String> cboRubro;
+    private javax.swing.JComboBox<String> cboUnidad;
     private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel62;
     private javax.swing.JLabel jLabel63;
-    private javax.swing.JLabel jLabel64;
     private javax.swing.JLabel jLabel65;
     private javax.swing.JLabel jLabel66;
     private javax.swing.JLabel jLabel67;
@@ -1037,8 +1150,8 @@ buscarProducto();
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private com.toedter.calendar.JDateChooser jcFechaEntrada;
     private javax.swing.JLabel lblNombreProducto;
+    private javax.swing.JSpinner spDosis;
     private javax.swing.JSpinner spStock;
     private javax.swing.JTable tblProducto;
     private javax.swing.JTextField txtBuscarCodigo;
@@ -1046,7 +1159,7 @@ buscarProducto();
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtNumRegisSani;
-    private javax.swing.JTextField txtPrecioCompra;
     private javax.swing.JTextField txtPrecioVenta;
+    private javax.swing.JTextField txtPrincipio;
     // End of variables declaration//GEN-END:variables
 }

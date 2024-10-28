@@ -1,4 +1,3 @@
-
 package Capa_principal;
 
 import capa_negocio.Fabricante;
@@ -14,13 +13,46 @@ import javax.swing.table.DefaultTableModel;
 public class jdFabricante extends javax.swing.JDialog {
 
     Fabricante obj = new Fabricante();
+
     public jdFabricante(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
-    
 
- 
+    public void limpiar() {
+        txtId2.setText("");
+        txtNombre.setText("");
+        chkVigencia.setSelected(false);
+    }
+
+    public void listar(String tipo) {
+        ResultSet lista = null;
+        Vector rubro;
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("Codigo");
+        modelo.addColumn("Nombre fabricante");
+        modelo.addColumn("Estado");
+
+        try {
+            lista = obj.listarFabricantes(tipo);
+            while (lista.next()) {
+                rubro = new Vector();
+                rubro.add(lista.getInt("id_fabricante"));
+                rubro.add(lista.getString("nombre_fabricante"));
+                if (lista.getBoolean("estado")) {
+                    rubro.add("Activo");
+                } else {
+                    rubro.add("Inactivo");
+                }
+
+                modelo.addRow(rubro);
+            }
+            tblFabricantes.setModel(modelo);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al listar los fabricantes: " + e.getMessage());
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -34,17 +66,20 @@ public class jdFabricante extends javax.swing.JDialog {
         txtNombre = new javax.swing.JTextField();
         txtId2 = new javax.swing.JTextField();
         btnBuscar1 = new javax.swing.JButton();
+        chkVigencia = new javax.swing.JCheckBox();
+        jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
         cboFiltros = new javax.swing.JComboBox<>();
         jScrollPane4 = new javax.swing.JScrollPane();
-        TablaGuardarda1 = new javax.swing.JTable();
+        tblFabricantes = new javax.swing.JTable();
         btnSave = new javax.swing.JButton();
         btnModificaar = new javax.swing.JButton();
         btnNuevo1 = new javax.swing.JButton();
-        btnEliminar1 = new javax.swing.JButton();
+        btnDarBaja = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Fabricante");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -87,6 +122,10 @@ public class jdFabricante extends javax.swing.JDialog {
             }
         });
 
+        chkVigencia.setText("Vigente");
+
+        jLabel1.setText("Vigencia:");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -97,14 +136,16 @@ public class jdFabricante extends javax.swing.JDialog {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel68)
-                            .addComponent(jLabel64))
+                            .addComponent(jLabel64)
+                            .addComponent(jLabel1))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(txtId2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnBuscar1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(btnBuscar1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(chkVigencia, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel62)
                         .addGap(18, 18, 18)
@@ -131,7 +172,11 @@ public class jdFabricante extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel64))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(chkVigencia)
+                    .addComponent(jLabel1))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         jPanel4.setBackground(new java.awt.Color(246, 244, 235));
@@ -147,9 +192,9 @@ public class jdFabricante extends javax.swing.JDialog {
             }
         });
 
-        TablaGuardarda1.setAutoCreateRowSorter(true);
-        TablaGuardarda1.setBackground(new java.awt.Color(170, 215, 217));
-        TablaGuardarda1.setModel(new javax.swing.table.DefaultTableModel(
+        tblFabricantes.setAutoCreateRowSorter(true);
+        tblFabricantes.setBackground(new java.awt.Color(170, 215, 217));
+        tblFabricantes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -157,38 +202,37 @@ public class jdFabricante extends javax.swing.JDialog {
 
             }
         ));
-        TablaGuardarda1.setShowGrid(false);
-        TablaGuardarda1.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblFabricantes.setShowGrid(false);
+        tblFabricantes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                TablaGuardarda1MouseClicked(evt);
+                tblFabricantesMouseClicked(evt);
             }
         });
-        jScrollPane4.setViewportView(TablaGuardarda1);
+        jScrollPane4.setViewportView(tblFabricantes);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel24)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cboFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel24)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cboFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 30, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
+                .addContainerGap(10, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel24)
                     .addComponent(cboFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         btnSave.setBackground(new java.awt.Color(236, 177, 89));
@@ -224,14 +268,14 @@ public class jdFabricante extends javax.swing.JDialog {
             }
         });
 
-        btnEliminar1.setBackground(new java.awt.Color(236, 177, 89));
-        btnEliminar1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnEliminar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
-        btnEliminar1.setText("ELIMINAR");
-        btnEliminar1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btnEliminar1.addActionListener(new java.awt.event.ActionListener() {
+        btnDarBaja.setBackground(new java.awt.Color(236, 177, 89));
+        btnDarBaja.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnDarBaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
+        btnDarBaja.setText("DAR DE BAJA");
+        btnDarBaja.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnDarBaja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminar1ActionPerformed(evt);
+                btnDarBajaActionPerformed(evt);
             }
         });
 
@@ -246,18 +290,18 @@ public class jdFabricante extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(btnEliminar1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnNuevo1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnModificaar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnDarBaja, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                            .addComponent(btnNuevo1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnModificaar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 0, 0))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(36, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap(9, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnSave)
@@ -266,8 +310,8 @@ public class jdFabricante extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnNuevo1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnEliminar1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnDarBaja)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -295,15 +339,17 @@ public class jdFabricante extends javax.swing.JDialog {
         ResultSet rsRubro = null;
         try {
             if (txtId2.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Debe ingresar un c贸digo para buscar");
+                JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para buscar");
             } else {
                 rsRubro = obj.buscarFabricante(Integer.parseInt(txtId2.getText()));
 
                 if (rsRubro.next()) {
+                    txtId2.setText(String.valueOf(rsRubro.getInt("id_fabricante")));
                     txtNombre.setText(rsRubro.getString("nombre_fabricante"));
+                    chkVigencia.setSelected(rsRubro.getBoolean("estado"));
                     rsRubro.close();
                 } else {
-                    JOptionPane.showMessageDialog(this, "C贸digo del fabricante  no existe");
+                    JOptionPane.showMessageDialog(this, "Codigo del fabricante  no existe");
                     limpiar();
                 }
             }
@@ -317,11 +363,10 @@ public class jdFabricante extends javax.swing.JDialog {
         listar(filtro);
     }//GEN-LAST:event_cboFiltrosActionPerformed
 
-    private void TablaGuardarda1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaGuardarda1MouseClicked
-
-        txtId2.setText(String.valueOf(TablaGuardarda1.getValueAt(TablaGuardarda1.getSelectedRow(), 0)));
+    private void tblFabricantesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblFabricantesMouseClicked
+        txtId2.setText(String.valueOf(tblFabricantes.getValueAt(tblFabricantes.getSelectedRow(), 0)));
         btnBuscar1ActionPerformed(null);
-    }//GEN-LAST:event_TablaGuardarda1MouseClicked
+    }//GEN-LAST:event_tblFabricantesMouseClicked
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         try {
@@ -333,60 +378,37 @@ public class jdFabricante extends javax.swing.JDialog {
                 int codigo = Integer.parseInt(txtId2.getText());
 
                 String nombre = txtNombre.getText();
+                boolean vigencia = chkVigencia.isSelected();
                 if (!nombre.isEmpty()) {
-                    obj.registrarFabricante(codigo, nombre);
+                    obj.registrarFabricante(codigo, nombre, vigencia);
                     btnSave.setText("NUEVO");
                     limpiar();
                     listar("General");
                     JOptionPane.showMessageDialog(this, "Fabricante guardado correctamente");
                 } else {
-                    JOptionPane.showMessageDialog(this, "Ingrese informaci贸n en todos los campos");
+                    JOptionPane.showMessageDialog(this, "Ingrese informacion en todos los campos");
                 }
 
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al insertar Fabricante -->" + e.getMessage());
         }
-        }
 
-            public void limpiar() {
-                txtId2.setText("");
-                txtNombre.setText("");
-            }
-
-        public void listar(String tipo) {
-            ResultSet lista = null;
-            Vector rubro;
-            DefaultTableModel modelo = new DefaultTableModel();
-            modelo.addColumn("C贸digo");
-            modelo.addColumn("Nombre fabricante");
-
-            try {
-                lista = obj.listarFabricantes(tipo);
-                while (lista.next()) {
-                    rubro = new Vector();
-                    rubro.add(lista.getInt("id_fabricante"));
-                    rubro.add(lista.getString("nombre_fabricante"));
-                    modelo.addRow(rubro);
-                }
-                TablaGuardarda1.setModel(modelo);
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Error al listar los rubros: " + e.getMessage());
-            }
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnModificaarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificaarActionPerformed
         if (txtId2.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar un c贸digo a modificar");
+            JOptionPane.showMessageDialog(this, "Debe ingresar un codigo a modificar");
         } else {
             int codigo = Integer.parseInt(txtId2.getText());
             String nombre = txtNombre.getText();
+            boolean vigencia = chkVigencia.isSelected();
             if (!nombre.isEmpty()) {
 
                 try {
-                    int confirmacion = JOptionPane.showConfirmDialog(this, "驴Desea modificar  este fabricante?");
+                    int confirmacion = JOptionPane.showConfirmDialog(this, "緿esea modificar este fabricante?");
                     if (confirmacion == JOptionPane.YES_OPTION) {
-                        obj.modificarFabricante(codigo, nombre);
+                        obj.modificarFabricante(codigo, nombre, vigencia);
                         limpiar();
                         listar("General");
                         JOptionPane.showMessageDialog(this, "Fabricante modificado correctamente");
@@ -396,7 +418,7 @@ public class jdFabricante extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(this, "Error al modificar Fabricante---> " + e.getMessage());
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "Ingrese informaci贸n en todos los campos");
+                JOptionPane.showMessageDialog(this, "Ingrese informacion en todos los campos");
 
             }
 
@@ -407,24 +429,24 @@ public class jdFabricante extends javax.swing.JDialog {
         limpiar();
     }//GEN-LAST:event_btnNuevo1ActionPerformed
 
-    private void btnEliminar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar1ActionPerformed
+    private void btnDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBajaActionPerformed
         try {
             if (txtId2.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Debe ingresar un c贸digo a eliminar");
+                JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para dar de baja");
             } else {
 
-                int confirmacion = JOptionPane.showConfirmDialog(this, "驴Desea eliminar este fabricante?");
+                int confirmacion = JOptionPane.showConfirmDialog(this, "緿esea dar de baja a este fabricante?");
                 if (confirmacion == JOptionPane.YES_OPTION) {
-                    obj.eliminarFabricante(Integer.parseInt(txtId2.getText()));
+                    obj.darDeBajaFabricante(Integer.parseInt(txtId2.getText()));
                     limpiar();
                     listar("General");
-                    JOptionPane.showMessageDialog(rootPane, "Rubro eliminado correctamente");
+                    JOptionPane.showMessageDialog(rootPane, "Fabricante dado de baja correctamente");
                 }
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
-    }//GEN-LAST:event_btnEliminar1ActionPerformed
+    }//GEN-LAST:event_btnDarBajaActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         listar("General");
@@ -432,13 +454,14 @@ public class jdFabricante extends javax.swing.JDialog {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable TablaGuardarda1;
     private javax.swing.JButton btnBuscar1;
-    private javax.swing.JButton btnEliminar1;
+    private javax.swing.JButton btnDarBaja;
     private javax.swing.JButton btnModificaar;
     private javax.swing.JButton btnNuevo1;
     private javax.swing.JButton btnSave;
     private javax.swing.JComboBox<String> cboFiltros;
+    private javax.swing.JCheckBox chkVigencia;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel62;
     private javax.swing.JLabel jLabel64;
@@ -448,6 +471,7 @@ public class jdFabricante extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTable tblFabricantes;
     private javax.swing.JTextField txtId2;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables

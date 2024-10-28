@@ -100,6 +100,7 @@ public class jdManUsuario extends javax.swing.JDialog {
         btnNuevo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Usuaario");
 
         jPanel1.setBackground(new java.awt.Color(246, 244, 235));
 

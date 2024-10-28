@@ -19,6 +19,43 @@ public class jdPromocion extends javax.swing.JDialog {
         initComponents();
     }
 
+    public void limpiar() {
+        txtId2.setText("");
+        txtDescuento.setText("");
+        jcFechaInicio.setDate(null);
+        jcFechaFin.setDate(null);
+        fechaFinIngresado.setDate(null);
+        fechainicioIngresado.setDate(null);
+        chkVigencia.setSelected(false);
+    }
+
+    public void listar(String tipo) {
+        ResultSet lista = null;
+        Vector rubro;
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("Codigo");
+        modelo.addColumn("Descuento");
+        modelo.addColumn("Fecha inicio");
+        modelo.addColumn("Fecha fin");
+        modelo.addColumn("Estado");
+
+        try {
+            lista = obj.listarPromociones(tipo);
+            while (lista.next()) {
+                rubro = new Vector();
+                rubro.add(lista.getInt("id_promocion"));
+                rubro.add(lista.getFloat("dscto"));
+                rubro.add(lista.getDate("fecha_inicio"));
+                rubro.add(lista.getDate("fecha_fin"));
+                rubro.add(lista.getBoolean("estado"));
+                modelo.addRow(rubro);
+            }
+            TablaGuardarda1.setModel(modelo);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al listar las promociones: " + e.getMessage());
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -39,6 +76,8 @@ public class jdPromocion extends javax.swing.JDialog {
         jLabel66 = new javax.swing.JLabel();
         jcFechaFin = new com.toedter.calendar.JDateChooser();
         jLabel1 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        chkVigencia = new javax.swing.JCheckBox();
         jPanel4 = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
         cboFiltros = new javax.swing.JComboBox<>();
@@ -72,10 +111,10 @@ public class jdPromocion extends javax.swing.JDialog {
         jLabel62.setBackground(new java.awt.Color(70, 130, 169));
         jLabel62.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel62.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel62.setText("Datos de la promoci贸n:");
+        jLabel62.setText("Datos de la promoci髇:");
 
         jLabel68.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel68.setText("ID promoci贸n:");
+        jLabel68.setText("ID promoci髇:");
 
         jLabel64.setBackground(new java.awt.Color(0, 0, 0));
         jLabel64.setText("Descuento:");
@@ -109,6 +148,10 @@ public class jdPromocion extends javax.swing.JDialog {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/descuento.png"))); // NOI18N
 
+        jLabel5.setText("Vigencia:");
+
+        chkVigencia.setText("Vigente");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -119,55 +162,70 @@ public class jdPromocion extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(46, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel66)
-                            .addComponent(jLabel68)
-                            .addComponent(jLabel64)
-                            .addComponent(jLabel65))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jcFechaInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel65, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel68, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel66, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(22, 22, 22)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(txtId2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnBuscar1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txtDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jcFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jcFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(txtId2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnBuscar1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(txtDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel1)))))
-                .addGap(44, 44, 44))
+                            .addComponent(chkVigencia, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jLabel64)
+                        .addGap(162, 162, 162)
+                        .addComponent(jLabel1)))
+                .addGap(74, 74, 74))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addComponent(jLabel62)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtId2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel68))
-                    .addComponent(btnBuscar1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnBuscar1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel62)
+                                .addGap(8, 8, 8)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel68)
+                                    .addComponent(txtId2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel64)))
+                    .addComponent(txtDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel64)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel65)
                     .addComponent(jcFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jcFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel66))
-                .addGap(34, 34, 34))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(chkVigencia))
+                .addGap(11, 11, 11))
         );
 
         jPanel4.setBackground(new java.awt.Color(246, 244, 235));
@@ -301,8 +359,8 @@ public class jdPromocion extends javax.swing.JDialog {
 
         btnEliminar1.setBackground(new java.awt.Color(236, 177, 89));
         btnEliminar1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnEliminar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
-        btnEliminar1.setText("ELIMINAR");
+        btnEliminar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/darse-de-baja.png"))); // NOI18N
+        btnEliminar1.setText("DAR DE BAJA");
         btnEliminar1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnEliminar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -331,19 +389,19 @@ public class jdPromocion extends javax.swing.JDialog {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addContainerGap(40, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnModificaar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnNuevo1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnEliminar1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -377,9 +435,10 @@ public class jdPromocion extends javax.swing.JDialog {
                 rsPromocion = obj.buscarPromocion(Integer.parseInt(txtId2.getText()));
 
                 if (rsPromocion.next()) {
-                    txtDescuento.setText(String.valueOf(rsPromocion.getFloat("dscto")));
+                    txtDescuento.setText(String.valueOf(rsPromocion.getInt("dscto")));
                     jcFechaInicio.setDate(rsPromocion.getDate("fecha_inicio"));
                     jcFechaFin.setDate(rsPromocion.getDate("fecha_fin"));
+                    chkVigencia.setSelected(rsPromocion.getBoolean("estado"));
                     rsPromocion.close();
                 } else {
                     JOptionPane.showMessageDialog(this, "C骴igo de promoci髇 no existe");
@@ -387,7 +446,7 @@ public class jdPromocion extends javax.swing.JDialog {
                 }
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al buscar la promoci贸n: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error al buscar la promocion: " + e.getMessage());
         }
     }//GEN-LAST:event_btnBuscar1ActionPerformed
 
@@ -397,7 +456,6 @@ public class jdPromocion extends javax.swing.JDialog {
     }//GEN-LAST:event_cboFiltrosActionPerformed
 
     private void TablaGuardarda1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaGuardarda1MouseClicked
-
         txtId2.setText(String.valueOf(TablaGuardarda1.getValueAt(TablaGuardarda1.getSelectedRow(), 0)));
         btnBuscar1ActionPerformed(null);
     }//GEN-LAST:event_TablaGuardarda1MouseClicked
@@ -414,61 +472,29 @@ public class jdPromocion extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
                 } else {
                     int codigo = Integer.parseInt(txtId2.getText());
-                    float descuento = Float.parseFloat(txtDescuento.getText());
+                    int descuento = Integer.parseInt(txtDescuento.getText());
                     java.sql.Date fechaInicio = new java.sql.Date(jcFechaInicio.getDate().getTime());
                     java.sql.Date fechaFin = new java.sql.Date(jcFechaFin.getDate().getTime());
-                    obj.registrarPromocion(codigo, descuento, fechaInicio, fechaFin);
+                    boolean estado = chkVigencia.isSelected();
+                    obj.registrarPromocion(codigo, descuento, fechaInicio, fechaFin, estado);
                     btnSave.setText("NUEVO");
                     limpiar();
                     listar("General");
-                    JOptionPane.showMessageDialog(this, "Promoci贸n gardada correctamente");
+                    JOptionPane.showMessageDialog(this, "Promocion guardada correctamente");
                 }
 
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al insertar rubro -->" + e.getMessage());
         }
-    }
 
-    public void limpiar() {
-        txtId2.setText("");
-        txtDescuento.setText("");
-        jcFechaInicio.setDate(null);
-        jcFechaFin.setDate(null);
-        fechaFinIngresado.setDate(null);
-        fechainicioIngresado.setDate(null);
-    }
-
-    public void listar(String tipo) {
-        ResultSet lista = null;
-        Vector rubro;
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("C贸digo");
-        modelo.addColumn("Descuento");
-        modelo.addColumn("Fecha inicio");
-        modelo.addColumn("Fecha fin");
-
-        try {
-            lista = obj.listarPromociones(tipo);
-            while (lista.next()) {
-                rubro = new Vector();
-                rubro.add(lista.getInt("id_promocion"));
-                rubro.add(lista.getFloat("dscto"));
-                rubro.add(lista.getDate("fecha_inicio"));
-                rubro.add(lista.getDate("fecha_fin"));
-                modelo.addRow(rubro);
-            }
-            TablaGuardarda1.setModel(modelo);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al listar los rubros: " + e.getMessage());
-        }
     }//GEN-LAST:event_btnSaveActionPerformed
 
     public void listarPorFechas(java.sql.Date fechaInicio, java.sql.Date fechaFin) {
         ResultSet lista = null;
         Vector promocion;
         DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("C贸digo");
+        modelo.addColumn("Codigo");
         modelo.addColumn("Descuento");
         modelo.addColumn("Fecha Inicio");
         modelo.addColumn("Fecha Fin");
@@ -487,27 +513,27 @@ public class jdPromocion extends javax.swing.JDialog {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al listar promociones por fecha: " + e.getMessage());
         }
-}
+    }
 
     private void btnModificaarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificaarActionPerformed
         if (txtId2.getText().isEmpty() || txtDescuento.getText().isEmpty() || jcFechaInicio.getDate() == null || jcFechaFin.getDate() == null) {
             JOptionPane.showMessageDialog(this, "Debe completar todos los campos antes de modificar");
         } else {
             int codigo = Integer.parseInt(txtId2.getText());
-            float descuento = Float.parseFloat(txtDescuento.getText());
+            int descuento = Integer.parseInt(txtDescuento.getText());
             java.sql.Date fechaInicio = new java.sql.Date(jcFechaInicio.getDate().getTime());
             java.sql.Date fechaFin = new java.sql.Date(jcFechaFin.getDate().getTime());
-
+            boolean estado = chkVigencia.isSelected();
             try {
-                int confirmacion = JOptionPane.showConfirmDialog(this, "驴Desea modificar esta promoci贸n?");
+                int confirmacion = JOptionPane.showConfirmDialog(this, "緿esea modificar esta promocion?");
                 if (confirmacion == JOptionPane.YES_OPTION) {
-                    obj.modificarPromocion(codigo, descuento, fechaInicio, fechaFin);
+                    obj.modificarPromocion(codigo, descuento, fechaInicio, fechaFin, estado);
                     limpiar();
                     listar("General");
-                    JOptionPane.showMessageDialog(this, "Promoci贸n modificada correctamente");
+                    JOptionPane.showMessageDialog(this, "Promocion modificada correctamente");
                 }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Error al modificar la promoci贸n: " + e.getMessage());
+                JOptionPane.showMessageDialog(this, "Error al modificar la promocion: " + e.getMessage());
             }
         }
     }//GEN-LAST:event_btnModificaarActionPerformed
@@ -519,18 +545,18 @@ public class jdPromocion extends javax.swing.JDialog {
     private void btnEliminar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar1ActionPerformed
         try {
             if (txtId2.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Debe ingresar un c贸digo para eliminar");
+                JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para dar de baja");
             } else {
-                int confirmacion = JOptionPane.showConfirmDialog(this, "驴Desea eliminar esta promoci贸n?");
+                int confirmacion = JOptionPane.showConfirmDialog(this, "緿esea dar de baja esta promocion?");
                 if (confirmacion == JOptionPane.YES_OPTION) {
-                    obj.eliminarPromocion(Integer.parseInt(txtId2.getText()));
+                    obj.darDeBajaPromocion(Integer.parseInt(txtId2.getText()));
                     limpiar();
                     listar("General");
-                    JOptionPane.showMessageDialog(this, "Promoci贸n eliminada correctamente");
+                    JOptionPane.showMessageDialog(this, "Promocion dada de baja correctamente");
                 }
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al eliminar la promoci贸n: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error al dar de baja la promocion: " + e.getMessage());
         }
     }//GEN-LAST:event_btnEliminar1ActionPerformed
 
@@ -567,7 +593,6 @@ public class jdPromocion extends javax.swing.JDialog {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
-  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TablaGuardarda1;
@@ -577,6 +602,7 @@ public class jdPromocion extends javax.swing.JDialog {
     private javax.swing.JButton btnNuevo1;
     private javax.swing.JButton btnSave;
     private javax.swing.JComboBox<String> cboFiltros;
+    private javax.swing.JCheckBox chkVigencia;
     private com.toedter.calendar.JDateChooser fechaFinIngresado;
     private com.toedter.calendar.JDateChooser fechainicioIngresado;
     private javax.swing.JButton jButton1;
@@ -586,6 +612,7 @@ public class jdPromocion extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel62;
     private javax.swing.JLabel jLabel64;
     private javax.swing.JLabel jLabel65;

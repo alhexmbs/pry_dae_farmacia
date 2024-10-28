@@ -2,6 +2,7 @@ package capa_negocio;
 
 import capaDatos.datos;
 import java.sql.*;
+
 /**
  *
  * @author Katia
@@ -17,11 +18,11 @@ public class Rubro {
         switch (filtro) {
             case "General":
                 break;
-             case "Nombre ascendente":
-                strsql += " ORDER BY nombre_rubro ASC"; 
+            case "Nombre ascendente":
+                strsql += " ORDER BY nombre_rubro ASC";
                 break;
             case "Nombre descente":
-                strsql += " ORDER BY nombre_rubro DESC"; 
+                strsql += " ORDER BY nombre_rubro DESC";
                 break;
             default:
                 throw new Exception("Filtro no reconocido: " + filtro);
@@ -44,7 +45,6 @@ public class Rubro {
         }
     }
 
-   
     public int generarCodigoRubro() throws Exception {
         strsql = "SELECT COALESCE(MAX(id_rubro), 0) + 1 AS codigo FROM RUBRO";
         try {
@@ -53,14 +53,13 @@ public class Rubro {
                 return rs.getInt("codigo");
             }
         } catch (Exception e) {
-            throw new Exception("Error al generar código de rubro --> " + e.getMessage());
+            throw new Exception("Error al generar codigo de rubro --> " + e.getMessage());
         }
-        return 0; 
+        return 0;
     }
 
-  
-    public void registrarRubro(int id_rubro, String nombre_rubro) throws Exception {
-        strsql = "INSERT INTO RUBRO (id_rubro, nombre_rubro) VALUES (" + id_rubro + ", '" + nombre_rubro + "')";
+    public void registrarRubro(int id_rubro, String nombre_rubro, boolean estado) throws Exception {
+        strsql = "INSERT INTO RUBRO (id_rubro, nombre_rubro, estado) VALUES (" + id_rubro + ", '" + nombre_rubro + "', " + estado + ")";
         try {
             objconectar.ejecutarBd(strsql);
         } catch (Exception e) {
@@ -68,8 +67,10 @@ public class Rubro {
         }
     }
 
-    public void modificarRubro(int id_rubro, String nombre_rubro) throws Exception {
-        strsql = "UPDATE RUBRO SET nombre_rubro = '" + nombre_rubro + "' WHERE id_rubro = " + id_rubro;
+    public void modificarRubro(int id_rubro, String nombre_rubro, boolean estado) throws Exception {
+        // Corregir la concatenaci�n de la cadena SQL
+        strsql = "UPDATE RUBRO SET nombre_rubro = '" + nombre_rubro + "', estado = " + estado + " WHERE id_rubro = " + id_rubro;
+
         try {
             objconectar.ejecutarBd(strsql);
         } catch (Exception e) {
@@ -77,7 +78,6 @@ public class Rubro {
         }
     }
 
-    
     public void eliminarRubro(int id_rubro) throws Exception {
         strsql = "DELETE FROM RUBRO WHERE id_rubro = " + id_rubro;
         try {
@@ -95,10 +95,19 @@ public class Rubro {
                 return rs.getInt("id_rubro");
             }
         } catch (Exception e) {
-            throw new Exception("Error al obtener código de rubro --> " + e.getMessage());
+            throw new Exception("Error al obtener codigo de rubro --> " + e.getMessage());
         }
         return 0;
     }
 
-   
+    // Dar de baja un rubro actualizando el estado a false
+    public void darDeBajaRubro(int id_rubro) throws Exception {
+        strsql = "UPDATE RUBRO SET estado = FALSE WHERE id_rubro = " + id_rubro;
+        try {
+            objconectar.ejecutarBd(strsql);
+        } catch (Exception e) {
+            throw new Exception("Error al dar de baja el rubro con ID " + id_rubro + " --> " + e.getMessage());
+        }
+    }
+
 }

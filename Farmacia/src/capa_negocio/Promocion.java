@@ -35,14 +35,13 @@ public class Promocion {
         }
     }
 
-
     public ResultSet buscarPromocion(int id_promocion) throws Exception {
         strsql = "SELECT * FROM PROMOCION WHERE id_promocion = " + id_promocion;
         try {
             rs = objconectar.consultarBD(strsql);
             return rs;
         } catch (Exception e) {
-            throw new Exception("Error al buscar promoción --> " + e.getMessage());
+            throw new Exception("Error al buscar promocion --> " + e.getMessage());
         }
     }
 
@@ -54,29 +53,29 @@ public class Promocion {
                 return rs.getInt("codigo");
             }
         } catch (Exception e) {
-            throw new Exception("Error al generar código de promoción --> " + e.getMessage());
+            throw new Exception("Error al generar codigo de promocion --> " + e.getMessage());
         }
-        return 0; 
+        return 0;
     }
 
-    public void registrarPromocion(int id_promocion, float descuento, Date fecha_inicio, Date fecha_fin) throws Exception {
-        strsql = "INSERT INTO PROMOCION (id_promocion, dscto, fecha_inicio, fecha_fin) VALUES ("
-                + id_promocion + ", " + descuento + ", '" + fecha_inicio + "', '" + fecha_fin + "')";
+    public void registrarPromocion(int id_promocion, int descuento, Date fecha_inicio, Date fecha_fin, boolean estado) throws Exception {
+        strsql = "INSERT INTO PROMOCION (id_promocion, dscto, fecha_inicio, fecha_fin, estado) VALUES ("
+                + id_promocion + ", " + descuento + ", '" + fecha_inicio + "', '" + fecha_fin + "', " + estado + ")";
         try {
             objconectar.ejecutarBd(strsql);
         } catch (Exception e) {
-            throw new Exception("Error al registrar promoción --> " + e.getMessage());
+            throw new Exception("Error al registrar promocion --> " + e.getMessage());
         }
     }
 
-    public void modificarPromocion(int id_promocion, float descuento, Date fecha_inicio, Date fecha_fin) throws Exception {
+    public void modificarPromocion(int id_promocion, int descuento, Date fecha_inicio, Date fecha_fin, boolean estado) throws Exception {
         strsql = "UPDATE PROMOCION SET dscto = " + descuento
                 + ", fecha_inicio = '" + fecha_inicio + "', fecha_fin = '" + fecha_fin
-                + "' WHERE id_promocion = " + id_promocion;
+                + "', estado = " + estado + " WHERE id_promocion = " + id_promocion;
         try {
             objconectar.ejecutarBd(strsql);
         } catch (Exception e) {
-            throw new Exception("Error al modificar promoción --> " + e.getMessage());
+            throw new Exception("Error al modificar promocion --> " + e.getMessage());
         }
     }
 
@@ -85,7 +84,7 @@ public class Promocion {
         try {
             objconectar.ejecutarBd(strsql);
         } catch (Exception e) {
-            throw new Exception("Error al eliminar promoción --> " + e.getMessage());
+            throw new Exception("Error al eliminar promocion --> " + e.getMessage());
         }
     }
 
@@ -95,7 +94,7 @@ public class Promocion {
             rs = objconectar.consultarBD(strsql);
             return rs;
         } catch (Exception e) {
-            throw new Exception("Error al buscar promoción por fecha --> " + e.getMessage());
+            throw new Exception("Error al buscar promocion por fecha --> " + e.getMessage());
         }
     }
 
@@ -111,6 +110,16 @@ public class Promocion {
             throw new Exception("Error al buscar promociones --> " + e.getMessage());
         }
         return 0;
+    }
+
+    // Dar de baja un promocion actualizando el estado a false
+    public void darDeBajaPromocion(int id_promocion) throws Exception {
+        strsql = "UPDATE PROMOCION SET estado = FALSE WHERE id_promocion = " + id_promocion;
+        try {
+            objconectar.ejecutarBd(strsql);
+        } catch (Exception e) {
+            throw new Exception("Error al dar de baja la promocion con ID " + id_promocion + " --> " + e.getMessage());
+        }
     }
 
 }

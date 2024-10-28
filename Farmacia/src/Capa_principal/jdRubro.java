@@ -1,4 +1,3 @@
-
 package Capa_principal;
 
 import capa_negocio.Rubro;
@@ -7,8 +6,8 @@ import java.sql.*;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
-
 public class jdRubro extends javax.swing.JDialog {
+
     Rubro objR = new Rubro();
 
     /**
@@ -19,6 +18,34 @@ public class jdRubro extends javax.swing.JDialog {
         initComponents();
     }
 
+    public void limpiar() {
+        txtId2.setText("");
+        txtNombre.setText("");
+        chkVigencia.setSelected(false);
+    }
+
+    public void listar(String tipo) {
+        ResultSet lista = null;
+        Vector rubro;
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("Codigo");
+        modelo.addColumn("Nombre rubro");
+        modelo.addColumn("Estado");
+
+        try {
+            lista = objR.listarRubros(tipo);
+            while (lista.next()) {
+                rubro = new Vector();
+                rubro.add(lista.getInt("id_rubro"));
+                rubro.add(lista.getString("nombre_rubro"));
+                rubro.add(lista.getBoolean("estado"));
+                modelo.addRow(rubro);
+            }
+            TablaGuardarda1.setModel(modelo);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al listar los rubros: " + e.getMessage());
+        }
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -33,6 +60,8 @@ public class jdRubro extends javax.swing.JDialog {
         txtNombre = new javax.swing.JTextField();
         txtId2 = new javax.swing.JTextField();
         btnBuscar1 = new javax.swing.JButton();
+        chkVigencia = new javax.swing.JCheckBox();
+        jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
         cboFiltros = new javax.swing.JComboBox<>();
@@ -41,7 +70,7 @@ public class jdRubro extends javax.swing.JDialog {
         btnSave = new javax.swing.JButton();
         btnModificaar = new javax.swing.JButton();
         btnNuevo1 = new javax.swing.JButton();
-        btnEliminar1 = new javax.swing.JButton();
+        btnDarBaja = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -86,6 +115,10 @@ public class jdRubro extends javax.swing.JDialog {
             }
         });
 
+        chkVigencia.setText("Vigente");
+
+        jLabel1.setText("Vigencia:");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -96,14 +129,16 @@ public class jdRubro extends javax.swing.JDialog {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel68)
-                            .addComponent(jLabel64))
+                            .addComponent(jLabel64)
+                            .addComponent(jLabel1))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(txtId2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnBuscar1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(btnBuscar1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(chkVigencia, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel62)
                         .addGap(18, 18, 18)
@@ -130,7 +165,11 @@ public class jdRubro extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel64))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(chkVigencia)
+                    .addComponent(jLabel1))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         jPanel4.setBackground(new java.awt.Color(246, 244, 235));
@@ -181,12 +220,12 @@ public class jdRubro extends javax.swing.JDialog {
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
+                .addGap(20, 20, 20)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel24)
                     .addComponent(cboFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(36, Short.MAX_VALUE))
         );
 
@@ -223,14 +262,14 @@ public class jdRubro extends javax.swing.JDialog {
             }
         });
 
-        btnEliminar1.setBackground(new java.awt.Color(236, 177, 89));
-        btnEliminar1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnEliminar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
-        btnEliminar1.setText("ELIMINAR");
-        btnEliminar1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btnEliminar1.addActionListener(new java.awt.event.ActionListener() {
+        btnDarBaja.setBackground(new java.awt.Color(236, 177, 89));
+        btnDarBaja.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnDarBaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
+        btnDarBaja.setText("DAR DE BAJA");
+        btnDarBaja.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnDarBaja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminar1ActionPerformed(evt);
+                btnDarBajaActionPerformed(evt);
             }
         });
 
@@ -245,27 +284,28 @@ public class jdRubro extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(btnEliminar1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnNuevo1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnModificaar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnDarBaja, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                            .addComponent(btnNuevo1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnModificaar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 0, 0))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(39, Short.MAX_VALUE)
+                .addContainerGap(23, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(btnSave)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnModificaar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnNuevo1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnEliminar1)))
+                        .addComponent(btnDarBaja)
+                        .addGap(16, 16, 16)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -295,15 +335,16 @@ public class jdRubro extends javax.swing.JDialog {
         ResultSet rsRubro = null;
         try {
             if (txtId2.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Debe ingresar un c贸digo para buscar");
+                JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para buscar");
             } else {
                 rsRubro = objR.buscarRubro(Integer.parseInt(txtId2.getText()));
 
                 if (rsRubro.next()) {
                     txtNombre.setText(rsRubro.getString("nombre_rubro"));
+                    chkVigencia.setSelected(rsRubro.getBoolean("estado"));
                     rsRubro.close();
                 } else {
-                    JOptionPane.showMessageDialog(this, "C贸digo de rubro  no existe");
+                    JOptionPane.showMessageDialog(this, "Codigo de rubro  no existe");
                     limpiar();
                 }
             }
@@ -319,7 +360,6 @@ public class jdRubro extends javax.swing.JDialog {
     }//GEN-LAST:event_cboFiltrosActionPerformed
 
     private void TablaGuardarda1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaGuardarda1MouseClicked
-
         txtId2.setText(String.valueOf(TablaGuardarda1.getValueAt(TablaGuardarda1.getSelectedRow(), 0)));
         btnBuscar1ActionPerformed(null);
     }//GEN-LAST:event_TablaGuardarda1MouseClicked
@@ -334,61 +374,38 @@ public class jdRubro extends javax.swing.JDialog {
                 int codigo = Integer.parseInt(txtId2.getText());
 
                 String nombre = txtNombre.getText();
+                boolean estado = chkVigencia.isSelected();
                 if (!nombre.isEmpty()) {
-                    objR.registrarRubro(codigo, nombre);
+                    objR.registrarRubro(codigo, nombre, estado);
                     btnSave.setText("NUEVO");
                     limpiar();
                     listar("General");
                     JOptionPane.showMessageDialog(this, "Rubro guardado correctamente");
                 } else {
-                    JOptionPane.showMessageDialog(this, "Ingrese informaci贸n en todos los campos");
+                    JOptionPane.showMessageDialog(this, "Ingrese informacion en todos los campos");
                 }
 
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al insertar rubro -->" + e.getMessage());
         }
-    }
 
-    public void limpiar() {
-        txtId2.setText("");
-        txtNombre.setText("");
-    }
-
-    public void listar(String tipo) {
-        ResultSet lista = null;
-        Vector rubro;
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("C贸digo");
-        modelo.addColumn("Nombre rubro");
-
-        try {
-            lista = objR.listarRubros(tipo);
-            while (lista.next()) {
-                rubro = new Vector();
-                rubro.add(lista.getInt("id_rubro"));
-                rubro.add(lista.getString("nombre_rubro"));
-                modelo.addRow(rubro);
-            }
-            TablaGuardarda1.setModel(modelo);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al listar los rubros: " + e.getMessage());
-        }
 
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnModificaarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificaarActionPerformed
         if (txtId2.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar un c贸digo a modificar");
+            JOptionPane.showMessageDialog(this, "Debe ingresar un codigo a modificar");
         } else {
             int codigo = Integer.parseInt(txtId2.getText());
             String nombre = txtNombre.getText();
+            boolean estado = chkVigencia.isSelected();
             if (!nombre.isEmpty()) {
 
                 try {
-                    int confirmacion = JOptionPane.showConfirmDialog(this, "驴Desea modificar  este rubro?");
+                    int confirmacion = JOptionPane.showConfirmDialog(this, "緿esea modificar  este rubro?");
                     if (confirmacion == JOptionPane.YES_OPTION) {
-                        objR.modificarRubro(codigo, nombre);
+                        objR.modificarRubro(codigo, nombre, estado);
                         limpiar();
                         listar("General");
                         JOptionPane.showMessageDialog(this, "Rubro modificado correctamente");
@@ -398,7 +415,7 @@ public class jdRubro extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(this, "Error al modificar rubro---> " + e.getMessage());
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "Ingrese informaci贸n en todos los campos");
+                JOptionPane.showMessageDialog(this, "Ingrese informacion en todos los campos");
 
             }
 
@@ -409,24 +426,24 @@ public class jdRubro extends javax.swing.JDialog {
         limpiar();
     }//GEN-LAST:event_btnNuevo1ActionPerformed
 
-    private void btnEliminar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar1ActionPerformed
+    private void btnDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBajaActionPerformed
         try {
             if (txtId2.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Debe ingresar un c贸digo a eliminar");
+                JOptionPane.showMessageDialog(this, "Debe ingresar un codigo a dar de baja");
             } else {
 
-                int confirmacion = JOptionPane.showConfirmDialog(this, "驴Desea eliminar este rubro?");
+                int confirmacion = JOptionPane.showConfirmDialog(this, "緿esea dar de baja este rubro?");
                 if (confirmacion == JOptionPane.YES_OPTION) {
-                    objR.eliminarRubro(Integer.parseInt(txtId2.getText()));
+                    objR.darDeBajaRubro(Integer.parseInt(txtId2.getText()));
                     limpiar();
                     listar("General");
-                    JOptionPane.showMessageDialog(rootPane, "Rubro eliminado correctamente");
+                    JOptionPane.showMessageDialog(rootPane, "Rubro dado de baja correctamente");
                 }
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
-    }//GEN-LAST:event_btnEliminar1ActionPerformed
+    }//GEN-LAST:event_btnDarBajaActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         listar("General");
@@ -436,11 +453,13 @@ public class jdRubro extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TablaGuardarda1;
     private javax.swing.JButton btnBuscar1;
-    private javax.swing.JButton btnEliminar1;
+    private javax.swing.JButton btnDarBaja;
     private javax.swing.JButton btnModificaar;
     private javax.swing.JButton btnNuevo1;
     private javax.swing.JButton btnSave;
     private javax.swing.JComboBox<String> cboFiltros;
+    private javax.swing.JCheckBox chkVigencia;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel62;
     private javax.swing.JLabel jLabel64;

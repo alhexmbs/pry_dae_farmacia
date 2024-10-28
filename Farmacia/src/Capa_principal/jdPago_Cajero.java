@@ -117,6 +117,7 @@ public class jdPago_Cajero extends javax.swing.JDialog {
         lblSaldoRestante = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Gestion de pago");
 
         background_panel.setBackground(new java.awt.Color(246, 244, 235));
         background_panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
