@@ -124,7 +124,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/img/pago.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Facturaci&#xf3;n y pago"/>
+            <Property name="text" type="java.lang.String" value="Facturacion y pago"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem5">
