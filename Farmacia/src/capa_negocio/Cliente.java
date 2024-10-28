@@ -64,8 +64,28 @@ public class Cliente {
         return 0;
     }
 
-    public void insertarCliente(int idCliente, String numDoc, String nombre, String apePaterno, String apeMaterno, String fechaNac, boolean sexo, String email, int idTipoDoc) throws Exception {
-        strSQL = "insert into cliente values (" + idCliente + ", '" + numDoc + "', '" + nombre + "', '" + apePaterno + "', '" + apeMaterno + "', '" + fechaNac + "', " + sexo + ", '" + email + "', " + idTipoDoc + ")";
+//    public void insertarCliente(int idCliente, String numDoc, String nombre, String apePaterno, String apeMaterno, String fechaNac, boolean sexo, String email, int idTipoDoc) throws Exception {
+//        strSQL = "insert into cliente values (" + idCliente + ", '" + numDoc + "', '" + nombre + "', '" + apePaterno + "', '" + apeMaterno + "', '" + fechaNac + "', " + sexo + ", '" + email + "', " + idTipoDoc + ")";
+//
+//        try {
+//            objConectar.ejecutarBd(strSQL);
+//        } catch (Exception ex) {
+//            throw new Exception("Error al registrar cliente --> " + ex.getMessage());
+//        }
+//    }
+//
+//    public void modificarCliente(int idCliente, String numDoc, String nombre, String apePaterno, String apeMaterno, String fechaNac, boolean sexo, String email, int idTipoDoc) throws Exception {
+//        strSQL = "update cliente set nro_documento = '" + numDoc + "', nombre = '" + nombre + "', ape_paterno = '" + apePaterno + "', ape_materno = '" + apeMaterno + "', fecha_nacimiento = '" + fechaNac + "', sexo = " + sexo + ", email = '" + email + "', id_tipo_doc = " + idTipoDoc + " where id_cliente = " + idCliente;
+//
+//        try {
+//            objConectar.ejecutarBd(strSQL);
+//        } catch (Exception ex) {
+//            throw new Exception("Error al modificar cliente --> " + ex.getMessage());
+//        }
+//    }
+    
+    public void insertarCliente(int idCliente, String numDoc, String nombre, String apePaterno, String apeMaterno, String fechaNac, boolean sexo, String email, int idTipoDoc, boolean estado) throws Exception {
+        strSQL = "insert into cliente values (" + idCliente + ", '" + numDoc + "', '" + nombre + "', '" + apePaterno + "', '" + apeMaterno + "', '" + fechaNac + "', " + sexo + ", '" + email + "', " + estado + ", " + idTipoDoc + ")";
 
         try {
             objConectar.ejecutarBd(strSQL);
@@ -74,8 +94,8 @@ public class Cliente {
         }
     }
 
-    public void modificarCliente(int idCliente, String numDoc, String nombre, String apePaterno, String apeMaterno, String fechaNac, boolean sexo, String email, int idTipoDoc) throws Exception {
-        strSQL = "update cliente set nro_documento = '" + numDoc + "', nombre = '" + nombre + "', ape_paterno = '" + apePaterno + "', ape_materno = '" + apeMaterno + "', fecha_nacimiento = '" + fechaNac + "', sexo = " + sexo + ", email = '" + email + "', id_tipo_doc = " + idTipoDoc + " where id_cliente = " + idCliente;
+    public void modificarCliente(int idCliente, String numDoc, String nombre, String apePaterno, String apeMaterno, String fechaNac, boolean sexo, String email, int idTipoDoc, boolean estado) throws Exception {
+        strSQL = "update cliente set nro_documento = '" + numDoc + "', nombre = '" + nombre + "', ape_paterno = '" + apePaterno + "', ape_materno = '" + apeMaterno + "', fecha_nacimiento = '" + fechaNac + "', sexo = " + sexo + ", email = '" + email + "', estado = " + estado + ", id_tipo_doc = " + idTipoDoc + " where id_cliente = " + idCliente;
 
         try {
             objConectar.ejecutarBd(strSQL);
@@ -108,4 +128,6 @@ public class Cliente {
 
         return 0;
     }
+    
+    //888
 }

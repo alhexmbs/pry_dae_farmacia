@@ -31,6 +31,7 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem9 = new javax.swing.JMenuItem();
@@ -110,6 +111,15 @@ public class frmFarmacia extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem1);
 
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/user plus.png"))); // NOI18N
+        jMenuItem3.setText("Registrar usuario");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem3);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/medicamentos.png"))); // NOI18N
@@ -136,7 +146,7 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenuBar1.add(jMenu2);
 
         jMenu6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pago.png"))); // NOI18N
-        jMenu6.setText("Facturación y pago");
+        jMenu6.setText("Facturaci n y pago");
 
         jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/sale.png"))); // NOI18N
         jMenuItem5.setText("Registrar venta");
@@ -272,7 +282,7 @@ public class frmFarmacia extends javax.swing.JFrame {
             objm.setLocationRelativeTo(null);
             objm.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(this, "No tiene acceso a esta sección");
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta secci n");
         }*/
 
         jdManCliente objm = new jdManCliente(null, true);
@@ -287,7 +297,7 @@ public class frmFarmacia extends javax.swing.JFrame {
             objp.setLocationRelativeTo(null);
             objp.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(this, "No tiene acceso a esta sección");
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta secci n");
         }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
@@ -301,26 +311,35 @@ public class frmFarmacia extends javax.swing.JFrame {
             jdPago_Admin pagoAdmin = new jdPago_Admin(this, true);
             pagoAdmin.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(this, "No tiene acceso a esta sección");
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta secci n");
         }
 
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        if (rolUsuario.equals("Administrador")) {
-            jdMantComprobante comprobante = new jdMantComprobante(this, true);
-            comprobante.setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(this, "No tiene acceso a esta sección");
-        }
 
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        jdManUsuario objUM = new jdManUsuario(null, true);
+        objUM.setLocationRelativeTo(null);
+        objUM.setVisible(true);
+    }                                          
+
+ 
+
+//        if (rolUsuario.equals("Administrador")) {
+//            jdMantComprobante comprobante = new jdMantComprobante(this, true);
+//            comprobante.setVisible(true);
+//        } else {
+//            JOptionPane.showMessageDialog(this, "No tiene acceso a esta secci n");
+//        }
+//
+    //GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         if (rolUsuario.equals("Administrador")) {
             JOptionPane.showMessageDialog(this, "En mantenimiento");
         } else {
-            JOptionPane.showMessageDialog(this, "No tiene acceso a esta sección");
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta secci n");
         }
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
@@ -329,7 +348,7 @@ public class frmFarmacia extends javax.swing.JFrame {
             jdManUsuario usuario = new jdManUsuario(this, true);
             usuario.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(this, "No tiene acceso a esta sección");
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta secci n");
         }
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
@@ -340,7 +359,7 @@ public class frmFarmacia extends javax.swing.JFrame {
             objL.setLocationRelativeTo(null);
             objL.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(this, "No tiene acceso a esta sección");
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta secci n");
         }
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
@@ -348,7 +367,7 @@ public class frmFarmacia extends javax.swing.JFrame {
         if (rolUsuario.equals("Administrador")) {
             JOptionPane.showMessageDialog(this, "En mantenimiento");
         } else {
-            JOptionPane.showMessageDialog(this, "No tiene acceso a esta sección");
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta secci n");
         }
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
@@ -356,7 +375,7 @@ public class frmFarmacia extends javax.swing.JFrame {
         if (rolUsuario.equals("Administrador")) {
             JOptionPane.showMessageDialog(this, "En mantenimiento");
         } else {
-            JOptionPane.showMessageDialog(this, "No tiene acceso a esta sección");
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta secci n");
         }
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
@@ -364,7 +383,7 @@ public class frmFarmacia extends javax.swing.JFrame {
         if (rolUsuario.equals("Administrador")) {
             JOptionPane.showMessageDialog(this, "En mantenimiento");
         } else {
-            JOptionPane.showMessageDialog(this, "No tiene acceso a esta sección");
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta secci n");
         }
     }//GEN-LAST:event_jMenuItem12ActionPerformed
 
@@ -372,7 +391,7 @@ public class frmFarmacia extends javax.swing.JFrame {
         if (rolUsuario.equals("Administrador")) {
             JOptionPane.showMessageDialog(this, "En mantenimiento");
         } else {
-            JOptionPane.showMessageDialog(this, "No tiene acceso a esta sección");
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta secci n");
         }
     }//GEN-LAST:event_jMenuItem13ActionPerformed
 
@@ -380,7 +399,7 @@ public class frmFarmacia extends javax.swing.JFrame {
         if (rolUsuario.equals("Administrador")) {
             JOptionPane.showMessageDialog(this, "En mantenimiento");
         } else {
-            JOptionPane.showMessageDialog(this, "No tiene acceso a esta sección");
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta secci n");
         }
     }//GEN-LAST:event_jMenuItem14ActionPerformed
 
@@ -388,9 +407,10 @@ public class frmFarmacia extends javax.swing.JFrame {
         if (rolUsuario.equals("Administrador")) {
             JOptionPane.showMessageDialog(this, "En mantenimiento");
         } else {
-            JOptionPane.showMessageDialog(this, "No tiene acceso a esta sección");
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta secci n");
         }
     }//GEN-LAST:event_jMenuItem15ActionPerformed
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
