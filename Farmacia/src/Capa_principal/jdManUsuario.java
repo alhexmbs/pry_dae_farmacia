@@ -714,7 +714,7 @@ public class jdManUsuario extends javax.swing.JDialog {
                     vigencia = "No Vigente";
                 }
                 
-                Object[] fila = new Object[16];
+                Object[] fila = new Object[17];
                 fila[0] = rs.getInt("id_usuario");
                 fila[1] = rs.getString("tipo_doc");
                 fila[2] = rs.getString("nro_documento");
