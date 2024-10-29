@@ -4,6 +4,7 @@
  */
 package Capa_principal;
 
+import capa_negocio.Detalle_Producto_Farmaceutico;
 import capa_negocio.Producto;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
@@ -19,7 +20,7 @@ public class jdListProductos extends javax.swing.JDialog {
     private jdPedido dialog1;
 
     // Objeto Producto
-    Producto objP = new Producto();
+    Detalle_Producto_Farmaceutico objDetallePro = new Detalle_Producto_Farmaceutico();
     
 
     /**
@@ -34,36 +35,36 @@ public class jdListProductos extends javax.swing.JDialog {
 
     private void listar() {
         DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("ID");
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Precio Compra");
-        modelo.addColumn("Precio Venta");
+        modelo.addColumn("Nombre_Producto");
+        modelo.addColumn("Nro Sanitario");
+        modelo.addColumn("Condicion Venta");
         modelo.addColumn("Stock");
-        modelo.addColumn("Registro Sanitario");
-        modelo.addColumn("Condición Venta");
-        modelo.addColumn("Fecha Entrada");
+        modelo.addColumn("Precio Venta");
+        modelo.addColumn("Principio Activo");
+        modelo.addColumn("Dosis");
+        modelo.addColumn("Forma Farmaceutica");
 
         tblProducto.setModel(modelo);
 
         ResultSet rs = null;
         try {
-            rs = objP.listarProductos();
+            rs = objDetallePro.listarDetalles_Pro_Farma();
 
             while (rs.next()) {
-                Object[] fila = new Object[13];
-                fila[0] = rs.getInt("id_producto");
-                fila[1] = rs.getString("nombre");
-                fila[2] = rs.getDouble("precio_compra");
-                fila[3] = rs.getDouble("precio_venta");
-                fila[4] = rs.getInt("stock");
-                fila[5] = rs.getString("nro_reg_sanitario");
-                fila[6] = rs.getString("condicion_venta");
-                fila[7] = rs.getDate("fecha_entrada");
+                Object[] fila = new Object[8];
+                fila[0] = rs.getString("nombre_producto");
+                fila[1] = rs.getString("nro_reg_sanitario");
+                fila[2] = rs.getString("condicion_venta");
+                fila[3] = rs.getInt("stock");
+                fila[4] = rs.getFloat("precio_venta");
+                fila[5] = rs.getString("principio_activo");
+                fila[6] = rs.getString("dosis");
+                fila[7] = rs.getString("forma_farmaceutica");
 
                 modelo.addRow(fila);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al listar productos --> " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error al listar los detalle_tipos_productos --> " + e.getMessage());
         }
     }
 
@@ -88,7 +89,7 @@ public class jdListProductos extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Buscar Producto", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(41, 43, 45)), "Buscar Detalle Producto Farmaceutico", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
         jLabel68.setBackground(new java.awt.Color(0, 0, 0));
         jLabel68.setText("Buscar Por Descripción:");
@@ -214,18 +215,7 @@ public class jdListProductos extends javax.swing.JDialog {
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void tblProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductoMouseClicked
-        int idProducto = Integer.parseInt(tblProducto.getValueAt(tblProducto.getSelectedRow(), 0).toString());
-        String nombre = tblProducto.getValueAt(tblProducto.getSelectedRow(), 1).toString();
-        float precio = Float.parseFloat(tblProducto.getValueAt(tblProducto.getSelectedRow(), 3).toString());
-        String concentracion = tblProducto.getValueAt(tblProducto.getSelectedRow(), 6).toString();
-        int stock = Integer.parseInt(tblProducto.getValueAt(tblProducto.getSelectedRow(), 4).toString());
-
-        dialog1.setNombreProducto(nombre);
-        dialog1.setStockProducto(stock);
-        dialog1.setPrecioProducto(precio);
-        dialog1.setConcentracionProducto(concentracion);
-     
-        dialog1.enviarDatoProducto();
+        
 
     }//GEN-LAST:event_tblProductoMouseClicked
 
