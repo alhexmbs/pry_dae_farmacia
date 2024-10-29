@@ -65,6 +65,8 @@ public class jdManCliente extends javax.swing.JDialog {
         txtApMaternoCliente = new javax.swing.JTextField();
         cboTipoDoc = new javax.swing.JComboBox<>();
         jdateFechaNacCliente = new com.toedter.calendar.JDateChooser();
+        jLabel1 = new javax.swing.JLabel();
+        chkVigenciaCliente = new javax.swing.JCheckBox();
         btnSimular = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
@@ -173,6 +175,10 @@ public class jdManCliente extends javax.swing.JDialog {
         jdateFechaNacCliente.setBackground(new java.awt.Color(239, 237, 220));
         jdateFechaNacCliente.setDateFormatString("yyyy-MM-dd");
 
+        jLabel1.setText("Estado :");
+
+        chkVigenciaCliente.setText("Vigente");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -208,7 +214,8 @@ public class jdManCliente extends javax.swing.JDialog {
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel63, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel65, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel74, javax.swing.GroupLayout.Alignment.TRAILING))))
+                                    .addComponent(jLabel74, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -217,7 +224,8 @@ public class jdManCliente extends javax.swing.JDialog {
                                 .addComponent(opFemenino))
                             .addComponent(txtNumDocCliente)
                             .addComponent(txtNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtApMaternoCliente))))
+                            .addComponent(txtApMaternoCliente)
+                            .addComponent(chkVigenciaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(27, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -258,9 +266,13 @@ public class jdManCliente extends javax.swing.JDialog {
                     .addComponent(jLabel69)
                     .addComponent(cboTipoDoc, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jdateFechaNacCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel71, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jdateFechaNacCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel71, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(chkVigenciaCliente)))
                 .addContainerGap(41, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -476,6 +488,7 @@ public class jdManCliente extends javax.swing.JDialog {
         cboTipoDoc.setSelectedIndex(-1);
         txtNumDocCliente.setText("");
         jdateFechaNacCliente.setDate(null);
+        chkVigenciaCliente.setSelected(false);
     }
     
     private void listarTipoDocumentos(){
@@ -504,14 +517,23 @@ public class jdManCliente extends javax.swing.JDialog {
         modelo.addColumn("Fecha Nacimiento");
         modelo.addColumn("Sexo");
         modelo.addColumn("Email");
+        modelo.addColumn("Estado");
         
         tblClientes.setModel(modelo);
         
         ResultSet rs = null;
+        String vigencia = "";
         try{
             rs = objC.listarTodosCliente();
             while(rs.next()){
-                Object[] fila = new Object[9];
+                //Depende d lo mismo GAAAAA
+                if(rs.getString("estado").equals("t")){
+                    vigencia = "Vigente";
+                }else{
+                    vigencia = "No Vigente";
+                }
+                
+                Object[] fila = new Object[10];
                 fila[0] = rs.getInt("id_cliente");
                 fila[1] = rs.getString("tipo_doc");
                 fila[2] = rs.getString("nro_documento");
@@ -521,6 +543,7 @@ public class jdManCliente extends javax.swing.JDialog {
                 fila[6] = rs.getDate("fecha_nacimiento");
                 fila[7] = rs.getString("sexo");
                 fila[8] = rs.getString("email");
+                fila[9] = vigencia;
                 
                 modelo.addRow(fila);
             }
@@ -564,9 +587,17 @@ public class jdManCliente extends javax.swing.JDialog {
                     String fechaNac = date.format(fechaSeleccionada);
                     boolean sexo = opMasculino.isSelected();
                     String email = txtEmailCliente.getText();
+
+                    boolean estado = chkVigenciaCliente.isSelected();
                     int tipoDoc = objTD.obtenerIDTipoDoc(nombreTipoDoc);
 
-                    objC.insertarCliente(idCliente, numDoc, nombre, apPat, apMat, fechaNac, sexo, email, tipoDoc);
+                    //objC.insertarCliente(idCliente, numDoc, nombre, apPat, apMat, fechaNac, sexo, email, tipoDoc);
+                    objC.insertarCliente(idCliente, numDoc, nombre, apPat, apMat, fechaNac, sexo, email, tipoDoc, estado);
+//=======
+//                    int tipoDoc = objTD.obtenerIDTipoDoc(nombreTipoDoc);
+//
+//                    objC.insertarCliente(idCliente, numDoc, nombre, apPat, apMat, fechaNac, sexo, email, tipoDoc);
+//>>>>>>> main
 
                     limpiarFormulario();
                     listarClientes();
@@ -600,9 +631,17 @@ public class jdManCliente extends javax.swing.JDialog {
                         String fechaNac = date.format(fechaSeleccionada);
                         boolean sexo = opMasculino.isSelected();
                         String email = txtEmailCliente.getText();
+
+                        boolean estado = chkVigenciaCliente.isSelected();
                         int tipoDoc = objTD.obtenerIDTipoDoc(nombreTipoDoc);
 
-                        objC.modificarCliente(idCliente, numDoc, nombre, apPat, apMat, fechaNac, sexo, email, tipoDoc);
+                        //objC.modificarCliente(idCliente, numDoc, nombre, apPat, apMat, fechaNac, sexo, email, tipoDoc);
+                        objC.modificarCliente(idCliente, numDoc, nombre, apPat, apMat, fechaNac, sexo, email, tipoDoc, estado);
+//=======
+//                        int tipoDoc = objTD.obtenerIDTipoDoc(nombreTipoDoc);
+//
+//                        objC.modificarCliente(idCliente, numDoc, nombre, apPat, apMat, fechaNac, sexo, email, tipoDoc);
+//>>>>>>> main
 
                         limpiarFormulario();
                         listarClientes();
@@ -659,6 +698,9 @@ public class jdManCliente extends javax.swing.JDialog {
                     cboTipoDoc.setSelectedIndex(rs.getInt("id_tipo_doc")-1);
                     txtNumDocCliente.setText(rs.getString("nro_documento"));
                     jdateFechaNacCliente.setDate(rs.getDate("fecha_nacimiento"));
+
+                    chkVigenciaCliente.setSelected(rs.getBoolean("estado"));
+
                 }
             }
         }catch(Exception ex){
@@ -672,7 +714,11 @@ public class jdManCliente extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSimularActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-       buscarCliente();
+
+        buscarCliente();
+//=======
+//       buscarCliente();
+//>>>>>>> main
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
@@ -807,6 +853,8 @@ public class jdManCliente extends javax.swing.JDialog {
     private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnSimular;
     private javax.swing.JComboBox<String> cboTipoDoc;
+    private javax.swing.JCheckBox chkVigenciaCliente;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel62;
     private javax.swing.JLabel jLabel63;

@@ -86,6 +86,7 @@ public class jdListCliente extends javax.swing.JDialog {
         btnEliminar4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Clientes");
 
         jPanel1.setBackground(new java.awt.Color(170, 215, 217));
 

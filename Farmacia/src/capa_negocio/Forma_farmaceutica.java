@@ -13,21 +13,19 @@ public class Forma_farmaceutica {
     String strsql;
     ResultSet rs = null;
 
-    
-    
     public ResultSet listarFormaFarmaceutica(String tipo) throws Exception {
         strsql = "select * from FORMA_FARMACEUTICA";
-        
+
         switch (tipo) {
-             case "General":
-                 break;
+            case "General":
+                break;
             case "Nombre ascendente":
-                strsql += " ORDER BY forma_farmaceutica asc";                
+                strsql += " ORDER BY forma_farmaceutica asc";
                 break;
             case "Nombre descente":
-                strsql += " ORDER BY forma_farmaceutica desc";                
+                strsql += " ORDER BY forma_farmaceutica desc";
                 break;
-            
+
         }
 
         try {
@@ -39,7 +37,6 @@ public class Forma_farmaceutica {
         }
 
     }
-    
 
     public ResultSet buscarFormaFarmaceutica(Integer cod) throws Exception {
         strsql = "select * from forma_farmaceutica where  id_frm_farma =" + cod;
@@ -60,14 +57,14 @@ public class Forma_farmaceutica {
                 return codigo;
             }
         } catch (Exception e) {
-            throw new Exception("Error al genear cÃ³digo--> " + e.getMessage());
+            throw new Exception("Error al genear codigo--> " + e.getMessage());
 
         }
         return 0;
     }
 
-    public void registrar(int id_frm_farma, String forma_farmaceutica) throws Exception {
-        strsql = "INSERT into forma_farmaceutica VALUES (" + id_frm_farma + ", '" + forma_farmaceutica + "')";
+    public void registrar(int id_frm_farma, String forma_farmaceutica, boolean estado) throws Exception {
+        strsql = "INSERT into forma_farmaceutica VALUES (" + id_frm_farma + ", '" + forma_farmaceutica + "', " + estado + ")";
         try {
             objconectar.ejecutarBd(strsql);
         } catch (Exception e) {
@@ -76,16 +73,24 @@ public class Forma_farmaceutica {
     }
 
     public void eliminar(Integer cod) throws Exception {
-        strsql = "delete from forma_farmaceutica where id_frm_farma =" + cod;
-        try {
-            objconectar.ejecutarBd(strsql);
-        } catch (Exception e) {
-            throw new Exception("Error al eliminar forma farmaceutica-->" + e.getMessage());
-        }
-    }
+        String verificarSql = "SELECT COUNT(*) FROM detalle_producto_forma WHERE id_frm_farma = " + cod;
 
-    public void modificarFormaFarmaceutica(int id_frm_farma, String nuevaFormaFarmaceutica) throws Exception {
-        strsql = "update forma_farmaceutica set forma_farmaceutica = '" + nuevaFormaFarmaceutica + "' where id_frm_farma = " + id_frm_farma;
+        String eliminarSql = "DELETE FROM forma_farmaceutica WHERE id_frm_farma = " + cod;
+
+        try {
+            ResultSet rs = objconectar.consultarBD(verificarSql);
+            if (rs.next() && rs.getInt(1) == 0) {
+                objconectar.ejecutarBd(eliminarSql);
+            } else {
+                throw new Exception("No se puede eliminar: la forma farmacéutica está siendo nombrada en un producto.");
+            }
+        } catch (Exception e) {
+            throw new Exception("Error al eliminar forma farmacéutica --> " + e.getMessage());
+        }
+}
+
+    public void modificarFormaFarmaceutica(int id_frm_farma, String nuevaFormaFarmaceutica, boolean estado) throws Exception {
+        strsql = "update forma_farmaceutica set forma_farmaceutica = '" + nuevaFormaFarmaceutica + "', estado = " + estado + " where id_frm_farma = " + id_frm_farma;
         try {
             objconectar.ejecutarBd(strsql);
         } catch (Exception e) {
@@ -101,9 +106,19 @@ public class Forma_farmaceutica {
                 return rs.getInt("id_frm_farma");
             }
         } catch (Exception e) {
-            throw new Exception("Error al obtener cÃ³digo de forma farmaceutica --> " + e.getMessage());
+            throw new Exception("Error al obtener codigo de forma farmaceutica --> " + e.getMessage());
         }
         return 0;
+    }
+
+    // Dar de baja una forma farmaceutica actualizando el estado a false
+    public void darBajaForma(int id_frm_farma) throws Exception {
+        strsql = "UPDATE FORMA_FARMACEUTICA SET estado = FALSE WHERE id_frm_farma = " + id_frm_farma;
+        try {
+            objconectar.ejecutarBd(strsql);
+        } catch (Exception e) {
+            throw new Exception("Error al dar de baja la forma farmaceutica con ID " + id_frm_farma + " --> " + e.getMessage());
+        }
     }
 
 }

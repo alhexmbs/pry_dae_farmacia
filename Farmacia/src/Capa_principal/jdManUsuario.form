@@ -7,6 +7,7 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
+    <Property name="title" type="java.lang.String" value="Usuaario"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -145,6 +146,7 @@
                                           <Component id="jLabel76" alignment="1" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel77" alignment="1" min="-2" max="-2" attributes="0"/>
                                           <Component id="jLabel79" alignment="1" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel1" alignment="1" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -162,6 +164,7 @@
                                   <Component id="txtHorarioUsuario" max="32767" attributes="0"/>
                                   <Component id="txtContrasena" alignment="0" max="32767" attributes="0"/>
                                   <Component id="cboCaja" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="chkVigenciaUsuario" min="-2" pref="85" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -242,9 +245,15 @@
                           <Component id="txtContrasena" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jdateFechaNacUsuario" alignment="0" min="-2" pref="29" max="-2" attributes="0"/>
-                          <Component id="jLabel71" alignment="1" min="-2" pref="29" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jdateFechaNacUsuario" alignment="0" min="-2" pref="29" max="-2" attributes="0"/>
+                              <Component id="jLabel71" alignment="1" min="-2" pref="29" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="chkVigenciaUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace pref="40" max="32767" attributes="0"/>
                   </Group>
@@ -656,6 +665,16 @@
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Estado :"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JCheckBox" name="chkVigenciaUsuario">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Vigente"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>
