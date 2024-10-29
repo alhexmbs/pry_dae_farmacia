@@ -23,17 +23,24 @@ public class Detalle_Producto_Farmaceutico {
                 + "    PF.NOMBRE AS NOMBRE_PRODUCTO,\n"
                 + "    PF.NRO_REG_SANITARIO,\n"
                 + "    PF.CONDICION_VENTA,\n"
+                + "    FF.FORMA_FARMACEUTICA,\n"
+                + "    F.NOMBRE_FABRICANTE,\n"
+                + "    L.FECHA_ENTRADA,\n"
+                + "    L.FECHA_VENCIMIENTO,\n"
                 + "    DPF.STOCK,\n"
                 + "    DPF.PRECIO_VENTA,\n"
                 + "    DPF.PRINCIPIO_ACTIVO,\n"
-                + "    DPF.DOSIS,\n"
-                + "    FF.FORMA_FARMACEUTICA\n"
+                + "    DPF.DOSIS\n"
                 + "FROM \n"
-                + "    PRODUCTO_FARMACEUTICO PF\n"
-                + "JOIN \n"
-                + "    DETALLE_PRODUCTO_FORMA DPF ON PF.ID_PRODUCTO = DPF.ID_PRODUCTO\n"
-                + "JOIN \n"
-                + "    FORMA_FARMACEUTICA FF ON DPF.ID_FRM_FARMA = FF.ID_FRM_FARMA;";
+                + "    DETALLE_PRODUCTO_FORMA DPF\n"
+                + "INNER JOIN \n"
+                + "    PRODUCTO_FARMACEUTICO PF ON DPF.ID_PRODUCTO = PF.ID_PRODUCTO\n"
+                + "INNER JOIN \n"
+                + "    FORMA_FARMACEUTICA FF ON DPF.ID_FRM_FARMA = FF.ID_FRM_FARMA\n"
+                + "INNER JOIN \n"
+                + "    FABRICANTE F ON DPF.ID_FABRICANTE = F.ID_FABRICANTE\n"
+                + "INNER JOIN \n"
+                + "    LOTE L ON DPF.ID_LOTE = L.ID_LOTE";
 
         try {
             rs = objconectar.consultarBD(strSQL);
