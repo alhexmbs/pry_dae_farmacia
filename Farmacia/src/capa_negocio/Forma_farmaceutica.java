@@ -73,13 +73,21 @@ public class Forma_farmaceutica {
     }
 
     public void eliminar(Integer cod) throws Exception {
-        strsql = "delete from forma_farmaceutica where id_frm_farma =" + cod;
+        String verificarSql = "SELECT COUNT(*) FROM detalle_producto_forma WHERE id_frm_farma = " + cod;
+
+        String eliminarSql = "DELETE FROM forma_farmaceutica WHERE id_frm_farma = " + cod;
+
         try {
-            objconectar.ejecutarBd(strsql);
+            ResultSet rs = objconectar.consultarBD(verificarSql);
+            if (rs.next() && rs.getInt(1) == 0) {
+                objconectar.ejecutarBd(eliminarSql);
+            } else {
+                throw new Exception("No se puede eliminar: la forma farmacéutica está siendo nombrada en un producto.");
+            }
         } catch (Exception e) {
-            throw new Exception("Error al eliminar forma farmaceutica-->" + e.getMessage());
+            throw new Exception("Error al eliminar forma farmacéutica --> " + e.getMessage());
         }
-    }
+}
 
     public void modificarFormaFarmaceutica(int id_frm_farma, String nuevaFormaFarmaceutica, boolean estado) throws Exception {
         strsql = "update forma_farmaceutica set forma_farmaceutica = '" + nuevaFormaFarmaceutica + "', estado = " + estado + " where id_frm_farma = " + id_frm_farma;
