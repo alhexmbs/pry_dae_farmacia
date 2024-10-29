@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 /**
  *
- * @author Katia
+ * @author Katiad
  */
 public class datos {
 
@@ -18,11 +18,11 @@ public class datos {
 
     public datos() {
         this.driver = "org.postgresql.Driver";
-        //this.url = "jdbc:postgresql://25.59.118.186:5432/DAE_FARMACIA";
-        this.url = "jdbc:postgresql://localhost:5432/DAE_FARMACIA";
+        this.url = "jdbc:postgresql://25.59.118.186:5432/DAE_FARMACIA";
+        //this.url = "jdbc:postgresql://localhost:5432/BD_DAE";
         this.user = "postgres";
-        //this.password = "visa2005";
-        this.password = "password";
+        this.password = "visa2005";
+        //this.password = "leomeflo09";
         this.con = null;
     }
 
