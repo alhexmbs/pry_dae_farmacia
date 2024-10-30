@@ -79,14 +79,24 @@ public class Promocion {
         }
     }
 
-    public void eliminarPromocion(int id_promocion) throws Exception {
-        strsql = "DELETE FROM PROMOCION WHERE id_promocion = " + id_promocion;
+    
+       
+    public void eliminar(Integer cod) throws Exception {
+        String verificarSql = "SELECT COUNT(*) FROM producto_farmaceutico WHERE id_promocion = " + cod;
+
+        String eliminarSql = "DELETE FROM PROMOCION WHERE id_promocion" + cod;
+
         try {
-            objconectar.ejecutarBd(strsql);
+            ResultSet rs = objconectar.consultarBD(verificarSql);
+            if (rs.next() && rs.getInt(1) == 0) {
+                objconectar.ejecutarBd(eliminarSql);
+            } else {
+                throw new Exception("No se puede eliminar: la promoción está siendo nombrada en un producto.");
+            }
         } catch (Exception e) {
-            throw new Exception("Error al eliminar promocion --> " + e.getMessage());
+            throw new Exception("Error al eliminar Promoción bd --> " + e.getMessage());
         }
-    }
+}
 
     public ResultSet buscarPromocionPorFecha(Date fecha_inicio, Date fecha_fin) throws Exception {
         strsql = "SELECT * FROM PROMOCION WHERE fecha_inicio >= '" + fecha_inicio + "' AND fecha_fin <= '" + fecha_fin + "'";
@@ -112,7 +122,6 @@ public class Promocion {
         return 0;
     }
 
-    // Dar de baja un promocion actualizando el estado a false
     public void darDeBajaPromocion(int id_promocion) throws Exception {
         strsql = "UPDATE PROMOCION SET estado = FALSE WHERE id_promocion = " + id_promocion;
         try {

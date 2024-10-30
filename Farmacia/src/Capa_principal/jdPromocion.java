@@ -32,6 +32,7 @@ public class jdPromocion extends javax.swing.JDialog {
     public void listar(String tipo) {
         ResultSet lista = null;
         Vector rubro;
+        String estado = null;
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("Codigo");
         modelo.addColumn("Descuento");
@@ -42,12 +43,17 @@ public class jdPromocion extends javax.swing.JDialog {
         try {
             lista = obj.listarPromociones(tipo);
             while (lista.next()) {
+                 if (lista.getBoolean("estado")) {
+                    estado = "Vigente";
+                } else {
+                    estado = "No vigente";
+                }
                 rubro = new Vector();
                 rubro.add(lista.getInt("id_promocion"));
                 rubro.add(lista.getFloat("dscto"));
                 rubro.add(lista.getDate("fecha_inicio"));
                 rubro.add(lista.getDate("fecha_fin"));
-                rubro.add(lista.getBoolean("estado"));
+                rubro.add(estado);
                 modelo.addRow(rubro);
             }
             TablaGuardarda1.setModel(modelo);
@@ -93,6 +99,7 @@ public class jdPromocion extends javax.swing.JDialog {
         btnModificaar = new javax.swing.JButton();
         btnNuevo1 = new javax.swing.JButton();
         btnEliminar1 = new javax.swing.JButton();
+        btnDarBaja2 = new javax.swing.JButton();
 
         txtBuscarIde.setBackground(new java.awt.Color(204, 204, 204));
         txtBuscarIde.setBorder(null);
@@ -121,6 +128,11 @@ public class jdPromocion extends javax.swing.JDialog {
 
         txtDescuento.setBackground(new java.awt.Color(239, 237, 220));
         txtDescuento.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        txtDescuento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDescuentoKeyTyped(evt);
+            }
+        });
 
         txtId2.setBackground(new java.awt.Color(239, 237, 220));
         txtId2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -159,9 +171,11 @@ public class jdPromocion extends javax.swing.JDialog {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addComponent(jLabel62)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(46, Short.MAX_VALUE)
+                .addContainerGap(30, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,43 +185,36 @@ public class jdPromocion extends javax.swing.JDialog {
                             .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addGap(22, 22, 22)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(txtId2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnBuscar1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(txtDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jcFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jcFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(chkVigencia, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(chkVigencia, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(txtId2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnBuscar1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jcFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(14, 14, 14)
                         .addComponent(jLabel64)
                         .addGap(162, 162, 162)
                         .addComponent(jLabel1)))
-                .addGap(74, 74, 74))
+                .addGap(60, 60, 60))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnBuscar1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel62)
-                                .addGap(8, 8, 8)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel68)
-                                    .addComponent(txtId2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addGap(23, 23, 23)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel62)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnBuscar1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel68)
+                        .addComponent(txtId2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtDescuento, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -225,7 +232,7 @@ public class jdPromocion extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(chkVigencia))
-                .addGap(11, 11, 11))
+                .addGap(23, 23, 23))
         );
 
         jPanel4.setBackground(new java.awt.Color(246, 244, 235));
@@ -359,12 +366,23 @@ public class jdPromocion extends javax.swing.JDialog {
 
         btnEliminar1.setBackground(new java.awt.Color(236, 177, 89));
         btnEliminar1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnEliminar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/darse-de-baja.png"))); // NOI18N
+        btnEliminar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/darBaja.png"))); // NOI18N
         btnEliminar1.setText("DAR DE BAJA");
         btnEliminar1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnEliminar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminar1ActionPerformed(evt);
+            }
+        });
+
+        btnDarBaja2.setBackground(new java.awt.Color(236, 177, 89));
+        btnDarBaja2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnDarBaja2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
+        btnDarBaja2.setText("ELIMINAR");
+        btnDarBaja2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnDarBaja2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDarBaja2ActionPerformed(evt);
             }
         });
 
@@ -383,17 +401,17 @@ public class jdPromocion extends javax.swing.JDialog {
                             .addComponent(btnEliminar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnNuevo1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnModificaar, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
-                            .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnDarBaja2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(30, 30, 30))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(40, Short.MAX_VALUE)
+                .addContainerGap(30, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
                         .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnModificaar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -401,7 +419,9 @@ public class jdPromocion extends javax.swing.JDialog {
                         .addComponent(btnNuevo1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnEliminar1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnDarBaja2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -476,11 +496,17 @@ public class jdPromocion extends javax.swing.JDialog {
                     java.sql.Date fechaInicio = new java.sql.Date(jcFechaInicio.getDate().getTime());
                     java.sql.Date fechaFin = new java.sql.Date(jcFechaFin.getDate().getTime());
                     boolean estado = chkVigencia.isSelected();
-                    obj.registrarPromocion(codigo, descuento, fechaInicio, fechaFin, estado);
-                    btnSave.setText("NUEVO");
-                    limpiar();
-                    listar("General");
-                    JOptionPane.showMessageDialog(this, "Promocion guardada correctamente");
+
+                    if (fechaInicio.before(fechaFin) || fechaInicio.equals(fechaFin)) {
+                        obj.registrarPromocion(codigo, descuento, fechaInicio, fechaFin, estado);
+                        btnSave.setText("NUEVO");
+                        limpiar();
+                        listar("General");
+                        JOptionPane.showMessageDialog(this, "Promoción guardada correctamente");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "La fecha de inicio no puede ser superior a la fecha fin");
+                    }
+
                 }
 
             }
@@ -492,22 +518,30 @@ public class jdPromocion extends javax.swing.JDialog {
 
     public void listarPorFechas(java.sql.Date fechaInicio, java.sql.Date fechaFin) {
         ResultSet lista = null;
-        Vector promocion;
+        Vector rubro;
+        String estado = null;
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("Codigo");
         modelo.addColumn("Descuento");
-        modelo.addColumn("Fecha Inicio");
-        modelo.addColumn("Fecha Fin");
+        modelo.addColumn("Fecha inicio");
+        modelo.addColumn("Fecha fin");
+        modelo.addColumn("Estado");
 
         try {
             lista = obj.buscarPromocionPorFecha(fechaInicio, fechaFin);
             while (lista.next()) {
-                promocion = new Vector();
-                promocion.add(lista.getInt("id_promocion"));
-                promocion.add(lista.getFloat("dscto"));
-                promocion.add(lista.getDate("fecha_inicio"));
-                promocion.add(lista.getDate("fecha_fin"));
-                modelo.addRow(promocion);
+                if (lista.getBoolean("estado")) {
+                    estado = "Vigente";
+                } else {
+                    estado = "No vigente";
+                }
+                rubro = new Vector();
+                rubro.add(lista.getInt("id_promocion"));
+                rubro.add(lista.getFloat("dscto"));
+                rubro.add(lista.getDate("fecha_inicio"));
+                rubro.add(lista.getDate("fecha_fin"));
+                rubro.add(estado);
+                modelo.addRow(rubro);
             }
             TablaGuardarda1.setModel(modelo);
         } catch (Exception e) {
@@ -525,13 +559,21 @@ public class jdPromocion extends javax.swing.JDialog {
             java.sql.Date fechaFin = new java.sql.Date(jcFechaFin.getDate().getTime());
             boolean estado = chkVigencia.isSelected();
             try {
-                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea modificar esta promocion?");
-                if (confirmacion == JOptionPane.YES_OPTION) {
-                    obj.modificarPromocion(codigo, descuento, fechaInicio, fechaFin, estado);
-                    limpiar();
-                    listar("General");
-                    JOptionPane.showMessageDialog(this, "Promocion modificada correctamente");
+
+                if (fechaInicio.before(fechaFin) || fechaInicio.equals(fechaFin)) {
+
+                    int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea modificar esta promocion?");
+                    if (confirmacion == JOptionPane.YES_OPTION) {
+                        obj.modificarPromocion(codigo, descuento, fechaInicio, fechaFin, estado);
+                        limpiar();
+                        listar("General");
+                        JOptionPane.showMessageDialog(this, "Promocion modificada correctamente");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "La fecha de inicio no puede ser superior a la fecha fin");
+
                 }
+
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Error al modificar la promocion: " + e.getMessage());
             }
@@ -543,20 +585,36 @@ public class jdPromocion extends javax.swing.JDialog {
     }//GEN-LAST:event_btnNuevo1ActionPerformed
 
     private void btnEliminar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar1ActionPerformed
-        try {
-            if (txtId2.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para dar de baja");
-            } else {
-                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea dar de baja esta promocion?");
-                if (confirmacion == JOptionPane.YES_OPTION) {
-                    obj.darDeBajaPromocion(Integer.parseInt(txtId2.getText()));
-                    limpiar();
-                    listar("General");
-                    JOptionPane.showMessageDialog(this, "Promocion dada de baja correctamente");
+
+        int codigo = Integer.parseInt(txtId2.getText());
+        if (txtId2.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para dar de baja");
+
+        } else {
+
+            try {
+                ResultSet listaFf = obj.buscarPromocion(codigo);
+
+                while (listaFf.next()) {
+                    if (!listaFf.getBoolean("estado")) {
+                        JOptionPane.showMessageDialog(this, "Esta promocón ya ha sido dado de baja anteriomente");
+                    } else {
+
+                        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea dar de baja esta esta promoción?");
+                        if (confirmacion == JOptionPane.YES_OPTION) {
+                            obj.darDeBajaPromocion(Integer.parseInt(txtId2.getText()));
+                            limpiar();
+                            listar("General");
+                            JOptionPane.showMessageDialog(rootPane, "Promoción dada de baja correctamente");
+                        }
+
+                    }
                 }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error--->" + e.getMessage());
+
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al dar de baja la promocion: " + e.getMessage());
+
         }
     }//GEN-LAST:event_btnEliminar1ActionPerformed
 
@@ -593,10 +651,58 @@ public class jdPromocion extends javax.swing.JDialog {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void btnDarBaja2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBaja2ActionPerformed
 
+        int codigo = Integer.parseInt(txtId2.getText());
+        if (txtId2.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para eliminar");
+
+        } else {
+
+            try {
+
+                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea eliminar esta promoción?");
+                if (confirmacion == JOptionPane.YES_OPTION) {
+                    obj.eliminar(Integer.parseInt(txtId2.getText()));
+                    limpiar();
+                    listar("General");
+                    JOptionPane.showMessageDialog(rootPane, "Promoción eliminada correctamente");
+
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e.getMessage() + e.getMessage());
+
+            }
+
+    }//GEN-LAST:event_btnDarBaja2ActionPerformed
+    }
+    private void txtDescuentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescuentoKeyTyped
+
+        char c = evt.getKeyChar();
+
+        if (!Character.isDigit(c) && c != '.' && c != '\b') {
+            evt.consume(); 
+            return;
+        }
+
+        String texto = txtDescuento.getText() + c;
+
+        try {
+            double valor = Double.parseDouble(texto);
+            if (valor < 0.1 || valor >= 1) {
+                evt.consume(); 
+            }
+        } catch (NumberFormatException e) {
+            evt.consume();
+        }
+
+    }//GEN-LAST:event_txtDescuentoKeyTyped
+
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TablaGuardarda1;
     private javax.swing.JButton btnBuscar1;
+    private javax.swing.JButton btnDarBaja2;
     private javax.swing.JButton btnEliminar1;
     private javax.swing.JButton btnModificaar;
     private javax.swing.JButton btnNuevo1;
