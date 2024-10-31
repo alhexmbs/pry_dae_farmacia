@@ -103,12 +103,22 @@ public class jdRubro extends javax.swing.JDialog {
 
         txtNombre.setBackground(new java.awt.Color(239, 237, 220));
         txtNombre.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
+            }
+        });
 
         txtId2.setBackground(new java.awt.Color(239, 237, 220));
         txtId2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         txtId2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtId2ActionPerformed(evt);
+            }
+        });
+        txtId2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtId2KeyTyped(evt);
             }
         });
 
@@ -512,7 +522,16 @@ public class jdRubro extends javax.swing.JDialog {
 
         
     }//GEN-LAST:event_btnDarBaja2ActionPerformed
-    }
+}
+    private void txtId2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtId2KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtId2KeyTyped
+
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+if (txtNombre.getText().length() >= 250) {
+            evt.consume();
+        }    }//GEN-LAST:event_txtNombreKeyTyped
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TablaGuardarda1;
