@@ -57,8 +57,8 @@ public class Producto {
     }
 
     // Registrar producto en la tabla producto_farmaceutico
-    public void registrarProducto(Integer id_producto, String nombre, String nro_reg_sanitario, String condicion_venta,
-            Integer id_promocion, Integer id_rubro) throws Exception {
+    public void registrarProducto(int id_producto, String nombre, String nro_reg_sanitario, String condicion_venta,
+            int id_promocion, int id_rubro) throws Exception {
 
         strSQL = "INSERT INTO producto_farmaceutico (id_producto, nombre, nro_reg_sanitario, condicion_venta, id_promocion, id_rubro) "
                 + "VALUES (" + id_producto + ", '" + nombre + "', '" + nro_reg_sanitario + "', '" + condicion_venta + "', "
@@ -87,8 +87,8 @@ public class Producto {
     }
 
     // Modificar producto en la tabla producto_farmaceutico
-    public void modificarProducto(Integer id_producto, String nombre, String nro_reg_sanitario, String condicion_venta,
-            Integer id_promocion, Integer id_rubro) throws Exception {
+    public void modificarProducto(int id_producto, String nombre, String nro_reg_sanitario, String condicion_venta,
+            Integer id_promocion, int id_rubro) throws Exception {
         strSQL = "UPDATE producto_farmaceutico SET "
                 + "nombre = '" + nombre + "', "
                 + "nro_reg_sanitario = '" + nro_reg_sanitario + "', "
@@ -158,15 +158,7 @@ public class Producto {
         }
     }
 
-    // Eliminar un producto de la base de datos
-    public void eliminarProducto(Integer id_producto) throws Exception {
-        strSQL = "DELETE FROM producto_farmaceutico WHERE id_producto = " + id_producto;
-        try {
-            objconectar.ejecutarBd(strSQL);
-        } catch (Exception e) {
-            throw new Exception("Error al eliminar un producto farmacéutico --> " + e.getMessage());
-        }
-    }
+   
 
     // Obtener código de producto por nombre
     public Integer obtenerCodigoProducto(String nombreProducto) throws Exception {
@@ -183,6 +175,25 @@ public class Producto {
         return 0;
     }
 
+    
+      public void eliminarProducto(Integer cod) throws Exception {
+        String verificarSql = "SELECT COUNT(*) FROM detalle_producto_forma WHERE id_producto = " + cod;
+
+        String eliminarSql = "DELETE FROM producto_farmaceutico WHERE id_producto = " + cod;
+
+        try {
+            ResultSet rs = objconectar.consultarBD(verificarSql);
+            if (rs.next() && rs.getInt(1) == 0) {
+                objconectar.ejecutarBd(eliminarSql);
+            } else {
+                throw new Exception("No se puede eliminar: este producto está siendo nombrada en un detalle de producto forma.");
+            }
+        } catch (Exception e) {
+            throw new Exception("Error al eliminar rubro --> " + e.getMessage());
+        }
+}
+    
+    
     // Dar de baja un producto actualizando el estado a 'I'
     public void darDeBajaDetProducto(int id_producto, int id_frm_farma) throws Exception {
         strSQL = "UPDATE detalle_producto_forma SET estado = 'I' WHERE id_producto = " + id_producto + " AND id_frm_farma = " + id_frm_farma;
