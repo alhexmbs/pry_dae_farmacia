@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 /**
  *
- * @author Katia
+ * @author Katiad
  */
 public class datos {
 

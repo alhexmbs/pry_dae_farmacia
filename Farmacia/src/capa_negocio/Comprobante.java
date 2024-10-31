@@ -16,7 +16,7 @@ public class Comprobante {
 
     // Listar comprobantes con opción de filtro
     public ResultSet listarComprobantes() throws Exception {
-        strsql = "SELECT cv.id_comprobante, cv.serie_nro_comprobante, cv.fecha_emision, cv.importe_total, "
+        strsql = "SELECT cv.id_comprobante, cv.serie_nro_comprobante, cv.fecha_hora, cv.importe_total, "
                 + "cv.id_cliente, u.id_usuario, tc.tipo_comprobante, cv.id_pedido "
                 + "FROM COMPROBANTE_VENTA cv "
                 + "INNER JOIN CLIENTE c ON cv.id_cliente = c.id_cliente "
@@ -58,22 +58,7 @@ public class Comprobante {
     }
 
     // Modificar un comprobante existente
-    public void modificarComprobante(int id_comprobante, String serie_nro_comprobante, Date fecha_emision, float importe_total, int id_cliente, int id_usuario, int id_tipo_comprobante, int id_pedido) throws Exception {
-        // Asegúrate de que el nombre de la tabla es correcto (COMPROBANTE_VENTA)
-        strsql = "UPDATE COMPROBANTE_VENTA SET serie_nro_comprobante = '" + serie_nro_comprobante
-                + "', fecha_emision = '" + fecha_emision + "', importe_total = " + importe_total
-                + ", id_cliente = " + id_cliente + ", id_usuario = " + id_usuario
-                + ", id_tipo_comprobante = " + id_tipo_comprobante + ", id_pedido = " + id_pedido
-                + " WHERE id_comprobante = " + id_comprobante;
-
-        try {
-            // Ejecutar la consulta SQL
-            objconectar.ejecutarBd(strsql);
-        } catch (Exception e) {
-            // Manejo de excepciones en caso de error
-            throw new Exception("Error al modificar comprobante --> " + e.getMessage());
-        }
-    }
+   
 
     // Eliminar un comprobante
     public void eliminarComprobante(int id_comprobante) throws Exception {
@@ -86,7 +71,7 @@ public class Comprobante {
     }
 
     public ResultSet buscarComprobantePorCliente(int id_cliente) throws Exception {
-        strsql = "SELECT cv.id_comprobante, cv.serie_nro_comprobante, cv.fecha_emision, cv.importe_total, "
+        strsql = "SELECT cv.id_comprobante, cv.serie_nro_comprobante, cv.fecha_hora, cv.importe_total, "
                 + "c.id_cliente, c.nombre AS cliente_nombre, tc.tipo_comprobante, cv.id_pedido, "
                 + "cv.id_usuario, U.username"
                 + // Aquí incluimos el id_usuario en la selección

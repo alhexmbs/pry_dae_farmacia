@@ -55,8 +55,6 @@ public class jdMantComprobante extends javax.swing.JDialog {
         jcFechaEmision = new com.toedter.calendar.JDateChooser();
         jLabel10 = new javax.swing.JLabel();
         txtPedido = new javax.swing.JTextField();
-        btnNuevo = new javax.swing.JButton();
-        btnModificar = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -165,26 +163,6 @@ public class jdMantComprobante extends javax.swing.JDialog {
                 .addContainerGap(48, Short.MAX_VALUE))
         );
 
-        btnNuevo.setBackground(new java.awt.Color(236, 177, 89));
-        btnNuevo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/agregar.png"))); // NOI18N
-        btnNuevo.setText("NUEVO");
-        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNuevoActionPerformed(evt);
-            }
-        });
-
-        btnModificar.setBackground(new java.awt.Color(236, 177, 89));
-        btnModificar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/edity.png"))); // NOI18N
-        btnModificar.setText("MODIFICAR");
-        btnModificar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnModificarActionPerformed(evt);
-            }
-        });
-
         btnLimpiar.setBackground(new java.awt.Color(236, 177, 89));
         btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/limpiar.png"))); // NOI18N
@@ -244,12 +222,9 @@ public class jdMantComprobante extends javax.swing.JDialog {
                 .addGap(80, 80, 80)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(251, 251, 251)
                         .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(53, 53, 53)
                         .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -285,12 +260,10 @@ public class jdMantComprobante extends javax.swing.JDialog {
                         .addGap(50, 50, 50)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnNuevo)
-                    .addComponent(btnModificar)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLimpiar)
-                    .addComponent(btnEliminar)
-                    .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnEliminar))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
@@ -345,7 +318,7 @@ public class jdMantComprobante extends javax.swing.JDialog {
                 // Llenar los datos sin el nombre del cliente
                 datos[0] = rs.getInt("id_comprobante");  // ID Comprobante
                 datos[1] = rs.getString("serie_nro_comprobante");  // Serie
-                datos[2] = rs.getDate("fecha_emision");  // Fecha Emisión
+                datos[2] = rs.getDate("fecha_hora");  // Fecha Emisión
                 datos[3] = rs.getFloat("importe_total");  // Importe Total
                 datos[4] = rs.getInt("id_cliente");  // ID Cliente
                 datos[5] = rs.getInt("id_usuario");  // ID Usuario
@@ -395,105 +368,6 @@ public class jdMantComprobante extends javax.swing.JDialog {
         }
     }
 
-
-    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-
-        try {
-            if (btnNuevo.getText().equals("NUEVO")) {
-                btnNuevo.setText("GUARDAR");
-                txtNComprobante.setText(String.valueOf(objCompro.generarCodigoComprobante()));
-                txtNComprobante.requestFocus();
-            } else {
-                int idComprobante = Integer.parseInt(txtNComprobante.getText());
-                String serieComprobante = txtNComprobante.getText();
-                java.sql.Date fechaEmision = new java.sql.Date(jcFechaEmision.getDate().getTime());
-                float importeTotal = Float.parseFloat(txtImporteTotal.getText());
-                int idCliente = Integer.parseInt(txtIdCliente.getText());
-                int idUsuario = Integer.parseInt(txtIdUsuario.getText());
-                int idTipoComprobante = cbTipoComprobante.getSelectedIndex() + 1;
-                int idPedido = Integer.parseInt(txtPedido.getText());
-
-                // Obtener la fecha actual para comparar
-                Date fechaActual = new Date();
-
-                // Validar que la fecha de emisión no sea anterior a la fecha actual
-                if (fechaEmision.before(fechaActual)) {
-                    JOptionPane.showMessageDialog(this, "La fecha de emisión no puede ser anterior a hoy.");
-                    return;
-                }
-
-                // Validación de los campos obligatorios
-                if (!serieComprobante.isEmpty() && importeTotal > 0 && idCliente > 0 && idUsuario > 0 && idTipoComprobante > 0 && idPedido > 0) {
-                    objCompro.registrarComprobante(idComprobante, serieComprobante, fechaEmision, importeTotal, idCliente, idUsuario, idTipoComprobante, idPedido);
-                    btnNuevo.setText("NUEVO");
-                    limpiarFormulario();
-                    listarComprobantes();
-                    JOptionPane.showMessageDialog(this, "Comprobante guardado correctamente");
-                } else {
-                    JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos obligatorios");
-                }
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Error en la conversión de datos: " + e.getMessage());
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al insertar comprobante: " + e.getMessage());
-        }
-
-    }//GEN-LAST:event_btnNuevoActionPerformed
-
-    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        if (txtNComprobante.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar un código de comprobante a modificar");
-        } else {
-            try {
-                // Obtener los valores del formulario
-                int idComprobante = Integer.parseInt(txtNComprobante.getText());
-                String serieComprobante = txtNComprobante.getText();
-                java.sql.Date fechaEmision = new java.sql.Date(jcFechaEmision.getDate().getTime());
-                float importeTotal = Float.parseFloat(txtImporteTotal.getText());
-                int idCliente = Integer.parseInt(txtIdCliente.getText());
-                int idUsuario = Integer.parseInt(txtIdUsuario.getText());
-                int idTipoComprobante = cbTipoComprobante.getSelectedIndex() + 1;
-                int idPedido = Integer.parseInt(txtPedido.getText());
-
-                // Validación de los campos
-                if (serieComprobante.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "El campo de serie no puede estar vacío.");
-                    return;
-                }
-                if (importeTotal <= 0) {
-                    JOptionPane.showMessageDialog(this, "El importe total debe ser mayor que 0.");
-                    return;
-                }
-                if (idCliente <= 0 || idUsuario <= 0 || idTipoComprobante <= 0 || idPedido <= 0) {
-                    JOptionPane.showMessageDialog(this, "Debe ingresar valores válidos para cliente, usuario, tipo de comprobante y pedido.");
-                    return;
-                }
-
-                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea modificar este comprobante?");
-                if (confirmacion == JOptionPane.YES_OPTION) {
-                    // Llamada al método modificarComprobante
-                    objCompro.modificarComprobante(idComprobante, serieComprobante, fechaEmision, importeTotal, idCliente, idUsuario, idTipoComprobante, idPedido);
-
-                    // Limpiar formulario
-                    limpiarFormulario();
-
-                    // Refrescar la lista de comprobantes
-                    listarComprobantes();
-
-                    // Mensaje de éxito
-                    JOptionPane.showMessageDialog(this, "Comprobante modificado correctamente");
-                }
-
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Error en la conversión de datos: " + e.getMessage());
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Error al modificar comprobante: " + e.getMessage());
-            }
-
-        }
-
-    }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         limpiarFormulario();
@@ -551,7 +425,7 @@ public class jdMantComprobante extends javax.swing.JDialog {
 
                 fila[1] = rs.getString("serie_nro_comprobante");
 
-                fila[2] = rs.getDate("fecha_emision");
+                fila[2] = rs.getDate("fecha_hora");
 
                 fila[3] = rs.getFloat("importe_total");
 
@@ -614,7 +488,7 @@ public class jdMantComprobante extends javax.swing.JDialog {
                 try {
                     serie = rs.getString("serie_nro_comprobante");
                     System.out.println(serie);
-                    fecha = rs.getDate("fecha_emision").toString();
+                    fecha = rs.getDate("fecha_hora").toString();
                     System.out.println(fecha);
 
                     importe = rs.getFloat("importe_total");
@@ -649,8 +523,6 @@ public class jdMantComprobante extends javax.swing.JDialog {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnLimpiar;
-    private javax.swing.JButton btnModificar;
-    private javax.swing.JButton btnNuevo;
     private javax.swing.JComboBox<String> cbTipoComprobante;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

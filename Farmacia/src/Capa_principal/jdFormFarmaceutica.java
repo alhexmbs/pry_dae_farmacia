@@ -2,6 +2,7 @@ package Capa_principal;
 
 import capa_negocio.Forma_farmaceutica;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,6 +30,7 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
 
     public void listarFormasFarmaceuticas(String tipo) {
         ResultSet lista = null;
+        String estado = null;
         Vector formaFarmaceutica;
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("Codigo");
@@ -37,11 +39,17 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
 
         try {
             lista = objff.listarFormaFarmaceutica(tipo);
+
             while (lista.next()) {
+                if (lista.getBoolean("estado")) {
+                    estado = "Vigente";
+                } else {
+                    estado = "No vigente";
+                }
                 formaFarmaceutica = new Vector();
                 formaFarmaceutica.add(lista.getInt("id_frm_farma"));
                 formaFarmaceutica.add(lista.getString("forma_farmaceutica"));
-                formaFarmaceutica.add(lista.getBoolean("estado"));
+                formaFarmaceutica.add(estado);
                 modelo.addRow(formaFarmaceutica);
             }
             TablaGuardarda1.setModel(modelo);
@@ -90,6 +98,7 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
         btnModificaar = new javax.swing.JButton();
         btnNuevo1 = new javax.swing.JButton();
         btnDarBaja = new javax.swing.JButton();
+        btnDarBaja1 = new javax.swing.JButton();
 
         jLabel67.setBackground(new java.awt.Color(0, 0, 0));
         jLabel67.setText("ID producto:");
@@ -263,6 +272,16 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
 
         txtNombre.setBackground(new java.awt.Color(239, 237, 220));
         txtNombre.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        txtNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombreActionPerformed(evt);
+            }
+        });
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
+            }
+        });
 
         txtId2.setBackground(new java.awt.Color(239, 237, 220));
         txtId2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -431,12 +450,23 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
 
         btnDarBaja.setBackground(new java.awt.Color(236, 177, 89));
         btnDarBaja.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnDarBaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
+        btnDarBaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/darBaja.png"))); // NOI18N
         btnDarBaja.setText("DAR DE BAJA");
         btnDarBaja.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnDarBaja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDarBajaActionPerformed(evt);
+            }
+        });
+
+        btnDarBaja1.setBackground(new java.awt.Color(236, 177, 89));
+        btnDarBaja1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnDarBaja1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
+        btnDarBaja1.setText("ELIMINAR");
+        btnDarBaja1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnDarBaja1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDarBaja1ActionPerformed(evt);
             }
         });
 
@@ -455,7 +485,8 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
                             .addComponent(btnDarBaja, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnNuevo1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnModificaar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
-                            .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnDarBaja1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -465,16 +496,18 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnSave)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnModificaar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnNuevo1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnDarBaja)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnDarBaja))
+                        .addComponent(btnDarBaja1))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -485,9 +518,7 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -553,42 +584,58 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
     }//GEN-LAST:event_btnNuevo1ActionPerformed
 
     private void btnDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBajaActionPerformed
-        try {
-            if (txtId2.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para dar de baja");
-            } else {
+        int codigo = Integer.parseInt(txtId2.getText());
+        if (txtId2.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para eliminar");
 
-                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea dar de baja esta forma farmaceutica?");
-                if (confirmacion == JOptionPane.YES_OPTION) {
-                    objff.darBajaForma(Integer.parseInt(txtId2.getText()));
-                    limpiar();
-                    listarFormasFarmaceuticas("General");
-                    JOptionPane.showMessageDialog(rootPane, "Forma farmaceutica dada de baja correctamente");
+        } else {
+
+            try {
+                ResultSet listaFf = objff.buscarFormaFarmaceutica(codigo);
+
+                while (listaFf.next()) {
+                    if (!listaFf.getBoolean("estado")) {
+                        JOptionPane.showMessageDialog(this, "Esta forma farmaceutica ya ha sido dado de baja anteriomente");
+                    } else {
+
+                        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea dar de baja esta forma farmaceutica?");
+                        if (confirmacion == JOptionPane.YES_OPTION) {
+                            objff.darBajaForma(Integer.parseInt(txtId2.getText()));
+                            limpiar();
+                            listarFormasFarmaceuticas("General");
+                            JOptionPane.showMessageDialog(rootPane, "Forma farmaceutica dada de baja correctamente");
+                        }
+
+                    }
                 }
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
-    }//GEN-LAST:event_btnDarBajaActionPerformed
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
 
+            }
+
+    }//GEN-LAST:event_btnDarBajaActionPerformed
+    }
     private void btnModificaarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificaarActionPerformed
         if (txtId2.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe ingresar un codigo a modificar");
         } else {
-            int codigo = Integer.parseInt(txtId2.getText());
-            String nombre = txtNombre.getText();
-            boolean vigencia = chkVigencia.isSelected();
-            try {
-                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea modificar  esta forma farmaceutica?");
-                if (confirmacion == JOptionPane.YES_OPTION) {
-                    objff.modificarFormaFarmaceutica(codigo, nombre, vigencia);
-                    limpiar();
-                    listarFormasFarmaceuticas("General");
-                    JOptionPane.showMessageDialog(this, "forma farmaceutica  modificada correctamente");
-                }
+            if (!txtNombre.getText().isEmpty()) {
 
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Error al modificar marca---> " + e.getMessage());
+                int codigo = Integer.parseInt(txtId2.getText());
+                String nombre = txtNombre.getText();
+                boolean vigencia = chkVigencia.isSelected();
+                try {
+                    int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea modificar  esta forma farmaceutica?");
+                    if (confirmacion == JOptionPane.YES_OPTION) {
+                        objff.modificarFormaFarmaceutica(codigo, nombre, vigencia);
+                        limpiar();
+                        listarFormasFarmaceuticas("General");
+                        JOptionPane.showMessageDialog(this, "forma farmaceutica  modificada correctamente");
+                    }
+
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Error al modificar marca---> " + e.getMessage());
+                }
             }
         }
 
@@ -601,14 +648,20 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
                 txtId2.setText(objff.generarCodigoformafarmaceutica().toString());
                 txtNombre.requestFocus();
             } else {
-                int codigo = Integer.parseInt(txtId2.getText());
-                String nombre = txtNombre.getText();
-                boolean vigencia = chkVigencia.isSelected();
-                objff.registrar(codigo, nombre, vigencia);
-                btnSave.setText("NUEVO");
-                limpiar();
-                listarFormasFarmaceuticas("General");
-                JOptionPane.showMessageDialog(this, "Forma farmaceutica guardada correctamente");
+                if(!txtNombre.getText().isEmpty()){
+                    int codigo = Integer.parseInt(txtId2.getText());
+                    String nombre = txtNombre.getText();
+                    boolean vigencia = chkVigencia.isSelected();
+                    objff.registrar(codigo, nombre, vigencia);
+                    btnSave.setText("NUEVO");
+                    limpiar();
+                    listarFormasFarmaceuticas("General");
+                    JOptionPane.showMessageDialog(this, "Forma farmaceutica guardada correctamente");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Debe ingresar un nombre para guardar");
+
+                }
+
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al insertar forma farmaceutica -->" + e.getMessage());
@@ -629,6 +682,43 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
         btnBuscar1ActionPerformed(null);
     }//GEN-LAST:event_TablaGuardarda1MouseClicked
 
+    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombreActionPerformed
+
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+        if (txtNombre.getText().length() >= 150) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNombreKeyTyped
+
+    private void btnDarBaja1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBaja1ActionPerformed
+        int codigo = Integer.parseInt(txtId2.getText());
+        if (txtId2.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para dar de baja");
+
+        } else {
+
+            try {
+
+                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea eliminar esta forma farmaceutica?");
+                if (confirmacion == JOptionPane.YES_OPTION) {
+                    objff.eliminar(Integer.parseInt(txtId2.getText()));
+                    limpiar();
+                    listarFormasFarmaceuticas("General");
+                    JOptionPane.showMessageDialog(rootPane, "Forma farmaceutica eliminada correctamente");
+
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e.getMessage()+e.getMessage());
+
+            }
+
+        }
+
+
+    }//GEN-LAST:event_btnDarBaja1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TablaGuardarda;
@@ -636,6 +726,7 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnBuscar1;
     private javax.swing.JButton btnDarBaja;
+    private javax.swing.JButton btnDarBaja1;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnModificaar;
