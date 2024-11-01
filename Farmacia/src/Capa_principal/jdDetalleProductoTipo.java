@@ -557,11 +557,11 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
             int idProducto = objp.obtenerCodigoProducto(Producto);
             int idFabricante = objf.obtenerIdFabricantePorNombre(fabricante);
             int stock = Integer.valueOf(spStock.getValue().toString());
-            double precioVenta = Double.parseDouble(txtPrecioVenta.getText().trim());
+            double precioVenta = Double.parseDouble(txtPrecioVenta.getText());
             String estadoString = (String) cboEstado.getSelectedItem(); // Convertir a String
             char estado = estadoString.charAt(0); // Tomar el primer carácter como char
 
-            String principioActivo = txtPrincipio.getText().trim();
+            String principioActivo = txtPrincipio.getText();
             int numdosis =  Integer.parseInt(spDosis.getValue().toString());
             String unidad = cboUnidad.getSelectedItem().toString();
 
@@ -579,7 +579,7 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al insertar Producto");
+            JOptionPane.showMessageDialog(this, "Error al insertar Producto--> "+e.getMessage());
         }
 
     }//GEN-LAST:event_btnSave1ActionPerformed
