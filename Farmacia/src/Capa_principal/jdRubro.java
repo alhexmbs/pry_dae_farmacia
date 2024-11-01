@@ -364,6 +364,7 @@ public class jdRubro extends javax.swing.JDialog {
     }//GEN-LAST:event_txtId2ActionPerformed
 
     private void btnBuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar1ActionPerformed
+
         ResultSet rsRubro = null;
         try {
             if (txtId2.getText().isEmpty()) {
@@ -461,13 +462,14 @@ public class jdRubro extends javax.swing.JDialog {
 
     private void btnDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBajaActionPerformed
 
-        int codigo = Integer.parseInt(txtId2.getText());
         if (txtId2.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para dar de baja");
 
         } else {
 
             try {
+                        int codigo = Integer.parseInt(txtId2.getText());
+
                 ResultSet listaFf = objR.buscarRubro(codigo);
 
                 while (listaFf.next()) {
@@ -498,14 +500,14 @@ public class jdRubro extends javax.swing.JDialog {
     }//GEN-LAST:event_formWindowOpened
 
     private void btnDarBaja2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBaja2ActionPerformed
-        
-        int codigo = Integer.parseInt(txtId2.getText());
+
         if (txtId2.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para eliminar");
 
         } else {
 
             try {
+                int codigo = Integer.parseInt(txtId2.getText());
 
                 int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea eliminar este rubro?");
                 if (confirmacion == JOptionPane.YES_OPTION) {
@@ -516,13 +518,13 @@ public class jdRubro extends javax.swing.JDialog {
 
                 }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, e.getMessage()+e.getMessage());
+                JOptionPane.showMessageDialog(this, e.getMessage() + e.getMessage());
 
             }
 
-        
+
     }//GEN-LAST:event_btnDarBaja2ActionPerformed
-}
+    }
     private void txtId2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtId2KeyTyped
         // TODO add your handling code here:
     }//GEN-LAST:event_txtId2KeyTyped

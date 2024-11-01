@@ -586,11 +586,11 @@ public class jdPromocion extends javax.swing.JDialog {
 
     private void btnEliminar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar1ActionPerformed
 
-        int codigo = Integer.parseInt(txtId2.getText());
         if (txtId2.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para dar de baja");
 
         } else {
+        int codigo = Integer.parseInt(txtId2.getText());
 
             try {
                 ResultSet listaFf = obj.buscarPromocion(codigo);
@@ -653,11 +653,11 @@ public class jdPromocion extends javax.swing.JDialog {
 
     private void btnDarBaja2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBaja2ActionPerformed
 
-        int codigo = Integer.parseInt(txtId2.getText());
         if (txtId2.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para eliminar");
 
         } else {
+        int codigo = Integer.parseInt(txtId2.getText());
 
             try {
 
@@ -677,7 +677,7 @@ public class jdPromocion extends javax.swing.JDialog {
     }//GEN-LAST:event_btnDarBaja2ActionPerformed
     }
     private void txtDescuentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescuentoKeyTyped
-
+/*
         char c = evt.getKeyChar();
 
         if (!Character.isDigit(c) && c != '.' && c != '\b') {
@@ -695,7 +695,7 @@ public class jdPromocion extends javax.swing.JDialog {
         } catch (NumberFormatException e) {
             evt.consume();
         }
-
+*/
     }//GEN-LAST:event_txtDescuentoKeyTyped
 
     

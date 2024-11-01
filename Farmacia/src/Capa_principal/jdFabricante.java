@@ -452,11 +452,11 @@ public class jdFabricante extends javax.swing.JDialog {
     }//GEN-LAST:event_btnNuevo1ActionPerformed
 
     private void btnDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBajaActionPerformed
-        int codigo = Integer.parseInt(txtId2.getText());
         if (txtId2.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para dar de baja");
 
         } else {
+        int codigo = Integer.parseInt(txtId2.getText());
 
             try {
                 ResultSet listaFf = obj.buscarFabricante(codigo);
@@ -489,13 +489,13 @@ public class jdFabricante extends javax.swing.JDialog {
     }//GEN-LAST:event_formWindowOpened
 
     private void btnDarBaja1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBaja1ActionPerformed
-        int codigo = Integer.parseInt(txtId2.getText());
         if (txtId2.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para eliminar");
 
         } else {
 
             try {
+        int codigo = Integer.parseInt(txtId2.getText());
 
                 int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea eliminar este fabricante?");
                 if (confirmacion == JOptionPane.YES_OPTION) {
