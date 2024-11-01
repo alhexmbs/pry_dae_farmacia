@@ -9,6 +9,7 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -16,9 +17,10 @@ import javax.swing.JOptionPane;
  */
 public class jdDetalleProductoTipo extends javax.swing.JDialog {
 
-    Forma_farmaceutica objff= new Forma_farmaceutica();
+    Forma_farmaceutica objff = new Forma_farmaceutica();
     Producto objp = new Producto();
     Fabricante objf = new Fabricante();
+
     /**
      * Creates new form jdDetalleProductoTipo
      */
@@ -28,57 +30,74 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
         listarformaFarmaceutica();
         listarProductos();
         listarFabricante();
+                                    listarDetalleEnTabla("");
+
     }
     
+    private void limpiarFormulario() {
+    cboff.setSelectedIndex(0);
+    cboProductos.setSelectedIndex(0);
+    cboFabricante.setSelectedIndex(0);
+    spStock.setValue(0);
+    txtPrecioVenta.setText("");
+    cboEstado.setSelectedIndex(0);
+    txtPrincipio.setText("");
+    spDosis.setValue(0);
+    cboUnidad.setSelectedIndex(0);
+}
+
+
     private void listarformaFarmaceutica() {
         ResultSet rsForma = null;
         DefaultComboBoxModel modelo = new DefaultComboBoxModel();
-        cboFormaFar.setModel(modelo);
-        
+        cboff.setModel(modelo);
+
         try {
             rsForma = objff.listarFormaFarmaceutica("General");
             while (rsForma.next()) {
-                modelo.addElement(rsForma.getString("forma_farmaceutica"));           
+                modelo.addElement(rsForma.getString("forma_farmaceutica"));
             }
-            
+
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error al listar formas farmaceuticas");
         }
-        
+
     }
+
     private void listarProductos() {
         ResultSet rsForma = null;
         DefaultComboBoxModel modelo = new DefaultComboBoxModel();
         cboProductos.setModel(modelo);
-        
+
         try {
             rsForma = objp.listarProductos("General");
             while (rsForma.next()) {
-                modelo.addElement(rsForma.getString("nombre"));           
+                modelo.addElement(rsForma.getString("nombre"));
             }
-            
+
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error al listar Productos");
         }
-        
+
     }
-    
- private void listarFabricante() {
+
+    private void listarFabricante() {
         ResultSet rsForma = null;
         DefaultComboBoxModel modelo = new DefaultComboBoxModel();
         cboFabricante.setModel(modelo);
-        
+
         try {
             rsForma = objf.listarFabricantes("General");
             while (rsForma.next()) {
-                modelo.addElement(rsForma.getString("nombre_fabricante"));           
+                modelo.addElement(rsForma.getString("nombre_fabricante"));
             }
-            
+
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error al listar Fabricantes");
         }
-        
+
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -106,7 +125,7 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
         txtPrincipio = new javax.swing.JTextField();
         jLabel75 = new javax.swing.JLabel();
         btnBuscarProducto = new javax.swing.JButton();
-        cboFormaFar = new javax.swing.JComboBox<>();
+        cboff = new javax.swing.JComboBox<>();
         spDosis = new javax.swing.JSpinner();
         cboUnidad = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
@@ -122,7 +141,7 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
         jLabel25 = new javax.swing.JLabel();
         cboFiltros1 = new javax.swing.JComboBox<>();
         jScrollPane5 = new javax.swing.JScrollPane();
-        TablaGuardarda2 = new javax.swing.JTable();
+        tblDetalle = new javax.swing.JTable();
 
         jLabel24.setText("Filtrar por");
 
@@ -191,9 +210,9 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
             }
         });
 
-        cboFormaFar.addActionListener(new java.awt.event.ActionListener() {
+        cboff.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboFormaFarActionPerformed(evt);
+                cboffActionPerformed(evt);
             }
         });
 
@@ -243,7 +262,7 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
                             .addGroup(jPanel8Layout.createSequentialGroup()
                                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(cboProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cboFormaFar, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cboff, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(cboFabricante, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnBuscarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -276,7 +295,7 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
                             .addGroup(jPanel8Layout.createSequentialGroup()
                                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel75)
-                                    .addComponent(cboFormaFar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(cboff, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(22, 22, 22)
                                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel76)
@@ -386,7 +405,7 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
         jLabel25.setText("Filtrar por");
 
         cboFiltros1.setBackground(new java.awt.Color(246, 244, 235));
-        cboFiltros1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "General", "Nombre ascendente", "Nombre descente" }));
+        cboFiltros1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "General", "Stock bajo", "Activos", "Inactivos" }));
         cboFiltros1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         cboFiltros1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -394,9 +413,9 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
             }
         });
 
-        TablaGuardarda2.setAutoCreateRowSorter(true);
-        TablaGuardarda2.setBackground(new java.awt.Color(170, 215, 217));
-        TablaGuardarda2.setModel(new javax.swing.table.DefaultTableModel(
+        tblDetalle.setAutoCreateRowSorter(true);
+        tblDetalle.setBackground(new java.awt.Color(170, 215, 217));
+        tblDetalle.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -404,13 +423,13 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
 
             }
         ));
-        TablaGuardarda2.setShowGrid(false);
-        TablaGuardarda2.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblDetalle.setShowGrid(false);
+        tblDetalle.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                TablaGuardarda2MouseClicked(evt);
+                tblDetalleMouseClicked(evt);
             }
         });
-        jScrollPane5.setViewportView(TablaGuardarda2);
+        jScrollPane5.setViewportView(tblDetalle);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -462,20 +481,151 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    private void buscarDetalleProducto() {
+    ResultSet rsDetalle = null;
+    try {
+        String formaFarmaceutica = cboff.getSelectedItem().toString();
+        String producto = cboProductos.getSelectedItem().toString();
+        
+        if (formaFarmaceutica.isEmpty() || producto.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Seleccione una forma farmacéutica y un producto para buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        int idFormaFarmaceutica = objff.obtenerCodigoFormaFarmaceutica(formaFarmaceutica);
+        int idProducto = objp.obtenerCodigoProducto(producto);
+        
+        rsDetalle = objp.buscarDetalle(idFormaFarmaceutica, idProducto);
+
+        if (rsDetalle.next()) {
+            cboFabricante.setSelectedItem(rsDetalle.getString("nombre_fabricante"));
+            spStock.setValue(rsDetalle.getInt("stock"));
+            txtPrecioVenta.setText(String.valueOf(rsDetalle.getDouble("precio_venta")));
+            cboEstado.setSelectedItem(rsDetalle.getString("estado"));
+            txtPrincipio.setText(rsDetalle.getString("principio_activo"));
+            
+            String dosisCompleta = rsDetalle.getString("dosis");
+            if (dosisCompleta != null && !dosisCompleta.isEmpty()) {
+                String[] partesDosis = dosisCompleta.split(" - ");
+                if (partesDosis.length == 2) {
+                    spDosis.setValue(Integer.parseInt(partesDosis[0]));
+                    cboUnidad.setSelectedItem(partesDosis[1]);
+                }
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "No se encontró ningún detalle con los IDs especificados.", "Detalle no encontrado", JOptionPane.INFORMATION_MESSAGE);
+            limpiarFormulario();
+        }
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Los IDs deben ser números válidos.", "Error de formato", JOptionPane.ERROR_MESSAGE);
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al buscar el detalle del producto --> " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    } finally {
+        try {
+            if (rsDetalle != null) {
+                rsDetalle.close();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al cerrar el ResultSet --> " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+}
+
+
+    
+
     private void btnBuscarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarProductoActionPerformed
-   
+
+       buscarDetalleProducto();
+    
     }//GEN-LAST:event_btnBuscarProductoActionPerformed
 
-    private void cboFormaFarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboFormaFarActionPerformed
+    private void cboffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboffActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cboFormaFarActionPerformed
+    }//GEN-LAST:event_cboffActionPerformed
 
     private void btnSave1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSave1ActionPerformed
-        // TODO add your handling code here:
+        try {
+
+            String formaFarmaceutica = cboff.getSelectedItem().toString();
+            String Producto = (String) cboProductos.getSelectedItem();
+            String fabricante = (String) cboFabricante.getSelectedItem();
+
+            int idformaFarmaceutica = objff.obtenerCodigoFormaFarmaceutica(formaFarmaceutica);
+            int idProducto = objp.obtenerCodigoProducto(Producto);
+            int idFabricante = objf.obtenerIdFabricantePorNombre(fabricante);
+            int stock = Integer.valueOf(spStock.getValue().toString());
+            double precioVenta = Double.parseDouble(txtPrecioVenta.getText().trim());
+            String estadoString = (String) cboEstado.getSelectedItem(); // Convertir a String
+            char estado = estadoString.charAt(0); // Tomar el primer carácter como char
+
+            String principioActivo = txtPrincipio.getText().trim();
+            int numdosis =  Integer.parseInt(spDosis.getValue().toString());
+            String unidad = cboUnidad.getSelectedItem().toString();
+
+            String dosis = numdosis + " - " + unidad;
+            if (formaFarmaceutica.isEmpty() || Producto.isEmpty() || fabricante.isEmpty() || principioActivo.isEmpty()
+                    || stock <= 0 || numdosis <= 0 || txtPrecioVenta.getText().isEmpty() || unidad.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos obligatorios.");
+            } else {
+
+                objp.registrarDetalleProductoForma(idformaFarmaceutica, idProducto, stock, precioVenta, estado, principioActivo, dosis, idFabricante);
+                limpiarFormulario();
+                listarDetalleEnTabla("");
+                JOptionPane.showMessageDialog(this, "detalle del producto guardado correctamente");
+
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al insertar Producto");
+        }
+
     }//GEN-LAST:event_btnSave1ActionPerformed
 
     private void btnEdit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEdit1ActionPerformed
-        // TODO add your handling code here:
+
+        String formaFarmaceutica = cboff.getSelectedItem().toString();
+            String Producto = (String) cboProductos.getSelectedItem();
+        if(formaFarmaceutica.isEmpty() || Producto.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Seleccione un producto y forma farmaceutica a buscar");
+        }else{
+             try {
+
+            
+            String fabricante = (String) cboFabricante.getSelectedItem();
+
+            int idformaFarmaceutica = objp.obtenerCodigoProducto(formaFarmaceutica);
+            int idProducto = objp.obtenerCodigoProducto(Producto);
+            int idFabricante = objf.obtenerIdFabricantePorNombre(fabricante);
+            int stock = Integer.valueOf(spStock.getValue().toString());
+            double precioVenta = Double.parseDouble(txtPrecioVenta.getText().trim());
+            String estadoString = (String) cboEstado.getSelectedItem(); // Convertir a String
+            char estado = estadoString.charAt(0); // Tomar el primer carácter como char
+
+            String principioActivo = txtPrincipio.getText().trim();
+            int numdosis = (int) spDosis.getValue();
+            String unidad = cboUnidad.getSelectedItem().toString();
+
+            String dosis = numdosis + " - " + unidad;
+            if (formaFarmaceutica.isEmpty() || Producto.isEmpty() || fabricante.isEmpty() || principioActivo.isEmpty()
+                    || stock < 0 || numdosis < 0 || txtPrecioVenta.getText().isEmpty() || unidad.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos obligatorios.");
+            } else {
+
+                objp.modificarDetalleProductoForma(idFabricante, idProducto, stock, precioVenta, estado, principioActivo, dosis, idFabricante);
+                limpiarFormulario();
+                listarDetalleEnTabla("");
+                JOptionPane.showMessageDialog(this, "detalle del producto modificado correctamente");
+
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al modificar Producto --> " + e.getMessage());
+        }
+        }
+       
     }//GEN-LAST:event_btnEdit1ActionPerformed
 
     private void btnLimpiar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiar1ActionPerformed
@@ -483,7 +633,42 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
     }//GEN-LAST:event_btnLimpiar1ActionPerformed
 
     private void btnDarBaja2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBaja2ActionPerformed
-        // TODO add your handling code here:
+        ResultSet listadt = null;
+        String formaFarmaceutica = cboff.getSelectedItem().toString();
+        String Producto = (String) cboProductos.getSelectedItem();
+        if (formaFarmaceutica.isEmpty() || Producto.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Seleccione un producto y forma farmaceutica para dar de baja");
+        } else {
+
+            try {
+                int idFormaFarmaceutica = objff.obtenerCodigoFormaFarmaceutica(formaFarmaceutica);
+                int idProducto = objp.obtenerCodigoProducto(Producto);
+
+                
+               listadt = objp.buscarDetalle(idFormaFarmaceutica, idProducto);
+                
+                
+                while (listadt.next()) {
+if (listadt.getString("estado").equals("I")) {
+                        JOptionPane.showMessageDialog(this, "Este detalle del producto ya ha sido dado de baja anteriomente");
+                    } else {
+
+                        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea dar de baja este detalle del producto?");
+                        if (confirmacion == JOptionPane.YES_OPTION) {
+                            objp.darDeBajaDetalleProducto(idProducto, idProducto);
+                            limpiarFormulario();
+                            listarDetalleEnTabla("");
+                            JOptionPane.showMessageDialog(rootPane, "rubro dado de baja correctamente");
+                        }
+
+                    }
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+
+            }
+
+        }
     }//GEN-LAST:event_btnDarBaja2ActionPerformed
 
     private void cboProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboProductosActionPerformed
@@ -501,20 +686,121 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
     }//GEN-LAST:event_TablaGuardarda1MouseClicked
 
     private void cboFiltros1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboFiltros1ActionPerformed
-        String filtro = cboFiltros.getSelectedItem().toString();
-      //  listar(filtro);
+aplicarFiltro();
     }//GEN-LAST:event_cboFiltros1ActionPerformed
 
-    private void TablaGuardarda2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaGuardarda2MouseClicked
-     //   txtId2.setText(String.valueOf(TablaGuardarda1.getValueAt(TablaGuardarda1.getSelectedRow(), 0)));
-      //  btnBuscar1ActionPerformed(null);
-    }//GEN-LAST:event_TablaGuardarda2MouseClicked
+    private void aplicarFiltro() {
+    String filtroSeleccionado = (String) cboFiltros.getSelectedItem();
+    String filtro = "";
+
+    switch (filtroSeleccionado) {
+        case "General":
+            filtro = ""; 
+            break;
+        case "Stock bajo":
+            filtro = "dtf.stock <= 10";
+            break;
+        case "Activos":
+            filtro = "dtf.estado = 'A'";
+            break;
+        case "Inactivos":
+            filtro = "dtf.estado = 'I'";
+            break;
+        default:
+            JOptionPane.showMessageDialog(this, "Filtro no reconocido.");
+            return;
+    }
+
+    try {
+        ResultSet rsDetalle = objp.listardetalle(filtro);
+
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("Forma Farmacéutica");
+        modelo.addColumn("Producto");
+        modelo.addColumn("Fabricante");
+        modelo.addColumn("Stock");
+        modelo.addColumn("Precio");
+        modelo.addColumn("Estado");
+        modelo.addColumn("Principio Activo");
+        modelo.addColumn("Dosis");
+
+        while (rsDetalle.next()) {
+            Object[] fila = new Object[8];
+            fila[0] = rsDetalle.getString("forma_farmaceutica");
+            fila[1] = rsDetalle.getString("nombre");
+            fila[2] = rsDetalle.getString("nombre_fabricante");
+            fila[3] = rsDetalle.getInt("stock");
+            fila[4] = rsDetalle.getDouble("precio_venta");
+            fila[5] = rsDetalle.getString("estado");
+            fila[6] = rsDetalle.getString("principio_activo");
+            fila[7] = rsDetalle.getString("dosis");
+            modelo.addRow(fila);
+        }
+
+        tblDetalle.setModel(modelo);
+
+       
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al aplicar filtro --> " + e.getMessage());
+    }
+}
+
+     private void listarDetalleEnTabla(String filtro) {
+    // Definir el modelo de la tabla
+    DefaultTableModel modelo = new DefaultTableModel();
+    modelo.addColumn("Forma Farmacéutica");
+    modelo.addColumn("Producto");
+    modelo.addColumn("Fabricante");
+    modelo.addColumn("Stock");
+    modelo.addColumn("Precio");
+    modelo.addColumn("Estado");
+    modelo.addColumn("Principio Activo");
+    modelo.addColumn("Dosis");
+
+    try {
+        // Obtener el ResultSet con los datos filtrados
+        ResultSet rsDetalle = objp.listardetalle(filtro);
+
+        // Iterar sobre el ResultSet y añadir filas al modelo de la tabla
+        while (rsDetalle.next()) {
+            // Extraer datos de cada columna
+            String formaFarmaceutica = rsDetalle.getString("forma_farmaceutica");
+            String producto = rsDetalle.getString("nombre");
+            String fabricante = rsDetalle.getString("nombre_fabricante");
+            int stock = rsDetalle.getInt("stock");
+            double precio = rsDetalle.getDouble("precio_venta");
+            String estado = rsDetalle.getString("estado");
+            String principioActivo = rsDetalle.getString("principio_activo");
+            String dosis = rsDetalle.getString("dosis");
+
+            // Crear una fila y agregarla al modelo
+            Object[] fila = { formaFarmaceutica, producto, fabricante, stock, precio, estado, principioActivo, dosis };
+            modelo.addRow(fila);
+        }
+
+        // Asignar el modelo a la tabla
+        tblDetalle.setModel(modelo);
+
+        // Cerrar el ResultSet
+        rsDetalle.close();
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al listar los detalles en la tabla --> " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
+
+ 
+
+    private void tblDetalleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDetalleMouseClicked
+        cboff.setSelectedItem(String.valueOf(tblDetalle.getValueAt(tblDetalle.getSelectedRow(), 0)));
+        cboProductos.setSelectedItem(String.valueOf(tblDetalle.getValueAt(tblDetalle.getSelectedRow(), 1)));
+
+        btnBuscarProductoActionPerformed(null);
+    }//GEN-LAST:event_tblDetalleMouseClicked
 
   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TablaGuardarda1;
-    private javax.swing.JTable TablaGuardarda2;
     private javax.swing.JButton btnBuscarProducto;
     private javax.swing.JButton btnDarBaja2;
     private javax.swing.JButton btnEdit1;
@@ -524,9 +810,9 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> cboFabricante;
     private javax.swing.JComboBox<String> cboFiltros;
     private javax.swing.JComboBox<String> cboFiltros1;
-    private javax.swing.JComboBox<String> cboFormaFar;
     private javax.swing.JComboBox<String> cboProductos;
     private javax.swing.JComboBox<String> cboUnidad;
+    private javax.swing.JComboBox<String> cboff;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
@@ -546,6 +832,7 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSpinner spDosis;
     private javax.swing.JSpinner spStock;
+    private javax.swing.JTable tblDetalle;
     private javax.swing.JTextField txtPrecioVenta;
     private javax.swing.JTextField txtPrincipio;
     // End of variables declaration//GEN-END:variables
