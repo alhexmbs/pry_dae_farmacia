@@ -14,28 +14,28 @@ public class Producto {
     String strSQL;
     ResultSet rs = null;
 
-    // Listar productos con filtro opcional
     public ResultSet listarProductos(String filtro) throws Exception {
-        strSQL = "SELECT dp.*, pro.nombre, pro.nro_reg_sanitario, pro.condicion_venta, fa.nombre_fabricante, "
-                + "ff.forma_farmaceutica, ru.nombre_rubro, COALESCE(pr.dscto, 0) AS descuento "
-                + "FROM detalle_producto_forma dp "
-                + "INNER JOIN producto_farmaceutico pro ON pro.id_producto = dp.id_producto "
-                + "INNER JOIN fabricante fa ON fa.id_fabricante = dp.id_fabricante "
-                + "INNER JOIN forma_farmaceutica ff ON ff.id_frm_farma = dp.id_frm_farma "
-                + "INNER JOIN rubro ru ON ru.id_rubro = pro.id_rubro "
-                + "LEFT JOIN promocion pr ON pr.id_promocion = pro.id_promocion";
+    StringBuilder strSQL = new StringBuilder("SELECT pf.*, pro.dscto AS descuento, rb.nombre_rubro AS rubro "
+                                           + "FROM producto_farmaceutico pf "
+                                           + "INNER JOIN promocion pro ON pro.id_promocion = pf.id_promocion "
+                                           + "INNER JOIN rubro rb ON rb.id_rubro = pf.id_rubro");
 
-        if (!filtro.equals("General")) {
-            strSQL += " WHERE " + filtro;
-        }
-
-        try {
-            rs = objconectar.consultarBD(strSQL);
-            return rs;
-        } catch (Exception e) {
-            throw new Exception("Error al consultar productos farmacéuticos --> " + e.getMessage());
+    if (!filtro.equals("General")) {
+        if (filtro.equals("ORDER BY pf.nombre ASC") || filtro.equals("ORDER BY pf.nombre DESC")) {
+            strSQL.append(" ").append(filtro);
+        } else {
+            strSQL.append(" WHERE ").append(filtro);
         }
     }
+
+    try {
+        rs = objconectar.consultarBD(strSQL.toString());
+        return rs;
+    } catch (Exception e) {
+        throw new Exception("Error al consultar productos farmacéuticos --> " + e.getMessage());
+    }
+}
+
 
     // Listar todos los productos sin filtro
     public ResultSet listarProductos() throws Exception {
@@ -72,12 +72,12 @@ public class Producto {
 
     // Registrar detalle de producto en DETALLE_PRODUCTO_FORMA
     public void registrarDetalleProductoForma(Integer id_frm_farma, Integer id_producto, Integer stock, double precio_venta,
-            char estado, String principio_activo, String dosis, Integer id_fabricante, Integer id_lote) throws Exception {
+            char estado, String principio_activo, String dosis, Integer id_fabricante) throws Exception {
 
         strSQL = "INSERT INTO detalle_producto_forma (id_frm_farma, id_producto, stock, precio_venta, estado, "
                 + "principio_activo, dosis, id_fabricante, id_lote) "
                 + "VALUES (" + id_frm_farma + ", " + id_producto + ", " + stock + ", " + precio_venta + ", '"
-                + estado + "', '" + principio_activo + "', '" + dosis + "', " + id_fabricante + ", " + id_lote + ")";
+                + estado + "', '" + principio_activo + "', '" + dosis + "', " + id_fabricante + ")";
 
         try {
             objconectar.ejecutarBd(strSQL);
@@ -106,15 +106,14 @@ public class Producto {
 
     // Modificar detalle de producto en DETALLE_PRODUCTO_FORMA
     public void modificarDetalleProductoForma(Integer id_frm_farma, Integer id_producto, Integer stock, double precio_venta,
-            char estado, String principio_activo, String dosis, Integer id_fabricante, Integer id_lote) throws Exception {
+            char estado, String principio_activo, String dosis, Integer id_fabricante) throws Exception {
         strSQL = "UPDATE detalle_producto_forma SET "
                 + "stock = " + stock + ", "
                 + "precio_venta = " + precio_venta + ", "
                 + "estado = '" + estado + "', "
                 + "principio_activo = '" + principio_activo + "', "
                 + "dosis = '" + dosis + "', "
-                + "id_fabricante = " + id_fabricante + ", "
-                + "id_lote = " + id_lote + " "
+                + "id_fabricante = " + id_fabricante + " "
                 + "WHERE id_frm_farma = " + id_frm_farma + " AND id_producto = " + id_producto;
 
         try {
@@ -140,15 +139,8 @@ public class Producto {
 
     // Buscar detalles de un producto específico
     public ResultSet buscarProducto(Integer id_producto) throws Exception {
-        strSQL = "SELECT dp.*, pro.nombre, pro.nro_reg_sanitario, pro.condicion_venta, fa.nombre_fabricante, "
-                + "ff.forma_farmaceutica, ru.nombre_rubro, COALESCE(pr.dscto, 0) AS descuento "
-                + "FROM detalle_producto_forma dp "
-                + "INNER JOIN producto_farmaceutico pro ON pro.id_producto = dp.id_producto "
-                + "INNER JOIN fabricante fa ON fa.id_fabricante = dp.id_fabricante "
-                + "INNER JOIN forma_farmaceutica ff ON ff.id_frm_farma = dp.id_frm_farma "
-                + "INNER JOIN rubro ru ON ru.id_rubro = pro.id_rubro "
-                + "LEFT JOIN promocion pr ON pr.id_promocion = pro.id_promocion "
-                + "WHERE dp.id_producto = " + id_producto;
+        strSQL = "select pf.*, pro.dscto as descuento,  rb.nombre_rubro as rubro from producto_farmaceutico pf inner join promocion pro on pro.id_promocion = pf.id_promocion \n"
+                + "inner join rubro rb on rb.id_rubro = pf.id_rubro where pf.id_producto =" + id_producto;
 
         try {
             rs = objconectar.consultarBD(strSQL);
@@ -176,7 +168,7 @@ public class Producto {
     }
 
     
-      public void eliminarProducto(Integer cod) throws Exception {
+    public void eliminarProducto(Integer cod) throws Exception {
         String verificarSql = "SELECT COUNT(*) FROM detalle_producto_forma WHERE id_producto = " + cod;
 
         String eliminarSql = "DELETE FROM producto_farmaceutico WHERE id_producto = " + cod;
@@ -191,11 +183,12 @@ public class Producto {
         } catch (Exception e) {
             throw new Exception("Error al eliminar rubro --> " + e.getMessage());
         }
-}
+    }
+
     
     
     // Dar de baja un producto actualizando el estado a 'I'
-    public void darDeBajaDetProducto(int id_producto, int id_frm_farma) throws Exception {
+    public void darDeBajaDetalleProducto(int id_producto, int id_frm_farma) throws Exception {
         strSQL = "UPDATE detalle_producto_forma SET estado = 'I' WHERE id_producto = " + id_producto + " AND id_frm_farma = " + id_frm_farma;
 
         try {

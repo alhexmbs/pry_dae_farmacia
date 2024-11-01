@@ -72,23 +72,35 @@ public class jdManProducto extends javax.swing.JDialog {
     }
 
     private void aplicarFiltro() {
-        String filtroSeleccionado = (String) cboFiltros.getSelectedItem();
+    String filtroSeleccionado = (String) cboFiltros.getSelectedItem();
 
-        try {
-
-            switch (filtroSeleccionado) {
-                case "General":
-                    listar("General");
-                    break;
-                case "Bajo stock":
-                    listar("pro.stock <= 10");
-                    break;
-
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al aplicar filtro --> " + e.getMessage());
+    try {
+        switch (filtroSeleccionado) {
+            case "General":
+                listar("General");
+                break;
+            
+            case "Nombre asc":
+                listar("ORDER BY pf.nombre ASC");
+                break;
+            case "Nombre desc":
+                listar("ORDER BY pf.nombre DESC");
+                break;
+            case "Con promoción":
+                listar("pf.id_promocion IS NOT NULL");
+                break;
+            case "Sin promoción":
+                listar("pf.id_promocion IS NULL");
+                break;
+            default:
+                JOptionPane.showMessageDialog(this, "Filtro no reconocido.");
+                break;
         }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al aplicar filtro --> " + e.getMessage());
     }
+}
+
 
     private void listar(String filtro) {
         DefaultTableModel modelo = new DefaultTableModel();
@@ -112,7 +124,7 @@ public class jdManProducto extends javax.swing.JDialog {
                 fila[2] = rs.getString("nro_reg_sanitario");
                 fila[3] = rs.getString("condicion_venta");
                 fila[4] = rs.getString("descuento") == null ? "Sin Promoción" : rs.getString("descuento");
-                fila[5] = rs.getString("nombre_rubro");
+                fila[5] = rs.getString("rubro");
 
                 modelo.addRow(fila);
             }
@@ -689,7 +701,6 @@ public class jdManProducto extends javax.swing.JDialog {
                 Integer nuevoCodigo = objProducto.generarCodigoProducto();
                 txtId.setText(String.valueOf(nuevoCodigo));
                 txtNombre.requestFocus();
-                limpiarFormulario();
             } else {
 
                 int idProducto = Integer.parseInt(txtId.getText());
@@ -702,7 +713,7 @@ public class jdManProducto extends javax.swing.JDialog {
                 int idPromocion = objPromocion.obtenerCodigoPromocion(promocion);
 
 
-                if (!nombre.isEmpty()) {
+                if (!nombre.isEmpty() || txtNumRegisSani.getText().isEmpty()) {
                     objProducto.registrarProducto(idProducto, nombre, numRegSanitario, condicionVenta, idPromocion, idRubro);
                     btnSave.setText("NUEVO");
                     limpiarFormulario();
@@ -731,12 +742,6 @@ public class jdManProducto extends javax.swing.JDialog {
         obj.setLocationRelativeTo(null);
         obj.setVisible(true);
     }//GEN-LAST:event_btnArActionPerformed
-
-    private void btnApActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApActionPerformed
-        jdPromocion obj = new jdPromocion(null, true);
-        obj.setLocationRelativeTo(null);
-        obj.setVisible(true);
-    }//GEN-LAST:event_btnApActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         listar("General");
@@ -770,9 +775,9 @@ public class jdManProducto extends javax.swing.JDialog {
                         }
                     }
                      */
-                    cboRubro.setSelectedItem(rsProducto.getString("dscto"));
+                    cboRubro.setSelectedItem(rsProducto.getString("descuento"));
 
-                    cboRubro.setSelectedItem(rsProducto.getString("nombre_rubro"));
+                    cboRubro.setSelectedItem(rsProducto.getString("rubro"));
 
                     rsProducto.close();
                 } else {
@@ -812,7 +817,7 @@ public class jdManProducto extends javax.swing.JDialog {
     }//GEN-LAST:event_txtNombreKeyTyped
 
     private void txtNumRegisSaniKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumRegisSaniKeyTyped
-        if (txtNombre.getText().length() >= 6) {
+        if (txtNumRegisSani.getText().length() >= 6) {
             evt.consume();
         } 
     }//GEN-LAST:event_txtNumRegisSaniKeyTyped
@@ -822,6 +827,12 @@ public class jdManProducto extends javax.swing.JDialog {
         objd.setLocationRelativeTo(null);
         objd.setVisible(true);
     }//GEN-LAST:event_btnAr1ActionPerformed
+
+    private void btnApActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApActionPerformed
+        jdPromocion obj = new jdPromocion(null, true);
+        obj.setLocationRelativeTo(null);
+        obj.setVisible(true);
+    }//GEN-LAST:event_btnApActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

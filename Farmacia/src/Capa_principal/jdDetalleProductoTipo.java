@@ -1,20 +1,84 @@
 
 package Capa_principal;
 
+import capa_negocio.Fabricante;
+import capa_negocio.Forma_farmaceutica;
+import capa_negocio.Producto;
+import javax.swing.DefaultComboBoxModel;
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Katia
  */
 public class jdDetalleProductoTipo extends javax.swing.JDialog {
 
+    Forma_farmaceutica objff= new Forma_farmaceutica();
+    Producto objp = new Producto();
+    Fabricante objf = new Fabricante();
     /**
      * Creates new form jdDetalleProductoTipo
      */
     public jdDetalleProductoTipo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        listarformaFarmaceutica();
+        listarProductos();
+        listarFabricante();
     }
-
+    
+    private void listarformaFarmaceutica() {
+        ResultSet rsForma = null;
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+        cboFormaFar.setModel(modelo);
+        
+        try {
+            rsForma = objff.listarFormaFarmaceutica("General");
+            while (rsForma.next()) {
+                modelo.addElement(rsForma.getString("forma_farmaceutica"));           
+            }
+            
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al listar formas farmaceuticas");
+        }
+        
+    }
+    private void listarProductos() {
+        ResultSet rsForma = null;
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+        cboProductos.setModel(modelo);
+        
+        try {
+            rsForma = objp.listarProductos("General");
+            while (rsForma.next()) {
+                modelo.addElement(rsForma.getString("nombre"));           
+            }
+            
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al listar Productos");
+        }
+        
+    }
+    
+ private void listarFabricante() {
+        ResultSet rsForma = null;
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+        cboFabricante.setModel(modelo);
+        
+        try {
+            rsForma = objf.listarFabricantes("General");
+            while (rsForma.next()) {
+                modelo.addElement(rsForma.getString("nombre_fabricante"));           
+            }
+            
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al listar Fabricantes");
+        }
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -42,18 +106,17 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
         txtPrincipio = new javax.swing.JTextField();
         jLabel75 = new javax.swing.JLabel();
         btnBuscarProducto = new javax.swing.JButton();
-        cboForma = new javax.swing.JComboBox<>();
+        cboFormaFar = new javax.swing.JComboBox<>();
         spDosis = new javax.swing.JSpinner();
         cboUnidad = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jLabel64 = new javax.swing.JLabel();
         jSeparator4 = new javax.swing.JSeparator();
-        cboForma1 = new javax.swing.JComboBox<>();
+        cboProductos = new javax.swing.JComboBox<>();
         jLabel76 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         btnSave1 = new javax.swing.JButton();
         btnEdit1 = new javax.swing.JButton();
-        btnDarDeBaja1 = new javax.swing.JButton();
         btnLimpiar1 = new javax.swing.JButton();
         btnDarBaja2 = new javax.swing.JButton();
         jLabel25 = new javax.swing.JLabel();
@@ -128,9 +191,9 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
             }
         });
 
-        cboForma.addActionListener(new java.awt.event.ActionListener() {
+        cboFormaFar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboFormaActionPerformed(evt);
+                cboFormaFarActionPerformed(evt);
             }
         });
 
@@ -143,9 +206,9 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
         jLabel64.setForeground(new java.awt.Color(51, 51, 51));
         jLabel64.setText("Detalles del producto");
 
-        cboForma1.addActionListener(new java.awt.event.ActionListener() {
+        cboProductos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboForma1ActionPerformed(evt);
+                cboProductosActionPerformed(evt);
             }
         });
 
@@ -179,8 +242,8 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
                             .addComponent(spStock, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel8Layout.createSequentialGroup()
                                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cboForma1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cboForma, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cboProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cboFormaFar, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(cboFabricante, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnBuscarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -213,11 +276,11 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
                             .addGroup(jPanel8Layout.createSequentialGroup()
                                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel75)
-                                    .addComponent(cboForma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(cboFormaFar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(22, 22, 22)
                                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel76)
-                                    .addComponent(cboForma1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(cboProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(btnBuscarProducto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -244,7 +307,7 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
                             .addComponent(spDosis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cboUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 30, Short.MAX_VALUE))
         );
 
         jPanel5.setBackground(new java.awt.Color(246, 244, 235));
@@ -268,17 +331,6 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
         btnEdit1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEdit1ActionPerformed(evt);
-            }
-        });
-
-        btnDarDeBaja1.setBackground(new java.awt.Color(236, 177, 89));
-        btnDarDeBaja1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnDarDeBaja1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
-        btnDarDeBaja1.setText("ELIMINAR");
-        btnDarDeBaja1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btnDarDeBaja1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDarDeBaja1ActionPerformed(evt);
             }
         });
 
@@ -309,33 +361,26 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(btnDarDeBaja1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 27, Short.MAX_VALUE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(btnDarBaja2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
-                            .addComponent(btnLimpiar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnEdit1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnSave1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(23, 23, 23)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(btnDarBaja2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnLimpiar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEdit1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnSave1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(btnSave1)
-                .addGap(18, 18, 18)
-                .addComponent(btnEdit1)
-                .addGap(18, 18, 18)
-                .addComponent(btnLimpiar1)
-                .addGap(18, 18, 18)
-                .addComponent(btnDarBaja2)
-                .addGap(18, 18, 18)
-                .addComponent(btnDarDeBaja1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(8, Short.MAX_VALUE))
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(btnSave1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(7, 7, 7)
+                .addComponent(btnEdit1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(7, 7, 7)
+                .addComponent(btnLimpiar1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(7, 7, 7)
+                .addComponent(btnDarBaja2, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabel25.setText("Filtrar por");
@@ -421,9 +466,9 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
    
     }//GEN-LAST:event_btnBuscarProductoActionPerformed
 
-    private void cboFormaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboFormaActionPerformed
+    private void cboFormaFarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboFormaFarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cboFormaActionPerformed
+    }//GEN-LAST:event_cboFormaFarActionPerformed
 
     private void btnSave1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSave1ActionPerformed
         // TODO add your handling code here:
@@ -433,10 +478,6 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEdit1ActionPerformed
 
-    private void btnDarDeBaja1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarDeBaja1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnDarDeBaja1ActionPerformed
-
     private void btnLimpiar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiar1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnLimpiar1ActionPerformed
@@ -445,9 +486,9 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnDarBaja2ActionPerformed
 
-    private void cboForma1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboForma1ActionPerformed
+    private void cboProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboProductosActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cboForma1ActionPerformed
+    }//GEN-LAST:event_cboProductosActionPerformed
 
     private void cboFiltrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboFiltrosActionPerformed
         String filtro = cboFiltros.getSelectedItem().toString();
@@ -476,7 +517,6 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
     private javax.swing.JTable TablaGuardarda2;
     private javax.swing.JButton btnBuscarProducto;
     private javax.swing.JButton btnDarBaja2;
-    private javax.swing.JButton btnDarDeBaja1;
     private javax.swing.JButton btnEdit1;
     private javax.swing.JButton btnLimpiar1;
     private javax.swing.JButton btnSave1;
@@ -484,8 +524,8 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> cboFabricante;
     private javax.swing.JComboBox<String> cboFiltros;
     private javax.swing.JComboBox<String> cboFiltros1;
-    private javax.swing.JComboBox<String> cboForma;
-    private javax.swing.JComboBox<String> cboForma1;
+    private javax.swing.JComboBox<String> cboFormaFar;
+    private javax.swing.JComboBox<String> cboProductos;
     private javax.swing.JComboBox<String> cboUnidad;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel24;

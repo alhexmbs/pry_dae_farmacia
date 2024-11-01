@@ -584,13 +584,14 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
     }//GEN-LAST:event_btnNuevo1ActionPerformed
 
     private void btnDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBajaActionPerformed
-        int codigo = Integer.parseInt(txtId2.getText());
         if (txtId2.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para eliminar");
 
         } else {
 
             try {
+                        int codigo = Integer.parseInt(txtId2.getText());
+
                 ResultSet listaFf = objff.buscarFormaFarmaceutica(codigo);
 
                 while (listaFf.next()) {
@@ -636,6 +637,9 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(this, "Error al modificar marca---> " + e.getMessage());
                 }
+            } else {
+                JOptionPane.showMessageDialog(this, "Debe ingresar información en el campo nombre");
+
             }
         }
 
@@ -693,11 +697,11 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
     }//GEN-LAST:event_txtNombreKeyTyped
 
     private void btnDarBaja1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBaja1ActionPerformed
-        int codigo = Integer.parseInt(txtId2.getText());
         if (txtId2.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para dar de baja");
 
         } else {
+        int codigo = Integer.parseInt(txtId2.getText());
 
             try {
 

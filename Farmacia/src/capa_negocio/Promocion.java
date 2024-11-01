@@ -84,7 +84,7 @@ public class Promocion {
     public void eliminar(Integer cod) throws Exception {
         String verificarSql = "SELECT COUNT(*) FROM producto_farmaceutico WHERE id_promocion = " + cod;
 
-        String eliminarSql = "DELETE FROM PROMOCION WHERE id_promocion" + cod;
+        String eliminarSql = "DELETE FROM PROMOCION WHERE id_promocion =" + cod;
 
         try {
             ResultSet rs = objconectar.consultarBD(verificarSql);

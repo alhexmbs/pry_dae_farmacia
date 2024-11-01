@@ -34,7 +34,18 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem9 = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem18 = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem17 = new javax.swing.JMenuItem();
+        jSeparator4 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem19 = new javax.swing.JMenuItem();
+        jSeparator5 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem20 = new javax.swing.JMenuItem();
+        jSeparator6 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem21 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu9 = new javax.swing.JMenu();
@@ -126,22 +137,73 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenu2.setText("Medicamento");
 
         jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/medicamento.png"))); // NOI18N
-        jMenuItem2.setText("Registrar medicamento");
+        jMenuItem2.setText("Medicamento");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
             }
         });
         jMenu2.add(jMenuItem2);
+        jMenu2.add(jSeparator1);
 
         jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Lote.png"))); // NOI18N
-        jMenuItem9.setText("Registrar Lote");
+        jMenuItem9.setText("Lote");
         jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem9ActionPerformed(evt);
             }
         });
         jMenu2.add(jMenuItem9);
+        jMenu2.add(jSeparator2);
+
+        jMenuItem18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/r.png"))); // NOI18N
+        jMenuItem18.setText("Rubro");
+        jMenuItem18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem18ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem18);
+        jMenu2.add(jSeparator3);
+
+        jMenuItem17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Fabricante.png"))); // NOI18N
+        jMenuItem17.setText("Fabricante");
+        jMenuItem17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem17ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem17);
+        jMenu2.add(jSeparator4);
+
+        jMenuItem19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/descuento.png"))); // NOI18N
+        jMenuItem19.setText("Promoción");
+        jMenuItem19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem19ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem19);
+        jMenu2.add(jSeparator5);
+
+        jMenuItem20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Rubro.png"))); // NOI18N
+        jMenuItem20.setText("Forma Farmaceutica");
+        jMenuItem20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem20ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem20);
+        jMenu2.add(jSeparator6);
+
+        jMenuItem21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/dt.png"))); // NOI18N
+        jMenuItem21.setText("Detalle del medicamento");
+        jMenuItem21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem21ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem21);
 
         jMenuBar1.add(jMenu2);
 
@@ -411,6 +473,62 @@ public class frmFarmacia extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem15ActionPerformed
 
+    private void jMenuItem21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem21ActionPerformed
+          if (rolUsuario.equals("Administrador")) {
+            jdDetalleProductoTipo objL = new jdDetalleProductoTipo(null, true);
+            objL.setLocationRelativeTo(null);
+            objL.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta secci n");
+        }
+    }//GEN-LAST:event_jMenuItem21ActionPerformed
+
+    private void jMenuItem19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem19ActionPerformed
+         if (rolUsuario.equals("Administrador")) {
+            jdPromocion objL = new jdPromocion(null, true);
+            objL.setLocationRelativeTo(null);
+            objL.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta secci n");
+        }
+    }//GEN-LAST:event_jMenuItem19ActionPerformed
+
+    private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
+        
+        if (rolUsuario.equals("Administrador")) {
+            jdRubro objL = new jdRubro(null, true);
+            objL.setLocationRelativeTo(null);
+            objL.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta secci n");
+        }
+      
+
+
+    }//GEN-LAST:event_jMenuItem18ActionPerformed
+
+    private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
+
+ if (rolUsuario.equals("Administrador")) {
+            jdFabricante objL = new jdFabricante(null, true);
+            objL.setLocationRelativeTo(null);
+            objL.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta secci n");
+        }
+    }//GEN-LAST:event_jMenuItem17ActionPerformed
+
+    private void jMenuItem20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem20ActionPerformed
+        if (rolUsuario.equals("Administrador")) {
+            jdFormFarmaceutica objL = new jdFormFarmaceutica(null, true);
+            objL.setLocationRelativeTo(null);
+            objL.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta secci n");
+        }
+
+    }//GEN-LAST:event_jMenuItem20ActionPerformed
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -437,7 +555,12 @@ public class frmFarmacia extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem15;
     private javax.swing.JMenuItem jMenuItem16;
+    private javax.swing.JMenuItem jMenuItem17;
+    private javax.swing.JMenuItem jMenuItem18;
+    private javax.swing.JMenuItem jMenuItem19;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem20;
+    private javax.swing.JMenuItem jMenuItem21;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
@@ -447,5 +570,11 @@ public class frmFarmacia extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JPopupMenu.Separator jSeparator4;
+    private javax.swing.JPopupMenu.Separator jSeparator5;
+    private javax.swing.JPopupMenu.Separator jSeparator6;
     // End of variables declaration//GEN-END:variables
 }
