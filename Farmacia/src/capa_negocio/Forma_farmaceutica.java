@@ -99,7 +99,7 @@ public class Forma_farmaceutica {
     }
 
     public Integer obtenerCodigoFormaFarmaceutica(String nombre) throws Exception {
-        strsql = "select id_frm_farma from forma_farmaceutica where forma_farmaceutica = '" + nombre + "'";
+        strsql = "select id_frm_farma from forma_farmaceutica where forma_farmaceutica = '"+nombre+"'";
         try {
             rs = objconectar.consultarBD(strsql);
             if (rs.next()) {
