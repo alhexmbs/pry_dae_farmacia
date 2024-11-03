@@ -1,5 +1,6 @@
 package Capa_principal;
 
+import capa_negocio.Forma_farmaceutica;
 import capa_negocio.Lote;
 import capa_negocio.Producto;
 import java.sql.*;
@@ -15,11 +16,15 @@ public class jdLote extends javax.swing.JDialog {
 
     Lote objLote = new Lote();
     Producto objProducto = new Producto();
+    Forma_farmaceutica objd = new Forma_farmaceutica();
     int idUsuario = 1;
 
     public jdLote(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        listarProductoTipo();
+        listarDetalleEnTabla("");
+
     }
 
     private void limpiarCampos() {
@@ -33,41 +38,66 @@ public class jdLote extends javax.swing.JDialog {
         chkVigencia.setSelected(false);
 
     }
-
-    private void listarLotes(String estado) {
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("ID Lote");
-        modelo.addColumn("Fecha Entrada");
-        modelo.addColumn("Cantidad");
-        modelo.addColumn("Precio Compra");
-        modelo.addColumn("Numero de lote");
-        modelo.addColumn("Estado");
-        modelo.addColumn("Fecha Vencimiento");
-        modelo.addColumn("Producto");
-
-        ResultSet rsLote = null;
+    private void listarProductoTipo() {
+        ResultSet listarProductoTipo = null;
+        DefaultComboBoxModel modeloProductoTipo = new DefaultComboBoxModel();
+        cboProducto_tipo.setModel(modeloProductoTipo);
         try {
-            rsLote = objLote.listarLotes(estado);
+            listarProductoTipo = objProducto.listardetalle("");
+            while (listarProductoTipo.next()) {
+                
+                modeloProductoTipo.addElement(listarProductoTipo.getString("forma_farmaceutica") + " - " + listarProductoTipo.getString("nombre"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al listar productos con tipo --> " + e.getMessage());
+        }
+    }
 
-            while (rsLote.next()) {
-                Object[] fila = new Object[8];
-                fila[0] = rsLote.getInt("id_lote");
-                fila[1] = rsLote.getDate("fecha_entrada");
-                fila[2] = rsLote.getInt("cantidad_lote");
-                fila[3] = rsLote.getDouble("precio_compra");
-                fila[4] = rsLote.getString("numero_lote");
-                fila[5] = rsLote.getBoolean("estado");
-                fila[6] = rsLote.getDate("fecha_vencimiento");
-                fila[7] = rsLote.getInt("id_usuario");
+    private void listarDetalleEnTabla(String filtro) {
+        // Definir el modelo de la tabla
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("Forma Farmacéutica");
+        modelo.addColumn("Producto");
+        modelo.addColumn("Fabricante");
+        modelo.addColumn("Stock");
+        modelo.addColumn("Precio");
+        modelo.addColumn("Estado");
+        modelo.addColumn("Principio Activo");
+        modelo.addColumn("Dosis");
+
+        try {
+            // Obtener el ResultSet con los datos filtrados
+            ResultSet rsDetalle = objProducto.listardetalle(filtro);
+
+            // Iterar sobre el ResultSet y añadir filas al modelo de la tabla
+            while (rsDetalle.next()) {
+                // Extraer datos de cada columna
+                String formaFarmaceutica = rsDetalle.getString("forma_farmaceutica");
+                String producto = rsDetalle.getString("nombre");
+                String fabricante = rsDetalle.getString("nombre_fabricante");
+                int stock = rsDetalle.getInt("stock");
+                double precio = rsDetalle.getDouble("precio_venta");
+                String estado = rsDetalle.getString("estado");
+                String principioActivo = rsDetalle.getString("principio_activo");
+                String dosis = rsDetalle.getString("dosis");
+
+                // Crear una fila y agregarla al modelo
+                Object[] fila = {formaFarmaceutica, producto, fabricante, stock, precio, estado, principioActivo, dosis};
                 modelo.addRow(fila);
             }
 
-            tblFf.setModel(modelo);
+            // Asignar el modelo a la tabla
+            tblDetalle.setModel(modelo);
 
+            // Cerrar el ResultSet
+            rsDetalle.close();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al listar los lotes: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error al listar los detalles en la tabla --> " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -95,7 +125,7 @@ public class jdLote extends javax.swing.JDialog {
         txtPrecioCompra = new javax.swing.JTextField();
         txtNumeroLote = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cboProducto_tipo = new javax.swing.JComboBox<>();
         btnSave = new javax.swing.JButton();
         btnedit = new javax.swing.JButton();
         btnlimpiar = new javax.swing.JButton();
@@ -107,7 +137,7 @@ public class jdLote extends javax.swing.JDialog {
         btnDarBaja1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
-        tblDetalle2 = new javax.swing.JTable();
+        tblDetalle = new javax.swing.JTable();
         jLabel63 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
 
@@ -229,7 +259,7 @@ public class jdLote extends javax.swing.JDialog {
                             .addComponent(chkVigencia, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jcFechaVencimiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtNumeroLote, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(cboProducto_tipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(30, 30, 30))
         );
@@ -276,7 +306,7 @@ public class jdLote extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cboProducto_tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
 
@@ -346,6 +376,11 @@ public class jdLote extends javax.swing.JDialog {
             }
         ));
         tblFf.setShowGrid(false);
+        tblFf.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblFfMouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(tblFf);
 
         btnDarBaja1.setBackground(new java.awt.Color(236, 177, 89));
@@ -361,9 +396,9 @@ public class jdLote extends javax.swing.JDialog {
 
         jPanel3.setBackground(new java.awt.Color(170, 215, 217));
 
-        tblDetalle2.setAutoCreateRowSorter(true);
-        tblDetalle2.setBackground(new java.awt.Color(170, 215, 217));
-        tblDetalle2.setModel(new javax.swing.table.DefaultTableModel(
+        tblDetalle.setAutoCreateRowSorter(true);
+        tblDetalle.setBackground(new java.awt.Color(170, 215, 217));
+        tblDetalle.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -371,8 +406,13 @@ public class jdLote extends javax.swing.JDialog {
 
             }
         ));
-        tblDetalle2.setShowGrid(false);
-        jScrollPane7.setViewportView(tblDetalle2);
+        tblDetalle.setShowGrid(false);
+        tblDetalle.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblDetalleMouseClicked(evt);
+            }
+        });
+        jScrollPane7.setViewportView(tblDetalle);
 
         jLabel63.setBackground(new java.awt.Color(70, 130, 169));
         jLabel63.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -473,30 +513,75 @@ public class jdLote extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    
+    
+    
+    private void listarLotesEnTabla(String filtro) {
+    try {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID Lote");
+        modelo.addColumn("Fecha Entrada");
+        modelo.addColumn("Cantidad");
+        modelo.addColumn("Precio Compra");
+        modelo.addColumn("Número Lote");
+        modelo.addColumn("Fecha Vencimiento");
+        modelo.addColumn("Estado");
+        modelo.addColumn("Producto - Tipo");
+
+        tblFf.setModel(modelo);
+
+        ResultSet rsLotes = objLote.listarLotes(filtro); 
+
+        while (rsLotes.next()) {
+            int idLote = rsLotes.getInt("id_lote");
+            Date fechaEntrada = rsLotes.getDate("fecha_entrada");
+            int cantidadLote = rsLotes.getInt("cantidad_lote");
+            double precioCompra = rsLotes.getDouble("precio_compra");
+            String numeroLote = rsLotes.getString("numero_lote");
+            Date fechaVencimiento = rsLotes.getDate("fecha_vencimiento");
+            boolean estado = rsLotes.getBoolean("estado");
+
+            String productoTipo = rsLotes.getString("nombre") + " - " + rsLotes.getString("forma_farmaceutica");
+
+            String estadoTexto = estado ? "Activo" : "Inactivo";
+
+            modelo.addRow(new Object[]{idLote, fechaEntrada, cantidadLote, precioCompra, numeroLote, fechaVencimiento, estadoTexto, productoTipo});
+        }
+
+        
+        
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al listar los lotes: " + e.getMessage());
+    }
+}
+
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         ResultSet rsLote = null;
         try {
             if (txtId.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Debe ingresar un codigo de lote para buscar");
+                JOptionPane.showMessageDialog(this, "Debe ingresar un código de lote para buscar");
             } else {
                 int idLote = Integer.parseInt(txtId.getText());
-
+                
                 rsLote = objLote.buscarLote(idLote);
-
+                
                 if (rsLote.next()) {
                     jcFechaEntrada.setDate(rsLote.getDate("fecha_entrada"));
                     txtCantidad.setText(String.valueOf(rsLote.getInt("cantidad_lote")));
                     txtPrecioCompra.setText(String.valueOf(rsLote.getDouble("precio_compra")));
                     txtNumeroLote.setText(rsLote.getString("numero_lote"));
                     jcFechaVencimiento.setDate(rsLote.getDate("fecha_vencimiento"));
-                    if (rsLote.getBoolean("estado")) {
-                        chkVigencia.setSelected(true);
-                    } else {
-                        chkVigencia.setSelected(false);
-                    }
+                    
+                    chkVigencia.setSelected(rsLote.getBoolean("estado"));
+                    
+                    String productoTipo = rsLote.getString("forma_farmaceutica") + " - " + rsLote.getString("nombre");
+                    cboProducto_tipo.setSelectedItem(productoTipo);
+                    
                     rsLote.close();
                 } else {
-                    JOptionPane.showMessageDialog(this, "El codigo del lote no existe");
+                    JOptionPane.showMessageDialog(this, "El código del lote no existe");
                     limpiarCampos();
                 }
             }
@@ -507,46 +592,64 @@ public class jdLote extends javax.swing.JDialog {
 
     private void cboFiltrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboFiltrosActionPerformed
         String filtro = cboFiltros.getSelectedItem().toString();
-        listarLotes(filtro);
+        listarLotesEnTabla(filtro);
     }//GEN-LAST:event_cboFiltrosActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        try {
-            if (btnSave.getText().equals("NUEVO")) {
-                limpiarCampos();
-                btnSave.setText("GUARDAR");
-                txtId.setText(String.valueOf(objLote.generarCodigoLote()));
-                txtCantidad.requestFocus();
-            } else {
-                if (txtNumeroLote.getText().isEmpty()
-                        || jcFechaEntrada.getDate() == null
-                        || txtCantidad.getText().isEmpty()
-                        || txtPrecioCompra.getText().isEmpty()
-                        || jcFechaVencimiento.getDate() == null) {
-                    JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
-                } else {
-                    int codigoLote = Integer.parseInt(txtId.getText());
 
-                    java.sql.Date fechaEntrada = new java.sql.Date(jcFechaEntrada.getDate().getTime());
-                    int cantidad = Integer.parseInt(txtCantidad.getText());
-                    Double precio_compra = Double.valueOf(txtCantidad.getText());
-
-                    String numeroLote = txtNumeroLote.getText();
-                    java.sql.Date fechaVencimiento = new java.sql.Date(jcFechaVencimiento.getDate().getTime());
-                    Boolean estado = chkVigencia.isSelected();
-
-                    objLote.registrarLote(codigoLote, numeroLote, fechaEntrada, cantidad, precio_compra, estado, fechaVencimiento, idUsuario);
-
-                    JOptionPane.showMessageDialog(this, "Lote guardado correctamente");
-
-                    btnSave.setText("NUEVO");
-                    limpiarCampos();
-                    listarLotes("General");
-                }
+           try {
+        if (btnSave.getText().equals("NUEVO")) {
+            int codigo = objLote.generarCodigoLote();
+            txtId.setText(String.valueOf(codigo));
+            btnSave.setText("GUARDAR");
+            jcFechaEntrada.requestFocus();
+        } else {
+            if (txtNumeroLote.getText().isEmpty() ||
+                jcFechaEntrada.getDate() == null ||
+                txtCantidad.getText().isEmpty() ||
+                txtPrecioCompra.getText().isEmpty() ||
+                jcFechaVencimiento.getDate() == null) {
+                
+                JOptionPane.showMessageDialog(this, "Debe completar todos los campos obligatorios, incluyendo las fechas.");
+                return;
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al guardar el lote: " + e.getMessage());
+
+            java.util.Date fechaEntradaUtil = jcFechaEntrada.getDate();
+            java.util.Date fechaVencimientoUtil = jcFechaVencimiento.getDate();
+
+            if (fechaEntradaUtil.compareTo(fechaVencimientoUtil) >= 0) {
+                JOptionPane.showMessageDialog(this, "La fecha de entrada debe ser anterior a la fecha de vencimiento.");
+                return;
+            }
+
+            int idLote = Integer.parseInt(txtId.getText());
+            java.sql.Date fechaEntrada = new java.sql.Date(fechaEntradaUtil.getTime());
+            int cantidadLote = Integer.parseInt(txtCantidad.getText());
+            double precioCompra = Double.parseDouble(txtPrecioCompra.getText());
+            String numeroLote = txtNumeroLote.getText();
+            java.sql.Date fechaVencimiento = new java.sql.Date(fechaVencimientoUtil.getTime());
+            boolean estado = chkVigencia.isSelected();
+
+            String productoTipoSeleccionado = (String) cboProducto_tipo.getSelectedItem();
+            String[] partes = productoTipoSeleccionado.split(" - ");
+            String nombreProducto = partes[1].trim();
+            String nombreForma = partes[0].trim();
+
+            int idProducto = objProducto.obtenerCodigoProducto(nombreProducto);
+            int idFormaFarmaceutica = objd.obtenerCodigoFormaFarmaceutica(nombreForma);
+            int idUsuario = 1;
+
+            objLote.insertarLote(idLote, fechaEntrada, cantidadLote, precioCompra, numeroLote, estado, fechaVencimiento, idUsuario, idFormaFarmaceutica, idProducto);
+            btnSave.setText("NUEVO");
+
+            JOptionPane.showMessageDialog(this, "Lote guardado correctamente");
+            listarLotesEnTabla("General");
+            limpiarCampos();
         }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al guardar el lote: " + e.getMessage());
+    }
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btneditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneditActionPerformed
@@ -564,20 +667,31 @@ public class jdLote extends javax.swing.JDialog {
                     int confirmacion = JOptionPane.showConfirmDialog(this, "¿Está seguro de que desea modificar este lote?", "Confirmar modificación", JOptionPane.YES_NO_OPTION);
 
                     if (confirmacion == JOptionPane.YES_OPTION) {
-                        int idLote = Integer.parseInt(txtId.getText());
-                        String numeroLote = txtNumeroLote.getText();
-                        java.sql.Date fechaEntrada = new java.sql.Date(jcFechaEntrada.getDate().getTime());
-                        java.sql.Date fechaVencimiento = new java.sql.Date(jcFechaVencimiento.getDate().getTime());
-                        boolean estado = chkVigencia.isSelected();
-                        int cantidadLote = Integer.parseInt(txtCantidad.getText());
-                        double precioCompra = Double.parseDouble(txtPrecioCompra.getText());
-                        int id_usuario = 1;
+                        
+                         int idLote = Integer.parseInt(txtId.getText());
+                    java.sql.Date fechaEntrada = new java.sql.Date(jcFechaEntrada.getDate().getTime());
+                    int cantidadLote = Integer.parseInt(txtCantidad.getText());
+                    double precioCompra = Double.parseDouble(txtPrecioCompra.getText());
+                    String numeroLote = txtNumeroLote.getText();
+                    java.sql.Date fechaVencimiento = new java.sql.Date(jcFechaVencimiento.getDate().getTime());
 
-                        objLote.modificarLote(idLote, numeroLote, fechaEntrada, fechaVencimiento, estado, cantidadLote, precioCompra, id_usuario);
+                    boolean estado = chkVigencia.isSelected();
+
+                    String productoTipoSeleccionado = (String) cboProducto_tipo.getSelectedItem();
+                    String[] partes = productoTipoSeleccionado.split(" - ");
+                    String nombreProducto = partes[1].trim();
+                    String nombreForma = partes[0].trim();
+
+                    int idProducto = objProducto.obtenerCodigoProducto(nombreProducto);
+                    int idFormaFarmaceutica = objd.obtenerCodigoFormaFarmaceutica(nombreForma);
+
+                    int idUsuario = 1;
+
+                    objLote.modificarLote(idLote, fechaEntrada, cantidadLote, precioCompra, numeroLote, estado, fechaVencimiento, idUsuario, idFormaFarmaceutica, idProducto);
 
                         JOptionPane.showMessageDialog(this, "Lote modificado correctamente");
                         limpiarCampos();
-                        listarLotes("General");
+                        listarLotesEnTabla("General");
                     } else {
                         JOptionPane.showMessageDialog(this, "Modificación cancelada.");
                     }
@@ -593,35 +707,53 @@ public class jdLote extends javax.swing.JDialog {
     }//GEN-LAST:event_btnlimpiarActionPerformed
 
     private void btnDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBajaActionPerformed
-        try {
-            if (txtId.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Debe ingresar el ID del lote a eliminar.");
-            } else {
-                int confirmacion = JOptionPane.showConfirmDialog(this, " ¿Esta seguro de que desea dar de baja este lote?", "Confirmar", JOptionPane.YES_NO_OPTION);
+        if (txtId.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para dar de baja");
 
-                if (confirmacion == JOptionPane.YES_OPTION) {
-                    int cod = Integer.parseInt(txtId.getText());
+        } else {
 
-                    if (objLote.buscarLote(cod) != null) {
-                        objLote.darDeBajaLote(cod);
-                        JOptionPane.showMessageDialog(this, "Lote dado de baja con  exito.");
+            try {
+                int codigo = Integer.parseInt(txtId.getText());
 
-                        limpiarCampos();
-                        listarLotes("General");
+                ResultSet listaFf = objLote.buscarLote(codigo);
+
+                while (listaFf.next()) {
+                    if (!listaFf.getBoolean("estado")) {
+                        JOptionPane.showMessageDialog(this, "Ese lote ya ha sido dado de baja anteriomente");
                     } else {
-                        JOptionPane.showMessageDialog(this, "No se encontro un lote con ese ID.");
+
+                        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea dar de baja esta este lote?");
+                        if (confirmacion == JOptionPane.YES_OPTION) {
+                            objLote.darDeBajaLote(Integer.parseInt(txtId.getText()));
+                            limpiar();
+                        listarLotesEnTabla("General");
+                            JOptionPane.showMessageDialog(rootPane, "lote dado de baja correctamente");
+                        }
+
                     }
-                } else {
-                    JOptionPane.showMessageDialog(this, "Operacion cancelada cancelada.");
                 }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al dar de baja al lote: " + e.getMessage());
+
         }
     }//GEN-LAST:event_btnDarBajaActionPerformed
+    private void limpiar() {
+        txtId.setText("");
+        jcFechaEntrada.setDate(null);
+        jcFechaVencimiento.setDate(null);
+        txtCantidad.setText("");
+        txtPrecioCompra.setText("");
+        txtNumeroLote.setText("");
+        cboProducto_tipo.setSelectedIndex(0);
+        chkVigencia.setSelected(false);
+        btnSave.setText("NUEVO");
+        txtId.requestFocus();
+    }
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        listarLotes("General");
+        listarLotesEnTabla("General");
     }//GEN-LAST:event_formWindowOpened
 
     private void txtCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCantidadActionPerformed
@@ -632,6 +764,19 @@ public class jdLote extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnDarBaja1ActionPerformed
 
+    private void tblDetalleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDetalleMouseClicked
+        String formaFar=(String.valueOf(tblDetalle.getValueAt(tblDetalle.getSelectedRow(), 0)));
+        String producto =(String.valueOf(tblDetalle.getValueAt(tblDetalle.getSelectedRow(), 1)));
+        cboProducto_tipo.setSelectedItem(formaFar+ " - " + producto);
+
+    }//GEN-LAST:event_tblDetalleMouseClicked
+
+    private void tblFfMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblFfMouseClicked
+        String id=(String.valueOf(tblFf.getValueAt(tblFf.getSelectedRow(), 0)));
+        txtId.setText(id);
+        btnBuscarActionPerformed(null);
+    }//GEN-LAST:event_tblFfMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
@@ -641,8 +786,8 @@ public class jdLote extends javax.swing.JDialog {
     private javax.swing.JButton btnedit;
     private javax.swing.JButton btnlimpiar;
     private javax.swing.JComboBox<String> cboFiltros;
+    private javax.swing.JComboBox<String> cboProducto_tipo;
     private javax.swing.JCheckBox chkVigencia;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel24;
@@ -664,8 +809,8 @@ public class jdLote extends javax.swing.JDialog {
     private javax.swing.JSeparator jSeparator2;
     private com.toedter.calendar.JDateChooser jcFechaEntrada;
     private com.toedter.calendar.JDateChooser jcFechaVencimiento;
+    private javax.swing.JTable tblDetalle;
     private javax.swing.JTable tblDetalle1;
-    private javax.swing.JTable tblDetalle2;
     private javax.swing.JTable tblFf;
     private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtId;
