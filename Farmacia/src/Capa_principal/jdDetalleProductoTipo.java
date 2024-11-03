@@ -585,47 +585,46 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSave1ActionPerformed
 
     private void btnEdit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEdit1ActionPerformed
-
-        String formaFarmaceutica = cboff.getSelectedItem().toString();
-            String Producto = (String) cboProductos.getSelectedItem();
-        if(formaFarmaceutica.isEmpty() || Producto.isEmpty()){
-            JOptionPane.showMessageDialog(this, "Seleccione un producto y forma farmaceutica a buscar");
-        }else{
-             try {
-
-            
+String formaFarmaceutica = cboff.getSelectedItem().toString();
+    String Producto = (String) cboProductos.getSelectedItem();
+    
+    if (formaFarmaceutica.isEmpty() || Producto.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Seleccione un producto y forma farmacéutica a buscar");
+    } else {
+        try {
             String fabricante = (String) cboFabricante.getSelectedItem();
-
-            int idformaFarmaceutica = objp.obtenerCodigoProducto(formaFarmaceutica);
+            int idFormaFarmaceutica = objff.obtenerCodigoFormaFarmaceutica(formaFarmaceutica); // Corrección aquí
             int idProducto = objp.obtenerCodigoProducto(Producto);
             int idFabricante = objf.obtenerIdFabricantePorNombre(fabricante);
             int stock = Integer.valueOf(spStock.getValue().toString());
             double precioVenta = Double.parseDouble(txtPrecioVenta.getText().trim());
-            String estadoString = (String) cboEstado.getSelectedItem(); // Convertir a String
-            char estado = estadoString.charAt(0); // Tomar el primer carácter como char
+            String estadoString = (String) cboEstado.getSelectedItem();
+            char estado = estadoString.charAt(0);
 
             String principioActivo = txtPrincipio.getText().trim();
             int numdosis = (int) spDosis.getValue();
             String unidad = cboUnidad.getSelectedItem().toString();
-
             String dosis = numdosis + " - " + unidad;
-            if (formaFarmaceutica.isEmpty() || Producto.isEmpty() || fabricante.isEmpty() || principioActivo.isEmpty()
-                    || stock < 0 || numdosis < 0 || txtPrecioVenta.getText().isEmpty() || unidad.isEmpty()) {
+
+            if (fabricante.isEmpty() || principioActivo.isEmpty() || stock < 0 || numdosis < 0 || txtPrecioVenta.getText().isEmpty() || unidad.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos obligatorios.");
             } else {
-
-                objp.modificarDetalleProductoForma(idFabricante, idProducto, stock, precioVenta, estado, principioActivo, dosis, idFabricante);
-                limpiarFormulario();
-                listarDetalleEnTabla("");
-                JOptionPane.showMessageDialog(this, "detalle del producto modificado correctamente");
-
+                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea guardar los cambios en este producto?", "Confirmación", JOptionPane.YES_NO_OPTION);
+                
+                if (confirmacion == JOptionPane.YES_OPTION) {
+                    objp.modificarDetalleProductoForma(idFormaFarmaceutica, idProducto, stock, precioVenta, estado, principioActivo, dosis, idFabricante);
+                    limpiarFormulario();
+                    listarDetalleEnTabla("");
+                    JOptionPane.showMessageDialog(this, "Detalle del producto modificado correctamente");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Modificación cancelada");
+                }
             }
-
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al modificar Producto --> " + e.getMessage());
         }
-        }
-       
+    }
+
     }//GEN-LAST:event_btnEdit1ActionPerformed
 
     private void btnLimpiar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiar1ActionPerformed
@@ -644,18 +643,16 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
                 int idFormaFarmaceutica = objff.obtenerCodigoFormaFarmaceutica(formaFarmaceutica);
                 int idProducto = objp.obtenerCodigoProducto(Producto);
 
-                
-               listadt = objp.buscarDetalle(idFormaFarmaceutica, idProducto);
-                
-                
+                listadt = objp.buscarDetalle(idFormaFarmaceutica,idProducto);
+
                 while (listadt.next()) {
-if (listadt.getString("estado").equals("I")) {
+                    if (listadt.getString("estado").equals("I")) {
                         JOptionPane.showMessageDialog(this, "Este detalle del producto ya ha sido dado de baja anteriomente");
                     } else {
 
                         int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea dar de baja este detalle del producto?");
                         if (confirmacion == JOptionPane.YES_OPTION) {
-                            objp.darDeBajaDetalleProducto(idProducto, idProducto);
+                            objp.darDeBajaDetalleProducto(idProducto, idFormaFarmaceutica);
                             limpiarFormulario();
                             listarDetalleEnTabla("");
                             JOptionPane.showMessageDialog(rootPane, "rubro dado de baja correctamente");

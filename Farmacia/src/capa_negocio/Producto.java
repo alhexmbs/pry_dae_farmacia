@@ -124,23 +124,23 @@ public class Producto {
     }
 
     // Modificar detalle de producto en DETALLE_PRODUCTO_FORMA
-    public void modificarDetalleProductoForma(Integer id_frm_farma, Integer id_producto, Integer stock, double precio_venta,
-            char estado, String principio_activo, String dosis, Integer id_fabricante) throws Exception {
-        strSQL = "UPDATE detalle_producto_forma SET "
-                + "stock = " + stock + ", "
-                + "precio_venta = " + precio_venta + ", "
-                + "estado = '" + estado + "', "
-                + "principio_activo = '" + principio_activo + "', "
-                + "dosis = '" + dosis + "', "
-                + "id_fabricante = " + id_fabricante + " "
-                + "WHERE id_frm_farma = " + id_frm_farma + " AND id_producto = " + id_producto;
+   public void modificarDetalleProductoForma(Integer id_frm_farma, Integer id_producto, Integer stock, double precio_venta,
+        char estado, String principio_activo, String dosis, Integer id_fabricante) throws Exception {
+    String strSQL = "UPDATE detalle_producto_forma SET "
+            + "stock = " + stock + ", "
+            + "precio_venta = " + precio_venta + ", "
+            + "estado = '" + estado + "', "
+            + "principio_activo = '" + principio_activo + "', "
+            + "dosis = '" + dosis + "', "
+            + "id_fabricante = " + id_fabricante + " "
+            + "WHERE id_frm_farma = " + id_frm_farma + " AND id_producto = " + id_producto;
 
-        try {
-            objconectar.ejecutarBd(strSQL);
-        } catch (Exception e) {
-            throw new Exception("Error al modificar el detalle del producto en DETALLE_PRODUCTO_FORMA --> " + e.getMessage());
-        }
+    try {
+        objconectar.ejecutarBd(strSQL);
+    } catch (Exception e) {
+        throw new Exception("Error al modificar el detalle del producto en DETALLE_PRODUCTO_FORMA --> " + e.getMessage());
     }
+}
 
     // Buscar un producto por nombre
     public int buscarProductoPorNombre(String nombre) throws Exception {

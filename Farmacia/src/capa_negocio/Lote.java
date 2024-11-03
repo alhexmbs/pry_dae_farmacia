@@ -14,40 +14,53 @@ public class Lote {
     String strsql;
     ResultSet rs = null;
 
-    // Listar lotes con filtro opcional
-    public ResultSet listarLotes(String filtro) throws Exception {
-        strsql = "SELECT L.* FROM LOTE L ";
+public ResultSet listarLotes(String filtro) throws Exception {
+    strsql = """
+              SELECT l.*, fm.forma_farmaceutica, p.nombre FROM LOTE l
+              INNER JOIN USUARIO u ON l.id_usuario = u.id_usuario
+              INNER JOIN DETALLE_PRODUCTO_FORMA dp ON l.id_frm_farma = dp.id_frm_farma AND l.id_producto = dp.id_producto
+             inner join producto_farmaceutico p on dp.id_producto = l.id_producto
+             inner join forma_farmaceutica fm ON fm.id_frm_farma = dp.id_frm_farma
+           
+             """;
 
-        // Aplicar filtro específico si es necesario
-        switch (filtro) {
-            case "General":
-                break;
-            case "Disponibles":
-                strsql += " WHERE L.fecha_vencimiento >= CURRENT_DATE";
-                break;
-            case "Vencidos":
-                strsql += " WHERE L.fecha_vencimiento < CURRENT_DATE";
-                break;
-            case "Fecha vencimiento ascendente":
-                strsql += " ORDER BY L.fecha_vencimiento ASC";
-                break;
-            case "Fecha vencimiento descendente":
-                strsql += " ORDER BY L.fecha_vencimiento DESC";
-                break;
-        }
-
-        try {
-            rs = objconectar.consultarBD(strsql);
-            return rs;
-        } catch (Exception e) {
-            throw new Exception("Error al listar lotes --> " + e.getMessage());
-        }
+    switch (filtro) {
+        case "General":
+            break;
+        case "Disponibles":
+            strsql += " WHERE l.fecha_vencimiento >= CURRENT_DATE";
+            break;
+        case "Vencidos":
+            strsql += " WHERE l.fecha_vencimiento < CURRENT_DATE";
+            break;
+        case "Fecha vencimiento ascendente":
+            strsql += " ORDER BY l.fecha_vencimiento ASC";
+            break;
+        case "Fecha vencimiento descendente":
+            strsql += " ORDER BY l.fecha_vencimiento DESC";
+            break;
+        default:
+            throw new Exception("Filtro no reconocido: " + filtro);
     }
 
+    try {
+        rs = objconectar.consultarBD(strsql);
+        return rs;
+    } catch (Exception e) {
+        throw new Exception("Error al listar lotes --> " + e.getMessage());
+    }
+}
+
+
     // Buscar un lote específico por su ID
-    public ResultSet buscarLote(int id_lote) throws Exception {
-        strsql = "SELECT L.* FROM LOTE L "
-                + "WHERE L.id_lote = " + id_lote;
+     public ResultSet buscarLote(int id_lote) throws Exception {
+        strsql = """
+                 SELECT l.*, fm.forma_farmaceutica, p.nombre FROM LOTE l
+                  INNER JOIN USUARIO u ON l.id_usuario = u.id_usuario
+                  INNER JOIN DETALLE_PRODUCTO_FORMA dp ON l.id_frm_farma = dp.id_frm_farma AND l.id_producto = dp.id_producto
+                 inner join producto_farmaceutico p on dp.id_producto = l.id_producto
+                 inner join forma_farmaceutica fm ON fm.id_frm_farma = dp.id_frm_farma
+                 WHERE l.id_lote = """ + id_lote;
         try {
             rs = objconectar.consultarBD(strsql);
             return rs;
@@ -71,40 +84,49 @@ public class Lote {
     }
 
     // Registrar un nuevo lote
-    public void registrarLote(int id_lote, String numero_lote, Date fecha_entrada, int cantidad_lote, double precio_compra,
-            boolean estado, Date fecha_vencimiento, int id_usuario) throws Exception {
-        strsql = "INSERT INTO LOTE (id_lote, numero_lote, fecha_entrada, cantidad_lote, precio_compra, estado, fecha_vencimiento, id_usuario) VALUES ("
-                + id_lote + ", '" + numero_lote + "', '" + fecha_entrada + "', " + cantidad_lote + ", "
-                + precio_compra + ", " + estado + ", '" + fecha_vencimiento + "', " + id_usuario + ")";
+    public void insertarLote(int id_lote, Date fecha_entrada, int cantidad_lote, double precio_compra, String numero_lote, 
+                             boolean estado, Date fecha_vencimiento, int id_usuario, int id_frm_farma, int id_producto) throws Exception {
+        strsql = "INSERT INTO LOTE (id_lote, fecha_entrada, cantidad_lote, precio_compra, numero_lote, " +
+                 "estado, fecha_vencimiento, id_usuario, id_frm_farma, id_producto) VALUES (" +
+                 id_lote + ", '" + fecha_entrada + "', " + cantidad_lote + ", " + precio_compra + ", '" + numero_lote + "', " +
+                 estado + ", '" + fecha_vencimiento + "', " + id_usuario + ", " + id_frm_farma + ", " + id_producto + ")";
         try {
             objconectar.ejecutarBd(strsql);
         } catch (Exception e) {
-            throw new Exception("Error al registrar lote --> " + e.getMessage());
+            throw new Exception("Error al insertar lote --> " + e.getMessage());
         }
     }
 
     // Modificar un lote existente
-    public void modificarLote(int idLote, String numeroLote, Date fechaEntrada, Date fechaVencimiento, boolean estado, int cantidadLote, double precioCompra, int id_usuario) throws Exception {
-        strsql = "UPDATE lote SET numero_lote = '" + numeroLote + "', fecha_entrada = '" + fechaEntrada + "', fecha_vencimiento = '" + fechaVencimiento + "', "
-                + "estado = '" + estado + "', cantidad_lote = " + cantidadLote + ", precio_compra = " + precioCompra + ", id_usuario = " + id_usuario
-                + " WHERE id_lote = " + idLote;
+    public void modificarLote(int id_lote, Date fecha_entrada, int cantidad_lote, double precio_compra, String numero_lote, 
+                              boolean estado, Date fecha_vencimiento, int id_usuario, int id_frm_farma, int id_producto) throws Exception {
+        strsql = "UPDATE LOTE SET fecha_entrada = '" + fecha_entrada + "', cantidad_lote = " + cantidad_lote + 
+                 ", precio_compra = " + precio_compra + ", numero_lote = '" + numero_lote + "', estado = " + estado + 
+                 ", fecha_vencimiento = '" + fecha_vencimiento + "', id_usuario = " + id_usuario + 
+                 ", id_frm_farma = " + id_frm_farma + ", id_producto = " + id_producto +
+                 " WHERE id_lote = " + id_lote;
         try {
             objconectar.ejecutarBd(strsql);
         } catch (Exception e) {
-            throw new Exception("Error al modificar el lote --> " + e.getMessage());
+            throw new Exception("Error al modificar lote --> " + e.getMessage());
         }
     }
 
-    // Eliminar un lote por su ID
     public void eliminarLote(int id_lote) throws Exception {
-        strsql = "DELETE FROM LOTE WHERE id_lote = " + id_lote;
-        try {
-            objconectar.ejecutarBd(strsql);
-        } catch (Exception e) {
-            throw new Exception("Error al eliminar lote --> " + e.getMessage());
-        }
-    }
+    String verificarSql = "SELECT COUNT(*) FROM PEDIDO_DETALLE_PRODUCTO_FORMA WHERE id_lote = " + id_lote;
+    String eliminarSql = "DELETE FROM LOTE WHERE id_lote = " + id_lote;
 
+    try {
+        ResultSet rs = objconectar.consultarBD(verificarSql);
+        if (rs.next() && rs.getInt(1) == 0) {
+            objconectar.ejecutarBd(eliminarSql);
+        } else {
+            throw new Exception("No se puede eliminar: el lote está en uso en otra entidad.");
+        }
+    } catch (Exception e) {
+        throw new Exception("Error al eliminar lote --> " + e.getMessage());
+    }
+}
     // Obtener el ID de un lote a partir de su número
     public Integer obtenerCodigoLote(String numeroLote) throws Exception {
         strsql = "SELECT id_lote FROM lote WHERE numero_lote = '" + numeroLote + "'";
