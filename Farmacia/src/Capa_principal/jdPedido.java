@@ -1,6 +1,7 @@
 package Capa_principal;
 
 import capa_negocio.Cliente;
+import capa_negocio.Forma_farmaceutica;
 import capa_negocio.Pedido;
 import capa_negocio.Producto;
 import java.awt.Dimension;
@@ -19,17 +20,16 @@ public class jdPedido extends javax.swing.JDialog {
 
     Producto objProducto = new Producto();
     Cliente objCliente = new Cliente();
-
     Pedido pedido = new Pedido();
     int codigo_pedido;
 
     // Datos del formulario
     private String nombreCliente;
     private String nroDocumentoCliente;
-    private String nombreProducto;
-    private String concentracionProducto;
-    private int stockProducto;
-    private float precioProducto;
+    String nombreProducto;
+    String concentracionProducto;
+    int stockProducto;
+    float precioProducto;
     private String tipoComprobante;
     int numeroVenta;
 
@@ -991,7 +991,7 @@ public class jdPedido extends javax.swing.JDialog {
     }//GEN-LAST:event_btnEliminar1ActionPerformed
 
     private void btnEliminar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar3ActionPerformed
-        
+
     }//GEN-LAST:event_btnEliminar3ActionPerformed
 
     private void btnEliminar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar4ActionPerformed
@@ -1025,9 +1025,15 @@ public class jdPedido extends javax.swing.JDialog {
     }//GEN-LAST:event_txtCantidadActionPerformed
 
     private void btnBuscarProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarProductosActionPerformed
-        jdListProductos obj = new jdListProductos(null, true, this);
-        obj.setVisible(true);
-        obj.setLocationRelativeTo(null);
+        jdListProductos obj;
+        try {
+            obj = new jdListProductos(null, true, this);
+            obj.setVisible(true);
+            obj.setLocationRelativeTo(null);
+        } catch (Exception ex) {
+            Logger.getLogger(jdPedido.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_btnBuscarProductosActionPerformed
 
     public void calcularTotal(float valor) {

@@ -17,6 +17,60 @@ public class Detalle_Producto_Farmaceutico {
     String strSQL;
     ResultSet rs = null;
 
+    public float obtenerPrecioMaximo() throws Exception {
+        strSQL = "SELECT MAX(PRECIO_VENTA) AS MAXIMO_PRECIO FROM DETALLE_PRODUCTO_FORMA";
+        try {
+            rs = objconectar.consultarBD(strSQL);
+            if (rs.next()) {
+                return rs.getFloat("maximo_precio");
+            }
+        } catch (Exception e) {
+            throw new Exception("Error al obtener el precio maximo --> " + e.getMessage());
+        }
+        return 0.0f;
+    }
+
+    public ResultSet filtro1(String nombre, float min, float max) throws Exception {
+        strSQL = "SELECT \n"
+                + "    pf.nombre AS nombre_producto,\n"
+                + "    pf.nro_reg_sanitario AS registro_sanitario,\n"
+                + "    pf.condicion_venta AS condicion_venta,\n"
+                + "    ff.forma_farmaceutica AS forma_farmaceutica,\n"
+                + "    f.nombre_fabricante AS fabricante,\n"
+                + "    dpf.stock AS stock,\n"
+                + "    dpf.precio_venta AS precio,\n"
+                + "    dpf.principio_activo AS principio_activo,\n"
+                + "    dpf.dosis AS dosis,\n"
+                + "    r.nombre_rubro AS rubro,\n"
+                + "    p.dscto AS descuento,\n"
+                + "    p.fecha_inicio AS fecha_inicio_promocion,\n"
+                + "    p.fecha_fin AS fecha_fin_promocion\n"
+                + "FROM \n"
+                + "    producto_farmaceutico pf\n"
+                + "INNER JOIN \n"
+                + "    detalle_producto_forma dpf ON pf.id_producto = dpf.id_producto\n"
+                + "INNER JOIN \n"
+                + "    forma_farmaceutica ff ON dpf.id_frm_farma = ff.id_frm_farma\n"
+                + "INNER JOIN \n"
+                + "    fabricante f ON dpf.id_fabricante = f.id_fabricante\n"
+                + "INNER JOIN \n"
+                + "    rubro r ON pf.id_rubro = r.id_rubro\n"
+                + "LEFT JOIN \n"
+                + "    promocion p ON pf.id_promocion = p.id_promocion\n"
+                + "WHERE \n"
+                + "   	dpf.precio_venta BETWEEN " + min + " AND " + max + " -- Filtro de precio con BETWEEN\n"
+                + "	AND UPPER(pf.nombre) LIKE UPPER('%" + nombre + "%') \n"
+                + "ORDER BY \n"
+                + "    pf.nombre;";
+
+        try {
+            rs = objconectar.consultarBD(strSQL);
+            return rs;
+        } catch (Exception e) {
+            throw new Exception("Error al consultar los detalles productos farmaceuticos --> " + e.getMessage());
+        }
+    }
+
     // Listar productos con filtro opcional
     public ResultSet listarDetalles_Pro_Farma() throws Exception {
         strSQL = "SELECT \n"

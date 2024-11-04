@@ -37,6 +37,19 @@ public class Forma_farmaceutica {
         }
 
     }
+    
+    public ResultSet listarTodosFormaFarmaceutica() throws Exception {
+        strsql = "select * from FORMA_FARMACEUTICA";
+
+        try {
+            rs = objconectar.consultarBD(strsql);
+            return rs;
+
+        } catch (Exception e) {
+            throw new Exception("Error al listar -->" + e.getMessage());
+        }
+
+    }
 
     public ResultSet buscarFormaFarmaceutica(Integer cod) throws Exception {
         strsql = "select * from forma_farmaceutica where  id_frm_farma =" + cod;

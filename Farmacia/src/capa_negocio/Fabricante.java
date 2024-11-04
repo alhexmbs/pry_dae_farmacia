@@ -34,6 +34,17 @@ public class Fabricante {
             throw new Exception("Error al listar fabricantes --> " + e.getMessage());
         }
     }
+    
+    public ResultSet listarFabricantes() throws Exception {
+        strsql = "SELECT * FROM FABRICANTE";
+
+        try {
+            rs = objconectar.consultarBD(strsql);
+            return rs;
+        } catch (Exception e) {
+            throw new Exception("Error al listar fabricantes --> " + e.getMessage());
+        }
+    }
 
     public ResultSet buscarFabricante(int id_fabricante) throws Exception {
         strsql = "SELECT * FROM FABRICANTE WHERE id_fabricante = " + id_fabricante;
