@@ -78,6 +78,7 @@ public class jdListProductos extends javax.swing.JDialog {
     private void listar() {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("Nombre Producto");
+        modelo.addColumn("Forma Farmaceutica");
         modelo.addColumn("Nro Sanitario");
         modelo.addColumn("Condicion Venta");
         modelo.addColumn("Stock");
@@ -86,6 +87,8 @@ public class jdListProductos extends javax.swing.JDialog {
         modelo.addColumn("Dosis");
         modelo.addColumn("Fecha Inicio Promocion");
         modelo.addColumn("Fecha Fin Promocion");
+        modelo.addColumn("Id Forma");
+        modelo.addColumn("Id Producto");
 
         tblProducto.setModel(modelo);
 
@@ -95,16 +98,19 @@ public class jdListProductos extends javax.swing.JDialog {
             rs = objDetallePro.filtro1(txtNombreProducto.getText(), ((Number) spnMin.getValue()).floatValue(), ((Number) spnMax.getValue()).floatValue());
 
             while (rs.next()) {
-                Object[] fila = new Object[11];
+                Object[] fila = new Object[13];
                 fila[0] = rs.getString("nombre_producto");          // Nombre del producto
-                fila[1] = rs.getString("registro_sanitario");        // Número de registro sanitario
-                fila[2] = rs.getString("condicion_venta");          // Condición de venta
-                fila[3] = rs.getInt("stock");                       // Stock disponible
-                fila[4] = rs.getFloat("precio");              // Precio de venta
-                fila[5] = rs.getString("principio_activo");         // Principio activo
-                fila[6] = rs.getString("dosis");                    // Dosis
-                fila[7] = rs.getDate("fecha_inicio_promocion");              // Fecha de entrada (tipo Date)
-                fila[8] = rs.getString("fecha_fin_promocion");         // Fecha de vencimiento (tipo Date)
+                fila[1] = rs.getString("forma_farmaceutica");          // Forma Farmaceutica
+                fila[2] = rs.getString("registro_sanitario");        // Número de registro sanitario
+                fila[3] = rs.getString("condicion_venta");          // Condición de venta
+                fila[4] = rs.getInt("stock");                       // Stock disponible
+                fila[5] = rs.getFloat("precio");              // Precio de venta
+                fila[6] = rs.getString("principio_activo");         // Principio activo
+                fila[7] = rs.getString("dosis");                    // Dosis
+                fila[8] = rs.getDate("fecha_inicio_promocion");              // Fecha de entrada (tipo Date)
+                fila[9] = rs.getString("fecha_fin_promocion");         // Fecha de vencimiento (tipo Date)
+                fila[10] = rs.getInt("id_farma");
+                fila[11] = rs.getInt("id_producto");
 
                 modelo.addRow(fila);
             }
@@ -406,15 +412,26 @@ public class jdListProductos extends javax.swing.JDialog {
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void tblProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductoMouseClicked
-        String nombre = tblProducto.getValueAt(tblProducto.getSelectedRow(), 0).toString();
-        int stock = Integer.parseInt(tblProducto.getValueAt(tblProducto.getSelectedRow(), 3).toString());
-        float precio = Float.parseFloat(tblProducto.getValueAt(tblProducto.getSelectedRow(), 4).toString());
-        String dosis = tblProducto.getValueAt(tblProducto.getSelectedRow(), 6).toString();
-        dialog1.nombreProducto = nombre;
-        dialog1.stockProducto = stock;
-        dialog1.concentracionProducto = dosis;
-        dialog1.precioProducto = precio;
-        dialog1.enviarDatoProducto();
+
+        int stock = Integer.parseInt(tblProducto.getValueAt(tblProducto.getSelectedRow(), 4).toString());
+        int cantidad = Integer.parseInt(JOptionPane.showInputDialog(rootPane, "Ingrese la cantidad: ", "Mensaje del Sistema", JOptionPane.QUESTION_MESSAGE));
+
+        if (cantidad > stock) {
+            JOptionPane.showMessageDialog(rootPane, "El stock es insuficiente", "Sistema", JOptionPane.ERROR_MESSAGE);
+        } else {
+            String nombre = tblProducto.getValueAt(tblProducto.getSelectedRow(), 0).toString();
+            float precio = Float.parseFloat(tblProducto.getValueAt(tblProducto.getSelectedRow(), 5).toString());
+            String dosis = tblProducto.getValueAt(tblProducto.getSelectedRow(), 7).toString();
+            int farma = Integer.parseInt(tblProducto.getValueAt(tblProducto.getSelectedRow(), 10).toString());
+            int producto = Integer.parseInt(tblProducto.getValueAt(tblProducto.getSelectedRow(), 11).toString());
+            dialog1.nombreProducto = nombre;
+            dialog1.stockProducto = stock;
+            dialog1.vdfForma = farma;
+            dialog1.vdfProducto = producto;
+            dialog1.concentracionProducto = dosis;
+            dialog1.precioProducto = precio;
+            dialog1.enviarDatoProducto();
+        }
     }//GEN-LAST:event_tblProductoMouseClicked
 
     private void txtNombreProductoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreProductoKeyReleased

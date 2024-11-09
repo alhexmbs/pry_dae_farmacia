@@ -1,15 +1,13 @@
 package Capa_principal;
 
 import capa_negocio.Cliente;
-import capa_negocio.Forma_farmaceutica;
+import capa_negocio.Detalle_Producto_Farmaceutico;
 import capa_negocio.Pedido;
 import capa_negocio.Producto;
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JTextField;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -18,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class jdPedido extends javax.swing.JDialog {
 
+    Detalle_Producto_Farmaceutico objDetalle_Producto_Farmaceutico = new Detalle_Producto_Farmaceutico();
     Producto objProducto = new Producto();
     Cliente objCliente = new Cliente();
     Pedido pedido = new Pedido();
@@ -33,6 +32,10 @@ public class jdPedido extends javax.swing.JDialog {
     private String tipoComprobante;
     int numeroVenta;
 
+    // Variables de Detalla_Producto_Forma
+    int vdfForma;
+    int vdfProducto;
+
     // Cliente enviar Datos        
     public void enviar() {
         txtNombreCliente.setText(nombreCliente);
@@ -45,6 +48,8 @@ public class jdPedido extends javax.swing.JDialog {
         txtStockProducto.setText(String.valueOf(stockProducto));
         txtPrecioProducto.setText(String.valueOf(precioProducto));
         txtConcentracion.setText(concentracionProducto);
+        System.out.println("Forma " + vdfForma);
+        System.out.println("Producto " + vdfProducto);
     }
 
     // Tipo Comprobante enviar Datos        
@@ -131,6 +136,7 @@ public class jdPedido extends javax.swing.JDialog {
         lblTotalVenta.setEditable(false);
 
         desactivar();
+        llenarTablaInicial();
     }
 
     // Método para desactivar los controles
@@ -725,6 +731,9 @@ public class jdPedido extends javax.swing.JDialog {
             }
         });
         txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCantidadKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtCantidadKeyTyped(evt);
             }
@@ -941,45 +950,80 @@ public class jdPedido extends javax.swing.JDialog {
 
     }//GEN-LAST:event_btnDarBajaActionPerformed
 
+    private void llenarTablaInicial() {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("Id Frm Forma");
+        modelo.addColumn("Id Producto");
+        modelo.addColumn("Cantidad");
+        modelo.addColumn("Precio Unitario");
+        modelo.addColumn("Descuento");
+        modelo.addColumn("Precio Final");
+        modelo.addColumn("Subtotal");
+        tblProducto.setModel(modelo);
+    }
+
+    public void agregarProducto(int idProducto, int forma, int cantidad) {
+        System.out.println("La cantidad enviada es: " + cantidad);
+        ResultSet set1;
+        try {
+
+            // Obtener el modelo de la tabla            
+            DefaultTableModel modelo = (DefaultTableModel) tblProducto.getModel();
+
+            // Valor para saber si se repite un elemento
+            boolean repetido = false;
+            int numFila = -1;
+
+            for (int i = 0; i < modelo.getRowCount(); i++) {
+                int tblProducto = Integer.parseInt(this.tblProducto.getValueAt(2, i).toString());
+                int tblForma = Integer.parseInt(this.tblProducto.getValueAt(1, i).toString());
+                if (tblProducto == idProducto && forma == tblForma) {
+                    repetido = true;
+                    numFila = i;
+                }
+            }
+
+            if (repetido) {
+                int aux = Integer.parseInt(this.tblProducto.getValueAt(3, numFila).toString());
+                cantidad += aux;
+                modelo.removeRow(numFila);
+            }
+
+            int stockDB = objDetalle_Producto_Farmaceutico.obtenerStock(forma, idProducto);
+            System.out.println("El stock es " + stockDB);
+            System.out.println("La cantidad es " + cantidad);
+            if (cantidad > stockDB) {
+                cantidad = stockDB;
+                JOptionPane.showMessageDialog(rootPane, "Stock Insuficiente");
+            }
+
+            set1 = objDetalle_Producto_Farmaceutico.obtenerDetalle_Producto_Forma(forma, idProducto);
+
+            while (set1.next()) {
+                modelo.addRow(new Object[]{
+                    set1.getInt("id_frm_farma"),
+                    set1.getInt("id_producto"),
+                    cantidad,
+                    set1.getFloat("precio_venta"),
+                    set1.getInt("dscto") + "%",
+                    set1.getFloat("precio_venta") - (set1.getFloat("precio_venta") * set1.getInt("dscto") / 100),
+                    (cantidad * (set1.getFloat("precio_venta") - (set1.getFloat("precio_venta") * set1.getInt("dscto") / 100)))
+                });
+            }
+            tblProducto.setModel(modelo);
+
+        } catch (Exception e) {
+        }
+
+    }
+
 
     private void btnAgregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProductoActionPerformed
-        // DATOS DE PRODUCTO PARA VENTA
-        String nombre = txtNombreProducto.getText();
+
         int cantidad = Integer.parseInt(txtCantidad.getText());
-        float precio = Float.parseFloat(txtPrecioProducto.getText());
-        float total = precio * cantidad;  // Calcula el total aquí si es la cantidad por precio unitario.
+        System.out.println("La cantidad desde el formulario es :" + cantidad);
 
-        // Obtener el modelo actual de la tabla
-        DefaultTableModel modelo = (DefaultTableModel) tblProducto.getModel();
-        modelo.addColumn("ID Producto");
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Cantidad");
-        modelo.addColumn("Precio");
-        modelo.addColumn("Total");
-        tblProducto.setModel(modelo);
-        // Crear un array de objetos para representar una fila
-        Object[] fila = new Object[5];  // Ajusta el tamaño según el número de columnas de tu tabla
-        try {
-            // Asignar los valores a cada columna
-            fila[0] = objProducto.buscarProductoPorNombre(nombre);   // Nombre del producto
-        } catch (Exception ex) {
-            Logger.getLogger(jdPedido.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        fila[1] = nombre;   // Nombre del producto
-        fila[2] = cantidad; // Cantidad
-        fila[3] = precio;   // Precio unitario
-        fila[4] = total;    // Total (precio * cantidad)
-        int idCliente = 0;
-        try {
-            idCliente = objCliente.obtenerIDCliente(txtDocCliente.getText());
-        } catch (Exception ex) {
-            Logger.getLogger(jdPedido.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        System.out.println(idCliente);
-        // Agregar la fila al modelo de la tabla
-        modelo.addRow(fila);
-
-
+        agregarProducto(vdfProducto, vdfForma, cantidad);
     }//GEN-LAST:event_btnAgregarProductoActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -1037,14 +1081,27 @@ public class jdPedido extends javax.swing.JDialog {
     }//GEN-LAST:event_btnBuscarProductosActionPerformed
 
     public void calcularTotal(float valor) {
+        lblTotalVenta.setText("");
         float precio = Float.parseFloat(txtPrecioProducto.getText());
         lblTotalVenta.setText(String.valueOf(valor * precio));
     }
 
     private void txtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyTyped
-        float valor = Float.parseFloat(txtCantidad.getText() + evt.getKeyChar());
-        calcularTotal(valor);
+
+
     }//GEN-LAST:event_txtCantidadKeyTyped
+
+    private void txtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyReleased
+        int cantidad = Integer.parseInt(txtCantidad.getText());
+        int stock = Integer.parseInt(txtStockProducto.getText());
+
+        if (cantidad > stock) {
+            JOptionPane.showMessageDialog(rootPane, "El stock es insuficiente");
+        } else {
+            float valor = Float.parseFloat(txtCantidad.getText() + evt.getKeyChar());
+            calcularTotal(valor);
+        }
+    }//GEN-LAST:event_txtCantidadKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
