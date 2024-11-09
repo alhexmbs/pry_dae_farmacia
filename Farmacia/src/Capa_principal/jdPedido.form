@@ -705,10 +705,6 @@
                           <Component id="jLabel75" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="txtBuscarIde1" min="-2" pref="123" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
                           <Component id="jLabel74" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -717,17 +713,20 @@
                           <Component id="jLabel84" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="25" max="32767" attributes="0"/>
+              </Group>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="txtNumeroVentaPosible" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="32767" attributes="0"/>
-                  <Component id="txtBuscarIde" min="-2" pref="93" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="txtBuscarIde" pref="93" max="32767" attributes="0"/>
+                      <Component id="jDateFecha" max="32767" attributes="0"/>
+                  </Group>
                   <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-              </Group>
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="txtNombre8" max="32767" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -736,8 +735,8 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel75" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="txtBuscarIde1" min="-2" pref="25" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+                  <Component id="jDateFecha" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jLabel74" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -747,7 +746,7 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jLabel84" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="txtNombre8" min="-2" pref="29" max="-2" attributes="0"/>
+                  <Component id="txtNumeroVentaPosible" min="-2" pref="29" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -792,16 +791,6 @@
             <Property name="text" type="java.lang.String" value="FECHA:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtBuscarIde1">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="cc" green="cc" red="cc" type="rgb"/>
-            </Property>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="null"/>
-            </Property>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JCheckBox" name="jCheckBox1">
           <Properties>
             <Property name="text" type="java.lang.String" value="Cambiar"/>
@@ -821,7 +810,7 @@
             <Property name="text" type="java.lang.String" value="VENTA:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtNombre8">
+        <Component class="javax.swing.JTextField" name="txtNumeroVentaPosible">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="dc" green="ed" red="ef" type="rgb"/>
@@ -832,6 +821,8 @@
               </Border>
             </Property>
           </Properties>
+        </Component>
+        <Component class="com.toedter.calendar.JDateChooser" name="jDateFecha">
         </Component>
       </SubComponents>
     </Container>
@@ -861,7 +852,7 @@
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                              <Component id="btnEliminar1" min="-2" pref="151" max="-2" attributes="0"/>
+                              <Component id="btnNuevaVenta" min="-2" pref="151" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -875,7 +866,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel76" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="btnEliminar1" min="-2" pref="66" max="-2" attributes="0"/>
+                  <Component id="btnNuevaVenta" min="-2" pref="66" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="btnEliminar3" min="-2" pref="66" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -902,7 +893,7 @@
             <Property name="text" type="java.lang.String" value="Opciones:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="btnEliminar1">
+        <Component class="javax.swing.JButton" name="btnNuevaVenta">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="59" green="b1" red="ec" type="rgb"/>
@@ -926,7 +917,7 @@
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminar1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNuevaVentaActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnEliminar3">
