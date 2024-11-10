@@ -48,9 +48,10 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenuItem15 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenu11 = new javax.swing.JMenu();
         jMenuItem8 = new javax.swing.JMenuItem();
+        jMenu11 = new javax.swing.JMenu();
+        jMenuItem16 = new javax.swing.JMenuItem();
+        mnuAsignarCajas = new javax.swing.JMenuItem();
 
         jMenuItem4.setText("jMenuItem4");
 
@@ -146,7 +147,7 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenuBar1.add(jMenu2);
 
         jMenu6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pago.png"))); // NOI18N
-        jMenu6.setText("Facturaci n y pago");
+        jMenu6.setText("Facturación y pago");
 
         jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/sale.png"))); // NOI18N
         jMenuItem5.setText("Registrar venta");
@@ -237,26 +238,29 @@ public class frmFarmacia extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem7);
 
-        jMenuItem3.setText("Comprobantes");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem8.setText("Comprobantes");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem3ActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem3);
+        jMenu3.add(jMenuItem8);
 
         jMenuBar1.add(jMenu3);
 
         jMenu11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/user plus.png"))); // NOI18N
         jMenu11.setText("Usuarios");
 
-        jMenuItem8.setText("Gestionar ususarios");
-        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem16.setText("Gestionar ususarios");
+        jMenuItem16.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem8ActionPerformed(evt);
             }
         });
-        jMenu11.add(jMenuItem8);
+        jMenu11.add(jMenuItem16);
+
+        mnuAsignarCajas.setText("Asignar Cajas");
+        jMenu11.add(mnuAsignarCajas);
 
         jMenuBar1.add(jMenu11);
 
@@ -333,7 +337,7 @@ public class frmFarmacia extends javax.swing.JFrame {
 //            JOptionPane.showMessageDialog(this, "No tiene acceso a esta secci n");
 //        }
 //
-    //GEN-LAST:event_jMenuItem3ActionPerformed
+//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         if (rolUsuario.equals("Administrador")) {
@@ -436,6 +440,7 @@ public class frmFarmacia extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem15;
+    private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
@@ -446,5 +451,6 @@ public class frmFarmacia extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JMenuItem mnuAsignarCajas;
     // End of variables declaration//GEN-END:variables
 }
