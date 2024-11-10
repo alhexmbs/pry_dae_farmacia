@@ -79,10 +79,10 @@
                   <Component id="jPanel7" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
-              <Component id="jScrollPane3" min="-2" pref="175" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+              <Component id="jScrollPane3" min="-2" pref="107" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jPanel8" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -844,7 +844,7 @@
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="btnEliminar5" alignment="1" min="-2" pref="151" max="-2" attributes="0"/>
                       <Component id="btnEliminar4" alignment="1" min="-2" pref="151" max="-2" attributes="0"/>
-                      <Component id="btnEliminar3" min="-2" pref="151" max="-2" attributes="0"/>
+                      <Component id="btnGuardarVenta" min="-2" pref="151" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
@@ -868,7 +868,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnNuevaVenta" min="-2" pref="66" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="btnEliminar3" min="-2" pref="66" max="-2" attributes="0"/>
+                  <Component id="btnGuardarVenta" min="-2" pref="66" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="btnEliminar4" min="-2" pref="66" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -920,7 +920,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNuevaVentaActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btnEliminar3">
+        <Component class="javax.swing.JButton" name="btnGuardarVenta">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="59" green="b1" red="ec" type="rgb"/>
@@ -944,7 +944,7 @@
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminar3ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuardarVentaActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnEliminar4">
@@ -1161,28 +1161,28 @@
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel2" alignment="0" min="-2" pref="108" max="-2" attributes="0"/>
+                      <Component id="lblValorVenta" alignment="0" min="-2" pref="108" max="-2" attributes="0"/>
                       <Component id="jLabel79" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel3" alignment="0" min="-2" pref="108" max="-2" attributes="0"/>
+                      <Component id="lblDescuento" alignment="0" min="-2" pref="108" max="-2" attributes="0"/>
                       <Component id="jLabel80" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel4" min="-2" pref="108" max="-2" attributes="0"/>
+                      <Component id="lblSubTotal" min="-2" pref="108" max="-2" attributes="0"/>
                       <Component id="jLabel81" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="12" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jLabel82" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel1" min="-2" pref="108" max="-2" attributes="0"/>
+                      <Component id="lblIGV" min="-2" pref="108" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jLabel83" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtNombre7" min="-2" pref="111" max="-2" attributes="0"/>
+                      <Component id="lblTotalPagar" min="-2" pref="111" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
               </Group>
@@ -1201,11 +1201,11 @@
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="txtNombre7" pref="29" max="32767" attributes="0"/>
-                      <Component id="jLabel1" max="32767" attributes="0"/>
-                      <Component id="jLabel2" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jLabel3" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jLabel4" alignment="0" max="32767" attributes="0"/>
+                      <Component id="lblTotalPagar" pref="29" max="32767" attributes="0"/>
+                      <Component id="lblIGV" max="32767" attributes="0"/>
+                      <Component id="lblValorVenta" alignment="0" max="32767" attributes="0"/>
+                      <Component id="lblDescuento" alignment="0" max="32767" attributes="0"/>
+                      <Component id="lblSubTotal" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace pref="15" max="32767" attributes="0"/>
               </Group>
@@ -1283,7 +1283,7 @@
             <Property name="text" type="java.lang.String" value="TOTAL A PAGAR"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtNombre7">
+        <Component class="javax.swing.JTextField" name="lblTotalPagar">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="ff" red="33" type="rgb"/>
@@ -1295,7 +1295,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel1">
+        <Component class="javax.swing.JLabel" name="lblIGV">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="99" green="99" red="99" type="rgb"/>
@@ -1312,7 +1312,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel2">
+        <Component class="javax.swing.JLabel" name="lblValorVenta">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="99" green="99" red="99" type="rgb"/>
@@ -1329,7 +1329,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel3">
+        <Component class="javax.swing.JLabel" name="lblDescuento">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="99" green="99" red="99" type="rgb"/>
@@ -1352,7 +1352,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel4">
+        <Component class="javax.swing.JLabel" name="lblSubTotal">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="99" green="99" red="99" type="rgb"/>
