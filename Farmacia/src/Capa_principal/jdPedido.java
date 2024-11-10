@@ -221,7 +221,7 @@ public class jdPedido extends javax.swing.JDialog {
         jLabel76 = new javax.swing.JLabel();
         btnNuevaVenta = new javax.swing.JButton();
         btnGuardarVenta = new javax.swing.JButton();
-        btnEliminar4 = new javax.swing.JButton();
+        btnCancelarVenta = new javax.swing.JButton();
         btnEliminar5 = new javax.swing.JButton();
         btnEliminar6 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
@@ -668,17 +668,17 @@ public class jdPedido extends javax.swing.JDialog {
             }
         });
 
-        btnEliminar4.setBackground(new java.awt.Color(236, 177, 89));
-        btnEliminar4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnEliminar4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/desecho.png"))); // NOI18N
-        btnEliminar4.setText("Cancelar");
-        btnEliminar4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btnEliminar4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnEliminar4.setPreferredSize(new java.awt.Dimension(45, 60));
-        btnEliminar4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnEliminar4.addActionListener(new java.awt.event.ActionListener() {
+        btnCancelarVenta.setBackground(new java.awt.Color(236, 177, 89));
+        btnCancelarVenta.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnCancelarVenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/desecho.png"))); // NOI18N
+        btnCancelarVenta.setText("Cancelar");
+        btnCancelarVenta.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnCancelarVenta.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnCancelarVenta.setPreferredSize(new java.awt.Dimension(45, 60));
+        btnCancelarVenta.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnCancelarVenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminar4ActionPerformed(evt);
+                btnCancelarVentaActionPerformed(evt);
             }
         });
 
@@ -703,7 +703,7 @@ public class jdPedido extends javax.swing.JDialog {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnEliminar5, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminar4, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancelarVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnGuardarVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel6Layout.createSequentialGroup()
@@ -724,7 +724,7 @@ public class jdPedido extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnGuardarVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnEliminar4, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCancelarVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnEliminar5, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1090,13 +1090,21 @@ public class jdPedido extends javax.swing.JDialog {
 
     private void btnAgregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProductoActionPerformed
 
-        int cantidad = Integer.parseInt(txtCantidad.getText());
-        System.out.println("La cantidad desde el formulario es :" + cantidad);
-        System.out.println("VDFARMA ES: " + vdfForma);
-        System.out.println("VDPRODUCTO ES: " + vdfProducto);
-        agregarProducto(vdfProducto, vdfForma, cantidad);
-        limpiarTotalCantidadYProducto();
-        calcularTotales();
+        String nomProducto = txtNombreProducto.getText();
+
+        if (!nomProducto.equals("")) {
+            int cantidad = Integer.parseInt(txtCantidad.getText());
+            System.out.println("La cantidad desde el formulario es :" + cantidad);
+            System.out.println("VDFARMA ES: " + vdfForma);
+            System.out.println("VDPRODUCTO ES: " + vdfProducto);
+            agregarProducto(vdfProducto, vdfForma, cantidad);
+            limpiarTotalCantidadYProducto();
+            calcularTotales();
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Primero debe seleccionar un producto", "Sistema", JOptionPane.ERROR_MESSAGE);
+        }
+
+
     }//GEN-LAST:event_btnAgregarProductoActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -1127,21 +1135,43 @@ public class jdPedido extends javax.swing.JDialog {
 
     private void btnGuardarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarVentaActionPerformed
         try {
-            int usuario = 1;
             String nroDocumento = txtDocCliente.getText();
-            int idCliente = objCliente.buscarClientePorDoc(nroDocumento);
-            int idPedido = Integer.parseInt(txtNumeroVentaPosible.getText());
-            float total = Float.parseFloat(lblTotalPagar.getText());
-            objPedido.registrarVenta(idPedido, total, usuario, idCliente, (JTable) tblProducto);
-            JOptionPane.showMessageDialog(rootPane, "La venta se registro exitosamente", "SISTEMA", JOptionPane.INFORMATION_MESSAGE);
+            String comprobante = txtTipoComprobante.getText();
+
+            if (nroDocumento.equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "Primero debe seleccionar a un cliente", "Sistema", JOptionPane.ERROR_MESSAGE);
+            } else {
+                if (comprobante.equals("")) {
+                    JOptionPane.showMessageDialog(rootPane, "Primero debe seleccionar un tipo de comprobante", "Sistema", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    int opcion = JOptionPane.showConfirmDialog(rootPane, "Esta seguro de guardar esta venta?", "Confirmacion", JOptionPane.YES_NO_OPTION);
+                    if (opcion == 0) {
+                        int usuario = 1;
+                        int idCliente = objCliente.buscarClientePorDoc(nroDocumento);
+                        int idPedido = Integer.parseInt(txtNumeroVentaPosible.getText());
+                        float total = Float.parseFloat(lblTotalPagar.getText());
+                        objPedido.registrarVenta(idPedido, total, usuario, idCliente, (JTable) tblProducto);
+                        JOptionPane.showMessageDialog(rootPane, "La venta se registro exitosamente", "SISTEMA", JOptionPane.INFORMATION_MESSAGE);
+                        btnNuevaVentaActionPerformed(evt);
+                    } else {
+                    }
+                }
+            }
+
         } catch (Exception ex) {
             Logger.getLogger(jdPedido.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnGuardarVentaActionPerformed
 
-    private void btnEliminar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnEliminar4ActionPerformed
+    private void btnCancelarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarVentaActionPerformed
+        int rpta = JOptionPane.showConfirmDialog(rootPane, "Esta seguro de cancelar esta venta? ", "Confirmación", JOptionPane.YES_NO_OPTION);
+        if (rpta == 1) {
+
+        } else {
+            btnNuevaVentaActionPerformed(evt);
+        }
+
+    }//GEN-LAST:event_btnCancelarVentaActionPerformed
 
     private void btnEliminar5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar5ActionPerformed
         // TODO add your handling code here:
@@ -1217,9 +1247,9 @@ public class jdPedido extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarProducto;
     private javax.swing.JButton btnBuscarProductos;
+    private javax.swing.JButton btnCancelarVenta;
     private javax.swing.JButton btnDarBaja;
     private javax.swing.JButton btnEliminar;
-    private javax.swing.JButton btnEliminar4;
     private javax.swing.JButton btnEliminar5;
     private javax.swing.JButton btnEliminar6;
     private javax.swing.JButton btnGuardarVenta;
