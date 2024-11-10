@@ -17,7 +17,7 @@ public class jdListCliente extends javax.swing.JDialog {
 
     // Referencia dialogo 1    
     private jdPedido dialog1;
-
+    
     Cliente objC = new Cliente();
 
     /**
@@ -27,10 +27,10 @@ public class jdListCliente extends javax.swing.JDialog {
         super(parent, modal);
         this.dialog1 = pedido;
         initComponents();
-        listarClientes();
+        listarClientes(txtBuscarCodigo.getText());
     }
-
-    private void listarClientes() {
+    
+    private void listarClientes(String dni) {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("ID");
         modelo.addColumn("Nro. Documento");
@@ -40,12 +40,12 @@ public class jdListCliente extends javax.swing.JDialog {
         modelo.addColumn("Fecha Nacimiento");
         modelo.addColumn("Sexo");
         modelo.addColumn("Email");
-
+        
         tblClientes.setModel(modelo);
-
+        
         ResultSet rs = null;
         try {
-            rs = objC.listarTodosCliente();
+            rs = objC.filtrarClientes(dni);
             while (rs.next()) {
                 Object[] fila = new Object[9];
                 fila[0] = rs.getInt("id_cliente");
@@ -56,7 +56,7 @@ public class jdListCliente extends javax.swing.JDialog {
                 fila[5] = rs.getDate("fecha_nacimiento");
                 fila[6] = rs.getString("sexo");
                 fila[7] = rs.getString("email");
-
+                
                 modelo.addRow(fila);
             }
         } catch (Exception ex) {
@@ -82,7 +82,7 @@ public class jdListCliente extends javax.swing.JDialog {
         tblClientes = new javax.swing.JTable();
         btnCancelar = new javax.swing.JButton();
         btnListar = new javax.swing.JButton();
-        btnEliminar3 = new javax.swing.JButton();
+        btnRegistrarCliente = new javax.swing.JButton();
         btnEliminar4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -96,10 +96,15 @@ public class jdListCliente extends javax.swing.JDialog {
         jLabel66.setText("Datos del Cliente:");
 
         jLabel68.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel68.setText("Buscar Cliente:");
+        jLabel68.setText("Nro Documento:");
 
         txtBuscarCodigo.setBackground(new java.awt.Color(239, 237, 220));
         txtBuscarCodigo.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        txtBuscarCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtBuscarCodigoKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -178,17 +183,17 @@ public class jdListCliente extends javax.swing.JDialog {
             }
         });
 
-        btnEliminar3.setBackground(new java.awt.Color(236, 177, 89));
-        btnEliminar3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnEliminar3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
-        btnEliminar3.setText("Nuevo");
-        btnEliminar3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btnEliminar3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnEliminar3.setPreferredSize(new java.awt.Dimension(45, 60));
-        btnEliminar3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnEliminar3.addActionListener(new java.awt.event.ActionListener() {
+        btnRegistrarCliente.setBackground(new java.awt.Color(236, 177, 89));
+        btnRegistrarCliente.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnRegistrarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/registrarUsuario.png"))); // NOI18N
+        btnRegistrarCliente.setText("Nuevo");
+        btnRegistrarCliente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnRegistrarCliente.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnRegistrarCliente.setPreferredSize(new java.awt.Dimension(45, 60));
+        btnRegistrarCliente.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnRegistrarCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminar3ActionPerformed(evt);
+                btnRegistrarClienteActionPerformed(evt);
             }
         });
 
@@ -224,7 +229,7 @@ public class jdListCliente extends javax.swing.JDialog {
                                 .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnEliminar3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnRegistrarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnEliminar4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -241,7 +246,7 @@ public class jdListCliente extends javax.swing.JDialog {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnEliminar3, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRegistrarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEliminar4, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -254,17 +259,19 @@ public class jdListCliente extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarActionPerformed
-        // TODO add your handling code here:
+        listarClientes("");
     }//GEN-LAST:event_btnListarActionPerformed
 
-    private void btnEliminar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar3ActionPerformed
-        dialog1.enviar();
-    }//GEN-LAST:event_btnEliminar3ActionPerformed
+    private void btnRegistrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarClienteActionPerformed
+        jdManUsuario obj = new jdManUsuario(null, true);
+        obj.setVisible(true);
+        obj.setLocationRelativeTo(null);
+    }//GEN-LAST:event_btnRegistrarClienteActionPerformed
 
     private void btnEliminar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar4ActionPerformed
         String nroDocumento = "7180723";
         String nombre = "Joseph";
-
+        
         dialog1.setNombreCliente(nombre);
         dialog1.setNroDocumentoCliente(nroDocumento);
 
@@ -274,21 +281,26 @@ public class jdListCliente extends javax.swing.JDialog {
         int id = Integer.parseInt(tblClientes.getValueAt(tblClientes.getSelectedRow(), 0).toString());
         String nroDocumento = tblClientes.getValueAt(tblClientes.getSelectedRow(), 1).toString();
         String nombre = tblClientes.getValueAt(tblClientes.getSelectedRow(), 2).toString();
-
+        
         dialog1.setNombreCliente(nombre);
         dialog1.setNroDocumentoCliente(nroDocumento);
-
+        
         dialog1.enviar();
-
-        this.dispose();
     }//GEN-LAST:event_tblClientesMouseClicked
+
+    private void txtBuscarCodigoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarCodigoKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            String dni = txtBuscarCodigo.getText();
+            listarClientes(dni);
+        }
+    }//GEN-LAST:event_txtBuscarCodigoKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JButton btnEliminar3;
     private javax.swing.JButton btnEliminar4;
     private javax.swing.JButton btnListar;
+    private javax.swing.JButton btnRegistrarCliente;
     private javax.swing.JLabel jLabel66;
     private javax.swing.JLabel jLabel68;
     private javax.swing.JPanel jPanel1;
