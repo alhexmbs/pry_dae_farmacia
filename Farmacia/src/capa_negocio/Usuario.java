@@ -17,8 +17,7 @@ public class Usuario {
 
     public ResultSet listarTodosUsuario() throws Exception {
         strSQL = "select * from usuario us inner join rol rl on us.id_rol = rl.id_rol\n"
-                + "	inner join tipo_doc td on us.id_tipo_doc = td.id_tipo_doc\n"
-                + "	inner join caja cj on us.id_caja = cj.id_caja";
+                + "	inner join tipo_doc td on us.id_tipo_doc = td.id_tipo_doc";
 
         try {
             rs = objConectar.consultarBD(strSQL);
@@ -31,7 +30,6 @@ public class Usuario {
     public ResultSet listarPorIDUsuario(int idUsuario) throws Exception {
         strSQL = "select * from usuario us inner join rol rl on us.id_rol = rl.id_rol\n"
                 + "	inner join tipo_doc td on us.id_tipo_doc = td.id_tipo_doc\n"
-                + "	inner join caja cj on us.id_caja = cj.id_caja\n"
                 + "	where us.id_usuario = " + idUsuario;
 
         try {
@@ -56,30 +54,13 @@ public class Usuario {
 
         return 0;
     }
-
-//    public void insertarUsuario(int idUsuario, String nombre, String apPaterno, String apMaterno, String numDoc, String fechaNac, String direccion, String numCelular, boolean sexo, BigDecimal sueldo, String horario, String username, String email, String contrasena, int idRol, int idTipoDoc, int idCaja) throws Exception {
-//        strSQL = "insert into usuario values (" + idUsuario + ", '" + nombre + "', '" + apPaterno + "', '" + apMaterno + "', '" + numDoc + "', '" + fechaNac + "', '" + direccion + "', '" + numCelular + "', " + sexo + ", " + sueldo + ", '" + horario + "', '" + username + "', '" + email + "', '" + contrasena + "', current_timestamp, " + idRol + ", " + idTipoDoc + ", " + idCaja + ");";
-//
-//        try {
-//            objConectar.ejecutarBd(strSQL);
-//        } catch (Exception ex) {
-//            throw new Exception("Error al registrar usuario --> " + ex.getMessage());
-//        }
-//    }
-//
-//    public void modificarUsuario(int idUsuario, String nombre, String apPaterno, String apMaterno, String numDoc, String fechaNac, String direccion, String numCelular, boolean sexo, BigDecimal sueldo, String horario, String username, String email, String contrasena, int idRol, int idTipoDoc, int idCaja) throws Exception {
-//        strSQL = "update usuario set nombre = '" + nombre + "', ape_paterno = '" + apPaterno + "', ape_materno = '" + apMaterno + "', nro_documento = '" + numDoc + "', fecha_nacimiento = '" + fechaNac + "', direccion = '" + direccion + "', nro_celular = '" + numCelular + "', sexo = " + sexo + ", sueldo = " + sueldo + ", horario = '" + horario + "', username = '" + username + "', email = '" + email + "', contrasena = '" + contrasena + "', id_rol = " + idRol + ", id_tipo_doc = " + idTipoDoc + ", id_caja = " + idCaja + " where id_usuario = " + idUsuario;
-//
-//        try {
-//            objConectar.ejecutarBd(strSQL);
-//        } catch (Exception ex) {
-//            throw new Exception("Error al modificar usuario --> " + ex.getMessage());
-//        }
-//    }
     
-    public void insertarUsuario(int idUsuario, String nombre, String apPaterno, String apMaterno, String numDoc, String fechaNac, String direccion, String numCelular, boolean sexo, BigDecimal sueldo, String horario, String username, String email, String contrasena, int idRol, int idTipoDoc, int idCaja, boolean estado) throws Exception {
-        strSQL = "insert into usuario values (" + idUsuario + ", '" + nombre + "', '" + apPaterno + "', '" + apMaterno + "', '" + numDoc + "', '" + fechaNac + "', '" + direccion + "', '" + numCelular + "', " + sexo + ", " + sueldo + ", '" + horario + "', '" + username + "', '" + email + "', '" + contrasena + "', current_timestamp, " + estado + ", " + idRol + ", " + idTipoDoc + ", " + idCaja + ");";
-
+    public void insertarUsuario(int idUsuario, String nombre, String apPaterno, String apMaterno, String numDoc, String fechaNac, String direccion, String numCelular, boolean sexo, float sueldo, String horario, String username, String email, String contrasena, int idRol, int idTipoDoc, boolean estado) throws Exception {
+        //strSQL = "insert into usuario values (" + idUsuario + ", '" + nombre + "', '" + apPaterno + "', '" + apMaterno + "', '" + numDoc + "', '" + fechaNac + "', '" + direccion + "', '" + numCelular + "', " + sexo + ", " + sueldo + ", '" + horario + "', '" + username + "', '" + email + "', '" + contrasena + "', current_timestamp, " + estado + ", " + idRol + ", " + idTipoDoc + ", " + idCaja + ");";
+        strSQL = "INSERT INTO usuario (id_usuario, nombre, ape_paterno, ape_materno, nro_documento, fecha_nacimiento, direccion, nro_celular, sexo, sueldo, horario, username, email, contrasena, estado, id_rol, id_tipo_doc) " +
+             "VALUES (" + idUsuario + ", '" + nombre + "', '" + apPaterno + "', '" + apMaterno + "', '" + numDoc + "', '" + fechaNac + "', '" + direccion + "', '" + numCelular + "', " + sexo + ", " + sueldo + ", '" + horario + "', '" + username + "', '" + email + "', '" + contrasena + "', " + estado + ", " + idRol + ", " + idTipoDoc + ");";
+        
+        
         try {
             objConectar.ejecutarBd(strSQL);
         } catch (Exception ex) {
@@ -87,8 +68,8 @@ public class Usuario {
         }
     }
 
-    public void modificarUsuario(int idUsuario, String nombre, String apPaterno, String apMaterno, String numDoc, String fechaNac, String direccion, String numCelular, boolean sexo, BigDecimal sueldo, String horario, String username, String email, String contrasena, int idRol, int idTipoDoc, int idCaja, boolean estado) throws Exception {
-        strSQL = "update usuario set nombre = '" + nombre + "', ape_paterno = '" + apPaterno + "', ape_materno = '" + apMaterno + "', nro_documento = '" + numDoc + "', fecha_nacimiento = '" + fechaNac + "', direccion = '" + direccion + "', nro_celular = '" + numCelular + "', sexo = " + sexo + ", sueldo = " + sueldo + ", horario = '" + horario + "', username = '" + username + "', email = '" + email + "', contrasena = '" + contrasena + "', estado = " + estado + ", id_rol = " + idRol + ", id_tipo_doc = " + idTipoDoc + ", id_caja = " + idCaja + " where id_usuario = " + idUsuario;
+    public void modificarUsuario(int idUsuario, String nombre, String apPaterno, String apMaterno, String numDoc, String fechaNac, String direccion, String numCelular, boolean sexo, float sueldo, String horario, String username, String email, int idRol, int idTipoDoc, boolean estado) throws Exception {
+        strSQL = "UPDATE usuario SET nombre = '" + nombre + "', ape_paterno = '" + apPaterno + "', ape_materno = '" + apMaterno + "', nro_documento = '" + numDoc + "', fecha_nacimiento = '" + fechaNac + "', direccion = '" + direccion + "', nro_celular = '" + numCelular + "', sexo = " + sexo + ", sueldo = " + sueldo + ", horario = '" + horario + "', username = '" + username + "', email = '" + email + "', estado = " + estado + ", id_rol = " + idRol + ", id_tipo_doc = " + idTipoDoc + " WHERE id_usuario = " + idUsuario;
 
         try {
             objConectar.ejecutarBd(strSQL);
@@ -96,8 +77,7 @@ public class Usuario {
             throw new Exception("Error al modificar usuario --> " + ex.getMessage());
         }
     }
-
-
+    
     public void eliminarUsuario(int idUsuario) throws Exception {
         strSQL = "delete from usuario where id_usuario = " + idUsuario;
 
@@ -107,7 +87,27 @@ public class Usuario {
             throw new Exception("Error al eliminar usuario --> " + ex.getMessage());
         }
     }
+    
+    public void actualizarContrasena(int idUsuario, String nuevaContrasena) throws Exception {
+        strSQL = "UPDATE usuario SET contrasena = '" + nuevaContrasena + "' WHERE id_usuario = " + idUsuario;
 
+        try {
+            objConectar.ejecutarBd(strSQL);
+        } catch (Exception ex) {
+            throw new Exception("Error al modificar la contraseña --> " + ex.getMessage());
+        }
+    }
+
+    public void actualizarUltimoLogin(int idUsuario) throws Exception {
+        strSQL = "update usuario set ultimo_login = current_timestamp where id_usuario = " + idUsuario;
+
+        try {
+            objConectar.ejecutarBd(strSQL);
+        } catch (Exception ex) {
+            throw new Exception("");
+        }
+    }    
+    
     public int obtenerIDUsuario(String numDoc) throws Exception {
         strSQL = "select id_usuario from usuario where nro_documento = '" + numDoc + "'";
 
@@ -121,16 +121,6 @@ public class Usuario {
         }
 
         return 0;
-    }
-
-    public void actualizarUltimoLogin(int idUsuario) throws Exception {
-        strSQL = "update usuario set ultimo_login = current_timestamp where id_usuario = " + idUsuario;
-
-        try {
-            objConectar.ejecutarBd(strSQL);
-        } catch (Exception ex) {
-            throw new Exception("");
-        }
     }
 
     public String login(String user, String password) throws Exception {
