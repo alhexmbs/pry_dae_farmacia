@@ -237,7 +237,9 @@ public final class JdInicioSesion extends javax.swing.JDialog {
                     
                     if(ultimo == null){
                         JOptionPane.showMessageDialog(null, "Primer login al sistema");
-                        System.exit(0);
+                        jdCambiarContrasena objCam = new jdCambiarContrasena(null, true);
+                        objCam.setLocationRelativeTo(this);
+                        objCam.setVisible(true);
                     }else{
                         frmFarmacia farmacia = new frmFarmacia(rol);
                         farmacia.setVisible(true);
