@@ -234,8 +234,17 @@ public final class JdInicioSesion extends javax.swing.JDialog {
 
                     JOptionPane.showMessageDialog(null, nombreUsuario + ", Bienvenido al sistema! ");
                     this.dispose();
-                    frmFarmacia farmacia = new frmFarmacia(rol);
-                    farmacia.setVisible(true);
+                    
+                    if(ultimo == null){
+                        JOptionPane.showMessageDialog(null, "Primer login al sistema");
+                        System.exit(0);
+                    }else{
+                        frmFarmacia farmacia = new frmFarmacia(rol);
+                        farmacia.setVisible(true);
+                    }
+                    
+//                    frmFarmacia farmacia = new frmFarmacia(rol);
+//                    farmacia.setVisible(true);
                 }
 
             } else {
