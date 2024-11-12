@@ -88,8 +88,8 @@ public class Usuario {
         }
     }
     
-    public void actualizarContrasena(int idUsuario, String nuevaContrasena) throws Exception {
-        strSQL = "UPDATE usuario SET contrasena = '" + nuevaContrasena + "' WHERE id_usuario = " + idUsuario;
+    public void actualizarContrasena(String username, String nuevaContrasena) throws Exception {
+        strSQL = "UPDATE usuario SET contrasena = '" + nuevaContrasena + "' WHERE username = '"+username+"'";
 
         try {
             objConectar.ejecutarBd(strSQL);
@@ -98,8 +98,8 @@ public class Usuario {
         }
     }
 
-    public void actualizarUltimoLogin(int idUsuario) throws Exception {
-        strSQL = "update usuario set ultimo_login = current_timestamp where id_usuario = " + idUsuario;
+    public void actualizarUltimoLogin(String username) throws Exception {
+        strSQL = "update usuario set ultimo_login = current_timestamp where username = '"+username+"'";
 
         try {
             objConectar.ejecutarBd(strSQL);
