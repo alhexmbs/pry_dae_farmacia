@@ -156,6 +156,22 @@ public class Usuario {
 
         return "";
     }
+    
+    public Timestamp ultimoLogin(String usuario, String contrasena) throws Exception{
+        strSQL = "select ultimo_login from usuario where username = '"+usuario+"' and contrasena = '"+contrasena+"'";
+        
+        try{
+            rs = objConectar.consultarBD(strSQL);
+            
+            if(rs.next()){
+                return rs.getTimestamp("ultimo_login");
+            }
+        }catch(Exception ex){
+            throw new Exception("Error al obtener el último login: " + ex.getMessage());
+        }
+        
+        return null;
+    }
 
     //prueba
 }

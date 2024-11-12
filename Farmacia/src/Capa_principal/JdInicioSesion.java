@@ -1,6 +1,7 @@
 package Capa_principal;
 
 import capa_negocio.Usuario;
+import java.sql.Timestamp;
 import java.util.Random;
 import javax.swing.JOptionPane;
 
@@ -214,7 +215,9 @@ public final class JdInicioSesion extends javax.swing.JDialog {
 
                 nombreUsuario = objUsuario.login(usuario, contraseña);
                 rol = objUsuario.cargo(usuario, contraseña);
+                Timestamp ultimo = objUsuario.ultimoLogin(usuario, contraseña);
                 System.out.println(rol);
+                System.out.println("Ultimo: "+ultimo);
                 if (nombreUsuario.equals("")) {
 
                     intentos++;
