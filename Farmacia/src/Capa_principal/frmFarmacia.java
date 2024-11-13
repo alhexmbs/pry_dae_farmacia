@@ -62,6 +62,8 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenu11 = new javax.swing.JMenu();
         jMenuItem16 = new javax.swing.JMenuItem();
+        mnuAsignarCajas = new javax.swing.JMenuItem();
+        jMenuItem22 = new javax.swing.JMenuItem();
 
         jMenuItem4.setText("jMenuItem4");
 
@@ -320,6 +322,12 @@ public class frmFarmacia extends javax.swing.JFrame {
         });
         jMenu11.add(jMenuItem16);
 
+        mnuAsignarCajas.setText("Asignar a cajas");
+        jMenu11.add(mnuAsignarCajas);
+
+        jMenuItem22.setText("Control diario");
+        jMenu11.add(jMenuItem22);
+
         jMenuBar1.add(jMenu11);
 
         setJMenuBar(jMenuBar1);
@@ -561,6 +569,7 @@ public class frmFarmacia extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem20;
     private javax.swing.JMenuItem jMenuItem21;
+    private javax.swing.JMenuItem jMenuItem22;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
@@ -576,5 +585,6 @@ public class frmFarmacia extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JPopupMenu.Separator jSeparator6;
+    private javax.swing.JMenuItem mnuAsignarCajas;
     // End of variables declaration//GEN-END:variables
 }
