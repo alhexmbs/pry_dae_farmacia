@@ -23,6 +23,17 @@ public class Caja {
         }
     }
     
+    public ResultSet listarCajasVigentes() throws Exception{
+        strSQL = "select * from caja where estado = true";
+        
+        try{
+            rs = objConectar.consultarBD(strSQL);
+            return rs;
+        }catch(Exception ex){
+            throw new Exception("Error al listar cajas vigentes --> " + ex.getMessage());
+        }
+    }
+    
     public ResultSet listarPorIDCaja(int idCaja) throws Exception{
         strSQL = "select * from caja where idCaja = "+idCaja;
         

@@ -18,7 +18,7 @@ public class Usuario_Caja {
     public String loggedInUsername = "";
     
     public ResultSet listarTrabajadores() throws Exception{
-        strSQL = "select * from usuario where id_rol != 1";
+        strSQL = "select * from usuario where id_rol != 1 and estado = true";
         
         try{
             rs = objConectar.consultarBD(strSQL);

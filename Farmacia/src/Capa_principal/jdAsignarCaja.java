@@ -4,18 +4,27 @@
  */
 package Capa_principal;
 
+import capa_negocio.Caja;
+import capa_negocio.Usuario_Caja;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import java.sql.*;
+
 /**
  *
  * @author Jesus
  */
 public class jdAsignarCaja extends javax.swing.JDialog {
 
-    /**
-     * Creates new form jdAsignarCaja
-     */
+    Usuario_Caja objUC = new Usuario_Caja();
+    Caja objC = new Caja();
+    
     public jdAsignarCaja(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
+        listarTrabajadores();
+        listarCajas();
     }
 
     /**
@@ -28,7 +37,11 @@ public class jdAsignarCaja extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblUsuarios = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblCajas = new javax.swing.JTable();
         btnAsignar = new javax.swing.JButton();
         btnRegresar = new javax.swing.JButton();
 
@@ -36,28 +49,66 @@ public class jdAsignarCaja extends javax.swing.JDialog {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Usuarios", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
+        tblUsuarios.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane1.setViewportView(tblUsuarios);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 240, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 147, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cajas", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+
+        tblCajas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane2.setViewportView(tblCajas);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 240, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 147, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         btnAsignar.setBackground(new java.awt.Color(236, 177, 89));
@@ -112,6 +163,46 @@ public class jdAsignarCaja extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void listarTrabajadores(){
+        ResultSet rs = null;
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID");
+        modelo.addColumn("Caja");
+        tblUsuarios.setModel(modelo);
+        
+        try{
+            rs = objUC.listarTrabajadores();
+            while(rs.next()){
+                Object[] fila = new Object[2];
+                fila[0] = rs.getInt("id_usuario");
+                fila[1] = rs.getString("nombre") + " " + rs.getString("ape_paterno") + " " + rs.getString("ape_materno");
+                modelo.addRow(fila);
+            }
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Error al mostrar los trabajadores");
+        }
+    }
+    
+    private void listarCajas(){
+        ResultSet rs = null;
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID");
+        modelo.addColumn("Nombre");
+        tblCajas.setModel(modelo);
+        
+        try{
+            rs = objC.listarCajasVigentes();
+            while(rs.next()){
+                Object[] fila = new Object[2];
+                fila[0] = rs.getInt("id_caja");
+                fila[1] = rs.getString("numero_caja");
+                modelo.addRow(fila);
+            }
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Error al mostrar las cajas");
+        }
+    }
+    
     private void btnAsignarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarActionPerformed
 
     }//GEN-LAST:event_btnAsignarActionPerformed
@@ -128,5 +219,9 @@ public class jdAsignarCaja extends javax.swing.JDialog {
     private javax.swing.JButton btnRegresar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable tblCajas;
+    private javax.swing.JTable tblUsuarios;
     // End of variables declaration//GEN-END:variables
 }
