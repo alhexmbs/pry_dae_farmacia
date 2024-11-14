@@ -323,6 +323,11 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenu11.add(jMenuItem16);
 
         mnuAsignarCajas.setText("Asignar a cajas");
+        mnuAsignarCajas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuAsignarCajasActionPerformed(evt);
+            }
+        });
         jMenu11.add(mnuAsignarCajas);
 
         jMenuItem22.setText("Control diario");
@@ -536,6 +541,17 @@ public class frmFarmacia extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jMenuItem20ActionPerformed
+
+    private void mnuAsignarCajasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAsignarCajasActionPerformed
+        // TODO add your handling code here:
+        if(rolUsuario.equals("Administrador")){
+            jdAsignarCaja objAc = new jdAsignarCaja(null, true);
+            objAc.setLocationRelativeTo(null);
+            objAc.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta seccion");
+        }
+    }//GEN-LAST:event_mnuAsignarCajasActionPerformed
 
 
 
