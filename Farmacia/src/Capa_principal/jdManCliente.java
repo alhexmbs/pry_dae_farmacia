@@ -523,6 +523,7 @@ public class jdManCliente extends javax.swing.JDialog {
         
         ResultSet rs = null;
         String vigencia = "";
+        String sexo = "";
         try{
             rs = objC.listarTodosCliente();
             while(rs.next()){
@@ -533,6 +534,12 @@ public class jdManCliente extends javax.swing.JDialog {
                     vigencia = "No Vigente";
                 }
                 
+                if(rs.getString("sexo").equals("t")){
+                    sexo = "Masculino";
+                }else{
+                    sexo = "Femenino";
+                }
+                
                 Object[] fila = new Object[10];
                 fila[0] = rs.getInt("id_cliente");
                 fila[1] = rs.getString("tipo_doc");
@@ -541,7 +548,7 @@ public class jdManCliente extends javax.swing.JDialog {
                 fila[4] = rs.getString("ape_paterno");
                 fila[5] = rs.getString("ape_materno");
                 fila[6] = rs.getDate("fecha_nacimiento");
-                fila[7] = rs.getString("sexo");
+                fila[7] = sexo;
                 fila[8] = rs.getString("email");
                 fila[9] = vigencia;
                 

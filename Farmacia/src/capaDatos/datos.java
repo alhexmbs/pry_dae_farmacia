@@ -27,6 +27,12 @@ public class datos {
         this.con = null;
     }
 
+    public Connection getCon() {
+        return con;
+    }
+
+    
+    
     public void conectar() throws Exception {
         try {
             Class.forName(driver);
