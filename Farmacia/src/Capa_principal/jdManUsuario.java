@@ -777,7 +777,6 @@ public class jdManUsuario extends javax.swing.JDialog {
                     int tipoDoc = objTD.obtenerIDTipoDoc(nombreTipoDoc);
                     int rol = objR.obtenerIDRol(nombreRol);
                     String username = txtUsername.getText();
-                    //String contrasena = txtContrasena.getText();
 
                     //objU.insertarUsuario(idUsuario, nombre, apPat, apMat, numDoc, fechaNac, direccion, celular, sexo, sueldo, horario, username, email, rol, tipoDoc, estado);
                     objU.insertarUsuarioMD5(idUsuario, nombre, apPat, apMat, numDoc, fechaNac, direccion, celular, sexo, sueldo, horario, username, email, rol, tipoDoc, estado);

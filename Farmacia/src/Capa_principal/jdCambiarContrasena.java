@@ -139,7 +139,8 @@ public class jdCambiarContrasena extends javax.swing.JDialog {
                 if(rpta == 0){
                     //objU.actualizarContrasena(rpta, contra);
                     System.out.println(user);
-                    objU.actualizarContrasena(user, contra);
+                    //objU.actualizarContrasena(user, contra);
+                    objU.actualizarContrasenaMD5(user, contra);
                     objU.actualizarUltimoLogin(user);
                     JOptionPane.showMessageDialog(this, "Contraseña actualizada correctamente");
                     this.dispose();

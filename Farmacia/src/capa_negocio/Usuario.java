@@ -143,6 +143,25 @@ public class Usuario {
             throw new Exception("Error al modificar la contraseña --> " + ex.getMessage());
         }
     }
+    
+    public void actualizarContrasenaMD5(String username, String nuevaContrasena) throws Exception {
+        strSQL = "UPDATE usuario SET contrasena = md5(? || ? || 'FIJO383') WHERE username = ?";
+        
+        try{
+            Connection micon = null;
+            objConectar.conectar();
+            micon = objConectar.getCon();
+            PreparedStatement sp = micon.prepareStatement(strSQL);
+            
+            sp.setString(1, nuevaContrasena);
+            sp.setString(2, username);
+            sp.setString(3, username);
+            
+            sp.executeUpdate();
+        }catch(Exception ex){
+            throw new Exception("Error al modificar la contraseña --> " + ex.getMessage());
+        }
+    }
 
     public void actualizarUltimoLogin(String username) throws Exception {
         strSQL = "update usuario set ultimo_login = current_timestamp where username = '"+username+"'";
@@ -183,6 +202,52 @@ public class Usuario {
         
         return false;
     }
+    
+    public boolean obtenerEstadoUsuarioMD5(int idUsuario) throws Exception {
+        strSQL = "SELECT estado FROM usuario WHERE id_usuario = ?";
+        
+        try{
+            Connection micon = null;
+            objConectar.conectar();
+            micon = objConectar.getCon();
+            PreparedStatement sp = micon.prepareStatement(strSQL);
+            sp.setInt(1, idUsuario);
+            
+            rs = sp.executeQuery();
+            if(rs.next()){
+                return rs.getBoolean("estado");
+            }
+            
+            objConectar.desconectar();
+        }catch(Exception ex) {
+            throw new Exception("Error al obtener el estado del usuario --> " + ex.getMessage());
+        }
+        
+        return false;
+    }
+    
+    public boolean obtenerEstadoUserStringMD5(String usuario) throws Exception {
+        strSQL = "select estado from usuario where username = ?";
+        
+        try{
+            Connection micon = null;
+            objConectar.conectar();
+            micon = objConectar.getCon();
+            PreparedStatement sp = micon.prepareStatement(strSQL);
+            sp.setString(1, usuario);
+            
+            rs = sp.executeQuery();
+            if(rs.next()){
+                return rs.getBoolean("estado");
+            }
+            
+            objConectar.desconectar();
+        }catch(Exception ex){
+            throw new Exception("Error al obtener el estado del usuario --> " + ex.getMessage());
+        }
+        
+        return false;
+    }
 
     public String login(String user, String password) throws Exception {
         strSQL = "SELECT username FROM usuario WHERE username = '" + user + "' AND contrasena = '" + password + "'";
@@ -199,6 +264,38 @@ public class Usuario {
         }
 
         return "";
+    }
+    
+    public void loginMD5(String user, String password) throws Exception {
+        strSQL = "SELECT username, id_usuario FROM usuario WHERE username = ? AND contrasena = md5(? || ? || 'FIJO383') AND estado = true";
+        
+        boolean acceso = false;
+        
+        try{
+            Connection micon = null;
+            objConectar.conectar();
+            micon = objConectar.getCon();
+            PreparedStatement sp = micon.prepareStatement(strSQL);
+            sp.setString(1, user);
+            sp.setString(2, password);
+            sp.setString(3, user);
+            
+            rs = sp.executeQuery();
+            if(rs.next()){
+                Funciones.USUARIO_INICIO_SESION = rs.getString("username");
+                Funciones.ID_INICIO_SESION = rs.getInt("id_usuario");
+                acceso = true;
+            }
+            
+            objConectar.desconectar();
+        }catch(Exception ex){
+            throw new Exception("Error al iniciar sesión: " + ex.getMessage());
+        }
+        
+        if(!acceso){
+            Funciones.USUARIO_INICIO_SESION = "";
+            Funciones.ID_INICIO_SESION = -1;
+        }
     }
 
     public String cargo(String user, String password) throws Exception {
@@ -218,12 +315,35 @@ public class Usuario {
         return "";
     }
     
+//    public Timestamp ultimoLogin(String usuario, String contrasena) throws Exception{
+//        strSQL = "select ultimo_login from usuario where username = '"+usuario+"' and contrasena = '"+contrasena+"'";
+//        
+//        try{
+//            rs = objConectar.consultarBD(strSQL);
+//            
+//            if(rs.next()){
+//                return rs.getTimestamp("ultimo_login");
+//            }
+//        }catch(Exception ex){
+//            throw new Exception("Error al obtener el último login: " + ex.getMessage());
+//        }
+//        
+//        return null;
+//    }
+    
     public Timestamp ultimoLogin(String usuario, String contrasena) throws Exception{
-        strSQL = "select ultimo_login from usuario where username = '"+usuario+"' and contrasena = '"+contrasena+"'";
+        strSQL = "SELECT ultimo_login FROM usuario WHERE username = ? AND contrasena = md5(? || ? || 'FIJO383')";
         
         try{
-            rs = objConectar.consultarBD(strSQL);
+            Connection micon = null;
+            objConectar.conectar();
+            micon = objConectar.getCon();
+            PreparedStatement sp = micon.prepareStatement(strSQL);
+            sp.setString(1, usuario);
+            sp.setString(2, contrasena);
+            sp.setString(3, usuario);
             
+            rs = sp.executeQuery();
             if(rs.next()){
                 return rs.getTimestamp("ultimo_login");
             }
@@ -232,7 +352,7 @@ public class Usuario {
         }
         
         return null;
-    }
+    }    
 
     //prueba
 }
