@@ -67,6 +67,42 @@ public class Usuario {
             throw new Exception("Error al registrar usuario --> " + ex.getMessage());
         }
     }
+    
+    public void insertarUsuarioMD5(int idUsuario, String nombre, String apPaterno, String apMaterno, String numDoc, String fechaNac, String direccion, String numCelular, boolean sexo, float sueldo, String horario, String username, String email, int idRol, int idTipoDoc, boolean estado) throws Exception {
+        // Asigna la contraseña predeterminada "1234" y encripta en la base de datos usando md5
+        strSQL = "INSERT INTO usuario (id_usuario, nombre, ape_paterno, ape_materno, nro_documento, fecha_nacimiento, direccion, nro_celular, sexo, sueldo, horario, username, email, contrasena, estado, id_rol, id_tipo_doc) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, md5('1234' || ? || 'FIJO383'), ?, ?, ?)";
+
+        try{
+            Connection micon = null;
+            objConectar.conectar();
+            micon = objConectar.getCon();
+            PreparedStatement sp = micon.prepareStatement(strSQL);
+            
+            sp.setInt(1, idUsuario);
+            sp.setString(2, nombre);
+            sp.setString(3, apPaterno);
+            sp.setString(4, apMaterno);
+            sp.setString(5, numDoc);
+            sp.setDate(6, Date.valueOf(fechaNac));
+            sp.setString(7, direccion);
+            sp.setString(8, numCelular);
+            sp.setBoolean(9, sexo);
+            sp.setFloat(10, sueldo);
+            sp.setString(11, horario);
+            sp.setString(12, username);
+            sp.setString(13, email);
+            sp.setString(14, username); // Concatenación para la encriptación de la contraseña inicial "1234"
+            sp.setBoolean(15, estado);
+            sp.setInt(16, idRol);
+            sp.setInt(17, idTipoDoc);
+
+            sp.executeUpdate();
+        } catch (Exception ex) {
+            throw new Exception("Error al registrar usuario --> " + ex.getMessage());
+        }
+    }
+
 
     public void modificarUsuario(int idUsuario, String nombre, String apPaterno, String apMaterno, String numDoc, String fechaNac, String direccion, String numCelular, boolean sexo, float sueldo, String horario, String username, String email, int idRol, int idTipoDoc, boolean estado) throws Exception {
         strSQL = "UPDATE usuario SET nombre = '" + nombre + "', ape_paterno = '" + apPaterno + "', ape_materno = '" + apMaterno + "', nro_documento = '" + numDoc + "', fecha_nacimiento = '" + fechaNac + "', direccion = '" + direccion + "', nro_celular = '" + numCelular + "', sexo = " + sexo + ", sueldo = " + sueldo + ", horario = '" + horario + "', username = '" + username + "', email = '" + email + "', estado = " + estado + ", id_rol = " + idRol + ", id_tipo_doc = " + idTipoDoc + " WHERE id_usuario = " + idUsuario;

@@ -779,7 +779,8 @@ public class jdManUsuario extends javax.swing.JDialog {
                     String username = txtUsername.getText();
                     //String contrasena = txtContrasena.getText();
 
-                    objU.insertarUsuario(idUsuario, nombre, apPat, apMat, numDoc, fechaNac, direccion, celular, sexo, sueldo, horario, username, email, rol, tipoDoc, estado);
+                    //objU.insertarUsuario(idUsuario, nombre, apPat, apMat, numDoc, fechaNac, direccion, celular, sexo, sueldo, horario, username, email, rol, tipoDoc, estado);
+                    objU.insertarUsuarioMD5(idUsuario, nombre, apPat, apMat, numDoc, fechaNac, direccion, celular, sexo, sueldo, horario, username, email, rol, tipoDoc, estado);
                     
                     limpiarFormulario();
                     listarUsuarios();
@@ -788,6 +789,7 @@ public class jdManUsuario extends javax.swing.JDialog {
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error al intentar insertar el usuario", "Ocurrió un error inesperado", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }
 
