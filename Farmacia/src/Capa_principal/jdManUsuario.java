@@ -668,25 +668,24 @@ public class jdManUsuario extends javax.swing.JDialog {
     private void listarUsuarios() {
         ResultSet rs = null;
         String vigencia = "";
+        String sexo = "";
 
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("ID");
         modelo.addColumn("Documento");
         modelo.addColumn("Nro. Documento");
         modelo.addColumn("Rol");
-        modelo.addColumn("Nro. Caja que atiende");
         modelo.addColumn("Nombre Completo");
         modelo.addColumn("Fecha Nacimiento");
         modelo.addColumn("Dirección");
         modelo.addColumn("Celular");
         modelo.addColumn("Sexo");
         modelo.addColumn("Email");
-        modelo.addColumn("Sueldo");
+        
         modelo.addColumn("Horario");
         modelo.addColumn("Username");
-        modelo.addColumn("Contraseña");
+
         modelo.addColumn("Estado");
-        modelo.addColumn("Último login");
         tblUsuarios.setModel(modelo);
 
         try {
@@ -699,26 +698,26 @@ public class jdManUsuario extends javax.swing.JDialog {
                     vigencia = "No Vigente";
                 }
                 
+                if(rs.getString("sexo").equals("t")){
+                    sexo = "Masculino";
+                }else{
+                    sexo = "Femenino";
+                }
+                
                 Object[] fila = new Object[17];
                 fila[0] = rs.getInt("id_usuario");
                 fila[1] = rs.getString("tipo_doc");
                 fila[2] = rs.getString("nro_documento");
                 fila[3] = rs.getString("rol");
-//                fila[4] = rs.getString("numero_caja");
-                fila[4] = "cajita";
-                fila[5] = rs.getString("nombre") + " " + rs.getString("ape_paterno") + " " + rs.getString("ape_materno");
-                fila[6] = rs.getDate("fecha_nacimiento");
-                fila[7] = rs.getString("direccion");
-                fila[8] = rs.getString("nro_celular");
-                fila[9] = rs.getString("sexo");
-                fila[10] = rs.getString("email");
-                fila[11] = rs.getString("sueldo");
-                fila[12] = rs.getString("horario");
-                fila[13] = rs.getString("username");
-                fila[14] = rs.getString("contrasena");
-                fila[15] = vigencia;
-                fila[16] = rs.getTimestamp("ultimo_login");
-                //fila[15] = rs.getTimestamp("ultimo_login");
+                fila[4] = rs.getString("nombre") + " " + rs.getString("ape_paterno") + " " + rs.getString("ape_materno");
+                fila[5] = rs.getDate("fecha_nacimiento");
+                fila[6] = rs.getString("direccion");
+                fila[7] = rs.getString("nro_celular");
+                fila[8] = sexo;
+                fila[9] = rs.getString("email");                
+                fila[10] = rs.getString("horario");
+                fila[11] = rs.getString("username");
+                fila[12] = vigencia;
 
                 modelo.addRow(fila);
             }
