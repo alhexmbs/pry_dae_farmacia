@@ -132,6 +132,21 @@ public class Usuario {
 
         return 0;
     }
+    
+    public boolean obtenerEstadoUsuario(int idUsuario) throws Exception {
+        strSQL = "select * from usuario where id_usuario = " + idUsuario;
+        
+        try{
+            rs = objConectar.consultarBD(strSQL);
+            if(rs.next()){
+                return rs.getBoolean("estado");
+            }
+        }catch(Exception ex){
+            throw new Exception("Error al obtener el estado del usuario --> " + ex.getMessage());
+        }
+        
+        return false;
+    }
 
     public String login(String user, String password) throws Exception {
         strSQL = "SELECT username FROM usuario WHERE username = '" + user + "' AND contrasena = '" + password + "'";

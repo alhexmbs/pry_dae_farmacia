@@ -846,7 +846,13 @@ public class jdManUsuario extends javax.swing.JDialog {
 
                 if (rpta == 0) {
                     int idUsuario = Integer.parseInt(txtIDUsuario.getText());
-                    objU.darBajaUsuario(idUsuario);
+                    if(objU.obtenerEstadoUsuario(idUsuario)){
+                        objU.darBajaUsuario(idUsuario);
+                        JOptionPane.showMessageDialog(this, "El usuario fue dado de baja exitosamente", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+                    }else{
+                        JOptionPane.showMessageDialog(this, "El usuario ya se encuentra dado de baja", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    
                     limpiarFormulario();
                     listarUsuarios();
                 }
