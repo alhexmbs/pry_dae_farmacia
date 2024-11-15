@@ -660,6 +660,31 @@ public class jdManCliente extends javax.swing.JDialog {
         }
     }
     
+    private void darBaja(){
+        try{
+            if(txtIDCliente.getText().equals("")){
+                JOptionPane.showMessageDialog(this, "Por favor ingrese el ID del cliente", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                int rpta = JOptionPane.showConfirmDialog(this, "¿Desea dar de baja al siguiente cliente?", "Seleccione una opción", JOptionPane.YES_NO_OPTION);
+                
+                if(rpta == 0){
+                    int idCliente = Integer.parseInt(txtIDCliente.getText());
+                    if(objC.obtenerEstado(idCliente)){
+                        objC.darBajaCliente(idCliente);
+                        JOptionPane.showMessageDialog(this, "El cliente fue dado de baja exitosamente", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+                    }else{
+                        JOptionPane.showMessageDialog(this, "El cliente ya se encuentra dado de baja", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    
+                    limpiarFormulario();
+                    listarClientes();
+                }
+            }
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this, "Error al intentar dar de baja al cliente", "Ocurrió un error inesperado", JOptionPane.ERROR_MESSAGE);            
+        }
+    }
+    
     private void eliminar(){
         try{
             if(txtIDCliente.getText().equals("")){
@@ -741,7 +766,7 @@ public class jdManCliente extends javax.swing.JDialog {
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBajaActionPerformed
-       
+        darBaja();
     }//GEN-LAST:event_btnDarBajaActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
