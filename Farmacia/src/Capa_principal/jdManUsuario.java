@@ -79,8 +79,6 @@ public class jdManUsuario extends javax.swing.JDialog {
         txtHorarioUsuario = new javax.swing.JTextField();
         jLabel70 = new javax.swing.JLabel();
         txtUsername = new javax.swing.JTextField();
-        jLabel77 = new javax.swing.JLabel();
-        txtContrasena = new javax.swing.JTextField();
         jLabel78 = new javax.swing.JLabel();
         cboRol = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
@@ -249,17 +247,6 @@ public class jdManUsuario extends javax.swing.JDialog {
             }
         });
 
-        jLabel77.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel77.setText("Contraseña:");
-
-        txtContrasena.setBackground(new java.awt.Color(239, 237, 220));
-        txtContrasena.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        txtContrasena.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtContrasenaKeyTyped(evt);
-            }
-        });
-
         jLabel78.setBackground(new java.awt.Color(0, 0, 0));
         jLabel78.setText("Rol:");
 
@@ -289,43 +276,39 @@ public class jdManUsuario extends javax.swing.JDialog {
                             .addComponent(jLabel71)
                             .addComponent(jLabel66)
                             .addComponent(jLabel75)
-                            .addComponent(jLabel73)
+                            .addComponent(jLabel73))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtIDUsuario)
+                            .addComponent(txtApPaternoUsuario)
+                            .addComponent(txtEmailUsuario)
+                            .addComponent(cboTipoDoc, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtDireccionUsuario)
+                            .addComponent(txtSueldoUsuario)
+                            .addComponent(txtNumDocUsuario)
+                            .addComponent(jdateFechaNacUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(117, 117, 117)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel63)
+                            .addComponent(jLabel65)
+                            .addComponent(jLabel74)
+                            .addComponent(jLabel68)
+                            .addComponent(jLabel76)
+                            .addComponent(jLabel78)
+                            .addComponent(jLabel70)
                             .addComponent(jLabel1))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtIDUsuario)
-                                    .addComponent(txtApPaternoUsuario)
-                                    .addComponent(txtEmailUsuario)
-                                    .addComponent(cboTipoDoc, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jdateFechaNacUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtDireccionUsuario)
-                                    .addComponent(txtSueldoUsuario)
-                                    .addComponent(txtNumDocUsuario))
-                                .addGap(117, 117, 117)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel63)
-                                    .addComponent(jLabel65)
-                                    .addComponent(jLabel74)
-                                    .addComponent(jLabel68)
-                                    .addComponent(jLabel76)
-                                    .addComponent(jLabel77)
-                                    .addComponent(jLabel78)
-                                    .addComponent(jLabel70))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(opMasculino)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(opFemenino))
-                                    .addComponent(txtNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtApMaternoUsuario)
-                                    .addComponent(txtCelularUsuario)
-                                    .addComponent(txtHorarioUsuario)
-                                    .addComponent(txtContrasena)
-                                    .addComponent(cboRol, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtUsername)))
+                                .addComponent(opMasculino)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(opFemenino))
+                            .addComponent(txtNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtApMaternoUsuario)
+                            .addComponent(txtCelularUsuario)
+                            .addComponent(txtHorarioUsuario)
+                            .addComponent(cboRol, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtUsername)
                             .addComponent(chkVigenciaUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(27, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -387,15 +370,11 @@ public class jdManUsuario extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel77)
-                        .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel71, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel71, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1)
+                        .addComponent(chkVigenciaUsuario))
                     .addComponent(jdateFechaNacUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(chkVigenciaUsuario))
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                     .addContainerGap(146, Short.MAX_VALUE)
@@ -579,7 +558,7 @@ public class jdManUsuario extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 24, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -615,7 +594,7 @@ public class jdManUsuario extends javax.swing.JDialog {
         cboTipoDoc.setSelectedIndex(-1);
         txtNumDocUsuario.setText("");
         txtUsername.setText("");
-        txtContrasena.setText("");
+        //txtContrasena.setText("");
         jdateFechaNacUsuario.setDate(null);
         chkVigenciaUsuario.setSelected(false);
     }
@@ -758,7 +737,7 @@ public class jdManUsuario extends javax.swing.JDialog {
                     cboRol.setSelectedIndex(rs.getInt("id_rol") - 1);
                     //cboCaja.setSelectedIndex(rs.getInt("id_caja") - 1);
                     txtUsername.setText(rs.getString("username"));
-                    txtContrasena.setText(rs.getString("contrasena"));
+                    //txtContrasena.setText(rs.getString("contrasena"));
 
                     chkVigenciaUsuario.setSelected(rs.getBoolean("estado"));
 
@@ -798,7 +777,6 @@ public class jdManUsuario extends javax.swing.JDialog {
                     btnNuevo.setText("NUEVO");
                     String nombreTipoDoc = cboTipoDoc.getSelectedItem().toString();
                     String nombreRol = cboRol.getSelectedItem().toString();
-                    //String numCaja = cboCaja.getSelectedItem().toString();
 
                     int idUsuario = Integer.parseInt(txtIDUsuario.getText());
                     String numDoc = txtNumDocUsuario.getText();
@@ -815,13 +793,10 @@ public class jdManUsuario extends javax.swing.JDialog {
                     String email = txtEmailUsuario.getText();
                     int tipoDoc = objTD.obtenerIDTipoDoc(nombreTipoDoc);
                     int rol = objR.obtenerIDRol(nombreRol);
-                    //int caja = objCa.obtenerIDCaja(numCaja);
-
                     String username = txtUsername.getText();
-                    String contrasena = txtContrasena.getText();
+                    //String contrasena = txtContrasena.getText();
 
-                    //objU.insertarUsuario(idUsuario, nombre, apPat, apMat, numDoc, fechaNac, direccion, celular, sexo, sueldo, horario, username, email, contrasena, rol, tipoDoc, caja);
-                    objU.insertarUsuario(idUsuario, nombre, apPat, apMat, numDoc, fechaNac, direccion, celular, sexo, sueldo, horario, username, email, contrasena, rol, tipoDoc, estado);
+                    objU.insertarUsuario(idUsuario, nombre, apPat, apMat, numDoc, fechaNac, direccion, celular, sexo, sueldo, horario, username, email, "1234", rol, tipoDoc, estado);
                     
                     limpiarFormulario();
                     listarUsuarios();
@@ -848,7 +823,6 @@ public class jdManUsuario extends javax.swing.JDialog {
                     } else {
                         String nombreTipoDoc = cboTipoDoc.getSelectedItem().toString();
                         String nombreRol = cboRol.getSelectedItem().toString();
-                        //String numCaja = cboCaja.getSelectedItem().toString();
 
                         int idUsuario = Integer.parseInt(txtIDUsuario.getText());
                         String numDoc = txtNumDocUsuario.getText();
@@ -865,12 +839,9 @@ public class jdManUsuario extends javax.swing.JDialog {
                         String email = txtEmailUsuario.getText();
                         int tipoDoc = objTD.obtenerIDTipoDoc(nombreTipoDoc);
                         int rol = objR.obtenerIDRol(nombreRol);
-                        //int caja = objCa.obtenerIDCaja(numCaja);
 
                         String username = txtUsername.getText();
-                        String contrasena = txtContrasena.getText();
 
-                        //objU.modificarUsuario(idUsuario, nombre, apPat, apMat, numDoc, fechaNac, direccion, celular, sexo, sueldo, horario, username, email, contrasena, rol, tipoDoc, caja);
                         objU.modificarUsuario(idUsuario, nombre, apPat, apMat, numDoc, fechaNac, direccion, celular, sexo, sueldo, horario, username, email, rol, tipoDoc, estado);
 
                         limpiarFormulario();
@@ -1071,10 +1042,6 @@ public class jdManUsuario extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUsernameKeyTyped
 
-    private void txtContrasenaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContrasenaKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtContrasenaKeyTyped
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
@@ -1105,7 +1072,6 @@ public class jdManUsuario extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel74;
     private javax.swing.JLabel jLabel75;
     private javax.swing.JLabel jLabel76;
-    private javax.swing.JLabel jLabel77;
     private javax.swing.JLabel jLabel78;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -1120,7 +1086,6 @@ public class jdManUsuario extends javax.swing.JDialog {
     private javax.swing.JTextField txtApMaternoUsuario;
     private javax.swing.JTextField txtApPaternoUsuario;
     private javax.swing.JTextField txtCelularUsuario;
-    private javax.swing.JTextField txtContrasena;
     private javax.swing.JTextField txtDireccionUsuario;
     private javax.swing.JTextField txtEmailUsuario;
     private javax.swing.JTextField txtFiltrarID;
