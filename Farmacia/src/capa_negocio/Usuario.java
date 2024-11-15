@@ -55,10 +55,10 @@ public class Usuario {
         return 0;
     }
     
-    public void insertarUsuario(int idUsuario, String nombre, String apPaterno, String apMaterno, String numDoc, String fechaNac, String direccion, String numCelular, boolean sexo, float sueldo, String horario, String username, String email, String contrasena, int idRol, int idTipoDoc, boolean estado) throws Exception {
+    public void insertarUsuario(int idUsuario, String nombre, String apPaterno, String apMaterno, String numDoc, String fechaNac, String direccion, String numCelular, boolean sexo, float sueldo, String horario, String username, String email, int idRol, int idTipoDoc, boolean estado) throws Exception {
         //strSQL = "insert into usuario values (" + idUsuario + ", '" + nombre + "', '" + apPaterno + "', '" + apMaterno + "', '" + numDoc + "', '" + fechaNac + "', '" + direccion + "', '" + numCelular + "', " + sexo + ", " + sueldo + ", '" + horario + "', '" + username + "', '" + email + "', '" + contrasena + "', current_timestamp, " + estado + ", " + idRol + ", " + idTipoDoc + ", " + idCaja + ");";
         strSQL = "INSERT INTO usuario (id_usuario, nombre, ape_paterno, ape_materno, nro_documento, fecha_nacimiento, direccion, nro_celular, sexo, sueldo, horario, username, email, contrasena, estado, id_rol, id_tipo_doc) " +
-             "VALUES (" + idUsuario + ", '" + nombre + "', '" + apPaterno + "', '" + apMaterno + "', '" + numDoc + "', '" + fechaNac + "', '" + direccion + "', '" + numCelular + "', " + sexo + ", " + sueldo + ", '" + horario + "', '" + username + "', '" + email + "', '" + contrasena + "', " + estado + ", " + idRol + ", " + idTipoDoc + ");";
+             "VALUES (" + idUsuario + ", '" + nombre + "', '" + apPaterno + "', '" + apMaterno + "', '" + numDoc + "', '" + fechaNac + "', '" + direccion + "', '" + numCelular + "', " + sexo + ", " + sueldo + ", '" + horario + "', '" + username + "', '" + email + "', '1234', " + estado + ", " + idRol + ", " + idTipoDoc + ");";
         
         
         try {
@@ -75,6 +75,16 @@ public class Usuario {
             objConectar.ejecutarBd(strSQL);
         } catch (Exception ex) {
             throw new Exception("Error al modificar usuario --> " + ex.getMessage());
+        }
+    }
+    
+    public void darBajaUsuario(int idUsuario) throws Exception {
+        strSQL = "update usuario set estado = false where id_usuario = " + idUsuario;
+        
+        try {
+            objConectar.ejecutarBd(strSQL);
+        } catch (Exception ex) {
+            throw new Exception("Error al dar de baja usuario --> " + ex.getMessage());
         }
     }
     

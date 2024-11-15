@@ -83,7 +83,6 @@ public class jdManUsuario extends javax.swing.JDialog {
         cboRol = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         chkVigenciaUsuario = new javax.swing.JCheckBox();
-        btnSimular = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
         txtFiltrarID = new javax.swing.JTextField();
@@ -382,17 +381,6 @@ public class jdManUsuario extends javax.swing.JDialog {
                     .addContainerGap(147, Short.MAX_VALUE)))
         );
 
-        btnSimular.setBackground(new java.awt.Color(236, 177, 89));
-        btnSimular.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnSimular.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/simular.png"))); // NOI18N
-        btnSimular.setText("SIMULAR DATOS");
-        btnSimular.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btnSimular.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSimularActionPerformed(evt);
-            }
-        });
-
         jPanel3.setBackground(new java.awt.Color(246, 244, 235));
 
         jLabel23.setText("Buscar ID:");
@@ -542,9 +530,7 @@ public class jdManUsuario extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnSimular, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -553,12 +539,9 @@ public class jdManUsuario extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnSimular, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 24, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -796,7 +779,7 @@ public class jdManUsuario extends javax.swing.JDialog {
                     String username = txtUsername.getText();
                     //String contrasena = txtContrasena.getText();
 
-                    objU.insertarUsuario(idUsuario, nombre, apPat, apMat, numDoc, fechaNac, direccion, celular, sexo, sueldo, horario, username, email, "1234", rol, tipoDoc, estado);
+                    objU.insertarUsuario(idUsuario, nombre, apPat, apMat, numDoc, fechaNac, direccion, celular, sexo, sueldo, horario, username, email, rol, tipoDoc, estado);
                     
                     limpiarFormulario();
                     listarUsuarios();
@@ -854,6 +837,25 @@ public class jdManUsuario extends javax.swing.JDialog {
         }
     }
 
+    private void darBaja() {
+        try{
+            if (txtIDUsuario.getText().equals("")) {
+                JOptionPane.showMessageDialog(this, "Por favor ingrese el ID del usuario", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                int rpta = JOptionPane.showConfirmDialog(this, "¿Desea dar de baja al siguiente usuario?", "Seleccione una opción", JOptionPane.YES_NO_OPTION);
+
+                if (rpta == 0) {
+                    int idUsuario = Integer.parseInt(txtIDUsuario.getText());
+                    objU.darBajaUsuario(idUsuario);
+                    limpiarFormulario();
+                    listarUsuarios();
+                }
+            }
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this, "Error al intentar dar de baja al usuario", "Ocurrió un error inesperado", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
     private void eliminar() {
         try {
             if (txtIDUsuario.getText().equals("")) {
@@ -953,10 +955,6 @@ public class jdManUsuario extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_txtApMaternoUsuarioKeyTyped
 
-    private void btnSimularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimularActionPerformed
-
-    }//GEN-LAST:event_btnSimularActionPerformed
-
     private void txtFiltrarIDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFiltrarIDKeyTyped
         // TODO add your handling code here:
         int x = evt.getKeyChar();
@@ -987,7 +985,7 @@ public class jdManUsuario extends javax.swing.JDialog {
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBajaActionPerformed
-
+        darBaja();
     }//GEN-LAST:event_btnDarBajaActionPerformed
 
     private void tblUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUsuariosMouseClicked
@@ -1051,7 +1049,6 @@ public class jdManUsuario extends javax.swing.JDialog {
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnNuevo;
     private javax.swing.ButtonGroup btnSexoUsuario;
-    private javax.swing.JButton btnSimular;
     private javax.swing.JComboBox<String> cboRol;
     private javax.swing.JComboBox<String> cboTipoDoc;
     private javax.swing.JCheckBox chkVigenciaUsuario;
