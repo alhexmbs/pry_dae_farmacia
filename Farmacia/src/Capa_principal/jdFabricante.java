@@ -36,13 +36,14 @@ public class jdFabricante extends javax.swing.JDialog {
         try {
             lista = obj.listarFabricantes(tipo);
             while (lista.next()) {
+                
                 rubro = new Vector();
                 rubro.add(lista.getInt("id_fabricante"));
                 rubro.add(lista.getString("nombre_fabricante"));
                 if (lista.getBoolean("estado")) {
-                    rubro.add("Activo");
+                    rubro.add("Vigente");
                 } else {
-                    rubro.add("Inactivo");
+                    rubro.add("No vigente");
                 }
 
                 modelo.addRow(rubro);
@@ -77,6 +78,7 @@ public class jdFabricante extends javax.swing.JDialog {
         btnModificaar = new javax.swing.JButton();
         btnNuevo1 = new javax.swing.JButton();
         btnDarBaja = new javax.swing.JButton();
+        btnDarBaja1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Fabricante");
@@ -103,6 +105,11 @@ public class jdFabricante extends javax.swing.JDialog {
 
         txtNombre.setBackground(new java.awt.Color(239, 237, 220));
         txtNombre.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
+            }
+        });
 
         txtId2.setBackground(new java.awt.Color(239, 237, 220));
         txtId2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -176,7 +183,7 @@ public class jdFabricante extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(chkVigencia)
                     .addComponent(jLabel1))
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel4.setBackground(new java.awt.Color(246, 244, 235));
@@ -216,12 +223,12 @@ public class jdFabricante extends javax.swing.JDialog {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel24)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cboFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 30, Short.MAX_VALUE))
+                        .addComponent(cboFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 18, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -270,7 +277,7 @@ public class jdFabricante extends javax.swing.JDialog {
 
         btnDarBaja.setBackground(new java.awt.Color(236, 177, 89));
         btnDarBaja.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnDarBaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
+        btnDarBaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/darBaja.png"))); // NOI18N
         btnDarBaja.setText("DAR DE BAJA");
         btnDarBaja.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnDarBaja.addActionListener(new java.awt.event.ActionListener() {
@@ -279,41 +286,56 @@ public class jdFabricante extends javax.swing.JDialog {
             }
         });
 
+        btnDarBaja1.setBackground(new java.awt.Color(236, 177, 89));
+        btnDarBaja1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnDarBaja1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
+        btnDarBaja1.setText("ELIMINAR");
+        btnDarBaja1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnDarBaja1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDarBaja1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(30, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnDarBaja, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                            .addComponent(btnNuevo1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnModificaar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(0, 0, 0))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(btnDarBaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnNuevo1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnDarBaja1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnModificaar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(10, 10, 10))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(9, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(30, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnSave)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnModificaar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnNuevo1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnDarBaja)))
+                        .addComponent(btnDarBaja)
+                        .addGap(12, 12, 12)
+                        .addComponent(btnDarBaja1))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(24, 24, 24))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -430,32 +452,78 @@ public class jdFabricante extends javax.swing.JDialog {
     }//GEN-LAST:event_btnNuevo1ActionPerformed
 
     private void btnDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBajaActionPerformed
-        try {
-            if (txtId2.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para dar de baja");
-            } else {
+        if (txtId2.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para dar de baja");
 
-                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea dar de baja a este fabricante?");
-                if (confirmacion == JOptionPane.YES_OPTION) {
-                    obj.darDeBajaFabricante(Integer.parseInt(txtId2.getText()));
-                    limpiar();
-                    listar("General");
-                    JOptionPane.showMessageDialog(rootPane, "Fabricante dado de baja correctamente");
+        } else {
+        int codigo = Integer.parseInt(txtId2.getText());
+
+            try {
+                ResultSet listaFf = obj.buscarFabricante(codigo);
+
+                while (listaFf.next()) {
+                    if (!listaFf.getBoolean("estado")) {
+                        JOptionPane.showMessageDialog(this, "Este fabricante ya ha sido dado de baja anteriomente");
+                    } else {
+
+                        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea dar de baja este fabricante?");
+                        if (confirmacion == JOptionPane.YES_OPTION) {
+                            obj.darDeBajaFabricante(Integer.parseInt(txtId2.getText()));
+                            limpiar();
+                            listar("General");
+                            JOptionPane.showMessageDialog(rootPane, "Fabricante dado de baja correctamente");
+                        }
+
+                    }
                 }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
+
+    }    
     }//GEN-LAST:event_btnDarBajaActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         listar("General");
     }//GEN-LAST:event_formWindowOpened
 
+    private void btnDarBaja1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBaja1ActionPerformed
+        if (txtId2.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para eliminar");
+
+        } else {
+
+            try {
+        int codigo = Integer.parseInt(txtId2.getText());
+
+                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea eliminar este fabricante?");
+                if (confirmacion == JOptionPane.YES_OPTION) {
+                    obj.eliminar(Integer.parseInt(txtId2.getText()));
+                    limpiar();
+                    listar("General");
+                    JOptionPane.showMessageDialog(rootPane, "Forma farmaceutica eliminada correctamente");
+
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e.getMessage()+e.getMessage());
+
+            }
+
+        }
+
+    }//GEN-LAST:event_btnDarBaja1ActionPerformed
+
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+ if (txtNombre.getText().length() >= 150) {
+            evt.consume();
+        }    }//GEN-LAST:event_txtNombreKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar1;
     private javax.swing.JButton btnDarBaja;
+    private javax.swing.JButton btnDarBaja1;
     private javax.swing.JButton btnModificaar;
     private javax.swing.JButton btnNuevo1;
     private javax.swing.JButton btnSave;

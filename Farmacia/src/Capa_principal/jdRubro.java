@@ -26,6 +26,7 @@ public class jdRubro extends javax.swing.JDialog {
 
     public void listar(String tipo) {
         ResultSet lista = null;
+        String estado = null;
         Vector rubro;
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("Codigo");
@@ -35,10 +36,15 @@ public class jdRubro extends javax.swing.JDialog {
         try {
             lista = objR.listarRubros(tipo);
             while (lista.next()) {
+                if (lista.getBoolean("estado")) {
+                    estado = "Vigente";
+                } else {
+                    estado = "No vigente";
+                }
                 rubro = new Vector();
                 rubro.add(lista.getInt("id_rubro"));
                 rubro.add(lista.getString("nombre_rubro"));
-                rubro.add(lista.getBoolean("estado"));
+                rubro.add(estado);
                 modelo.addRow(rubro);
             }
             TablaGuardarda1.setModel(modelo);
@@ -71,6 +77,7 @@ public class jdRubro extends javax.swing.JDialog {
         btnModificaar = new javax.swing.JButton();
         btnNuevo1 = new javax.swing.JButton();
         btnDarBaja = new javax.swing.JButton();
+        btnDarBaja2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -96,12 +103,22 @@ public class jdRubro extends javax.swing.JDialog {
 
         txtNombre.setBackground(new java.awt.Color(239, 237, 220));
         txtNombre.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
+            }
+        });
 
         txtId2.setBackground(new java.awt.Color(239, 237, 220));
         txtId2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         txtId2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtId2ActionPerformed(evt);
+            }
+        });
+        txtId2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtId2KeyTyped(evt);
             }
         });
 
@@ -226,7 +243,7 @@ public class jdRubro extends javax.swing.JDialog {
                     .addComponent(cboFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         btnSave.setBackground(new java.awt.Color(236, 177, 89));
@@ -264,12 +281,23 @@ public class jdRubro extends javax.swing.JDialog {
 
         btnDarBaja.setBackground(new java.awt.Color(236, 177, 89));
         btnDarBaja.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnDarBaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
+        btnDarBaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/darBaja.png"))); // NOI18N
         btnDarBaja.setText("DAR DE BAJA");
         btnDarBaja.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnDarBaja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDarBajaActionPerformed(evt);
+            }
+        });
+
+        btnDarBaja2.setBackground(new java.awt.Color(236, 177, 89));
+        btnDarBaja2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnDarBaja2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
+        btnDarBaja2.setText("ELIMINAR");
+        btnDarBaja2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnDarBaja2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDarBaja2ActionPerformed(evt);
             }
         });
 
@@ -288,25 +316,27 @@ public class jdRubro extends javax.swing.JDialog {
                             .addComponent(btnDarBaja, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
                             .addComponent(btnNuevo1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnModificaar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(0, 0, 0))
+                            .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnDarBaja2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(23, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap(30, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnSave)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnModificaar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnNuevo1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnDarBaja)
-                        .addGap(16, 16, 16)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnDarBaja2)))
+                .addGap(20, 20, 20)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -315,7 +345,9 @@ public class jdRubro extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -332,6 +364,7 @@ public class jdRubro extends javax.swing.JDialog {
     }//GEN-LAST:event_txtId2ActionPerformed
 
     private void btnBuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar1ActionPerformed
+
         ResultSet rsRubro = null;
         try {
             if (txtId2.getText().isEmpty()) {
@@ -397,6 +430,7 @@ public class jdRubro extends javax.swing.JDialog {
         if (txtId2.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe ingresar un codigo a modificar");
         } else {
+
             int codigo = Integer.parseInt(txtId2.getText());
             String nombre = txtNombre.getText();
             boolean estado = chkVigencia.isSelected();
@@ -415,7 +449,7 @@ public class jdRubro extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(this, "Error al modificar rubro---> " + e.getMessage());
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "Ingrese informacion en todos los campos");
+                JOptionPane.showMessageDialog(this, "Ingrese un nombre en el campo de rubro");
 
             }
 
@@ -427,21 +461,37 @@ public class jdRubro extends javax.swing.JDialog {
     }//GEN-LAST:event_btnNuevo1ActionPerformed
 
     private void btnDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBajaActionPerformed
-        try {
-            if (txtId2.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Debe ingresar un codigo a dar de baja");
-            } else {
 
-                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea dar de baja este rubro?");
-                if (confirmacion == JOptionPane.YES_OPTION) {
-                    objR.darDeBajaRubro(Integer.parseInt(txtId2.getText()));
-                    limpiar();
-                    listar("General");
-                    JOptionPane.showMessageDialog(rootPane, "Rubro dado de baja correctamente");
+        if (txtId2.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para dar de baja");
+
+        } else {
+
+            try {
+                        int codigo = Integer.parseInt(txtId2.getText());
+
+                ResultSet listaFf = objR.buscarRubro(codigo);
+
+                while (listaFf.next()) {
+                    if (!listaFf.getBoolean("estado")) {
+                        JOptionPane.showMessageDialog(this, "Ese rubro ya ha sido dado de baja anteriomente");
+                    } else {
+
+                        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea dar de baja esta este rubro?");
+                        if (confirmacion == JOptionPane.YES_OPTION) {
+                            objR.darDeBajaRubro(Integer.parseInt(txtId2.getText()));
+                            limpiar();
+                            listar("General");
+                            JOptionPane.showMessageDialog(rootPane, "rubro dado de baja correctamente");
+                        }
+
+                    }
                 }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+
         }
     }//GEN-LAST:event_btnDarBajaActionPerformed
 
@@ -449,11 +499,47 @@ public class jdRubro extends javax.swing.JDialog {
         listar("General");
     }//GEN-LAST:event_formWindowOpened
 
+    private void btnDarBaja2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBaja2ActionPerformed
+
+        if (txtId2.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para eliminar");
+
+        } else {
+
+            try {
+                int codigo = Integer.parseInt(txtId2.getText());
+
+                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea eliminar este rubro?");
+                if (confirmacion == JOptionPane.YES_OPTION) {
+                    objR.eliminar(Integer.parseInt(txtId2.getText()));
+                    limpiar();
+                    listar("General");
+                    JOptionPane.showMessageDialog(rootPane, "Rubro eliminado correctamente");
+
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e.getMessage() + e.getMessage());
+
+            }
+
+
+    }//GEN-LAST:event_btnDarBaja2ActionPerformed
+    }
+    private void txtId2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtId2KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtId2KeyTyped
+
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+if (txtNombre.getText().length() >= 250) {
+            evt.consume();
+        }    }//GEN-LAST:event_txtNombreKeyTyped
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TablaGuardarda1;
     private javax.swing.JButton btnBuscar1;
     private javax.swing.JButton btnDarBaja;
+    private javax.swing.JButton btnDarBaja2;
     private javax.swing.JButton btnModificaar;
     private javax.swing.JButton btnNuevo1;
     private javax.swing.JButton btnSave;

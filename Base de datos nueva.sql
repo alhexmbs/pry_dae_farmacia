@@ -12,10 +12,10 @@ CREATE TABLE METODO_PAGO (id_metodo_pago SERIAL NOT NULL, metodo_pago varchar(15
 CREATE TABLE FABRICANTE (id_fabricante SERIAL NOT NULL, nombre_fabricante varchar(150) NOT NULL, estado bool NOT NULL, PRIMARY KEY (id_fabricante));
 CREATE TABLE RUBRO (id_rubro SERIAL NOT NULL, nombre_rubro varchar(255) NOT NULL, estado bool NOT NULL, PRIMARY KEY (id_rubro));
 CREATE TABLE TIPO_COMPROBANTE (id_tipo_comprobante SERIAL NOT NULL, tipo_comprobante varchar(50) NOT NULL, PRIMARY KEY (id_tipo_comprobante));
-CREATE TABLE LOTE (id_lote SERIAL NOT NULL, fecha_entrada date NOT NULL, cantidad_lote int4 NOT NULL, precio_compra numeric(10, 2) NOT NULL, numero_lote varchar(100) NOT NULL, estado bool NOT NULL, fecha_vencimiento date NOT NULL, id_usuario int4 NOT NULL, PRIMARY KEY (id_lote));
+CREATE TABLE LOTE (id_lote SERIAL NOT NULL, fecha_entrada date NOT NULL, cantidad_lote int4 NOT NULL, precio_compra numeric(10, 2) NOT NULL, numero_lote varchar(100) NOT NULL, estado bool NOT NULL, fecha_vencimiento date NOT NULL, id_usuario int4 NOT NULL, id_frm_farma int4 NOT NULL, id_producto int4 NOT NULL, PRIMARY KEY (id_lote));
 CREATE TABLE CAJA (id_caja SERIAL NOT NULL, numero_caja varchar(20) NOT NULL, estado bool NOT NULL, PRIMARY KEY (id_caja));
 CREATE TABLE USUARIO_CAJA (id_usuario int4 NOT NULL, id_caja int4 NOT NULL, monto_inicial numeric(10, 2) NOT NULL, monto_final numeric(10, 2) NOT NULL, fecha_hora_apertura timestamp NOT NULL, fecha_hora_cierre timestamp NOT NULL, transacciones_realizadas int4 NOT NULL, PRIMARY KEY (id_usuario, id_caja));
-CREATE TABLE DETALLE_PRODUCTO_FORMA (id_frm_farma int4 NOT NULL, id_producto int4 NOT NULL, stock int4 NOT NULL, precio_venta numeric(10, 2) NOT NULL, estado char(1) NOT NULL, principio_activo varchar(150) NOT NULL, dosis varchar(10) NOT NULL, id_fabricante int4 NOT NULL, id_lote int4 NOT NULL, PRIMARY KEY (id_frm_farma, id_producto));
+CREATE TABLE DETALLE_PRODUCTO_FORMA (id_frm_farma int4 NOT NULL, id_producto int4 NOT NULL, stock int4 NOT NULL, precio_venta numeric(10, 2) NOT NULL, estado char(1) NOT NULL, principio_activo varchar(150) NOT NULL, dosis varchar(10) NOT NULL, id_fabricante int4 NOT NULL, PRIMARY KEY (id_frm_farma, id_producto));
 CREATE TABLE PEDIDO_DETALLE_PRODUCTO_FORMA (id_pedido int4 NOT NULL, id_frm_farma int4 NOT NULL, id_producto int4 NOT NULL, cantidad int4 NOT NULL, precio_unitario numeric(10, 2) NOT NULL, dscto_aplicado int4 NOT NULL, precio_final numeric(10, 2) NOT NULL, PRIMARY KEY (id_pedido, id_frm_farma, id_producto));
 ALTER TABLE USUARIO ADD CONSTRAINT FKUSUARIO4727 FOREIGN KEY (id_rol) REFERENCES ROL (id_rol);
 ALTER TABLE PEDIDO ADD CONSTRAINT FKPEDIDO686910 FOREIGN KEY (id_usuario) REFERENCES USUARIO (id_usuario);
@@ -37,13 +37,13 @@ ALTER TABLE USUARIO_CAJA ADD CONSTRAINT FKUSUARIO_CA801807 FOREIGN KEY (id_caja)
 ALTER TABLE DETALLE_PRODUCTO_FORMA ADD CONSTRAINT FKDETALLE_PR312525 FOREIGN KEY (id_frm_farma) REFERENCES FORMA_FARMACEUTICA (id_frm_farma);
 ALTER TABLE DETALLE_PRODUCTO_FORMA ADD CONSTRAINT FKDETALLE_PR73294 FOREIGN KEY (id_producto) REFERENCES PRODUCTO_FARMACEUTICO (id_producto);
 ALTER TABLE DETALLE_PRODUCTO_FORMA ADD CONSTRAINT FKDETALLE_PR728963 FOREIGN KEY (id_fabricante) REFERENCES FABRICANTE (id_fabricante);
-ALTER TABLE DETALLE_PRODUCTO_FORMA ADD CONSTRAINT FKDETALLE_PR2226 FOREIGN KEY (id_lote) REFERENCES LOTE (id_lote);
 ALTER TABLE PEDIDO_DETALLE_PRODUCTO_FORMA ADD CONSTRAINT FKPEDIDO_DET309548 FOREIGN KEY (id_pedido) REFERENCES PEDIDO (id_pedido);
 ALTER TABLE PEDIDO_DETALLE_PRODUCTO_FORMA ADD CONSTRAINT FKPEDIDO_DET993544 FOREIGN KEY (id_frm_farma, id_producto) REFERENCES DETALLE_PRODUCTO_FORMA (id_frm_farma, id_producto);
 ALTER TABLE PRODUCTO_FARMACEUTICO ADD CONSTRAINT FKPRODUCTO_F552915 FOREIGN KEY (id_rubro) REFERENCES RUBRO (id_rubro);
+ALTER TABLE LOTE ADD CONSTRAINT FKLOTE901019 FOREIGN KEY (id_frm_farma, id_producto) REFERENCES DETALLE_PRODUCTO_FORMA (id_frm_farma, id_producto);
 
--- INSERTS PRUEBA
 
+--inserts
 INSERT INTO TIPO_DOC VALUES (1, 'DNI');
 
 INSERT INTO ROL VALUES (1, 'Administrador', 'El que administra', TRUE);

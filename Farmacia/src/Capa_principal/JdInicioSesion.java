@@ -1,6 +1,8 @@
 package Capa_principal;
 
+import capa_negocio.Funciones;
 import capa_negocio.Usuario;
+import java.sql.Timestamp;
 import java.util.Random;
 import javax.swing.JOptionPane;
 
@@ -204,41 +206,116 @@ public final class JdInicioSesion extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-
+//        String usuario = txtUsuario.getText();
+//        String contraseña = txtContraseña.getText();
+//
+//        try {
+//            if (txtValidacion.getText().equals(lblCaptcha.getText())) {
+//
+//                nombreUsuario = objUsuario.login(usuario, contraseña);
+//                rol = objUsuario.cargo(usuario, contraseña);
+//                Timestamp ultimo = objUsuario.ultimoLogin(usuario, contraseña);
+//                System.out.println(rol);
+//                System.out.println("Ultimo: "+ultimo);
+//                if (nombreUsuario.equals("")) {
+//
+//                    intentos++;
+//                    JOptionPane.showMessageDialog(this, "El logeo no es el correcto. Intento " + intentos + " de 3", "Sistema", JOptionPane.ERROR_MESSAGE);
+//                    txtValidacion.setText("");
+//                    generarCaptcha();
+//                    
+//                    if (intentos >= 3) {
+//                        JOptionPane.showMessageDialog(this, "Demasiados intentos fallidos. Cerrando sistema...", "Sistema", JOptionPane.ERROR_MESSAGE);
+//                        System.exit(0);
+//                    }
+//
+//                } else {
+//
+//                    JOptionPane.showMessageDialog(null, nombreUsuario + ", Bienvenido al sistema! ");
+//                    this.dispose();
+//                    
+//                    if(ultimo == null){
+//                        JOptionPane.showMessageDialog(null, "Primer login al sistema");
+//                        jdCambiarContrasena objCam = new jdCambiarContrasena(null, true);
+//                        objCam.user = nombreUsuario;
+//                        objCam.setLocationRelativeTo(this);
+//                        objCam.setVisible(true);
+//                    }else{
+//                        frmFarmacia farmacia = new frmFarmacia(rol);
+//                        farmacia.setVisible(true);
+//                    }
+//                    
+////                    frmFarmacia farmacia = new frmFarmacia(rol);
+////                    farmacia.setVisible(true);
+//                }
+//
+//            } else {
+//
+//                intentos++;
+//                JOptionPane.showMessageDialog(this, "El captcha no es el correcto. Intento " + intentos + " de 3", "Sistema", JOptionPane.ERROR_MESSAGE);
+//                txtValidacion.setText("");
+//                generarCaptcha();
+//                if (intentos >= 3) {
+//                    JOptionPane.showMessageDialog(this, "Demasiados intentos fallidos. Cerrando sistema...", "Sistema", JOptionPane.ERROR_MESSAGE);
+//                    System.exit(0);
+//                }
+//            }
+//
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(null, e.getMessage());
+//        }
         String usuario = txtUsuario.getText();
         String contraseña = txtContraseña.getText();
 
         try {
-
+            // Verifica el captcha primero
             if (txtValidacion.getText().equals(lblCaptcha.getText())) {
 
-                nombreUsuario = objUsuario.login(usuario, contraseña);
-                rol = objUsuario.cargo(usuario, contraseña);
-                System.out.println(rol);
-                if (nombreUsuario.equals("")) {
+                // Primero, verifica el estado del usuario
+                boolean estadoUsuario = objUsuario.obtenerEstadoUserStringMD5(usuario);
 
-                    intentos++;
-                    JOptionPane.showMessageDialog(this, "El logeo no es el correcto. Intento " + intentos + " de 3", "Sistema", JOptionPane.ERROR_MESSAGE);
-                    txtValidacion.setText("");
-                    generarCaptcha();
-                    
-                    if (intentos >= 3) {
-                        JOptionPane.showMessageDialog(this, "Demasiados intentos fallidos. Cerrando sistema...", "Sistema", JOptionPane.ERROR_MESSAGE);
-                        System.exit(0);
+                if (estadoUsuario) {
+                    // Intenta hacer login con MD5
+                    objUsuario.loginMD5(usuario, contraseña);
+
+                    // Verifica si el login fue exitoso
+                    if (Funciones.USUARIO_INICIO_SESION.equals("")) {
+                        intentos++;
+                        JOptionPane.showMessageDialog(this, "El logeo no es correcto. Intento " + intentos + " de 3", "Sistema", JOptionPane.ERROR_MESSAGE);
+                        txtValidacion.setText("");
+                        generarCaptcha();
+
+                        if (intentos >= 3) {
+                            JOptionPane.showMessageDialog(this, "Demasiados intentos fallidos. Cerrando sistema...", "Sistema", JOptionPane.ERROR_MESSAGE);
+                            System.exit(0);
+                        }
+                    } else {
+                        // Login exitoso
+                        JOptionPane.showMessageDialog(null, Funciones.USUARIO_INICIO_SESION + ", ¡Bienvenido al sistema!");
+
+                        // Verifica si es el primer login
+                        Timestamp ultimoLogin = objUsuario.ultimoLogin(usuario, contraseña);
+                        if (ultimoLogin == null) {
+                            JOptionPane.showMessageDialog(null, "Primer login al sistema. Debe cambiar su contraseña.");
+                            jdCambiarContrasena objCam = new jdCambiarContrasena(null, true);
+                            objCam.user = usuario;
+                            objCam.setLocationRelativeTo(this);
+                            objCam.setVisible(true);
+                        } else {
+                            // Muestra el formulario principal
+                            frmFarmacia farmacia = new frmFarmacia(objUsuario.cargo(usuario, contraseña));
+                            farmacia.setVisible(true);
+                        }
+                        this.dispose(); // Cierra el formulario de login
                     }
-
                 } else {
-
-                    JOptionPane.showMessageDialog(null, nombreUsuario + ", Bienvenido al sistema! ");
-                    this.dispose();
-                    frmFarmacia farmacia = new frmFarmacia(rol);
-                    farmacia.setVisible(true);
+                    JOptionPane.showMessageDialog(this, "El usuario no está activo o no existe.", "Sistema", JOptionPane.ERROR_MESSAGE);
                 }
 
             } else {
-
+                // Captcha incorrecto
                 intentos++;
-                JOptionPane.showMessageDialog(this, "El captcha no es el correcto. Intento " + intentos + " de 3", "Sistema", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "El captcha no es correcto. Intento " + intentos + " de 3", "Sistema", JOptionPane.ERROR_MESSAGE);
                 txtValidacion.setText("");
                 generarCaptcha();
                 if (intentos >= 3) {
@@ -250,7 +327,6 @@ public final class JdInicioSesion extends javax.swing.JDialog {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnValidarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValidarActionPerformed

@@ -34,13 +34,27 @@ public class Cliente {
             throw new Exception("Error al filtrar clientes por ID --> " + ex.getMessage());
         }
     }
-    
-     public int buscarClientePorDoc(String nroDoc) throws Exception {
-        strSQL = "SELECT ID_CLIENTE FROM CLIENTE WHERE NRO_DOCUMENTO = '"+nroDoc+"'";
+
+    public ResultSet filtrarClientes(String dni) throws Exception {
+        strSQL = "select * \n"
+                + "from cliente cl \n"
+                + "inner join tipo_doc td on cl.id_tipo_doc = td.id_tipo_doc\n"
+                + "where cl.nro_documento like '%"+dni+"%'";
+
+        try {
+            rs = objConectar.consultarBD(strSQL);
+            return rs;
+        } catch (Exception ex) {
+            throw new Exception("Error al listar clientes --> " + ex.getMessage());
+        }
+    }
+
+    public int buscarClientePorDoc(String nroDoc) throws Exception {
+        strSQL = "SELECT ID_CLIENTE FROM CLIENTE WHERE NRO_DOCUMENTO = '" + nroDoc + "'";
         int idCliente = 0;
         try {
             rs = objConectar.consultarBD(strSQL);
-            if(rs.next()){
+            if (rs.next()) {
                 return rs.getInt("ID_CLIENTE");
             }
         } catch (Exception ex) {
@@ -83,7 +97,6 @@ public class Cliente {
 //            throw new Exception("Error al modificar cliente --> " + ex.getMessage());
 //        }
 //    }
-    
     public void insertarCliente(int idCliente, String numDoc, String nombre, String apePaterno, String apeMaterno, String fechaNac, boolean sexo, String email, int idTipoDoc, boolean estado) throws Exception {
         strSQL = "insert into cliente values (" + idCliente + ", '" + numDoc + "', '" + nombre + "', '" + apePaterno + "', '" + apeMaterno + "', '" + fechaNac + "', " + sexo + ", '" + email + "', " + estado + ", " + idTipoDoc + ")";
 
@@ -104,6 +117,16 @@ public class Cliente {
         }
     }
 
+    public void darBajaCliente(int idCliente) throws Exception {
+        strSQL = "update cliente set estado = false where id_cliente = " + idCliente;
+        
+        try{
+            objConectar.ejecutarBd(strSQL);
+        }catch(Exception ex){
+            throw new Exception("Error al dar de baja cliente --> " + ex.getMessage());
+        }
+    }
+    
     public void eliminarCliente(int idCliente) throws Exception {
         strSQL = "delete from cliente where id_cliente = " + idCliente;
 
@@ -129,5 +152,20 @@ public class Cliente {
         return 0;
     }
     
+    public boolean obtenerEstado(int idCliente) throws Exception {
+        strSQL = "select * from cliente cl inner join tipo_doc td on cl.id_tipo_doc = td.id_tipo_doc where cl.id_cliente = " + idCliente;
+        
+        try{
+            rs = objConectar.consultarBD(strSQL);
+            if(rs.next()){
+                return rs.getBoolean("estado");
+            }
+        }catch(Exception ex){
+            throw new Exception("Error al obtener el estado del cliente --> " + ex.getMessage());
+        }
+        
+        return false;
+    }
+
     //888
 }

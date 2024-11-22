@@ -1,5 +1,4 @@
 package capa_negocio;
-
 import capaDatos.datos;
 import java.sql.*;
 
@@ -68,7 +67,6 @@ public class Rubro {
     }
 
     public void modificarRubro(int id_rubro, String nombre_rubro, boolean estado) throws Exception {
-        // Corregir la concatenación de la cadena SQL
         strsql = "UPDATE RUBRO SET nombre_rubro = '" + nombre_rubro + "', estado = " + estado + " WHERE id_rubro = " + id_rubro;
 
         try {
@@ -78,14 +76,25 @@ public class Rubro {
         }
     }
 
-    public void eliminarRubro(int id_rubro) throws Exception {
-        strsql = "DELETE FROM RUBRO WHERE id_rubro = " + id_rubro;
+    
+    
+    public void eliminar(Integer cod) throws Exception {
+        String verificarSql = "SELECT COUNT(*) FROM producto_farmaceutico WHERE id_rubro = " + cod;
+
+        String eliminarSql = "DELETE FROM RUBRO WHERE id_rubro = " + cod;
+
         try {
-            objconectar.ejecutarBd(strsql);
+            ResultSet rs = objconectar.consultarBD(verificarSql);
+            if (rs.next() && rs.getInt(1) == 0) {
+                objconectar.ejecutarBd(eliminarSql);
+            } else {
+                throw new Exception("No se puede eliminar: el rubro está siendo nombrada en un producto.");
+            }
         } catch (Exception e) {
             throw new Exception("Error al eliminar rubro --> " + e.getMessage());
         }
-    }
+}
+    
 
     public Integer obtenerCodigoRubro(String nombre) throws Exception {
         strsql = "SELECT id_rubro FROM RUBRO WHERE nombre_rubro = '" + nombre + "'";
@@ -100,7 +109,6 @@ public class Rubro {
         return 0;
     }
 
-    // Dar de baja un rubro actualizando el estado a false
     public void darDeBajaRubro(int id_rubro) throws Exception {
         strsql = "UPDATE RUBRO SET estado = FALSE WHERE id_rubro = " + id_rubro;
         try {

@@ -34,6 +34,17 @@ public class Fabricante {
             throw new Exception("Error al listar fabricantes --> " + e.getMessage());
         }
     }
+    
+    public ResultSet listarFabricantes() throws Exception {
+        strsql = "SELECT * FROM FABRICANTE";
+
+        try {
+            rs = objconectar.consultarBD(strsql);
+            return rs;
+        } catch (Exception e) {
+            throw new Exception("Error al listar fabricantes --> " + e.getMessage());
+        }
+    }
 
     public ResultSet buscarFabricante(int id_fabricante) throws Exception {
         strsql = "SELECT * FROM FABRICANTE WHERE id_fabricante = " + id_fabricante;
@@ -77,15 +88,25 @@ public class Fabricante {
             throw new Exception("Error al modificar fabricante --> " + e.getMessage());
         }
     }
+    
+      public void eliminar(Integer cod) throws Exception {
+        String verificarSql = "SELECT COUNT(*) FROM detalle_producto_forma WHERE id_fabricante = " + cod;
 
-    public void eliminarFabricante(int id_fabricante) throws Exception {
-        strsql = "DELETE FROM FABRICANTE WHERE id_fabricante = " + id_fabricante;
+        String eliminarSql = "DELETE FROM FABRICANTE WHERE id_fabricante = " + cod;
+
         try {
-            objconectar.ejecutarBd(strsql);
+            ResultSet rs = objconectar.consultarBD(verificarSql);
+            if (rs.next() && rs.getInt(1) == 0) {
+                objconectar.ejecutarBd(eliminarSql);
+            } else {
+                throw new Exception("No se puede eliminar: el rubro este fabricante nombrada en un producto.");
+            }
         } catch (Exception e) {
-            throw new Exception("Error al eliminar fabricante --> " + e.getMessage());
+            throw new Exception("Error al eliminar rubro --> " + e.getMessage());
         }
-    }
+}
+
+   
 
     public int obtenerIdFabricantePorNombre(String nombreFabricante) throws Exception {
         strsql = "SELECT id_fabricante FROM FABRICANTE WHERE nombre_fabricante = '" + nombreFabricante + "'";
@@ -101,7 +122,6 @@ public class Fabricante {
 
     }
 
-    // Dar de baja un fabricante actualizando el estado a false
     public void darDeBajaFabricante(int id_fabricante) throws Exception {
         strsql = "UPDATE FABRICANTE SET estado = FALSE WHERE id_fabricante = " + id_fabricante;
         try {

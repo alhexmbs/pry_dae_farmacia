@@ -67,7 +67,6 @@ public class jdManCliente extends javax.swing.JDialog {
         jdateFechaNacCliente = new com.toedter.calendar.JDateChooser();
         jLabel1 = new javax.swing.JLabel();
         chkVigenciaCliente = new javax.swing.JCheckBox();
-        btnSimular = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
         txtFiltrarID = new javax.swing.JTextField();
@@ -281,17 +280,6 @@ public class jdManCliente extends javax.swing.JDialog {
                     .addContainerGap(147, Short.MAX_VALUE)))
         );
 
-        btnSimular.setBackground(new java.awt.Color(236, 177, 89));
-        btnSimular.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnSimular.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/simular.png"))); // NOI18N
-        btnSimular.setText("SIMULAR DATOS");
-        btnSimular.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btnSimular.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSimularActionPerformed(evt);
-            }
-        });
-
         jPanel3.setBackground(new java.awt.Color(246, 244, 235));
 
         jLabel23.setText("Buscar ID:");
@@ -441,9 +429,7 @@ public class jdManCliente extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnSimular, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
@@ -452,11 +438,8 @@ public class jdManCliente extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnSimular, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
@@ -523,6 +506,7 @@ public class jdManCliente extends javax.swing.JDialog {
         
         ResultSet rs = null;
         String vigencia = "";
+        String sexo = "";
         try{
             rs = objC.listarTodosCliente();
             while(rs.next()){
@@ -533,6 +517,12 @@ public class jdManCliente extends javax.swing.JDialog {
                     vigencia = "No Vigente";
                 }
                 
+                if(rs.getString("sexo").equals("t")){
+                    sexo = "Masculino";
+                }else{
+                    sexo = "Femenino";
+                }
+                
                 Object[] fila = new Object[10];
                 fila[0] = rs.getInt("id_cliente");
                 fila[1] = rs.getString("tipo_doc");
@@ -541,7 +531,7 @@ public class jdManCliente extends javax.swing.JDialog {
                 fila[4] = rs.getString("ape_paterno");
                 fila[5] = rs.getString("ape_materno");
                 fila[6] = rs.getDate("fecha_nacimiento");
-                fila[7] = rs.getString("sexo");
+                fila[7] = sexo;
                 fila[8] = rs.getString("email");
                 fila[9] = vigencia;
                 
@@ -653,6 +643,31 @@ public class jdManCliente extends javax.swing.JDialog {
         }
     }
     
+    private void darBaja(){
+        try{
+            if(txtIDCliente.getText().equals("")){
+                JOptionPane.showMessageDialog(this, "Por favor ingrese el ID del cliente", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                int rpta = JOptionPane.showConfirmDialog(this, "¿Desea dar de baja al siguiente cliente?", "Seleccione una opción", JOptionPane.YES_NO_OPTION);
+                
+                if(rpta == 0){
+                    int idCliente = Integer.parseInt(txtIDCliente.getText());
+                    if(objC.obtenerEstado(idCliente)){
+                        objC.darBajaCliente(idCliente);
+                        JOptionPane.showMessageDialog(this, "El cliente fue dado de baja exitosamente", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+                    }else{
+                        JOptionPane.showMessageDialog(this, "El cliente ya se encuentra dado de baja", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    
+                    limpiarFormulario();
+                    listarClientes();
+                }
+            }
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this, "Error al intentar dar de baja al cliente", "Ocurrió un error inesperado", JOptionPane.ERROR_MESSAGE);            
+        }
+    }
+    
     private void eliminar(){
         try{
             if(txtIDCliente.getText().equals("")){
@@ -708,11 +723,6 @@ public class jdManCliente extends javax.swing.JDialog {
         }
     }
     
-    private void btnSimularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimularActionPerformed
-
-   
-    }//GEN-LAST:event_btnSimularActionPerformed
-
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
 
         buscarCliente();
@@ -734,7 +744,7 @@ public class jdManCliente extends javax.swing.JDialog {
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBajaActionPerformed
-       
+        darBaja();
     }//GEN-LAST:event_btnDarBajaActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
@@ -851,7 +861,6 @@ public class jdManCliente extends javax.swing.JDialog {
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnNuevo;
-    private javax.swing.JButton btnSimular;
     private javax.swing.JComboBox<String> cboTipoDoc;
     private javax.swing.JCheckBox chkVigenciaCliente;
     private javax.swing.JLabel jLabel1;

@@ -1,15 +1,20 @@
 package capa_negocio;
 
 import capaDatos.datos;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JTable;
 
 public class Pedido {
 
     datos objConectar = new datos();
     String strSQL;
+    private Connection con;
     ResultSet rs = null;
 
-    
     public int genenrarIDpedido() throws Exception {
         strSQL = "select coalesce(max(id_pedido),0)+1 as idPedido from pedido";
 
@@ -32,6 +37,71 @@ public class Pedido {
             return rs;
         } catch (Exception e) {
             throw new Exception("Error al obtener los detalles del pedido -->" + e.getMessage());
+        }
+    }
+
+    public void registrarVenta(int idPedido, float total, int usuario, int cliente, JTable tblDetalle) throws Exception {
+        try {
+            objConectar.conectar();
+            con = objConectar.getCon();
+            con.setAutoCommit(false);
+
+            // Inserción del pedido
+            String sqlProyecto = "INSERT INTO public.pedido(\n"
+                    + " fecha_hora, estado_pedido, subtotal, id_usuario, id_cliente)\n"
+                    + " VALUES (CURRENT_TIMESTAMP, ?, ?, ?, ?);";
+            try (PreparedStatement psProyecto = con.prepareStatement(sqlProyecto, Statement.RETURN_GENERATED_KEYS)) {
+                psProyecto.setString(1, "Pendiente");
+                psProyecto.setFloat(2, total);
+                psProyecto.setInt(3, usuario);
+                psProyecto.setInt(4, cliente);
+                psProyecto.executeUpdate();
+
+                // Inserción del detalle del pedido
+                String sqlDetalle = "INSERT INTO public.pedido_detalle_producto_forma(\n"
+                        + " id_pedido, id_frm_farma, id_producto, cantidad, precio_unitario, dscto_aplicado, precio_final)\n"
+                        + " VALUES (?, ?, ?, ?, ?, ?, ?);";
+                try (PreparedStatement psDocente = con.prepareStatement(sqlDetalle)) {
+                    int totalDocentes = tblDetalle.getRowCount();
+                    for (int i = 0; i < totalDocentes; i++) {
+                        // Validar datos antes de procesarlos
+                        if (tblDetalle.getValueAt(i, 0) == null || tblDetalle.getValueAt(i, 0).toString().isEmpty()) {
+                            throw new Exception("Datos incompletos en la fila " + i);
+                        }
+
+                        // Extraer y procesar datos
+                        int id_frm_forma = Integer.parseInt(tblDetalle.getValueAt(i, 0).toString());
+                        int id_producto = Integer.parseInt(tblDetalle.getValueAt(i, 1).toString());
+                        int cantidad = Integer.parseInt(tblDetalle.getValueAt(i, 2).toString());
+                        float precio_unitario = Float.parseFloat(tblDetalle.getValueAt(i, 3).toString());
+                        String[] descuentos = tblDetalle.getValueAt(i, 4).toString().split(",");
+                        float descuento = precio_unitario * (Float.parseFloat(descuentos[0]) / 100);
+                        float dscto_aplicado = descuento;
+                        float precio_final = precio_unitario - descuento;
+
+                        // Asignar valores al PreparedStatement
+                        psDocente.setInt(1, idPedido);
+                        psDocente.setInt(2, id_frm_forma);
+                        psDocente.setInt(3, id_producto);
+                        psDocente.setInt(4, cantidad);
+                        psDocente.setFloat(5, precio_unitario);
+                        psDocente.setFloat(6, dscto_aplicado);
+                        psDocente.setFloat(7, precio_final);
+                        psDocente.addBatch();
+                    }
+                    psDocente.executeBatch();
+                }
+
+                // Confirmar la transacción
+                con.commit();
+            }
+        } catch (Exception e) {
+            if (con != null) {
+                con.rollback(); // Deshacer la transacción en caso de error
+            }
+            throw new Exception("Error al registrar la venta y sus detalles: " + e.getMessage());
+        } finally {
+            objConectar.desconectar(); // Desconectar siempre de la base de datos
         }
     }
 
