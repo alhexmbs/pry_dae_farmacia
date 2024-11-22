@@ -63,7 +63,6 @@ public class jdMantComprobante extends javax.swing.JDialog {
         txtIDClienteBusqueda = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         btnBuscarIDCliente = new javax.swing.JButton();
-        btnImprimir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Comprobantes");
@@ -204,16 +203,6 @@ public class jdMantComprobante extends javax.swing.JDialog {
             }
         });
 
-        btnImprimir.setBackground(new java.awt.Color(236, 177, 89));
-        btnImprimir.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/simular.png"))); // NOI18N
-        btnImprimir.setText("IMPRIMIR");
-        btnImprimir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnImprimirActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -226,13 +215,11 @@ public class jdMantComprobante extends javax.swing.JDialog {
                         .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(53, 53, 53)
                         .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -240,8 +227,9 @@ public class jdMantComprobante extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtIDClienteBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnBuscarIDCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                .addGap(50, 50, 50))
+                                .addComponent(btnBuscarIDCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(44, 44, 44))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -261,10 +249,9 @@ public class jdMantComprobante extends javax.swing.JDialog {
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLimpiar)
                     .addComponent(btnEliminar))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -308,28 +295,28 @@ public class jdMantComprobante extends javax.swing.JDialog {
         modelo.addColumn("ID Pedido");
 
         try {
-            // Obtener los datos de la base de datos
+            
             ResultSet rs = objCompro.listarComprobantes();
 
-            // Recorrer el ResultSet y añadir los datos a la tabla
+            
             while (rs.next()) {
-                Object datos[] = new Object[8];  // Ajustar según el número de columnas
+                Object datos[] = new Object[8];  
 
-                // Llenar los datos sin el nombre del cliente
-                datos[0] = rs.getInt("id_comprobante");  // ID Comprobante
-                datos[1] = rs.getString("serie_nro_comprobante");  // Serie
-                datos[2] = rs.getDate("fecha_hora");  // Fecha Emisión
-                datos[3] = rs.getFloat("importe_total");  // Importe Total
-                datos[4] = rs.getInt("id_cliente");  // ID Cliente
-                datos[5] = rs.getInt("id_usuario");  // ID Usuario
-                datos[6] = rs.getString("tipo_comprobante");  // Tipo Comprobante
-                datos[7] = rs.getInt("id_pedido");  // ID Pedido
+                
+                datos[0] = rs.getInt("id_comprobante");  
+                datos[1] = rs.getString("serie_nro_comprobante");  
+                datos[2] = rs.getDate("fecha_hora");  
+                datos[3] = rs.getFloat("importe_total");  
+                datos[4] = rs.getInt("id_cliente");  
+                datos[5] = rs.getInt("id_usuario");  
+                datos[6] = rs.getString("tipo_comprobante");  
+                datos[7] = rs.getInt("id_pedido");  
 
-                // Añadir la fila al modelo
+              
                 modelo.addRow(datos);
             }
 
-            // Asignar el modelo a la tabla
+            
             TablaComprobante.setModel(modelo);
 
         } catch (Exception e) {
@@ -340,24 +327,24 @@ public class jdMantComprobante extends javax.swing.JDialog {
 
     private void listarTipoComprobante() {
         ResultSet rsTipo = null;
-        DefaultComboBoxModel modelo = new DefaultComboBoxModel();  // Crear el modelo para el ComboBox
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel(); 
 
         try {
-            // Llamar al método listarTiposComprobante() para obtener los tipos de comprobante desde la base de datos
+            
             rsTipo = objCompro.listarTiposComprobante();
 
-            // Recorrer el ResultSet y agregar cada tipo de comprobante al modelo del ComboBox
+            
             while (rsTipo.next()) {
-                modelo.addElement(rsTipo.getString("tipo_comprobante"));  // Agregar el tipo de comprobante (columna en la BD)
+                modelo.addElement(rsTipo.getString("tipo_comprobante"));  
             }
 
-            // Asignar el modelo al ComboBox
+            
             cbTipoComprobante.setModel(modelo);
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al listar tipos de comprobante: " + e.getMessage());
         } finally {
-            // Cerrar el ResultSet
+            
             if (rsTipo != null) {
                 try {
                     rsTipo.close();
@@ -381,16 +368,16 @@ public class jdMantComprobante extends javax.swing.JDialog {
             } else {
                 int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea eliminar este comprobante?");
                 if (confirmacion == JOptionPane.YES_OPTION) {
-                    // Llamar al método eliminarComprobante
+                    
                     objCompro.eliminarComprobante(Integer.parseInt(txtNComprobante.getText()));
 
-                    // Limpiar el formulario
+                    
                     limpiarFormulario();
 
-                    // Refrescar la lista de comprobantes
+                    
                     listarComprobantes();
 
-                    // Mensaje de éxito
+                    
                     JOptionPane.showMessageDialog(this, "Comprobante eliminado correctamente");
                 }
             }
@@ -420,7 +407,7 @@ public class jdMantComprobante extends javax.swing.JDialog {
             ResultSet rs = objCompro.buscarComprobantePorCliente(idCliente);
 
             while (rs.next()) {
-                Object[] fila = new Object[8];  // Ajusta según el número de columnas que tengas
+                Object[] fila = new Object[8];  
                 fila[0] = rs.getInt("id_comprobante");
 
                 fila[1] = rs.getString("serie_nro_comprobante");
@@ -511,17 +498,11 @@ public class jdMantComprobante extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_TablaComprobanteMouseClicked
 
-    private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
-        jdImpresionDemo impresion = new jdImpresionDemo(null, true, serie, fecha, importe, cliente, tipo_comprobante, id_pedido, username);
-        impresion.setVisible(true);
-    }//GEN-LAST:event_btnImprimirActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TablaComprobante;
     private javax.swing.JButton btnBuscarIDCliente;
     private javax.swing.JButton btnEliminar;
-    private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JComboBox<String> cbTipoComprobante;
     private javax.swing.JLabel jLabel1;
