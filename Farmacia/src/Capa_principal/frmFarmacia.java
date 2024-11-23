@@ -51,6 +51,9 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenu9 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenu10 = new javax.swing.JMenu();
+        jMenuItem23 = new javax.swing.JMenuItem();
+        jMenuItem24 = new javax.swing.JMenuItem();
+        jMenuItem25 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenuItem11 = new javax.swing.JMenuItem();
         jMenuItem12 = new javax.swing.JMenuItem();
@@ -239,6 +242,15 @@ public class frmFarmacia extends javax.swing.JFrame {
 
         jMenu10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/reporte.png"))); // NOI18N
         jMenu10.setText("Reportes");
+
+        jMenuItem23.setText("Reporte de ventas mensuales");
+        jMenu10.add(jMenuItem23);
+
+        jMenuItem24.setText("Reporte de perdida por productos caducados");
+        jMenu10.add(jMenuItem24);
+
+        jMenuItem25.setText("Reporte productos más comprados por mes");
+        jMenu10.add(jMenuItem25);
 
         jMenuItem10.setText("Reporte de ventas");
         jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
@@ -586,6 +598,9 @@ public class frmFarmacia extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem20;
     private javax.swing.JMenuItem jMenuItem21;
     private javax.swing.JMenuItem jMenuItem22;
+    private javax.swing.JMenuItem jMenuItem23;
+    private javax.swing.JMenuItem jMenuItem24;
+    private javax.swing.JMenuItem jMenuItem25;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;

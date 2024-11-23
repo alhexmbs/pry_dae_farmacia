@@ -16,11 +16,17 @@ public class Lote {
 
 public ResultSet listarLotes(String filtro) throws Exception {
     strsql = """
-              SELECT l.*, fm.forma_farmaceutica, p.nombre FROM LOTE l
-              INNER JOIN USUARIO u ON l.id_usuario = u.id_usuario
-              INNER JOIN DETALLE_PRODUCTO_FORMA dp ON l.id_frm_farma = dp.id_frm_farma AND l.id_producto = dp.id_producto
-             inner join producto_farmaceutico p on dp.id_producto = l.id_producto
-             inner join forma_farmaceutica fm ON fm.id_frm_farma = dp.id_frm_farma
+           SELECT l.*, fm.forma_farmaceutica, p.nombre FROM 
+                  LOTE l
+              INNER JOIN 
+                  USUARIO u ON l.id_usuario = u.id_usuario
+              INNER JOIN 
+                  DETALLE_PRODUCTO_FORMA dp ON l.id_frm_farma = dp.id_frm_farma 
+                                            AND l.id_producto = dp.id_producto
+              INNER JOIN 
+                  PRODUCTO_FARMACEUTICO p ON dp.id_producto = p.id_producto
+              INNER JOIN 
+                  FORMA_FARMACEUTICA fm ON dp.id_frm_farma = fm.id_frm_farma;
            
              """;
 
@@ -112,6 +118,7 @@ public ResultSet listarLotes(String filtro) throws Exception {
         }
     }
 
+    
     public void eliminarLote(int id_lote) throws Exception {
     String verificarSql = "SELECT COUNT(*) FROM PEDIDO_DETALLE_PRODUCTO_FORMA WHERE id_lote = " + id_lote;
     String eliminarSql = "DELETE FROM LOTE WHERE id_lote = " + id_lote;
