@@ -134,7 +134,6 @@ public class jdLote extends javax.swing.JDialog {
         cboFiltros = new javax.swing.JComboBox<>();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblFf = new javax.swing.JTable();
-        btnDarBaja1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
         tblDetalle = new javax.swing.JTable();
@@ -213,6 +212,11 @@ public class jdLote extends javax.swing.JDialog {
         txtPrecioCompra.setBackground(new java.awt.Color(239, 237, 220));
 
         txtNumeroLote.setBackground(new java.awt.Color(239, 237, 220));
+        txtNumeroLote.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNumeroLoteKeyTyped(evt);
+            }
+        });
 
         jLabel5.setText("Producto - Tipo:");
 
@@ -383,21 +387,10 @@ public class jdLote extends javax.swing.JDialog {
         });
         jScrollPane4.setViewportView(tblFf);
 
-        btnDarBaja1.setBackground(new java.awt.Color(236, 177, 89));
-        btnDarBaja1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnDarBaja1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/delete.png"))); // NOI18N
-        btnDarBaja1.setText("ELIMINAR");
-        btnDarBaja1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btnDarBaja1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDarBaja1ActionPerformed(evt);
-            }
-        });
-
         jPanel3.setBackground(new java.awt.Color(170, 215, 217));
 
         tblDetalle.setAutoCreateRowSorter(true);
-        tblDetalle.setBackground(new java.awt.Color(170, 215, 217));
+        tblDetalle.setBackground(new java.awt.Color(239, 237, 220));
         tblDetalle.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -465,7 +458,6 @@ public class jdLote extends javax.swing.JDialog {
                             .addComponent(btnedit, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnlimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnDarBaja1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnDarBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(22, Short.MAX_VALUE))
@@ -478,15 +470,13 @@ public class jdLote extends javax.swing.JDialog {
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(52, 52, 52)
-                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnedit, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnlimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnedit, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnDarBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnlimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnDarBaja1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnDarBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel24)
@@ -760,28 +750,29 @@ public class jdLote extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCantidadActionPerformed
 
-    private void btnDarBaja1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBaja1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnDarBaja1ActionPerformed
-
     private void tblDetalleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDetalleMouseClicked
-        String formaFar=(String.valueOf(tblDetalle.getValueAt(tblDetalle.getSelectedRow(), 0)));
-        String producto =(String.valueOf(tblDetalle.getValueAt(tblDetalle.getSelectedRow(), 1)));
-        cboProducto_tipo.setSelectedItem(formaFar+ " - " + producto);
+        String formaFar = (String.valueOf(tblDetalle.getValueAt(tblDetalle.getSelectedRow(), 0)));
+        String producto = (String.valueOf(tblDetalle.getValueAt(tblDetalle.getSelectedRow(), 1)));
+        cboProducto_tipo.setSelectedItem(formaFar + " - " + producto);
 
     }//GEN-LAST:event_tblDetalleMouseClicked
 
     private void tblFfMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblFfMouseClicked
-        String id=(String.valueOf(tblFf.getValueAt(tblFf.getSelectedRow(), 0)));
+        String id = (String.valueOf(tblFf.getValueAt(tblFf.getSelectedRow(), 0)));
         txtId.setText(id);
         btnBuscarActionPerformed(null);
     }//GEN-LAST:event_tblFfMouseClicked
+
+    private void txtNumeroLoteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumeroLoteKeyTyped
+        if (txtNumeroLote.getText().length() >= 7) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNumeroLoteKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnDarBaja;
-    private javax.swing.JButton btnDarBaja1;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnedit;
     private javax.swing.JButton btnlimpiar;
