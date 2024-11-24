@@ -88,7 +88,7 @@
     <Container class="javax.swing.JPanel" name="jPanel2">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="d9" green="d7" red="aa" type="rgb"/>
+          <Color blue="eb" green="f4" red="f6" type="rgb"/>
         </Property>
       </Properties>
 
@@ -116,7 +116,7 @@
         <Container class="javax.swing.JPanel" name="jPanel1">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="cc" green="ff" red="ff" type="rgb"/>
+              <Color blue="d9" green="d7" red="aa" type="rgb"/>
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -216,7 +216,7 @@
             <Component class="javax.swing.JRadioButton" name="rbtnConReceta">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="d9" green="d7" red="aa" type="rgb"/>
+                  <Color blue="dc" green="ed" red="ef" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Con Receta"/>
               </Properties>
@@ -224,7 +224,7 @@
             <Component class="javax.swing.JRadioButton" name="rbtnSinReceta">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="d9" green="d7" red="aa" type="rgb"/>
+                  <Color blue="dc" green="ed" red="ef" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Sin Receta"/>
               </Properties>
@@ -236,6 +236,9 @@
             </Component>
             <Component class="javax.swing.JComboBox" name="cboFormaFarmaceutica">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="dc" green="ed" red="ef" type="rgb"/>
+                </Property>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="0"/>
                 </Property>
@@ -251,6 +254,9 @@
             </Component>
             <Component class="javax.swing.JComboBox" name="cboFabricante">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="dc" green="ed" red="ef" type="rgb"/>
+                </Property>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="0"/>
                 </Property>
@@ -295,6 +301,11 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtNombreProducto">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="dc" green="ed" red="ef" type="rgb"/>
+                </Property>
+              </Properties>
               <Events>
                 <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNombreProductoKeyReleased"/>
               </Events>
@@ -306,7 +317,7 @@
     <Container class="javax.swing.JPanel" name="jPanel3">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="d9" green="d7" red="aa" type="rgb"/>
+          <Color blue="eb" green="f4" red="f6" type="rgb"/>
         </Property>
       </Properties>
 
