@@ -203,8 +203,32 @@ public class jdAsignarCaja extends javax.swing.JDialog {
         }
     }
     
+    private float ingresarMontoInicial(){
+        Float montoIni = null;
+        boolean valido = false;
+        
+        while(!valido){
+            try{
+                montoIni = Float.parseFloat(JOptionPane.showInputDialog(rootPane, "Ingrese el monto inicial de la caja"));
+                if(montoIni != null){
+                    valido = true;
+                }else{
+                    JOptionPane.showMessageDialog(rootPane, "No se ingresó monto");
+                }
+            }catch(Exception ex){
+                JOptionPane.showMessageDialog(rootPane, "Ingrese un monto válido");
+            }            
+        }
+        
+        return montoIni;
+    }
+    
     private void btnAsignarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarActionPerformed
-
+        Integer codUsuario = Integer.parseInt(String.valueOf(tblUsuarios.getValueAt(tblUsuarios.getSelectedRow(), 0)));
+        Integer codCaja = Integer.parseInt(String.valueOf(tblCajas.getValueAt(tblCajas.getSelectedRow(), 0)));
+        System.out.println("Usu: "+codUsuario);
+        System.out.println("Caja: "+codCaja);
+        System.out.println(ingresarMontoInicial());
     }//GEN-LAST:event_btnAsignarActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
