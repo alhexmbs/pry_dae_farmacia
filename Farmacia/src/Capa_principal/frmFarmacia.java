@@ -51,6 +51,9 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenu9 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenu10 = new javax.swing.JMenu();
+        jMenuItem23 = new javax.swing.JMenuItem();
+        jMenuItem24 = new javax.swing.JMenuItem();
+        jMenuItem25 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenuItem11 = new javax.swing.JMenuItem();
         jMenuItem12 = new javax.swing.JMenuItem();
@@ -240,6 +243,15 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenu10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/reporte.png"))); // NOI18N
         jMenu10.setText("Reportes");
 
+        jMenuItem23.setText("Reporte de ventas mensuales");
+        jMenu10.add(jMenuItem23);
+
+        jMenuItem24.setText("Reporte de perdida por productos caducados");
+        jMenu10.add(jMenuItem24);
+
+        jMenuItem25.setText("Reporte productos más comprados por mes");
+        jMenu10.add(jMenuItem25);
+
         jMenuItem10.setText("Reporte de ventas");
         jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -323,6 +335,11 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenu11.add(jMenuItem16);
 
         mnuAsignarCajas.setText("Asignar a cajas");
+        mnuAsignarCajas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuAsignarCajasActionPerformed(evt);
+            }
+        });
         jMenu11.add(mnuAsignarCajas);
 
         jMenuItem22.setText("Control diario");
@@ -537,6 +554,17 @@ public class frmFarmacia extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMenuItem20ActionPerformed
 
+    private void mnuAsignarCajasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAsignarCajasActionPerformed
+        // TODO add your handling code here:
+        if(rolUsuario.equals("Administrador")){
+            jdAsignarCaja objAc = new jdAsignarCaja(null, true);
+            objAc.setLocationRelativeTo(null);
+            objAc.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta seccion");
+        }
+    }//GEN-LAST:event_mnuAsignarCajasActionPerformed
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -570,6 +598,9 @@ public class frmFarmacia extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem20;
     private javax.swing.JMenuItem jMenuItem21;
     private javax.swing.JMenuItem jMenuItem22;
+    private javax.swing.JMenuItem jMenuItem23;
+    private javax.swing.JMenuItem jMenuItem24;
+    private javax.swing.JMenuItem jMenuItem25;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;

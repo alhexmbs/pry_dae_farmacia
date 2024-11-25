@@ -117,6 +117,16 @@ public class Cliente {
         }
     }
 
+    public void darBajaCliente(int idCliente) throws Exception {
+        strSQL = "update cliente set estado = false where id_cliente = " + idCliente;
+        
+        try{
+            objConectar.ejecutarBd(strSQL);
+        }catch(Exception ex){
+            throw new Exception("Error al dar de baja cliente --> " + ex.getMessage());
+        }
+    }
+    
     public void eliminarCliente(int idCliente) throws Exception {
         strSQL = "delete from cliente where id_cliente = " + idCliente;
 
@@ -140,6 +150,21 @@ public class Cliente {
         }
 
         return 0;
+    }
+    
+    public boolean obtenerEstado(int idCliente) throws Exception {
+        strSQL = "select * from cliente cl inner join tipo_doc td on cl.id_tipo_doc = td.id_tipo_doc where cl.id_cliente = " + idCliente;
+        
+        try{
+            rs = objConectar.consultarBD(strSQL);
+            if(rs.next()){
+                return rs.getBoolean("estado");
+            }
+        }catch(Exception ex){
+            throw new Exception("Error al obtener el estado del cliente --> " + ex.getMessage());
+        }
+        
+        return false;
     }
 
     //888
