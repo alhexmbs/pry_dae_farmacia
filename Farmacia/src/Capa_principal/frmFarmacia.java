@@ -1,5 +1,6 @@
 package Capa_principal;
 
+import capa_negocio.Usuario_Caja;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -7,6 +8,7 @@ public class frmFarmacia extends javax.swing.JFrame {
 
     String rolUsuario;
     Integer idUsu, idCajita;
+    Usuario_Caja objUC = new Usuario_Caja();
 
     public frmFarmacia(String rol, Integer idUsuario, Integer idCaja) {
         initComponents();
@@ -16,6 +18,8 @@ public class frmFarmacia extends javax.swing.JFrame {
         System.out.println(idCaja);
         //setExtendedState(MAXIMIZED_BOTH);
         rolUsuario = rol;
+        idUsu = idUsuario;
+        idCajita = idCaja;
         
         
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -578,9 +582,14 @@ public class frmFarmacia extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-        int rpta = JOptionPane.showConfirmDialog(this, "¿Está seguro que desea salir?", "Seleccione una opción", JOptionPane.YES_NO_OPTION);
-        if(rpta == 0){
-            System.exit(0);
+        try{
+            int rpta = JOptionPane.showConfirmDialog(this, "¿Está seguro que desea salir?", "Seleccione una opción", JOptionPane.YES_NO_OPTION);
+            if(rpta == 0){
+                objUC.actualizarFechaHoraCierre(idUsu, idCajita);
+                System.exit(0);
+            }
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(rootPane, "Ocurrió un error inesperado --> "+ex.getMessage());
         }
     }//GEN-LAST:event_formWindowClosing
 

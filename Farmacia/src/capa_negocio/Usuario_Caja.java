@@ -82,7 +82,7 @@ public class Usuario_Caja {
     */
     public Integer obtenerIDCajaActual(Integer idUsuario) throws Exception{
         strSQL = "SELECT id_caja FROM USUARIO_CAJA "
-                + "WHERE id_usuario = "+idUsuario+" AND fecha_hora_apertura::date = CURRENT_DATE AND fecha_hora_cierre IS NULL";
+                + "WHERE id_usuario = "+idUsuario+" AND fecha_hora_apertura::date = CURRENT_DATE";
         
         try{
             rs = objConectar.consultarBD(strSQL);
@@ -95,5 +95,19 @@ public class Usuario_Caja {
         }
         
         return 0;
+    }
+    
+    /*
+        Método para actualizar la fecha_hora_cierre cada que se salga del sistema
+    */
+    public void actualizarFechaHoraCierre(Integer idUsuario, Integer idCaja) throws Exception{
+        strSQL = "UPDATE USUARIO_CAJA SET fecha_hora_cierre = NOW() WHERE id_usuario = " + idUsuario + " AND id_caja = " + idCaja + " "
+                + "AND fecha_hora_apertura::date = CURRENT_DATE";
+        
+        try{
+            objConectar.ejecutarBd(strSQL);
+        }catch(Exception ex){
+            throw new Exception("Error al modificar la fecha y hora de cierre --> " + ex.getMessage());
+        }
     }
 }
