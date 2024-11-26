@@ -842,21 +842,21 @@ public class jdPedido extends javax.swing.JDialog {
         lblTotalPagar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         lblIGV.setBackground(new java.awt.Color(153, 153, 153));
-        lblIGV.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 153, 0)));
+        lblIGV.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(170, 215, 217)));
         lblIGV.setPreferredSize(new java.awt.Dimension(37, 18));
 
         lblValorVenta.setBackground(new java.awt.Color(153, 153, 153));
-        lblValorVenta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 153, 0)));
+        lblValorVenta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(170, 215, 217)));
         lblValorVenta.setPreferredSize(new java.awt.Dimension(37, 18));
 
         lblDescuento.setBackground(new java.awt.Color(153, 153, 153));
         lblDescuento.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblDescuento.setForeground(new java.awt.Color(255, 0, 0));
-        lblDescuento.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 153, 0)));
+        lblDescuento.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(170, 215, 217)));
         lblDescuento.setPreferredSize(new java.awt.Dimension(37, 18));
 
         lblSubTotal.setBackground(new java.awt.Color(153, 153, 153));
-        lblSubTotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 153, 0)));
+        lblSubTotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(170, 215, 217)));
         lblSubTotal.setPreferredSize(new java.awt.Dimension(37, 18));
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
