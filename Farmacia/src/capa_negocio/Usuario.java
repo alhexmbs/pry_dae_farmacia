@@ -173,8 +173,8 @@ public class Usuario {
         }
     }    
     
-    public int obtenerIDUsuario(String numDoc) throws Exception {
-        strSQL = "select id_usuario from usuario where nro_documento = '" + numDoc + "'";
+    public int obtenerIDUsuario(String username) throws Exception {
+        strSQL = "select id_usuario from usuario where username = '" + username + "'";
 
         try {
             rs = objConectar.consultarBD(strSQL);
