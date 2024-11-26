@@ -393,7 +393,7 @@ public class jdPedido extends javax.swing.JDialog {
             }
         });
 
-        btnImprimirUltimaVenta.setBackground(new java.awt.Color(236, 177, 89));
+        btnImprimirUltimaVenta.setBackground(new java.awt.Color(0, 255, 204));
         btnImprimirUltimaVenta.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnImprimirUltimaVenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/imprimir_Venta.png"))); // NOI18N
         btnImprimirUltimaVenta.setText("Imprimir");
