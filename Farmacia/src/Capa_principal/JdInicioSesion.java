@@ -2,6 +2,7 @@ package Capa_principal;
 
 import capa_negocio.Funciones;
 import capa_negocio.Usuario;
+import capa_negocio.Usuario_Caja;
 import java.sql.Timestamp;
 import java.util.Random;
 import javax.swing.JOptionPane;
@@ -18,6 +19,7 @@ public final class JdInicioSesion extends javax.swing.JDialog {
     };
 
     Usuario objUsuario = new Usuario();
+    Usuario_Caja objUC = new Usuario_Caja();
     String nombreUsuario = "";
     String rol = "";
     int intentos = 0;
@@ -206,64 +208,7 @@ public final class JdInicioSesion extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-//        String usuario = txtUsuario.getText();
-//        String contraseña = txtContraseña.getText();
-//
-//        try {
-//            if (txtValidacion.getText().equals(lblCaptcha.getText())) {
-//
-//                nombreUsuario = objUsuario.login(usuario, contraseña);
-//                rol = objUsuario.cargo(usuario, contraseña);
-//                Timestamp ultimo = objUsuario.ultimoLogin(usuario, contraseña);
-//                System.out.println(rol);
-//                System.out.println("Ultimo: "+ultimo);
-//                if (nombreUsuario.equals("")) {
-//
-//                    intentos++;
-//                    JOptionPane.showMessageDialog(this, "El logeo no es el correcto. Intento " + intentos + " de 3", "Sistema", JOptionPane.ERROR_MESSAGE);
-//                    txtValidacion.setText("");
-//                    generarCaptcha();
-//                    
-//                    if (intentos >= 3) {
-//                        JOptionPane.showMessageDialog(this, "Demasiados intentos fallidos. Cerrando sistema...", "Sistema", JOptionPane.ERROR_MESSAGE);
-//                        System.exit(0);
-//                    }
-//
-//                } else {
-//
-//                    JOptionPane.showMessageDialog(null, nombreUsuario + ", Bienvenido al sistema! ");
-//                    this.dispose();
-//                    
-//                    if(ultimo == null){
-//                        JOptionPane.showMessageDialog(null, "Primer login al sistema");
-//                        jdCambiarContrasena objCam = new jdCambiarContrasena(null, true);
-//                        objCam.user = nombreUsuario;
-//                        objCam.setLocationRelativeTo(this);
-//                        objCam.setVisible(true);
-//                    }else{
-//                        frmFarmacia farmacia = new frmFarmacia(rol);
-//                        farmacia.setVisible(true);
-//                    }
-//                    
-////                    frmFarmacia farmacia = new frmFarmacia(rol);
-////                    farmacia.setVisible(true);
-//                }
-//
-//            } else {
-//
-//                intentos++;
-//                JOptionPane.showMessageDialog(this, "El captcha no es el correcto. Intento " + intentos + " de 3", "Sistema", JOptionPane.ERROR_MESSAGE);
-//                txtValidacion.setText("");
-//                generarCaptcha();
-//                if (intentos >= 3) {
-//                    JOptionPane.showMessageDialog(this, "Demasiados intentos fallidos. Cerrando sistema...", "Sistema", JOptionPane.ERROR_MESSAGE);
-//                    System.exit(0);
-//                }
-//            }
-//
-//        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(null, e.getMessage());
-//        }
+
         String usuario = txtUsuario.getText();
         String contraseña = txtContraseña.getText();
 
@@ -303,7 +248,9 @@ public final class JdInicioSesion extends javax.swing.JDialog {
                             objCam.setVisible(true);
                         } else {
                             // Muestra el formulario principal
-                            frmFarmacia farmacia = new frmFarmacia(objUsuario.cargo(usuario, contraseña));
+                            Integer idUsuario = objUsuario.obtenerIDUsuario(usuario);
+                            Integer idCaja = objUC.obtenerIDCajaActual(idUsuario);
+                            frmFarmacia farmacia = new frmFarmacia(objUsuario.cargo(usuario, contraseña), idUsuario, idCaja);
                             farmacia.setVisible(true);
                         }
                         this.dispose(); // Cierra el formulario de login
