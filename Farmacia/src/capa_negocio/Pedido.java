@@ -40,61 +40,81 @@ public class Pedido {
         }
     }
 
-    public void registrarVenta(int idPedido, float total, int usuario, int cliente, JTable tblDetalle) throws Exception {
+    public void registrarVenta(float total, int usuario, int cliente, JTable tblDetalle) throws Exception {
         try {
             objConectar.conectar();
             con = objConectar.getCon();
             con.setAutoCommit(false);
 
+            int idPedido = 0; // Variable para almacenar el ID del pedido generado
+
             // Inserción del pedido
-            String sqlProyecto = "INSERT INTO public.pedido(\n"
+            String sqlPedido = "INSERT INTO public.pedido(\n"
                     + " fecha_hora, estado_pedido, subtotal, id_usuario, id_cliente)\n"
-                    + " VALUES (CURRENT_TIMESTAMP, ?, ?, ?, ?);";
-            try (PreparedStatement psProyecto = con.prepareStatement(sqlProyecto, Statement.RETURN_GENERATED_KEYS)) {
-                psProyecto.setString(1, "Pendiente");
-                psProyecto.setFloat(2, total);
-                psProyecto.setInt(3, usuario);
-                psProyecto.setInt(4, cliente);
-                psProyecto.executeUpdate();
+                    + " VALUES (CURRENT_TIMESTAMP, ?, ?, ?, ?) RETURNING id_pedido;";
+            try (PreparedStatement psPedido = con.prepareStatement(sqlPedido)) {
+                psPedido.setString(1, "Pendiente");
+                psPedido.setFloat(2, total);
+                psPedido.setInt(3, usuario);
+                psPedido.setInt(4, cliente);
 
-                // Inserción del detalle del pedido
-                String sqlDetalle = "INSERT INTO public.pedido_detalle_producto_forma(\n"
-                        + " id_pedido, id_frm_farma, id_producto, cantidad, precio_unitario, dscto_aplicado, precio_final)\n"
-                        + " VALUES (?, ?, ?, ?, ?, ?, ?);";
-                try (PreparedStatement psDocente = con.prepareStatement(sqlDetalle)) {
-                    int totalDocentes = tblDetalle.getRowCount();
-                    for (int i = 0; i < totalDocentes; i++) {
-                        // Validar datos antes de procesarlos
-                        if (tblDetalle.getValueAt(i, 0) == null || tblDetalle.getValueAt(i, 0).toString().isEmpty()) {
-                            throw new Exception("Datos incompletos en la fila " + i);
-                        }
+                ResultSet rs = psPedido.executeQuery();
+                if (rs.next()) {
+                    idPedido = rs.getInt("id_pedido"); // Obtener el ID generado
+                } else {
+                    throw new Exception("No se pudo obtener el ID del pedido.");
+                }
+            }
 
-                        // Extraer y procesar datos
-                        int id_frm_forma = Integer.parseInt(tblDetalle.getValueAt(i, 0).toString());
-                        int id_producto = Integer.parseInt(tblDetalle.getValueAt(i, 1).toString());
-                        int cantidad = Integer.parseInt(tblDetalle.getValueAt(i, 2).toString());
-                        float precio_unitario = Float.parseFloat(tblDetalle.getValueAt(i, 3).toString());
-                        String[] descuentos = tblDetalle.getValueAt(i, 4).toString().split(",");
-                        float descuento = precio_unitario * (Float.parseFloat(descuentos[0]) / 100);
-                        float dscto_aplicado = descuento;
-                        float precio_final = precio_unitario - descuento;
+            // Inserción del detalle del pedido
+            String sqlDetalle = "INSERT INTO public.pedido_detalle_producto_forma(\n"
+                    + " id_pedido, id_frm_farma, id_producto, cantidad, precio_unitario, dscto_aplicado, precio_final)\n"
+                    + " VALUES (?, ?, ?, ?, ?, ?, ?);";
+            String sqlActualizarDetalle = "UPDATE public.detalle_producto_forma\n"
+                    + " SET stock = stock - ?\n"
+                    + " WHERE id_frm_farma = ? AND id_producto = ?;";
 
-                        // Asignar valores al PreparedStatement
-                        psDocente.setInt(1, idPedido);
-                        psDocente.setInt(2, id_frm_forma);
-                        psDocente.setInt(3, id_producto);
-                        psDocente.setInt(4, cantidad);
-                        psDocente.setFloat(5, precio_unitario);
-                        psDocente.setFloat(6, dscto_aplicado);
-                        psDocente.setFloat(7, precio_final);
-                        psDocente.addBatch();
+            try (PreparedStatement psDetalle = con.prepareStatement(sqlDetalle); PreparedStatement psActualizar = con.prepareStatement(sqlActualizarDetalle)) {
+
+                int totalFilas = tblDetalle.getRowCount();
+                for (int i = 0; i < totalFilas; i++) {
+                    // Validar y extraer datos
+                    if (tblDetalle.getValueAt(i, 0) == null || tblDetalle.getValueAt(i, 0).toString().isEmpty()) {
+                        throw new Exception("Datos incompletos en la fila " + i);
                     }
-                    psDocente.executeBatch();
+
+                    int id_frm_farma = Integer.parseInt(tblDetalle.getValueAt(i, 0).toString());
+                    int id_producto = Integer.parseInt(tblDetalle.getValueAt(i, 1).toString());
+                    int cantidad = Integer.parseInt(tblDetalle.getValueAt(i, 2).toString());
+                    float precio_unitario = Float.parseFloat(tblDetalle.getValueAt(i, 3).toString());
+                    String descuentos[] = tblDetalle.getValueAt(i, 4).toString().split(",");
+                    float descuento = precio_unitario * (Float.parseFloat(descuentos[0]) / 100);
+                    float dscto_aplicado = descuento;
+                    float precio_final = precio_unitario - descuento;
+
+                    // Insertar en pedido_detalle_producto_forma
+                    psDetalle.setInt(1, idPedido);
+                    psDetalle.setInt(2, id_frm_farma);
+                    psDetalle.setInt(3, id_producto);
+                    psDetalle.setInt(4, cantidad);
+                    psDetalle.setFloat(5, precio_unitario);
+                    psDetalle.setFloat(6, dscto_aplicado);
+                    psDetalle.setFloat(7, precio_final);
+                    psDetalle.addBatch();
+
+                    // Actualizar la tabla detalle_producto_forma
+                    psActualizar.setInt(1, cantidad);
+                    psActualizar.setInt(2, id_frm_farma);
+                    psActualizar.setInt(3, id_producto);
+                    psActualizar.addBatch();
                 }
 
-                // Confirmar la transacción
-                con.commit();
+                psDetalle.executeBatch(); // Ejecutar lote de inserciones
+                psActualizar.executeBatch(); // Ejecutar lote de actualizaciones
             }
+
+            // Confirmar la transacción
+            con.commit();
         } catch (Exception e) {
             if (con != null) {
                 con.rollback(); // Deshacer la transacción en caso de error

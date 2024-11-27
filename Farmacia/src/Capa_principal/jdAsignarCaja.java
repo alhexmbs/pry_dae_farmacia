@@ -224,11 +224,20 @@ public class jdAsignarCaja extends javax.swing.JDialog {
     }
     
     private void btnAsignarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarActionPerformed
-        Integer codUsuario = Integer.parseInt(String.valueOf(tblUsuarios.getValueAt(tblUsuarios.getSelectedRow(), 0)));
-        Integer codCaja = Integer.parseInt(String.valueOf(tblCajas.getValueAt(tblCajas.getSelectedRow(), 0)));
-        System.out.println("Usu: "+codUsuario);
-        System.out.println("Caja: "+codCaja);
-        System.out.println(ingresarMontoInicial());
+        try{
+            Integer codUsuario = Integer.parseInt(String.valueOf(tblUsuarios.getValueAt(tblUsuarios.getSelectedRow(), 0)));
+            Integer codCaja = Integer.parseInt(String.valueOf(tblCajas.getValueAt(tblCajas.getSelectedRow(), 0)));
+            float montoIni = ingresarMontoInicial();
+            
+            System.out.println("Usu: "+codUsuario);
+            System.out.println("Caja: "+codCaja);
+            System.out.println(montoIni);
+            
+            objUC.asignarCajaUsuario(codUsuario, codCaja, montoIni);
+            JOptionPane.showMessageDialog(rootPane, "Se ha asignado la caja al usuario");
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(rootPane, "Ha ocurrido un error inesperado --> "+ex.getMessage());
+        }
     }//GEN-LAST:event_btnAsignarActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed

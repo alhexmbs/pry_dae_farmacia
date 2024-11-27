@@ -177,20 +177,24 @@ public class jdListProductos extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel2.setBackground(new java.awt.Color(170, 215, 217));
+        jPanel2.setBackground(new java.awt.Color(246, 244, 235));
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 204));
+        jPanel1.setBackground(new java.awt.Color(170, 215, 217));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(41, 43, 45)), "Buscar Detalle Producto Farmaceutico", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
-        rbtnConReceta.setBackground(new java.awt.Color(170, 215, 217));
+        rbtnConReceta.setBackground(new java.awt.Color(239, 237, 220));
         rbtnConReceta.setText("Con Receta");
 
-        rbtnSinReceta.setBackground(new java.awt.Color(170, 215, 217));
+        rbtnSinReceta.setBackground(new java.awt.Color(239, 237, 220));
         rbtnSinReceta.setText("Sin Receta");
 
         jLabel1.setText("Forma Farmaceutica:");
 
+        cboFormaFarmaceutica.setBackground(new java.awt.Color(239, 237, 220));
+
         jLabel2.setText("Nombre Fabricante:");
+
+        cboFabricante.setBackground(new java.awt.Color(239, 237, 220));
 
         jLabel3.setText("Precio:");
 
@@ -212,6 +216,7 @@ public class jdListProductos extends javax.swing.JDialog {
 
         jLabel5.setText("Nombre Producto:");
 
+        txtNombreProducto.setBackground(new java.awt.Color(239, 237, 220));
         txtNombreProducto.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtNombreProductoKeyReleased(evt);
@@ -303,7 +308,7 @@ public class jdListProductos extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel3.setBackground(new java.awt.Color(170, 215, 217));
+        jPanel3.setBackground(new java.awt.Color(246, 244, 235));
 
         tblProducto.setAutoCreateRowSorter(true);
         tblProducto.setBackground(new java.awt.Color(170, 215, 217));
@@ -414,10 +419,9 @@ public class jdListProductos extends javax.swing.JDialog {
     private void tblProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductoMouseClicked
 
         int stock = Integer.parseInt(tblProducto.getValueAt(tblProducto.getSelectedRow(), 4).toString());
-        int cantidad = Integer.parseInt(JOptionPane.showInputDialog(rootPane, "Ingrese la cantidad: ", "Mensaje del Sistema", JOptionPane.QUESTION_MESSAGE));
 
-        if (cantidad > stock) {
-            JOptionPane.showMessageDialog(rootPane, "El stock es insuficiente", "Sistema", JOptionPane.ERROR_MESSAGE);
+        if (stock == 0) {
+            JOptionPane.showMessageDialog(rootPane, "Este producto no tiene stock", "Sistema", JOptionPane.ERROR_MESSAGE);
         } else {
             String nombre = tblProducto.getValueAt(tblProducto.getSelectedRow(), 0).toString();
             float precio = Float.parseFloat(tblProducto.getValueAt(tblProducto.getSelectedRow(), 5).toString());
