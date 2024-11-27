@@ -244,6 +244,11 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenu10.setText("Reportes");
 
         jMenuItem23.setText("Reporte de ventas mensuales");
+        jMenuItem23.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem23ActionPerformed(evt);
+            }
+        });
         jMenu10.add(jMenuItem23);
 
         jMenuItem24.setText("Reporte de perdida por productos caducados");
@@ -564,6 +569,12 @@ public class frmFarmacia extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No tiene acceso a esta seccion");
         }
     }//GEN-LAST:event_mnuAsignarCajasActionPerformed
+
+    private void jMenuItem23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem23ActionPerformed
+        jdR_MentasMensuales obkatiaReporte1 = new jdR_MentasMensuales(null, true);
+        obkatiaReporte1.setLocationRelativeTo(null);
+        obkatiaReporte1.setVisible(true);
+    }//GEN-LAST:event_jMenuItem23ActionPerformed
 
 
 
