@@ -82,7 +82,7 @@ public class jdPromocion extends javax.swing.JDialog {
         jLabel66 = new javax.swing.JLabel();
         jcFechaFin = new com.toedter.calendar.JDateChooser();
         jLabel1 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        lblVigencia = new javax.swing.JLabel();
         chkVigencia = new javax.swing.JCheckBox();
         jPanel4 = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
@@ -160,7 +160,7 @@ public class jdPromocion extends javax.swing.JDialog {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/descuento.png"))); // NOI18N
 
-        jLabel5.setText("Vigencia:");
+        lblVigencia.setText("Vigencia:");
 
         chkVigencia.setText("Vigente");
 
@@ -182,7 +182,7 @@ public class jdPromocion extends javax.swing.JDialog {
                             .addComponent(jLabel65, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel68, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel66, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addComponent(lblVigencia, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addGap(22, 22, 22)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jcFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -230,7 +230,7 @@ public class jdPromocion extends javax.swing.JDialog {
                     .addComponent(jLabel66))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
+                    .addComponent(lblVigencia)
                     .addComponent(chkVigencia))
                 .addGap(23, 23, 23))
         );
@@ -447,6 +447,8 @@ public class jdPromocion extends javax.swing.JDialog {
     }//GEN-LAST:event_txtId2ActionPerformed
 
     private void btnBuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar1ActionPerformed
+chkVigencia.setVisible(true);
+        lblVigencia.setVisible(true);
         ResultSet rsPromocion = null;
         try {
             if (txtId2.getText().isEmpty()) {
@@ -476,6 +478,8 @@ public class jdPromocion extends javax.swing.JDialog {
     }//GEN-LAST:event_cboFiltrosActionPerformed
 
     private void TablaGuardarda1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaGuardarda1MouseClicked
+       chkVigencia.setVisible(true);
+        lblVigencia.setVisible(true);
         txtId2.setText(String.valueOf(TablaGuardarda1.getValueAt(TablaGuardarda1.getSelectedRow(), 0)));
         btnBuscar1ActionPerformed(null);
     }//GEN-LAST:event_TablaGuardarda1MouseClicked
@@ -486,6 +490,8 @@ public class jdPromocion extends javax.swing.JDialog {
                 btnSave.setText("GUARDAR");
                 txtId2.setText(String.valueOf(obj.generarCodigoPromocion()));
                 txtDescuento.requestFocus();
+                chkVigencia.setVisible(false);
+                lblVigencia.setVisible(false);
             } else {
 
                 if (txtId2.getText().isEmpty() || txtDescuento.getText().isEmpty() || jcFechaInicio.getDate() == null || jcFechaFin.getDate() == null) {
@@ -495,10 +501,9 @@ public class jdPromocion extends javax.swing.JDialog {
                     int descuento = Integer.parseInt(txtDescuento.getText());
                     java.sql.Date fechaInicio = new java.sql.Date(jcFechaInicio.getDate().getTime());
                     java.sql.Date fechaFin = new java.sql.Date(jcFechaFin.getDate().getTime());
-                    boolean estado = chkVigencia.isSelected();
 
                     if (fechaInicio.before(fechaFin) || fechaInicio.equals(fechaFin)) {
-                        obj.registrarPromocion(codigo, descuento, fechaInicio, fechaFin, estado);
+                        obj.registrarPromocion(codigo, descuento, fechaInicio, fechaFin, true);
                         btnSave.setText("NUEVO");
                         limpiar();
                         listar("General");
@@ -550,6 +555,9 @@ public class jdPromocion extends javax.swing.JDialog {
     }
 
     private void btnModificaarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificaarActionPerformed
+        chkVigencia.setVisible(true);
+        lblVigencia.setVisible(true);
+
         if (txtId2.getText().isEmpty() || txtDescuento.getText().isEmpty() || jcFechaInicio.getDate() == null || jcFechaFin.getDate() == null) {
             JOptionPane.showMessageDialog(this, "Debe completar todos los campos antes de modificar");
         } else {
@@ -718,7 +726,6 @@ public class jdPromocion extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel62;
     private javax.swing.JLabel jLabel64;
     private javax.swing.JLabel jLabel65;
@@ -731,6 +738,7 @@ public class jdPromocion extends javax.swing.JDialog {
     private javax.swing.JSeparator jSeparator1;
     private com.toedter.calendar.JDateChooser jcFechaFin;
     private com.toedter.calendar.JDateChooser jcFechaInicio;
+    private javax.swing.JLabel lblVigencia;
     private javax.swing.JTextField txtBuscarIde;
     private javax.swing.JTextField txtDescuento;
     private javax.swing.JTextField txtId2;

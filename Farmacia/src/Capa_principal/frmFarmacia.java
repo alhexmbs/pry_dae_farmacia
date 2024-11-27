@@ -249,7 +249,7 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenu10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/reporte.png"))); // NOI18N
         jMenu10.setText("Reportes");
 
-        jMenuItem23.setText("Reporte de ventas mensuales");
+        jMenuItem23.setText("Reporte de ventas mensuales por año");
         jMenuItem23.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem23ActionPerformed(evt);
@@ -581,13 +581,17 @@ public class frmFarmacia extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mnuAsignarCajasActionPerformed
 
-<<<<<<< HEAD
     private void jMenuItem23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem23ActionPerformed
-        jdR_MentasMensuales obkatiaReporte1 = new jdR_MentasMensuales(null, true);
-        obkatiaReporte1.setLocationRelativeTo(null);
-        obkatiaReporte1.setVisible(true);
+        if (rolUsuario.equals("Administrador")) {
+            jdR_MentasMensuales obkatiaReporte1 = new jdR_MentasMensuales(null, true);
+            obkatiaReporte1.setLocationRelativeTo(null);
+            obkatiaReporte1.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta seccion");
+        }
+
+
     }//GEN-LAST:event_jMenuItem23ActionPerformed
-=======
     private void jMenuItem22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem22ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem22ActionPerformed
@@ -604,7 +608,6 @@ public class frmFarmacia extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Ocurrió un error inesperado --> "+ex.getMessage());
         }
     }//GEN-LAST:event_formWindowClosing
->>>>>>> e1435606b91ebfc500bec5e44616d76b34ab8f9a
 
 
 
