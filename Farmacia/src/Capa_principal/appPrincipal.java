@@ -3,8 +3,7 @@ package Capa_principal;
 public class appPrincipal {
 
     public static void main(String[] args) {
- frmFarmacia farmacia = new frmFarmacia("Administrador", 1, 1);
-        farmacia.setVisible(true);
+
         
 
         /*
