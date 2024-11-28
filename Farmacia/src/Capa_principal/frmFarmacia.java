@@ -57,8 +57,6 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenuItem21 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
-        jMenu9 = new javax.swing.JMenu();
-        jMenuItem6 = new javax.swing.JMenuItem();
         jMenu10 = new javax.swing.JMenu();
         jMenuItem23 = new javax.swing.JMenuItem();
         jMenuItem24 = new javax.swing.JMenuItem();
@@ -231,20 +229,6 @@ public class frmFarmacia extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu6);
 
-        jMenu9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/desecho.png"))); // NOI18N
-        jMenu9.setText("Desecho de medicamento");
-
-        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/desechomedicamento.png"))); // NOI18N
-        jMenuItem6.setText("Registrar desecho de medicamento");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
-            }
-        });
-        jMenu9.add(jMenuItem6);
-
-        jMenuBar1.add(jMenu9);
-
         jMenu10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/reporte.png"))); // NOI18N
         jMenu10.setText("Reportes");
 
@@ -379,14 +363,6 @@ public class frmFarmacia extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        /*if (rolUsuario.equals("Administrador")) {
-            jdManCliente objm = new jdManCliente(null, true);
-            objm.setLocationRelativeTo(null);
-            objm.setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(this, "No tiene acceso a esta secci n");
-        }*/
-
         jdManCliente objm = new jdManCliente(null, true);
         objm.setLocationRelativeTo(null);
         objm.setVisible(true);
@@ -413,7 +389,7 @@ public class frmFarmacia extends javax.swing.JFrame {
             jdPago_Admin pagoAdmin = new jdPago_Admin(this, true);
             pagoAdmin.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(this, "No tiene acceso a esta secci n");
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta sección");
         }
 
     }//GEN-LAST:event_jMenuItem7ActionPerformed
@@ -425,23 +401,7 @@ public class frmFarmacia extends javax.swing.JFrame {
         objUM.setLocationRelativeTo(null);
         objUM.setVisible(true);
     }
-
-//        if (rolUsuario.equals("Administrador")) {
-//            jdMantComprobante comprobante = new jdMantComprobante(this, true);
-//            comprobante.setVisible(true);
-//        } else {
-//            JOptionPane.showMessageDialog(this, "No tiene acceso a esta secci n");
-//        }
-//
 //GEN-LAST:event_jMenuItem3ActionPerformed
-
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        if (rolUsuario.equals("Administrador")) {
-            JOptionPane.showMessageDialog(this, "En mantenimiento");
-        } else {
-            JOptionPane.showMessageDialog(this, "No tiene acceso a esta secci n");
-        }
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
         if (rolUsuario.equals("Administrador")) {
@@ -612,7 +572,6 @@ public class frmFarmacia extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenu jMenu8;
-    private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuBar jMenuBar3;
@@ -636,7 +595,6 @@ public class frmFarmacia extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem25;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;

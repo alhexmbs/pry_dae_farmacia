@@ -249,8 +249,10 @@ public final class JdInicioSesion extends javax.swing.JDialog {
                         } else {
                             // Muestra el formulario principal
                             Integer idUsuario = objUsuario.obtenerIDUsuario(usuario);
+                            System.out.println("El id del usuario es " + idUsuario);
                             Integer idCaja = objUC.obtenerIDCajaActual(idUsuario);
-                            frmFarmacia farmacia = new frmFarmacia(objUsuario.cargo(usuario, contraseña), idUsuario, idCaja);
+                            System.out.println("El cargo del usuario es " + objUsuario.cargo(idUsuario));
+                            frmFarmacia farmacia = new frmFarmacia(objUsuario.cargo(idUsuario), idUsuario, idCaja);
                             farmacia.setVisible(true);
                         }
                         this.dispose(); // Cierra el formulario de login
