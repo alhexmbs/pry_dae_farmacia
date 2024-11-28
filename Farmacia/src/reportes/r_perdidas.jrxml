@@ -41,7 +41,7 @@ ORDER BY l.fecha_vencimiento;]]>
 				<textElement>
 					<font size="22" isBold="true" isUnderline="false"/>
 				</textElement>
-				<text><![CDATA[Reporte de perdidades por lotes vencido]]></text>
+				<text><![CDATA[Reporte de perdidades por  lotes vencidos]]></text>
 			</staticText>
 			<line>
 				<reportElement x="-20" y="-12" width="600" height="1" uuid="576abc07-f37d-4df0-8936-77c76806c15b"/>
