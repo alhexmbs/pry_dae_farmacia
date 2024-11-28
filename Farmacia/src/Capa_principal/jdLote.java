@@ -119,7 +119,7 @@ public class jdLote extends javax.swing.JDialog {
         jcFechaEntrada = new com.toedter.calendar.JDateChooser();
         jLabel2 = new javax.swing.JLabel();
         txtCantidad = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
+        lblVigencia = new javax.swing.JLabel();
         chkVigencia = new javax.swing.JCheckBox();
         jLabel4 = new javax.swing.JLabel();
         txtPrecioCompra = new javax.swing.JTextField();
@@ -203,7 +203,7 @@ public class jdLote extends javax.swing.JDialog {
             }
         });
 
-        jLabel3.setText("Estado:");
+        lblVigencia.setText("Estado:");
 
         chkVigencia.setText("Vigente");
 
@@ -219,6 +219,8 @@ public class jdLote extends javax.swing.JDialog {
         });
 
         jLabel5.setText("Producto - Tipo:");
+
+        cboProducto_tipo.setEditable(true);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -256,7 +258,7 @@ public class jdLote extends javax.swing.JDialog {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel64, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel65, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblVigencia, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -305,7 +307,7 @@ public class jdLote extends javax.swing.JDialog {
                     .addComponent(jLabel65))
                 .addGap(16, 16, 16)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
+                    .addComponent(lblVigencia)
                     .addComponent(chkVigencia))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -548,6 +550,8 @@ public class jdLote extends javax.swing.JDialog {
 }
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+  chkVigencia.setVisible(true);
+                lblVigencia.setVisible(true);
         ResultSet rsLote = null;
         try {
             if (txtId.getText().isEmpty()) {
@@ -593,6 +597,8 @@ public class jdLote extends javax.swing.JDialog {
             txtId.setText(String.valueOf(codigo));
             btnSave.setText("GUARDAR");
             jcFechaEntrada.requestFocus();
+              chkVigencia.setVisible(false);
+                lblVigencia.setVisible(false);
         } else {
             if (txtNumeroLote.getText().isEmpty() ||
                 jcFechaEntrada.getDate() == null ||
@@ -643,6 +649,8 @@ public class jdLote extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btneditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneditActionPerformed
+  chkVigencia.setVisible(true);
+                lblVigencia.setVisible(true);
         try {
             if (txtId.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Debe ingresar un lote para modificar.");
@@ -697,6 +705,8 @@ public class jdLote extends javax.swing.JDialog {
     }//GEN-LAST:event_btnlimpiarActionPerformed
 
     private void btnDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBajaActionPerformed
+  chkVigencia.setVisible(true);
+                lblVigencia.setVisible(true);
         if (txtId.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para dar de baja");
 
@@ -782,7 +792,6 @@ public class jdLote extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel62;
@@ -800,6 +809,7 @@ public class jdLote extends javax.swing.JDialog {
     private javax.swing.JSeparator jSeparator2;
     private com.toedter.calendar.JDateChooser jcFechaEntrada;
     private com.toedter.calendar.JDateChooser jcFechaVencimiento;
+    private javax.swing.JLabel lblVigencia;
     private javax.swing.JTable tblDetalle;
     private javax.swing.JTable tblDetalle1;
     private javax.swing.JTable tblFf;
