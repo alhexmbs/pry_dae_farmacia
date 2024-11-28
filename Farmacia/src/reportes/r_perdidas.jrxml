@@ -7,8 +7,7 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[
-SELECT 
+		<![CDATA[SELECT 
     l.fecha_vencimiento,
     l.id_lote,
     l.cantidad_lote AS cantidad_inicial,
@@ -38,11 +37,11 @@ ORDER BY l.fecha_vencimiento;]]>
 	<title>
 		<band height="111" splitType="Stretch">
 			<staticText>
-				<reportElement x="31" y="48" width="326" height="39" forecolor="#003366" uuid="dfc0c294-a278-4eeb-93fa-5076aa37fac0"/>
-				<textElement textAlignment="Center">
+				<reportElement x="31" y="28" width="326" height="59" forecolor="#003366" uuid="dfc0c294-a278-4eeb-93fa-5076aa37fac0"/>
+				<textElement>
 					<font size="22" isBold="true" isUnderline="false"/>
 				</textElement>
-				<text><![CDATA[Reporte de ventas mensuales]]></text>
+				<text><![CDATA[Reporte de perdidades por lotes vencido]]></text>
 			</staticText>
 			<image>
 				<reportElement x="403" y="28" width="152" height="59" uuid="bee19823-2853-41a6-88ff-2c5b1f350730"/>
@@ -114,25 +113,27 @@ ORDER BY l.fecha_vencimiento;]]>
 			</staticText>
 			<staticText>
 				<reportElement x="165" y="19" width="51" height="35" uuid="1a9ac681-2baf-4483-ac18-39d37321bd3a"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Right"/>
 				<text><![CDATA[Cantidad inicial]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="236" y="19" width="51" height="35" uuid="aff1eb01-bd97-4bdc-b96d-8edde2320de3"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Right"/>
 				<text><![CDATA[Cantidad Vendida]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="304" y="19" width="65" height="35" uuid="659e9f7a-3ac4-4fe1-8429-94d86b39e54b"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Right"/>
 				<text><![CDATA[Cantidad no vendida]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="400" y="19" width="65" height="20" uuid="3ce23895-a246-4e73-ae92-7040aa94643d"/>
+				<textElement textAlignment="Right"/>
 				<text><![CDATA[perdida]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="487" y="19" width="52" height="35" uuid="c0a4524a-cfd4-4e49-9215-49c380a72768"/>
+				<textElement textAlignment="Right"/>
 				<text><![CDATA[Precio de la compra]]></text>
 			</staticText>
 			<line>
