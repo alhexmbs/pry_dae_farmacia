@@ -413,7 +413,7 @@ public class jdRubro extends javax.swing.JDialog {
                 String nombre = txtNombre.getText();
                 boolean estado = chkVigencia.isSelected();
                 if (!nombre.isEmpty()) {
-                    objR.registrarRubro(codigo, nombre, estado);
+                    objR.registrarRubro(codigo, nombre, true);
                     btnSave.setText("NUEVO");
                     limpiar();
                     listar("General");
@@ -508,7 +508,7 @@ public class jdRubro extends javax.swing.JDialog {
     }//GEN-LAST:event_formWindowOpened
 
     private void btnDarBaja2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBaja2ActionPerformed
- chkVigencia.setVisible(true);
+        chkVigencia.setVisible(true);
         lblVigencia.setVisible(true);
         if (txtId2.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para eliminar");
