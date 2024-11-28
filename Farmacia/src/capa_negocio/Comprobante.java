@@ -62,24 +62,25 @@ public class Comprobante {
 
     // Eliminar un comprobante
     public void eliminarComprobante(int id_comprobante) throws Exception {
-        strsql = "DELETE FROM COMPROBANTE WHERE id_comprobante = " + id_comprobante;
-        try {
-            objconectar.ejecutarBd(strsql);
-        } catch (Exception e) {
-            throw new Exception("Error al eliminar comprobante --> " + e.getMessage());
-        }
+    strsql = "DELETE FROM COMPROBANTE_VENTA WHERE id_comprobante = " + id_comprobante;
+    try {
+        objconectar.ejecutarBd(strsql);  // Suponiendo que ejecutarBd ejecuta una consulta SQL
+    } catch (Exception e) {
+        throw new Exception("Error al eliminar comprobante --> " + e.getMessage());
     }
+}
+
 
     public ResultSet buscarComprobantePorCliente(int id_cliente) throws Exception {
-        strsql = "SELECT cv.id_comprobante, cv.serie_nro_comprobante, cv.fecha_hora, cv.importe_total, "
-                + "c.id_cliente, c.nombre AS cliente_nombre, tc.tipo_comprobante, cv.id_pedido, "
-                + "cv.id_usuario, U.username"
-                + // Aquí incluimos el id_usuario en la selección
-                "FROM COMPROBANTE_VENTA cv "
-                + "INNER JOIN CLIENTE c ON cv.id_cliente = c.id_cliente "
-                + "INNER JOIN TIPO_COMPROBANTE tc ON cv.id_tipo_comprobante = tc.id_tipo_comprobante "
-                + "INNER JOIN PEDIDO p ON cv.id_pedido = p.id_pedido INNER JOIN usuario U on U.id_usuario = p.id_usuario"
-                + "WHERE c.id_cliente = " + id_cliente;
+        strsql = strsql = "SELECT cv.id_comprobante, cv.serie_nro_comprobante, cv.fecha_hora, cv.importe_total, "
+                            + "c.id_cliente, c.nombre AS cliente_nombre, tc.tipo_comprobante, cv.id_pedido, "
+                            + "cv.id_usuario, U.username "
+                            + "FROM COMPROBANTE_VENTA cv "
+                            + "INNER JOIN CLIENTE c ON cv.id_cliente = c.id_cliente "
+                            + "INNER JOIN TIPO_COMPROBANTE tc ON cv.id_tipo_comprobante = tc.id_tipo_comprobante "
+                            + "INNER JOIN PEDIDO p ON cv.id_pedido = p.id_pedido "
+                            + "INNER JOIN USUARIO U on U.id_usuario = p.id_usuario "
+                            + "WHERE c.id_cliente = " + id_cliente;
         try {
             rs = objconectar.consultarBD(strsql);
             return rs;
