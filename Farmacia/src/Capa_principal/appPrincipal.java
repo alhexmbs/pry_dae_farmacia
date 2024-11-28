@@ -8,8 +8,7 @@ public class appPrincipal {
         JdInicioSesion objm = new JdInicioSesion(null, true);
         objm.setLocationRelativeTo(null);
         objm.setVisible(true);
-        ...probando**/
-       
+        ...probando**/       
         
         frmFarmacia farmacia = new frmFarmacia("Administrador", 1, 1);
         farmacia.setVisible(true);
