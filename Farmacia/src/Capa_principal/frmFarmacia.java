@@ -67,6 +67,7 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenuItem13 = new javax.swing.JMenuItem();
         jMenuItem14 = new javax.swing.JMenuItem();
         jMenuItem15 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
@@ -304,6 +305,14 @@ public class frmFarmacia extends javax.swing.JFrame {
         });
         jMenu10.add(jMenuItem15);
 
+        jMenuItem3.setText("Reporte de Cliente con Mayor Consumo");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed1(evt);
+            }
+        });
+        jMenu10.add(jMenuItem3);
+
         jMenuBar1.add(jMenu10);
 
         jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pago.png"))); // NOI18N
@@ -467,7 +476,9 @@ public class frmFarmacia extends javax.swing.JFrame {
 
     private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
         if (rolUsuario.equals("Administrador")) {
-            JOptionPane.showMessageDialog(this, "En mantenimiento");
+            jdReporteProductoBajaRotacion objL = new jdReporteProductoBajaRotacion(null, true);
+            objL.setLocationRelativeTo(null);
+            objL.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "No tiene acceso a esta secci n");
         }
@@ -593,6 +604,17 @@ public class frmFarmacia extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No tiene acceso a esta seccion");
         }    }//GEN-LAST:event_jMenuItem25ActionPerformed
 
+    private void jMenuItem3ActionPerformed1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed1
+       
+        if (rolUsuario.equals("Administrador")) {
+            jdReporteClienteMayorConsumo obj = new jdReporteClienteMayorConsumo(null, true);
+            obj.setLocationRelativeTo(null);
+            obj.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta seccion");
+        }  
+    }//GEN-LAST:event_jMenuItem3ActionPerformed1
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -627,6 +649,7 @@ public class frmFarmacia extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem23;
     private javax.swing.JMenuItem jMenuItem24;
     private javax.swing.JMenuItem jMenuItem25;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem7;
