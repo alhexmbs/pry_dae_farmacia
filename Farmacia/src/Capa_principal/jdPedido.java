@@ -379,7 +379,7 @@ public class jdPedido extends javax.swing.JDialog {
             }
         });
 
-        btnCancelarVenta.setBackground(new java.awt.Color(236, 177, 89));
+        btnCancelarVenta.setBackground(new java.awt.Color(102, 255, 204));
         btnCancelarVenta.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnCancelarVenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cancelar_Venta.png"))); // NOI18N
         btnCancelarVenta.setText("Cancelar");
