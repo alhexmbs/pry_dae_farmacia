@@ -90,16 +90,17 @@
                               <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="btnedit" min="-2" pref="119" max="-2" attributes="0"/>
-                              <Component id="btnSave" min="-2" pref="119" max="-2" attributes="0"/>
-                              <Component id="btnlimpiar" alignment="0" min="-2" pref="119" max="-2" attributes="0"/>
-                              <Component id="btnDarBaja" min="-2" pref="119" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="btnSave" max="32767" attributes="0"/>
+                              <Component id="btnedit" alignment="0" max="32767" attributes="0"/>
+                              <Component id="btnlimpiar" alignment="0" max="32767" attributes="0"/>
+                              <Component id="btnDarBaja" alignment="0" pref="223" max="32767" attributes="0"/>
                           </Group>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
-                      <Component id="jScrollPane4" min="-2" pref="499" max="-2" attributes="0"/>
+                      <Component id="jScrollPane4" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="22" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -185,7 +186,7 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jLabel64" alignment="1" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel65" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel3" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblVigencia" alignment="1" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel5" alignment="1" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -250,7 +251,7 @@
                       </Group>
                       <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblVigencia" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="chkVigencia" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -361,7 +362,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCantidadActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel3">
+            <Component class="javax.swing.JLabel" name="lblVigencia">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Estado:"/>
               </Properties>

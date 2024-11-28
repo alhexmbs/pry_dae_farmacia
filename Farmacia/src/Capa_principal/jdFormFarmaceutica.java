@@ -87,7 +87,7 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
         txtNombre = new javax.swing.JTextField();
         txtId2 = new javax.swing.JTextField();
         btnBuscar1 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        lblVigencia = new javax.swing.JLabel();
         chkVigencia = new javax.swing.JCheckBox();
         jPanel4 = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
@@ -301,7 +301,7 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
             }
         });
 
-        jLabel1.setText("Vigencia:");
+        lblVigencia.setText("Vigencia:");
 
         chkVigencia.setText("Vigencia");
 
@@ -316,7 +316,7 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel68)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel1)
+                                .addComponent(lblVigencia)
                                 .addComponent(jLabel64)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -354,7 +354,7 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
                     .addComponent(jLabel64))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(lblVigencia)
                     .addComponent(chkVigencia))
                 .addContainerGap(37, Short.MAX_VALUE))
         );
@@ -559,6 +559,8 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
     }//GEN-LAST:event_cboFiltrosActionPerformed
 
     private void btnBuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar1ActionPerformed
+ chkVigencia.setVisible(true);
+                lblVigencia.setVisible(true);
         ResultSet rsMarca = null;
         try {
             if (txtId2.getText().isEmpty()) {
@@ -584,6 +586,8 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
     }//GEN-LAST:event_btnNuevo1ActionPerformed
 
     private void btnDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBajaActionPerformed
+ chkVigencia.setVisible(true);
+                lblVigencia.setVisible(true);
         if (txtId2.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para eliminar");
 
@@ -617,6 +621,8 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
     }//GEN-LAST:event_btnDarBajaActionPerformed
     }
     private void btnModificaarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificaarActionPerformed
+         chkVigencia.setVisible(true);
+                lblVigencia.setVisible(true);
         if (txtId2.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe ingresar un codigo a modificar");
         } else {
@@ -651,12 +657,14 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
                 btnSave.setText("GUARDAR");
                 txtId2.setText(objff.generarCodigoformafarmaceutica().toString());
                 txtNombre.requestFocus();
+                chkVigencia.setVisible(false);
+                lblVigencia.setVisible(false);
             } else {
-                if(!txtNombre.getText().isEmpty()){
+                if (!txtNombre.getText().isEmpty()) {
                     int codigo = Integer.parseInt(txtId2.getText());
                     String nombre = txtNombre.getText();
                     boolean vigencia = chkVigencia.isSelected();
-                    objff.registrar(codigo, nombre, vigencia);
+                    objff.registrar(codigo, nombre, true);
                     btnSave.setText("NUEVO");
                     limpiar();
                     listarFormasFarmaceuticas("General");
@@ -697,6 +705,8 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
     }//GEN-LAST:event_txtNombreKeyTyped
 
     private void btnDarBaja1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBaja1ActionPerformed
+ chkVigencia.setVisible(true);
+                lblVigencia.setVisible(true);
         if (txtId2.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para dar de baja");
 
@@ -741,7 +751,6 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> cboFiltros;
     private javax.swing.JComboBox<String> cboTipo;
     private javax.swing.JCheckBox chkVigencia;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
@@ -758,6 +767,7 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblVigencia;
     private javax.swing.JTextField txtBuscarIde;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtId2;

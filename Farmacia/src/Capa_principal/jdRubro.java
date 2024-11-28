@@ -67,7 +67,7 @@ public class jdRubro extends javax.swing.JDialog {
         txtId2 = new javax.swing.JTextField();
         btnBuscar1 = new javax.swing.JButton();
         chkVigencia = new javax.swing.JCheckBox();
-        jLabel1 = new javax.swing.JLabel();
+        lblVigencia = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
         cboFiltros = new javax.swing.JComboBox<>();
@@ -134,7 +134,7 @@ public class jdRubro extends javax.swing.JDialog {
 
         chkVigencia.setText("Vigente");
 
-        jLabel1.setText("Vigencia:");
+        lblVigencia.setText("Vigencia:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -147,7 +147,7 @@ public class jdRubro extends javax.swing.JDialog {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel68)
                             .addComponent(jLabel64)
-                            .addComponent(jLabel1))
+                            .addComponent(lblVigencia))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -185,7 +185,7 @@ public class jdRubro extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(chkVigencia)
-                    .addComponent(jLabel1))
+                    .addComponent(lblVigencia))
                 .addContainerGap(38, Short.MAX_VALUE))
         );
 
@@ -364,7 +364,8 @@ public class jdRubro extends javax.swing.JDialog {
     }//GEN-LAST:event_txtId2ActionPerformed
 
     private void btnBuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar1ActionPerformed
-
+ chkVigencia.setVisible(true);
+        lblVigencia.setVisible(true);
         ResultSet rsRubro = null;
         try {
             if (txtId2.getText().isEmpty()) {
@@ -398,18 +399,21 @@ public class jdRubro extends javax.swing.JDialog {
     }//GEN-LAST:event_TablaGuardarda1MouseClicked
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+       
         try {
             if (btnSave.getText().equals("NUEVO")) {
                 btnSave.setText("GUARDAR");
                 txtId2.setText(String.valueOf(objR.generarCodigoRubro()));
                 txtNombre.requestFocus();
+                 chkVigencia.setVisible(false);
+                lblVigencia.setVisible(false);
             } else {
                 int codigo = Integer.parseInt(txtId2.getText());
 
                 String nombre = txtNombre.getText();
                 boolean estado = chkVigencia.isSelected();
                 if (!nombre.isEmpty()) {
-                    objR.registrarRubro(codigo, nombre, estado);
+                    objR.registrarRubro(codigo, nombre, true);
                     btnSave.setText("NUEVO");
                     limpiar();
                     listar("General");
@@ -427,6 +431,8 @@ public class jdRubro extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnModificaarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificaarActionPerformed
+         chkVigencia.setVisible(true);
+        lblVigencia.setVisible(true);
         if (txtId2.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe ingresar un codigo a modificar");
         } else {
@@ -462,6 +468,8 @@ public class jdRubro extends javax.swing.JDialog {
 
     private void btnDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBajaActionPerformed
 
+         chkVigencia.setVisible(true);
+        lblVigencia.setVisible(true);
         if (txtId2.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para dar de baja");
 
@@ -500,7 +508,8 @@ public class jdRubro extends javax.swing.JDialog {
     }//GEN-LAST:event_formWindowOpened
 
     private void btnDarBaja2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarBaja2ActionPerformed
-
+        chkVigencia.setVisible(true);
+        lblVigencia.setVisible(true);
         if (txtId2.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe ingresar un codigo para eliminar");
 
@@ -545,7 +554,6 @@ if (txtNombre.getText().length() >= 250) {
     private javax.swing.JButton btnSave;
     private javax.swing.JComboBox<String> cboFiltros;
     private javax.swing.JCheckBox chkVigencia;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel62;
     private javax.swing.JLabel jLabel64;
@@ -555,6 +563,7 @@ if (txtNombre.getText().length() >= 250) {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblVigencia;
     private javax.swing.JTextField txtId2;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
