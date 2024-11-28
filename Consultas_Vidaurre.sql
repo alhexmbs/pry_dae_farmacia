@@ -1,3 +1,6 @@
+SELECT * FROM DETALLE_PRODUCTO_FORMA
+SELECT * FROM LOTE
+
 -- Reporte Mensual de Ventas de Productos con Variación y Stock
 WITH ventas_mensuales AS (
     SELECT
