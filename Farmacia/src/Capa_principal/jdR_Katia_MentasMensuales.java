@@ -13,9 +13,9 @@ import net.sf.jasperreports.swing.JRViewer;
  *
  * @author Katia
  */
-public class jdR_MentasMensuales extends javax.swing.JDialog {
+public class jdR_Katia_MentasMensuales extends javax.swing.JDialog {
 
-    public jdR_MentasMensuales(java.awt.Frame parent, boolean modal) {
+    public jdR_Katia_MentasMensuales(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();                
         this.vistareporte.setVisible(false);
