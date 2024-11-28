@@ -4,20 +4,20 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<queryString>
-		<![CDATA[SELECT
+		<![CDATA[SELECT 
     CONCAT(c.nombre, ' ', c.ape_paterno, ' ', c.ape_materno) AS cliente,
     c.email AS correo,
     COALESCE(SUM(p.subtotal), 0) AS total_gastado,
     COUNT(p.id_pedido) AS cantidad_compras
-FROM
+FROM 
     cliente c
-LEFT JOIN
+LEFT JOIN 
     pedido p ON c.id_cliente = p.id_cliente
-WHERE
+WHERE 
     p.fecha_hora BETWEEN '2024-01-01' AND '2024-12-31' -- Cambia al rango deseado
-GROUP BY
+GROUP BY 
     c.id_cliente, c.nombre, c.ape_paterno, c.ape_materno, c.email
-ORDER BY
+ORDER BY 
     total_gastado DESC
 LIMIT 10;
 ]]>
