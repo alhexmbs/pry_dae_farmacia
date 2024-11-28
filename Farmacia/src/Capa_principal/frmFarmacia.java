@@ -402,7 +402,7 @@ public class frmFarmacia extends javax.swing.JFrame {
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
 
         // TODO add your handling code here:
-        jdManUsuario objUM = new jdManUsuario(null, true);
+        jdMantComprobante objUM = new jdMantComprobante(null, true);
         objUM.setLocationRelativeTo(null);
         objUM.setVisible(true);
     }
