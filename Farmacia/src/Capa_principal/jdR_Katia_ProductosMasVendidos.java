@@ -13,9 +13,9 @@ import net.sf.jasperreports.swing.JRViewer;
  *
  * @author Katia
  */
-public class jdR_PerdidasProductosCaducados extends javax.swing.JDialog {
+public class jdR_Katia_ProductosMasVendidos extends javax.swing.JDialog {
 
-    public jdR_PerdidasProductosCaducados(java.awt.Frame parent, boolean modal) {
+    public jdR_Katia_ProductosMasVendidos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();                
         this.vistareporte.setVisible(false);
@@ -52,7 +52,7 @@ public class jdR_PerdidasProductosCaducados extends javax.swing.JDialog {
         jPanel1.setBackground(new java.awt.Color(246, 244, 235));
 
         jLabel1.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
-        jLabel1.setText("Análisis de Pérdidas por Medicamentos Caducados");
+        jLabel1.setText("Reporte de productos más vendidos al mes");
 
         jButton1.setBackground(new java.awt.Color(236, 177, 89));
         jButton1.setText("Ver reporte");
@@ -69,17 +69,17 @@ public class jdR_PerdidasProductosCaducados extends javax.swing.JDialog {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(167, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(138, 138, 138))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(78, 78, 78)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txaño, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 381, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(46, 46, 46))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(180, 180, 180)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -121,7 +121,7 @@ public class jdR_PerdidasProductosCaducados extends javax.swing.JDialog {
 
             parametros.put("p_anio", Integer.parseInt(txaño.getText()));
 
-            JRViewer objReporte = new Reporte().reporteInterno("r_perdidas.jasper", parametros);
+            JRViewer objReporte = new Reporte().reporteInterno("r_productosMasVendidos.jasper", parametros);
             contenedor.add(objReporte);
             objReporte.setVisible(true);
 

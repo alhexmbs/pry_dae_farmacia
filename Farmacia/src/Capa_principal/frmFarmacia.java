@@ -248,7 +248,12 @@ public class frmFarmacia extends javax.swing.JFrame {
         });
         jMenu10.add(jMenuItem24);
 
-        jMenuItem25.setText("Reporte productos más comprados por mes");
+        jMenuItem25.setText("Reporte productos más vendidos mensualmente");
+        jMenuItem25.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem25ActionPerformed(evt);
+            }
+        });
         jMenu10.add(jMenuItem25);
 
         jMenuItem10.setText("Reporte de ventas");
@@ -542,7 +547,7 @@ public class frmFarmacia extends javax.swing.JFrame {
 
     private void jMenuItem23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem23ActionPerformed
         if (rolUsuario.equals("Administrador")) {
-            jdR_MentasMensuales obkatiaReporte1 = new jdR_MentasMensuales(null, true);
+            jdR_Katia_MentasMensuales obkatiaReporte1 = new jdR_Katia_MentasMensuales(null, true);
             obkatiaReporte1.setLocationRelativeTo(null);
             obkatiaReporte1.setVisible(true);
         } else {
@@ -572,12 +577,21 @@ public class frmFarmacia extends javax.swing.JFrame {
 
     private void jMenuItem24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem24ActionPerformed
         if (rolUsuario.equals("Administrador")) {
-            jdR_PerdidasProductosCaducados obkatiaReporte1 = new jdR_PerdidasProductosCaducados(null, true);
+            jdR_Katia_PerdidasProductosCaducados obkatiaReporte1 = new jdR_Katia_PerdidasProductosCaducados(null, true);
             obkatiaReporte1.setLocationRelativeTo(null);
             obkatiaReporte1.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "No tiene acceso a esta seccion");
         }    }//GEN-LAST:event_jMenuItem24ActionPerformed
+
+    private void jMenuItem25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem25ActionPerformed
+        if (rolUsuario.equals("Administrador")) {
+            jdR_Katia_ProductosMasVendidos obkatiaReporte1 = new jdR_Katia_ProductosMasVendidos(null, true);
+            obkatiaReporte1.setLocationRelativeTo(null);
+            obkatiaReporte1.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta seccion");
+        }    }//GEN-LAST:event_jMenuItem25ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
