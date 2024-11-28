@@ -18,10 +18,10 @@ public class datos {
 
     public datos() {
         this.driver = "org.postgresql.Driver";
-        //this.url = "jdbc:postgresql://25.59.118.186:5432/DAE_FARMACIA";
-        this.url = "jdbc:postgresql://localhost:5432/DAE_FARMACIA";
-        this.user = "postgres";
-        //this.password = "visa2005";
+        this.url = "jdbc:postgresql://25.59.118.186:5432/DAE_FARMACIA";
+        //this.url = "jdbc:postgresql://localhost:5432/DAE_FARMACIA";
+        //this.user = "postgres";
+        this.password = "visa2005";
         this.con = null;
     }
 
@@ -29,8 +29,6 @@ public class datos {
         return con;
     }
 
-    
-    
     public void conectar() throws Exception {
         try {
             Class.forName(driver);
