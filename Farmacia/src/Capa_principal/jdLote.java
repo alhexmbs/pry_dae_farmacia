@@ -24,6 +24,10 @@ public class jdLote extends javax.swing.JDialog {
         initComponents();
         listarProductoTipo();
         listarDetalleEnTabla("");
+        cboProducto_tipo.setEditable(false);
+        cboProducto_tipo.setEnabled(false);
+
+
 
     }
 
@@ -219,8 +223,6 @@ public class jdLote extends javax.swing.JDialog {
         });
 
         jLabel5.setText("Producto - Tipo:");
-
-        cboProducto_tipo.setEditable(true);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -456,13 +458,14 @@ public class jdLote extends javax.swing.JDialog {
                                 .addComponent(cboFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnedit, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnlimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnDarBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnedit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnlimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnDarBaja, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane4))
+                .addGap(25, 25, 25))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -635,7 +638,7 @@ public class jdLote extends javax.swing.JDialog {
             int idFormaFarmaceutica = objd.obtenerCodigoFormaFarmaceutica(nombreForma);
             int idUsuario = 1;
 
-            objLote.insertarLote(idLote, fechaEntrada, cantidadLote, precioCompra, numeroLote, estado, fechaVencimiento, idUsuario, idFormaFarmaceutica, idProducto);
+            objLote.insertarLote(idLote, fechaEntrada, cantidadLote, precioCompra, numeroLote, true, fechaVencimiento, idUsuario, idFormaFarmaceutica, idProducto);
             btnSave.setText("NUEVO");
 
             JOptionPane.showMessageDialog(this, "Lote guardado correctamente");

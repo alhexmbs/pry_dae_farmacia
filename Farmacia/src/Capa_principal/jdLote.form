@@ -90,16 +90,17 @@
                               <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="btnedit" min="-2" pref="119" max="-2" attributes="0"/>
-                              <Component id="btnSave" min="-2" pref="119" max="-2" attributes="0"/>
-                              <Component id="btnlimpiar" alignment="0" min="-2" pref="119" max="-2" attributes="0"/>
-                              <Component id="btnDarBaja" min="-2" pref="119" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="btnSave" max="32767" attributes="0"/>
+                              <Component id="btnedit" alignment="0" max="32767" attributes="0"/>
+                              <Component id="btnlimpiar" alignment="0" max="32767" attributes="0"/>
+                              <Component id="btnDarBaja" alignment="0" pref="223" max="32767" attributes="0"/>
                           </Group>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
-                      <Component id="jScrollPane4" min="-2" pref="499" max="-2" attributes="0"/>
+                      <Component id="jScrollPane4" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="22" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -400,7 +401,6 @@
             </Component>
             <Component class="javax.swing.JComboBox" name="cboProducto_tipo">
               <Properties>
-                <Property name="editable" type="boolean" value="true"/>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="0"/>
                 </Property>

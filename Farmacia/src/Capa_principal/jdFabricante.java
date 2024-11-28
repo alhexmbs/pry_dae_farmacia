@@ -406,7 +406,7 @@ public class jdFabricante extends javax.swing.JDialog {
                 String nombre = txtNombre.getText();
                 boolean vigencia = chkVigencia.isSelected();
                 if (!nombre.isEmpty()) {
-                    obj.registrarFabricante(codigo, nombre, vigencia);
+                    obj.registrarFabricante(codigo, nombre, true);
                     btnSave.setText("NUEVO");
                     limpiar();
                     listar("General");

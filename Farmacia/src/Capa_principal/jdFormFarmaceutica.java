@@ -664,7 +664,7 @@ public class jdFormFarmaceutica extends javax.swing.JDialog {
                     int codigo = Integer.parseInt(txtId2.getText());
                     String nombre = txtNombre.getText();
                     boolean vigencia = chkVigencia.isSelected();
-                    objff.registrar(codigo, nombre, vigencia);
+                    objff.registrar(codigo, nombre, true);
                     btnSave.setText("NUEVO");
                     limpiar();
                     listarFormasFarmaceuticas("General");

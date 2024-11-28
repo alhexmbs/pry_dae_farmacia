@@ -258,6 +258,11 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenu10.add(jMenuItem23);
 
         jMenuItem24.setText("Reporte de perdida por productos caducados");
+        jMenuItem24.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem24ActionPerformed(evt);
+            }
+        });
         jMenu10.add(jMenuItem24);
 
         jMenuItem25.setText("Reporte productos más comprados por mes");
@@ -608,6 +613,15 @@ public class frmFarmacia extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Ocurrió un error inesperado --> "+ex.getMessage());
         }
     }//GEN-LAST:event_formWindowClosing
+
+    private void jMenuItem24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem24ActionPerformed
+        if (rolUsuario.equals("Administrador")) {
+            jdR_PerdidasProductosCaducados obkatiaReporte1 = new jdR_PerdidasProductosCaducados(null, true);
+            obkatiaReporte1.setLocationRelativeTo(null);
+            obkatiaReporte1.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta seccion");
+        }    }//GEN-LAST:event_jMenuItem24ActionPerformed
 
 
 

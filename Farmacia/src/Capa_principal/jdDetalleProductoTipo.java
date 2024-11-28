@@ -447,7 +447,7 @@ public class jdDetalleProductoTipo extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 824, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -655,7 +655,7 @@ String formaFarmaceutica = cboff.getSelectedItem().toString();
                             objp.darDeBajaDetalleProducto(idProducto, idFormaFarmaceutica);
                             limpiarFormulario();
                             listarDetalleEnTabla("");
-                            JOptionPane.showMessageDialog(rootPane, "rubro dado de baja correctamente");
+                            JOptionPane.showMessageDialog(rootPane, "Detalle del producto dado de baja correctamente");
                         }
 
                     }
@@ -683,7 +683,7 @@ String formaFarmaceutica = cboff.getSelectedItem().toString();
     }//GEN-LAST:event_TablaGuardarda1MouseClicked
 
     private void cboFiltros1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboFiltros1ActionPerformed
-aplicarFiltro();
+        aplicarFiltro();
     }//GEN-LAST:event_cboFiltros1ActionPerformed
 
     private void aplicarFiltro() {
