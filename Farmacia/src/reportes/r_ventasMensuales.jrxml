@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_bocetoPrincipal" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="47270df0-93dd-4e88-b3bf-e7904e4fe380">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="p_anio" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT 
+    TO_CHAR(c.fecha_hora, 'TMMonth') AS mes,
+    SUM(c.importe_total) AS importe_total,
+    COUNT(c.id_comprobante) AS cant_ventas
+FROM comprobante_venta c
+INNER JOIN pedido p ON c.id_pedido = p.id_pedido
+WHERE EXTRACT(YEAR FROM c.fecha_hora) = $P{p_anio}
+GROUP BY TO_CHAR(c.fecha_hora, 'TMMonth'), EXTRACT(MONTH FROM c.fecha_hora)
+ORDER BY EXTRACT(MONTH FROM c.fecha_hora) ASC;]]>
+	</queryString>
+	<field name="mes" class="java.lang.String"/>
+	<field name="importe_total" class="java.math.BigDecimal"/>
+	<field name="cant_ventas" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="111" splitType="Stretch">
+			<staticText>
+				<reportElement x="31" y="28" width="326" height="59" forecolor="#003366" uuid="dfc0c294-a278-4eeb-93fa-5076aa37fac0"/>
+				<textElement>
+					<font size="22" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Reporte de ventas mensual]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-20" y="-12" width="600" height="1" uuid="576abc07-f37d-4df0-8936-77c76806c15b"/>
+				<graphicElement>
+					<pen lineWidth="20.0" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</line>
+			<image>
+				<reportElement x="376" y="23" width="179" height="64" uuid="cc86a73e-85f8-42f4-86d3-388250fc19c3"/>
+				<imageExpression><![CDATA["C:\\Users\\Katia\\Documents\\NetBeansProjects\\TrabajoFinal\\pry_dae_farmacia\\Farmacia\\src\\img\\logo.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="88" splitType="Stretch">
+			<line>
+				<reportElement x="-20" y="0" width="600" height="1" uuid="a7749c8d-29eb-424d-ad43-8903e12d60f0"/>
+				<graphicElement>
+					<pen lineWidth="5.0" lineColor="#003366"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="31" y="24" width="61" height="20" uuid="cff688f9-e1f9-4432-978b-d72bedb33d20"/>
+				<textElement textAlignment="Right">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Compañia: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="31" y="52" width="61" height="20" uuid="8db37735-c639-48d6-9c4d-98980e8b83e0"/>
+				<textElement textAlignment="Right">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Estudiante:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="113" y="52" width="205" height="20" uuid="1fe3c1b9-6036-4656-aa07-914394c2d4c4"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Katia Fiorela Gil Alcántara]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="113" y="24" width="137" height="20" uuid="c6e1958e-754d-4f71-9f43-3b842659f913"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[FarmaSalud]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-20" y="87" width="600" height="1" uuid="85816ef1-e1e0-4fcd-8cff-af8ffb5b2d0b"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#003366"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="60" splitType="Stretch">
+			<staticText>
+				<reportElement x="92" y="16" width="100" height="20" uuid="a49c1d80-c374-43cb-b806-afea404b66a4"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="216" y="16" width="100" height="20" uuid="1a5f9590-550c-4b25-91b4-8ad2c3ce1bfb"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Importe total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="376" y="16" width="100" height="20" uuid="d4de6e22-a71b-4810-9023-06068c3bd0aa"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad de ventas]]></text>
+			</staticText>
+			<line>
+				<reportElement x="81" y="46" width="401" height="2" uuid="40a61c99-eeed-4fc6-994d-832ac3d9079a"/>
+				<graphicElement>
+					<pen lineWidth="3.0" lineColor="#666666"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="60" splitType="Stretch">
+			<line>
+				<reportElement x="81" y="40" width="401" height="1" uuid="0474ff7f-a30e-45a2-b488-60bbfa8f9ed3"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#666666"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="81" y="10" width="100" height="20" uuid="5b015d03-2162-47b7-8d48-c988838f0604"/>
+				<textFieldExpression><![CDATA[$F{mes}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="10" width="100" height="20" uuid="4f265125-013c-439c-8157-db682d96aa51"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{importe_total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="380" y="10" width="100" height="20" uuid="ebb97478-9acb-49ec-8340-ad28a63409d8"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{cant_ventas}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="6" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="43" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy h.mm a">
+				<reportElement x="31" y="15" width="100" height="20" uuid="9dfe3bd8-41e2-4983-ad0a-d97439e6a717"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="407" y="15" width="80" height="20" uuid="cef9403b-b694-414d-b901-74f5d219ba52"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="487" y="15" width="40" height="20" uuid="fb2dc3e0-2f75-407b-a97b-d3b51c2525d7"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="202" splitType="Stretch">
+			<bar3DChart>
+				<chart>
+					<reportElement x="79" y="36" width="401" height="129" uuid="63fb1b08-a4b2-4f2a-a13a-dfadeb7ff649"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Meses"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{mes}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{importe_total}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</bar3DPlot>
+			</bar3DChart>
+		</band>
+	</summary>
+</jasperReport>

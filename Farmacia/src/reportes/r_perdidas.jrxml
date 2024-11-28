@@ -7,8 +7,7 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[
-SELECT 
+		<![CDATA[SELECT 
     l.fecha_vencimiento,
     l.id_lote,
     l.cantidad_lote AS cantidad_inicial,
@@ -38,22 +37,22 @@ ORDER BY l.fecha_vencimiento;]]>
 	<title>
 		<band height="111" splitType="Stretch">
 			<staticText>
-				<reportElement x="31" y="48" width="326" height="39" forecolor="#003366" uuid="dfc0c294-a278-4eeb-93fa-5076aa37fac0"/>
-				<textElement textAlignment="Center">
+				<reportElement x="31" y="28" width="326" height="59" forecolor="#003366" uuid="dfc0c294-a278-4eeb-93fa-5076aa37fac0"/>
+				<textElement>
 					<font size="22" isBold="true" isUnderline="false"/>
 				</textElement>
-				<text><![CDATA[Reporte de ventas mensuales]]></text>
+				<text><![CDATA[Reporte de perdidades por lotes vencido]]></text>
 			</staticText>
-			<image>
-				<reportElement x="403" y="28" width="152" height="59" uuid="bee19823-2853-41a6-88ff-2c5b1f350730"/>
-				<imageExpression><![CDATA["C:\\Users\\Katia\\Documents\\NetBeansProjects\\TrabajoFinal\\pry_dae_farmacia\\Farmacia\\src\\img\\logo.png"]]></imageExpression>
-			</image>
 			<line>
 				<reportElement x="-20" y="-12" width="600" height="1" uuid="576abc07-f37d-4df0-8936-77c76806c15b"/>
 				<graphicElement>
 					<pen lineWidth="20.0" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</line>
+			<image>
+				<reportElement x="371" y="28" width="184" height="64" uuid="1b5dcdbc-47bc-4acf-927d-645ff24d252a"/>
+				<imageExpression><![CDATA["C:\\Users\\Katia\\Documents\\NetBeansProjects\\TrabajoFinal\\pry_dae_farmacia\\Farmacia\\src\\img\\logo.png"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>
@@ -101,27 +100,113 @@ ORDER BY l.fecha_vencimiento;]]>
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="102" splitType="Stretch">
+		<band height="89" splitType="Stretch">
 			<staticText>
-				<reportElement x="170" y="363" width="100" height="20" uuid="59ea0377-6ead-49f3-b9de-187a7928188d"/>
-				<text><![CDATA[id_lote]]></text>
+				<reportElement x="15" y="19" width="65" height="35" uuid="ba0aa41e-6055-42cb-90d2-225494ea519c"/>
+				<textElement textAlignment="Justified">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de vencimiento]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="92" y="19" width="51" height="20" uuid="ba3064f5-9946-4266-8756-0f4bbe868c66"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID lote]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="165" y="19" width="51" height="35" uuid="1a9ac681-2baf-4483-ac18-39d37321bd3a"/>
+				<textElement textAlignment="Justified">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad inicial]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="236" y="19" width="51" height="35" uuid="aff1eb01-bd97-4bdc-b96d-8edde2320de3"/>
+				<textElement textAlignment="Justified">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad Vendida]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="304" y="19" width="65" height="35" uuid="659e9f7a-3ac4-4fe1-8429-94d86b39e54b"/>
+				<textElement textAlignment="Justified">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad no vendida]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="413" y="19" width="37" height="20" uuid="3ce23895-a246-4e73-ae92-7040aa94643d"/>
+				<textElement textAlignment="Justified">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Perdida]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="475" y="19" width="52" height="35" uuid="c0a4524a-cfd4-4e49-9215-49c380a72768"/>
+				<textElement textAlignment="Justified">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Precio de la compra]]></text>
+			</staticText>
+			<line>
+				<reportElement x="15" y="69" width="524" height="1" uuid="40a61c99-eeed-4fc6-994d-832ac3d9079a"/>
+				<graphicElement>
+					<pen lineWidth="3.0" lineColor="#666666"/>
+				</graphicElement>
+			</line>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch">
+		<band height="63" splitType="Stretch">
 			<textField>
-				<reportElement x="133" y="308" width="100" height="20" uuid="86972e94-305e-4086-8cdd-f41e5dcacb3f"/>
+				<reportElement x="15" y="19" width="77" height="20" uuid="fbb7db6f-0a29-46c6-80f1-9fcd59d0c2df"/>
 				<textFieldExpression><![CDATA[$F{fecha_vencimiento}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="233" y="348" width="100" height="20" uuid="fabd68ad-d6b4-48fa-b295-feffb01db834"/>
+				<reportElement x="92" y="19" width="51" height="20" uuid="56a3563c-e8a3-47d3-ba73-3201ff935de2"/>
+				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{id_lote}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="395" y="348" width="100" height="20" uuid="97fc4460-e1de-483f-8007-29ac46f48093"/>
+				<reportElement x="165" y="19" width="51" height="20" uuid="a11f0869-c248-4557-91e7-9ed8e6397977"/>
+				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{cantidad_inicial}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="236" y="19" width="51" height="20" uuid="3cec04b4-c654-491b-a59d-a7e80c80a1a8"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{cantidad_vendida}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="304" y="19" width="65" height="20" uuid="e6e71b10-6502-4348-9cc6-a7d2c3e95d8f"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{cantidad_no_vendida}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="413" y="19" width="42" height="20" uuid="a3e07d51-ea8a-4727-a643-e352ba1545be"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{perdida}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="472" y="19" width="55" height="20" uuid="a9b7d741-427b-4282-9713-835165adfa1e"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{precio_compra}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="15" y="52" width="524" height="1" uuid="0474ff7f-a30e-45a2-b488-60bbfa8f9ed3"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#666666"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="398" y="19" width="15" height="13" uuid="7aa697a3-71f8-4a15-beb9-6523bc820027"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[S/.]]></text>
+			</staticText>
 		</band>
 	</detail>
 	<columnFooter>
