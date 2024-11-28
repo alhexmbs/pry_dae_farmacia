@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_bocetoPrincipal" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="47270df0-93dd-4e88-b3bf-e7904e4fe380">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_bocetoPrincipal" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="47270df0-93dd-4e88-b3bf-e7904e4fe380">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -7,23 +7,7 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[
-SELECT 
-    l.fecha_vencimiento,
-    l.id_lote,
-    l.cantidad_lote AS cantidad_inicial,
-    COALESCE(SUM(pdpf.cantidad), 0) AS cantidad_vendida,
-    (l.cantidad_lote - COALESCE(SUM(pdpf.cantidad), 0)) AS cantidad_no_vendida,
-    ((l.cantidad_lote - COALESCE(SUM(pdpf.cantidad), 0)) * l.precio_compra) AS perdida,
-    l.precio_compra
-FROM lote l
-LEFT JOIN pedido_detalle_producto_forma pdpf 
-    ON l.id_frm_farma = pdpf.id_frm_farma 
-   AND l.id_producto = pdpf.id_producto
-WHERE l.fecha_vencimiento < CURRENT_DATE
-  AND EXTRACT(YEAR FROM l.fecha_vencimiento) = $P{p_anio}
-GROUP BY l.id_lote, l.fecha_vencimiento, l.cantidad_lote, l.precio_compra
-ORDER BY l.fecha_vencimiento;]]>
+		<![CDATA[]]>
 	</queryString>
 	<field name="fecha_vencimiento" class="java.sql.Date"/>
 	<field name="id_lote" class="java.lang.Integer"/>
@@ -103,7 +87,7 @@ ORDER BY l.fecha_vencimiento;]]>
 	<columnHeader>
 		<band height="102" splitType="Stretch">
 			<staticText>
-				<reportElement x="170" y="363" width="100" height="20" uuid="59ea0377-6ead-49f3-b9de-187a7928188d"/>
+				<reportElement x="214" y="246" width="100" height="20" uuid="59ea0377-6ead-49f3-b9de-187a7928188d"/>
 				<text><![CDATA[id_lote]]></text>
 			</staticText>
 		</band>
