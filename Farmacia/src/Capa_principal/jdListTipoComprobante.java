@@ -225,7 +225,6 @@ public class jdListTipoComprobante extends javax.swing.JDialog {
         String tipo = tblTiposComprobante.getValueAt(tblTiposComprobante.getSelectedRow(), 1).toString();
 
         dialog1.setTipoComprobante(tipo);
-        dialog1.enviarDatoComprobante();
     }//GEN-LAST:event_tblTiposComprobanteMouseClicked
 
 
