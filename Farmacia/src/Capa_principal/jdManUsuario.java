@@ -81,8 +81,6 @@ public class jdManUsuario extends javax.swing.JDialog {
         txtUsername = new javax.swing.JTextField();
         jLabel78 = new javax.swing.JLabel();
         cboRol = new javax.swing.JComboBox<>();
-        jLabel1 = new javax.swing.JLabel();
-        chkVigenciaUsuario = new javax.swing.JCheckBox();
         jPanel3 = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
         txtFiltrarID = new javax.swing.JTextField();
@@ -251,10 +249,6 @@ public class jdManUsuario extends javax.swing.JDialog {
 
         cboRol.setBackground(new java.awt.Color(239, 237, 220));
 
-        jLabel1.setText("Estado :");
-
-        chkVigenciaUsuario.setText("Vigente");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -294,8 +288,7 @@ public class jdManUsuario extends javax.swing.JDialog {
                             .addComponent(jLabel68)
                             .addComponent(jLabel76)
                             .addComponent(jLabel78)
-                            .addComponent(jLabel70)
-                            .addComponent(jLabel1))
+                            .addComponent(jLabel70))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -307,8 +300,7 @@ public class jdManUsuario extends javax.swing.JDialog {
                             .addComponent(txtCelularUsuario)
                             .addComponent(txtHorarioUsuario)
                             .addComponent(cboRol, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtUsername)
-                            .addComponent(chkVigenciaUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtUsername))))
                 .addContainerGap(27, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -368,10 +360,7 @@ public class jdManUsuario extends javax.swing.JDialog {
                     .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel71, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel1)
-                        .addComponent(chkVigenciaUsuario))
+                    .addComponent(jLabel71, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jdateFechaNacUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(30, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -579,7 +568,7 @@ public class jdManUsuario extends javax.swing.JDialog {
         txtUsername.setText("");
         //txtContrasena.setText("");
         jdateFechaNacUsuario.setDate(null);
-        chkVigenciaUsuario.setSelected(false);
+        //chkVigenciaUsuario.setSelected(false);
     }
 
     private void listarTipoDocumentos() {
@@ -722,7 +711,7 @@ public class jdManUsuario extends javax.swing.JDialog {
                     txtUsername.setText(rs.getString("username"));
                     //txtContrasena.setText(rs.getString("contrasena"));
 
-                    chkVigenciaUsuario.setSelected(rs.getBoolean("estado"));
+                    //chkVigenciaUsuario.setSelected(rs.getBoolean("estado"));
 
                     jdateFechaNacUsuario.setDate(rs.getDate("fecha_nacimiento"));
                 }
@@ -772,14 +761,14 @@ public class jdManUsuario extends javax.swing.JDialog {
                     float sueldo = Float.parseFloat(txtSueldoUsuario.getText());
                     String horario = txtHorarioUsuario.getText();
                     boolean sexo = opMasculino.isSelected();
-                    boolean estado = chkVigenciaUsuario.isSelected();
+                    //boolean estado = chkVigenciaUsuario.isSelected();
                     String email = txtEmailUsuario.getText();
                     int tipoDoc = objTD.obtenerIDTipoDoc(nombreTipoDoc);
                     int rol = objR.obtenerIDRol(nombreRol);
                     String username = txtUsername.getText();
 
                     //objU.insertarUsuario(idUsuario, nombre, apPat, apMat, numDoc, fechaNac, direccion, celular, sexo, sueldo, horario, username, email, rol, tipoDoc, estado);
-                    objU.insertarUsuarioMD5(idUsuario, nombre, apPat, apMat, numDoc, fechaNac, direccion, celular, sexo, sueldo, horario, username, email, rol, tipoDoc, estado);
+                    objU.insertarUsuarioMD5(idUsuario, nombre, apPat, apMat, numDoc, fechaNac, direccion, celular, sexo, sueldo, horario, username, email, rol, tipoDoc);
                     
                     limpiarFormulario();
                     listarUsuarios();
@@ -819,14 +808,14 @@ public class jdManUsuario extends javax.swing.JDialog {
                         float sueldo = Float.parseFloat(txtSueldoUsuario.getText());
                         String horario = txtHorarioUsuario.getText();
                         boolean sexo = opMasculino.isSelected();
-                        boolean estado = chkVigenciaUsuario.isSelected();
+                        //boolean estado = chkVigenciaUsuario.isSelected();
                         String email = txtEmailUsuario.getText();
                         int tipoDoc = objTD.obtenerIDTipoDoc(nombreTipoDoc);
                         int rol = objR.obtenerIDRol(nombreRol);
 
                         String username = txtUsername.getText();
 
-                        objU.modificarUsuario(idUsuario, nombre, apPat, apMat, numDoc, fechaNac, direccion, celular, sexo, sueldo, horario, username, email, rol, tipoDoc, estado);
+                        objU.modificarUsuario(idUsuario, nombre, apPat, apMat, numDoc, fechaNac, direccion, celular, sexo, sueldo, horario, username, email, rol, tipoDoc);
 
                         limpiarFormulario();
                         listarUsuarios();
@@ -1058,8 +1047,6 @@ public class jdManUsuario extends javax.swing.JDialog {
     private javax.swing.ButtonGroup btnSexoUsuario;
     private javax.swing.JComboBox<String> cboRol;
     private javax.swing.JComboBox<String> cboTipoDoc;
-    private javax.swing.JCheckBox chkVigenciaUsuario;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel62;
     private javax.swing.JLabel jLabel63;
