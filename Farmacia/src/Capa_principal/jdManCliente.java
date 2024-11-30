@@ -4,6 +4,8 @@ package Capa_principal;
 import capa_negocio.Cliente;
 import capa_negocio.TipoDocumento;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 import java.sql.*;
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -170,6 +172,11 @@ public class jdManCliente extends javax.swing.JDialog {
         });
 
         cboTipoDoc.setBackground(new java.awt.Color(239, 237, 220));
+        cboTipoDoc.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cboTipoDocItemStateChanged(evt);
+            }
+        });
 
         jdateFechaNacCliente.setBackground(new java.awt.Color(239, 237, 220));
         jdateFechaNacCliente.setDateFormatString("yyyy-MM-dd");
@@ -468,7 +475,7 @@ public class jdManCliente extends javax.swing.JDialog {
         txtApMaternoCliente.setText("");
         txtEmailCliente.setText("");
         btnGroupSexo.clearSelection();
-        cboTipoDoc.setSelectedIndex(-1);
+        cboTipoDoc.setSelectedIndex(0);
         txtNumDocCliente.setText("");
         jdateFechaNacCliente.setDate(null);
         chkVigenciaCliente.setSelected(false);
@@ -726,9 +733,6 @@ public class jdManCliente extends javax.swing.JDialog {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
 
         buscarCliente();
-//=======
-//       buscarCliente();
-//>>>>>>> main
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
@@ -805,8 +809,8 @@ public class jdManCliente extends javax.swing.JDialog {
             case "DNI":
                 limite = 8;
                 break;
-            case "Carné":
-                limite = 12;
+            case "RUC":
+                limite = 11;
                 break;
             case "Pasaporte":
                 limite = 15;
@@ -850,6 +854,11 @@ public class jdManCliente extends javax.swing.JDialog {
         txtFiltrarID.setText(String.valueOf(tblClientes.getValueAt(tblClientes.getSelectedRow(), 0)));
         btnBuscarActionPerformed(null);
     }//GEN-LAST:event_tblClientesMouseClicked
+
+    private void cboTipoDocItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboTipoDocItemStateChanged
+        // TODO add your handling code here:
+        txtNumDocCliente.setText("");
+    }//GEN-LAST:event_cboTipoDocItemStateChanged
 
 
 
