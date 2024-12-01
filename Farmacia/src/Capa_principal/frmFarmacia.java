@@ -333,6 +333,11 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenu10.add(mnuVariaciones);
 
         mnuRptVencer.setText("Reporte de Productos Próximos a Vencer: Análisi y Sugerencias");
+        mnuRptVencer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuRptVencerActionPerformed(evt);
+            }
+        });
         jMenu10.add(mnuRptVencer);
 
         jMenuBar1.add(jMenu10);
@@ -627,14 +632,14 @@ public class frmFarmacia extends javax.swing.JFrame {
         }    }//GEN-LAST:event_jMenuItem25ActionPerformed
 
     private void jMenuItem3ActionPerformed1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed1
-       
+
         if (rolUsuario.equals("Administrador")) {
             jdReporteClienteMayorConsumo obj = new jdReporteClienteMayorConsumo(null, true);
             obj.setLocationRelativeTo(null);
             obj.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "No tiene acceso a esta seccion");
-        }  
+        }
     }//GEN-LAST:event_jMenuItem3ActionPerformed1
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
@@ -649,14 +654,24 @@ public class frmFarmacia extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void mnuVariacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuVariacionesActionPerformed
-         if (rolUsuario.equals("Administrador")) {
-            jdR_Katia_MentasMensuales obkatiaReporte1 = new jdR_Katia_MentasMensuales(null, true);
-            obkatiaReporte1.setLocationRelativeTo(null);
-            obkatiaReporte1.setVisible(true);
+        if (rolUsuario.equals("Administrador")) {
+            jdR_Vidaurre_1 objReporte = new jdR_Vidaurre_1(this, true);
+            objReporte.setLocationRelativeTo(null);
+            objReporte.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "No tiene acceso a esta seccion");
         }
     }//GEN-LAST:event_mnuVariacionesActionPerformed
+
+    private void mnuRptVencerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRptVencerActionPerformed
+        if (rolUsuario.equals("Administrador")) {
+            jdR_Vidaurre_2 objReporte = new jdR_Vidaurre_2(this, true);
+            objReporte.setLocationRelativeTo(null);
+            objReporte.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta seccion");
+        }
+    }//GEN-LAST:event_mnuRptVencerActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

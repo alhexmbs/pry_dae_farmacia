@@ -10,6 +10,7 @@ import capa_negocio.Reporte;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.sql.ResultSet;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.DefaultComboBoxModel;
@@ -18,60 +19,17 @@ import net.sf.jasperreports.swing.JRViewer;
 
 /**
  *
- * @author Vidaurre
+ * @author
  */
-public class jdR_Vidaurre_1 extends javax.swing.JDialog {
-
-    Forma_farmaceutica objForma = new Forma_farmaceutica();
-    Producto objProducto = new Producto();
+public class jdR_Vidaurre_2 extends javax.swing.JDialog {
 
     /**
-     * Creates new form jdR_Vidaurre_1
+     * Creates new form jdR_Vidaurre_2
      */
-    public jdR_Vidaurre_1(java.awt.Frame parent, boolean modal) {
+    public jdR_Vidaurre_2(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.vistareporte.setVisible(false);
-        cboAño.addItem("--Ninguno--");
-        for (int i = 2015; i < 2030; i++) {
-            cboAño.addItem(String.valueOf(i));
-        }
-        listarProductos();
-        listarFormas();
-    }
-
-    private void listarProductos() {
-        ResultSet rs = null;
-        try {
-            DefaultComboBoxModel modelo = new DefaultComboBoxModel();
-            cboProducto.setModel(modelo);
-            rs = objProducto.listarParaCombo();
-
-            modelo.addElement("--Ninguno--");
-            while (rs.next()) {
-
-                modelo.addElement(rs.getString("nombre"));
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
-    }
-
-    private void listarFormas() {
-        ResultSet rs = null;
-        try {
-            DefaultComboBoxModel modelo = new DefaultComboBoxModel();
-            cboForma.setModel(modelo);
-            rs = objForma.listarTodosFormaFarmaceutica();
-
-            modelo.addElement("--Ninguno--");
-            while (rs.next()) {
-
-                modelo.addElement(rs.getString("forma_farmaceutica"));
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
     }
 
     /**
@@ -85,13 +43,11 @@ public class jdR_Vidaurre_1 extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        cboAño = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        cboProducto = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
-        cboForma = new javax.swing.JComboBox<>();
         btnVerReporte = new javax.swing.JButton();
+        jdFechaIni = new com.toedter.calendar.JDateChooser();
+        jdFechaFin = new com.toedter.calendar.JDateChooser();
         vistareporte = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -99,19 +55,11 @@ public class jdR_Vidaurre_1 extends javax.swing.JDialog {
         jPanel1.setBackground(new java.awt.Color(246, 244, 235));
 
         jLabel1.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
-        jLabel1.setText("Reporte de Análisis de Variación Porcentual de Ventas Mensuales por mes");
+        jLabel1.setText("Reporte de Productos Próximos a Vencer: Análisis de Stock y Sugerencias de Acción");
 
-        jLabel2.setText("Año:");
+        jLabel3.setText("Fecha Inicial:");
 
-        cboAño.setBackground(new java.awt.Color(246, 244, 235));
-
-        jLabel3.setText("Producto:");
-
-        cboProducto.setBackground(new java.awt.Color(246, 244, 235));
-
-        jLabel4.setText("Forma:");
-
-        cboForma.setBackground(new java.awt.Color(246, 244, 235));
+        jLabel4.setText("Fecha Final:");
 
         btnVerReporte.setBackground(new java.awt.Color(236, 177, 89));
         btnVerReporte.setText("Ver Reporte");
@@ -125,26 +73,22 @@ public class jdR_Vidaurre_1 extends javax.swing.JDialog {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
                 .addComponent(jLabel1)
-                .addGap(44, 44, 44))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(cboAño, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
+                .addContainerGap(25, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(56, 56, 56)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cboProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jdFechaIni, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cboForma, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addComponent(jdFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnVerReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
+                .addGap(67, 67, 67))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,15 +96,14 @@ public class jdR_Vidaurre_1 extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(cboAño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(cboProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(cboForma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnVerReporte))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnVerReporte)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel4))
+                    .addComponent(jdFechaIni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jdFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout vistareporteLayout = new javax.swing.GroupLayout(vistareporte);
@@ -171,7 +114,7 @@ public class jdR_Vidaurre_1 extends javax.swing.JDialog {
         );
         vistareporteLayout.setVerticalGroup(
             vistareporteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 593, Short.MAX_VALUE)
+            .addGap(0, 544, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -194,10 +137,11 @@ public class jdR_Vidaurre_1 extends javax.swing.JDialog {
 
     private void btnVerReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerReporteActionPerformed
         try {
-
-            if (cboAño.getSelectedItem().toString().equals("--Ninguno--") || cboForma.getSelectedItem().toString().equals("--Ninguno--") || cboProducto.getSelectedItem().toString().equals("--Ninguno--")) {
-
-                JOptionPane.showMessageDialog(null, "Primero debe seleccionar un año, un producto y una forma farmáceutica");
+            Date fechaSeleccionada = jdFechaIni.getDate();
+            Date fechaSeleccionada2 = jdFechaFin.getDate();
+            
+            if (fechaSeleccionada == null || fechaSeleccionada2 == null) {
+                JOptionPane.showMessageDialog(null, "Primero se debe seleccionar un rango de fechas", "Sistema", JOptionPane.ERROR_MESSAGE);
             } else {
                 Container contenedor = this.vistareporte;
                 contenedor.removeAll();
@@ -205,11 +149,10 @@ public class jdR_Vidaurre_1 extends javax.swing.JDialog {
 
                 Map parametros = new HashMap();
 
-                parametros.put("anio", Integer.parseInt(cboAño.getSelectedItem().toString()));
-                parametros.put("producto", cboProducto.getSelectedItem().toString());
-                parametros.put("forma", cboForma.getSelectedItem().toString());
+                parametros.put("fechaIni", jdFechaIni.getDate());
+                parametros.put("fechFin", jdFechaFin.getDate());
 
-                JRViewer objReporte = new Reporte().reporteInterno("ReporteVidaurre1.jasper", parametros);
+                JRViewer objReporte = new Reporte().reporteInterno("ReporteVidaurre2.jasper", parametros);
                 contenedor.add(objReporte);
                 objReporte.setVisible(true);
 
@@ -224,14 +167,13 @@ public class jdR_Vidaurre_1 extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnVerReporte;
-    private javax.swing.JComboBox<String> cboAño;
-    private javax.swing.JComboBox<String> cboForma;
-    private javax.swing.JComboBox<String> cboProducto;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private com.toedter.calendar.JDateChooser jdFechaFin;
+    private com.toedter.calendar.JDateChooser jdFechaIni;
     private javax.swing.JPanel vistareporte;
+    private javax.swing.JPanel vistareporte1;
     // End of variables declaration//GEN-END:variables
 }

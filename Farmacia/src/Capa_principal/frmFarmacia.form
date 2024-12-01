@@ -304,6 +304,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Reporte de Productos Pr&#xf3;ximos a Vencer: An&#xe1;lisi y Sugerencias"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuRptVencerActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
