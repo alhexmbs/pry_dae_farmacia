@@ -8,10 +8,10 @@ public class appPrincipal {
         objm.setVisible(true);
         /*...probando**/
        
-        /*
-        frmFarmacia farmacia = new frmFarmacia("Administrador", 1, 1);
-        farmacia.setVisible(true);
-        */
+        
+        /*frmFarmacia farmacia = new frmFarmacia("Administrador", 1, 1);
+        farmacia.setVisible(true);*/
+        
         
         /*
             Ojito??
