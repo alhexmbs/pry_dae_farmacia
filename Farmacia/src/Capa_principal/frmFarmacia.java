@@ -684,7 +684,13 @@ public class frmFarmacia extends javax.swing.JFrame {
 
     private void jMenuItem26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem26ActionPerformed
         // TODO add your handling code here:
-        
+        if (rolUsuario.equals("Administrador")) {
+            jd_VentasComprobante_JU objReporte = new jd_VentasComprobante_JU(this, true);
+            objReporte.setLocationRelativeTo(null);
+            objReporte.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta seccion");
+        }
     }//GEN-LAST:event_jMenuItem26ActionPerformed
 
 
