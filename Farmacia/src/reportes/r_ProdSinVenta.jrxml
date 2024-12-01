@@ -56,10 +56,6 @@ GROUP BY
 					<pen lineWidth="20.0" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</line>
-			<image>
-				<reportElement x="371" y="34" width="184" height="64" uuid="e396c544-c1fa-44b8-8b76-406e58af7a3d"/>
-				<imageExpression><![CDATA["C:\\Users\\Katia\\Documents\\NetBeansProjects\\TrabajoFinal\\pry_dae_farmacia\\Farmacia\\src\\img\\logo.png"]]></imageExpression>
-			</image>
 		</band>
 	</title>
 	<pageHeader>
