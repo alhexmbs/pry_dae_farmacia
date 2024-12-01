@@ -4,41 +4,39 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<queryString>
-		<![CDATA[SELECT
-    pf.nombre AS producto,
-    COALESCE(SUM(pdp.cantidad), 0) AS unidades_vendidas,
-    dpf.stock AS stock_actual
-FROM
-    producto_farmaceutico pf
-LEFT JOIN
-    detalle_producto_forma dpf ON pf.id_producto = dpf.id_producto
-LEFT JOIN
-    pedido_detalle_producto_forma pdp ON dpf.id_producto = pdp.id_producto
-LEFT JOIN
-    pedido p ON pdp.id_pedido = p.id_pedido
-WHERE
-    p.fecha_hora BETWEEN '2024-01-01' AND '2024-12-31'
-GROUP BY
-    pf.nombre, dpf.stock
-HAVING
-    SUM(pdp.cantidad) <= 10
-ORDER BY
-    unidades_vendidas ASC;]]>
+		<![CDATA[SELECT 
+    p.id_producto,
+    p.nombre,
+    COALESCE(SUM(dpp.cantidad), 0) AS unidades_vendidas  
+FROM 
+    producto_farmaceutico p
+LEFT JOIN 
+    PEDIDO_DETALLE_PRODUCTO_FORMA dpp ON p.id_producto = dpp.id_producto  
+LEFT JOIN 
+    pedido pe ON dpp.id_pedido = pe.id_pedido  
+WHERE 
+    pe.fecha_hora > CURRENT_DATE - INTERVAL '30 days'  
+GROUP BY 
+    p.id_producto, p.nombre  
+ORDER BY 
+    unidades_vendidas DESC;  
+
+]]>
 	</queryString>
-	<field name="producto" class="java.lang.String"/>
+	<field name="id_producto" class="java.lang.Integer"/>
+	<field name="nombre" class="java.lang.String"/>
 	<field name="unidades_vendidas" class="java.lang.Long"/>
-	<field name="stock_actual" class="java.lang.Integer"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
 		<band height="79" splitType="Stretch">
 			<staticText>
-				<reportElement x="10" y="10" width="326" height="59" forecolor="#003366" uuid="899f8e23-aef2-42e2-973e-56a69238b3ce"/>
+				<reportElement x="91" y="10" width="364" height="59" forecolor="#003366" uuid="899f8e23-aef2-42e2-973e-56a69238b3ce"/>
 				<textElement textAlignment="Center">
 					<font size="22" isBold="true" isUnderline="false"/>
 				</textElement>
-				<text><![CDATA[Reporte de Productos con Baja Rotación]]></text>
+				<text><![CDATA[Reporte de productos más vendidos en el último mes]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -75,44 +73,44 @@ ORDER BY
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="61" splitType="Stretch">
-			<staticText>
-				<reportElement x="39" y="29" width="100" height="20" uuid="d3840174-7cb0-43ac-b705-45e2e475975f"/>
-				<textElement textAlignment="Center"/>
-				<text><![CDATA[PRODUCTO]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="206" y="29" width="100" height="20" uuid="ba443a19-ead1-4153-9f53-2f16be1817ed"/>
-				<textElement textAlignment="Center"/>
-				<text><![CDATA[UNIDADES VENDIDAS]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="434" y="29" width="100" height="20" uuid="ba186d41-c792-4474-b4bc-28edafd4eae5"/>
-				<textElement textAlignment="Center"/>
-				<text><![CDATA[STOCK]]></text>
-			</staticText>
+		<band height="60" splitType="Stretch">
 			<line>
 				<reportElement x="19" y="49" width="536" height="1" uuid="8d353984-6266-4867-8f4a-f69e4f9efc9f"/>
 			</line>
+			<staticText>
+				<reportElement x="74" y="29" width="100" height="20" uuid="709e3019-ca3e-4f0c-af71-3492587a73a3"/>
+				<text><![CDATA[ID PRODUCTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="238" y="29" width="100" height="20" uuid="8ab19ad9-d475-49a1-9ac3-2c475c00b106"/>
+				<text><![CDATA[PRODUCTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="405" y="21" width="111" height="20" uuid="1ad20d55-8b9f-41dc-a0ea-927a99af30ca"/>
+				<text><![CDATA[UNIDADES VENDIDAS]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch">
-			<textField>
-				<reportElement x="39" y="0" width="100" height="20" uuid="530fe026-499a-4cd6-a8e3-b14767494bc5"/>
-				<textFieldExpression><![CDATA[$F{producto}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="206" y="0" width="121" height="20" uuid="b4711bb8-50ec-4af0-adb0-7d487dfbcce0"/>
-				<textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="434" y="0" width="100" height="20" uuid="4e2573ef-13c5-4dcb-87e2-ddc9118483fd"/>
-				<textFieldExpression><![CDATA[$F{stock_actual}]]></textFieldExpression>
-			</textField>
+		<band height="45" splitType="Stretch">
 			<line>
 				<reportElement x="19" y="20" width="536" height="1" uuid="6fb454b0-e5bf-4a69-86bc-f39a00bfb359"/>
 			</line>
+			<textField>
+				<reportElement x="74" y="1" width="100" height="20" uuid="3dd226ad-5d08-4c7f-917e-2f191e4b8c6e"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{id_producto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="238" y="0" width="100" height="20" uuid="1b587f3c-c5aa-4ddf-bdee-dbd5ac6d59a1"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="414" y="1" width="100" height="20" uuid="e82f8f34-9b47-411d-aced-a1cd9fb6f1a1"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>
