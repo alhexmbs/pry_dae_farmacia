@@ -69,6 +69,7 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenuItem15 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem26 = new javax.swing.JMenuItem();
         mnuVariaciones = new javax.swing.JMenuItem();
         mnuRptVencer = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
@@ -323,6 +324,14 @@ public class frmFarmacia extends javax.swing.JFrame {
             }
         });
         jMenu10.add(jMenuItem6);
+
+        jMenuItem26.setText("Reporte de Ventas según Comprobantes");
+        jMenuItem26.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem26ActionPerformed(evt);
+            }
+        });
+        jMenu10.add(jMenuItem26);
 
         mnuVariaciones.setText("Reporte de Análisis de Variación Porcentual de Ventas Mensuales por Mes");
         mnuVariaciones.addActionListener(new java.awt.event.ActionListener() {
@@ -673,6 +682,11 @@ public class frmFarmacia extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mnuRptVencerActionPerformed
 
+    private void jMenuItem26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem26ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jMenuItem26ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -707,6 +721,7 @@ public class frmFarmacia extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem23;
     private javax.swing.JMenuItem jMenuItem24;
     private javax.swing.JMenuItem jMenuItem25;
+    private javax.swing.JMenuItem jMenuItem26;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
