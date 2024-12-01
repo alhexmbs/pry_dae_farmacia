@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_ProdSinVenta" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="47270df0-93dd-4e88-b3bf-e7904e4fe380">
+	<property name="ireport.zoom" value="1.3660269107301444"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="fechaIni" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaFin" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT 
+    p.id_producto,
+    p.nombre,
+    ff.forma_farmaceutica,
+    dpf.precio_venta,
+    COALESCE(SUM(pdpf.cantidad), 0) AS cantidad_vendida,
+    dpf.stock AS stock_actual
+FROM 
+    producto_farmaceutico p
+JOIN 
+    detalle_producto_forma dpf ON p.id_producto = dpf.id_producto
+JOIN 
+    forma_farmaceutica ff ON dpf.id_frm_farma = ff.id_frm_farma
+LEFT JOIN 
+    pedido_detalle_producto_forma pdpf ON dpf.id_frm_farma = pdpf.id_frm_farma 
+    AND dpf.id_producto = pdpf.id_producto
+    AND pdpf.id_pedido IN (SELECT id_pedido FROM pedido WHERE fecha_hora BETWEEN $P{fechaIni} AND $P{fechaFin})
+WHERE 
+    pdpf.id_producto IS NULL
+GROUP BY 
+    p.id_producto, p.nombre, ff.forma_farmaceutica, dpf.precio_venta, dpf.stock;]]>
+	</queryString>
+	<field name="id_producto" class="java.lang.Integer"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="forma_farmaceutica" class="java.lang.String"/>
+	<field name="precio_venta" class="java.math.BigDecimal"/>
+	<field name="cantidad_vendida" class="java.lang.Long"/>
+	<field name="stock_actual" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="111" splitType="Stretch">
+			<staticText>
+				<reportElement x="31" y="34" width="326" height="64" forecolor="#003366" uuid="dfc0c294-a278-4eeb-93fa-5076aa37fac0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="22" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Reporte de productos sin ventas]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-20" y="-12" width="600" height="1" uuid="576abc07-f37d-4df0-8936-77c76806c15b"/>
+				<graphicElement>
+					<pen lineWidth="20.0" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</line>
+			<image>
+				<reportElement x="371" y="34" width="184" height="64" uuid="e396c544-c1fa-44b8-8b76-406e58af7a3d"/>
+				<imageExpression><![CDATA["C:\\Users\\Katia\\Documents\\NetBeansProjects\\TrabajoFinal\\pry_dae_farmacia\\Farmacia\\src\\img\\logo.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="88" splitType="Stretch">
+			<line>
+				<reportElement x="-20" y="0" width="600" height="1" uuid="a7749c8d-29eb-424d-ad43-8903e12d60f0"/>
+				<graphicElement>
+					<pen lineWidth="5.0" lineColor="#003366"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="31" y="24" width="61" height="20" uuid="cff688f9-e1f9-4432-978b-d72bedb33d20"/>
+				<textElement textAlignment="Right">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Compañia: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="31" y="52" width="61" height="20" uuid="8db37735-c639-48d6-9c4d-98980e8b83e0"/>
+				<textElement textAlignment="Right">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Estudiante:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="113" y="52" width="205" height="20" uuid="1fe3c1b9-6036-4656-aa07-914394c2d4c4"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Urcia Chapoñan Jesus]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="113" y="24" width="70" height="20" uuid="c6e1958e-754d-4f71-9f43-3b842659f913"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[FarmaSalud]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-20" y="87" width="600" height="1" uuid="85816ef1-e1e0-4fcd-8cff-af8ffb5b2d0b"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#003366"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="50" splitType="Stretch">
+			<staticText>
+				<reportElement x="54" y="15" width="61" height="20" uuid="960d4993-a516-457f-b805-cb4df5853354"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID Producto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="131" y="15" width="100" height="20" uuid="386e9fa8-6714-4431-979e-7a49cec2fa54"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Producto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="247" y="15" width="100" height="20" uuid="ecb8c42a-6548-48ec-95c2-96a281e5ecab"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Presentación]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="363" y="15" width="61" height="20" uuid="d07008e0-9539-4015-baf1-e9ba758f565d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Precio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="440" y="15" width="61" height="20" uuid="ac0849c5-6d3b-47cc-802a-d2c41f595ebe"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Stock]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="62" splitType="Stretch">
+			<textField>
+				<reportElement x="54" y="21" width="61" height="20" uuid="47beb1a3-1d25-44b6-a589-f3bff0317be8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{id_producto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="131" y="21" width="100" height="20" uuid="cbdd65b5-269e-46d7-b999-82c805fbadd5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="247" y="21" width="100" height="20" uuid="86d95909-16fb-4dde-9a78-707bdffe13e5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{forma_farmaceutica}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="363" y="21" width="61" height="20" uuid="aa15de38-cc23-414a-bf13-0cf5a5531393"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{precio_venta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="440" y="21" width="61" height="20" uuid="13d96fcf-6a41-4c46-8e1e-ad60decb6ee0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{stock_actual}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy h.mm a">
+				<reportElement x="31" y="15" width="100" height="20" uuid="9dfe3bd8-41e2-4983-ad0a-d97439e6a717"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="407" y="15" width="80" height="20" uuid="cef9403b-b694-414d-b901-74f5d219ba52"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="487" y="15" width="40" height="20" uuid="fb2dc3e0-2f75-407b-a97b-d3b51c2525d7"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
