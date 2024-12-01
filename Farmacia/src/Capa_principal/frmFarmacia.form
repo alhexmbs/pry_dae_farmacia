@@ -262,7 +262,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem14">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Reporte de productos de baja rotacion"/>
+                <Property name="text" type="java.lang.String" value="Reporte de productos m&#xe1;s vendidos en el &#xfa;ltimo mes"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem14ActionPerformed"/>

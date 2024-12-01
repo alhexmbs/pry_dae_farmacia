@@ -134,22 +134,6 @@ public class jd_ProdSinVentas_JU extends javax.swing.JDialog {
 
     
     private void btnReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteActionPerformed
-//        try {
-//            Container contenedor = this.vistareporte;
-//            contenedor.setLayout(new BorderLayout());
-//
-//            Map parametros = new HashMap();
-//
-//            parametros.put("p_anio", Integer.parseInt(txaño.getText()));
-//
-//            JRViewer objReporte = new Reporte().reporteInterno("r_ventasMensuales.jasper", parametros);
-//            contenedor.add(objReporte);
-//            objReporte.setVisible(true);
-//
-//            this.vistareporte.setVisible(true);
-//        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(this, "Error reporte frm-->" + e.getMessage());
-//        }
         try{
             Container contenedor = this.vistareporte;
             contenedor.setLayout(new BorderLayout());
