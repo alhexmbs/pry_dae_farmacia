@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_promociones" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2f680be2-dfeb-49d3-afc3-ad7243925b6c">
+	<property name="ireport.zoom" value="1.6105100000000014"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT
+    p.nombre AS producto,
+    pr.dscto AS descuento,
+    pr.fecha_inicio,
+    pr.fecha_fin
+FROM PROMOCION pr
+JOIN PRODUCTO_FARMACEUTICO p ON p.id_promocion = pr.id_promocion
+WHERE pr.estado = TRUE
+ORDER BY pr.dscto desc;]]>
+	</queryString>
+	<field name="producto" class="java.lang.String"/>
+	<field name="descuento" class="java.lang.Integer"/>
+	<field name="fecha_inicio" class="java.sql.Date"/>
+	<field name="fecha_fin" class="java.sql.Date"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="151" splitType="Stretch">
+			<staticText>
+				<reportElement x="44" y="21" width="338" height="28" forecolor="#003366" uuid="f5be18f6-275c-43f2-b619-e74d9b25aa1a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE PROMOCIONES]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="66" width="555" height="1" uuid="ccd966a2-3cf3-41be-b896-452d4f4619ac"/>
+				<graphicElement>
+					<pen lineWidth="5.5" lineStyle="Double" lineColor="#003366"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="24" y="82" width="63" height="20" uuid="7725e756-9917-4a9b-8d30-1b35261f2ea4"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Compañia:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="24" y="113" width="63" height="20" uuid="c1316d0b-a10c-4a10-a5dc-8c47c5f3ad4a"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estudiante:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="109" y="82" width="100" height="20" uuid="0486e944-6ab0-415b-99ea-26b1fb71102b"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[FarmaSalud]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="109" y="113" width="118" height="20" uuid="7520bf43-92b0-4a8a-b349-894a1aa66255"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Burga Silva Alex Manuel]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="150" width="555" height="1" uuid="546df8eb-5ae7-4bd3-8f5e-2899ccbd75c0"/>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="46" splitType="Stretch">
+			<staticText>
+				<reportElement x="26" y="1" width="100" height="20" uuid="ad282741-bfc8-423e-a6e9-210af1ee5a60"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Producto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="143" y="1" width="100" height="20" uuid="fad431d4-7322-4a33-ab79-53dc87fba7d7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descuento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="262" y="1" width="100" height="20" uuid="ebf722e7-d88a-4b37-89a9-38493235c4cd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de inicio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="382" y="1" width="140" height="20" uuid="49c06c8f-e232-4456-831b-3c0139d96572"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de finalización]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="32" width="555" height="1" uuid="330571c5-d02c-4659-a014-c4d4e2ada6d8"/>
+				<graphicElement>
+					<pen lineWidth="3.0"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="40" splitType="Stretch">
+			<textField>
+				<reportElement x="26" y="9" width="100" height="20" uuid="fc19e4ee-1679-4504-8687-8d996c65f475"/>
+				<textFieldExpression><![CDATA[$F{producto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="143" y="9" width="100" height="20" uuid="83192deb-49e0-4139-a2a6-7646e9a34613"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{descuento} + "%"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="262" y="9" width="100" height="20" uuid="da84a108-e7fd-4854-b003-055faf34af7f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fecha_inicio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="382" y="9" width="100" height="20" uuid="b6028ad9-df72-4006-9a26-da4881d83ab3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fecha_fin}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy h.mm a">
+				<reportElement x="34" y="26" width="100" height="20" uuid="5275be0b-23b4-4dd1-9072-4e8b63309253"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="427" y="22" width="80" height="20" uuid="9813a38c-627a-469b-ba9e-f5fd10219fab"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="507" y="22" width="40" height="20" uuid="6103e316-b777-47a7-be2b-3127aff93ce0"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
