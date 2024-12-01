@@ -15,11 +15,11 @@
 	<title>
 		<band height="111" splitType="Stretch">
 			<staticText>
-				<reportElement x="31" y="48" width="326" height="39" forecolor="#003366" uuid="dfc0c294-a278-4eeb-93fa-5076aa37fac0"/>
-				<textElement textAlignment="Center">
+				<reportElement x="31" y="27" width="341" height="60" forecolor="#003366" uuid="dfc0c294-a278-4eeb-93fa-5076aa37fac0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="22" isBold="true" isUnderline="false"/>
 				</textElement>
-				<text><![CDATA[Reporte de ventas mensuales]]></text>
+				<text><![CDATA[Reporte de ventas según tipo de comprobante]]></text>
 			</staticText>
 			<line>
 				<reportElement x="-20" y="-12" width="600" height="1" uuid="576abc07-f37d-4df0-8936-77c76806c15b"/>
