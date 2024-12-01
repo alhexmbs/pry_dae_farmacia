@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RepClientesMayorConsumo" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b4be120b-5a83-4b38-9e91-2bb2fc7d2a34">
+	<property name="ireport.zoom" value="1.6105100000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT
+    CONCAT(c.nombre, ' ', c.ape_paterno, ' ', c.ape_materno) AS cliente,
+    c.email AS correo,
+    COALESCE(SUM(p.subtotal), 0) AS total_gastado,
+    COUNT(p.id_pedido) AS cantidad_compras
+FROM
+    cliente c
+LEFT JOIN
+    pedido p ON c.id_cliente = p.id_cliente
+WHERE
+    p.fecha_hora BETWEEN '2024-01-01' AND '2024-12-31' -- Cambia al rango deseado
+GROUP BY
+    c.id_cliente, c.nombre, c.ape_paterno, c.ape_materno, c.email
+ORDER BY
+    total_gastado DESC
+LIMIT 10;]]>
+	</queryString>
+	<field name="cliente" class="java.lang.String"/>
+	<field name="correo" class="java.lang.String"/>
+	<field name="total_gastado" class="java.math.BigDecimal"/>
+	<field name="cantidad_compras" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="10" y="10" width="326" height="59" forecolor="#003366" uuid="04a86218-32ab-48dd-92e0-457ffbd5ffe9"/>
+				<textElement textAlignment="Center">
+					<font size="22" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Reporte de Clientes con Mayor Consumo]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="72" splitType="Stretch">
+			<staticText>
+				<reportElement x="100" y="12" width="137" height="20" uuid="e6644800-8736-45ef-bd87-7f2da0b30fdb"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[FarmaSalud]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="12" width="61" height="20" uuid="b64bba9f-4032-44f4-8968-a1fadaf1d5df"/>
+				<textElement textAlignment="Right">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Compañia: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="40" width="205" height="20" uuid="9cafe12a-1f1d-4dc2-827b-4be90b2036ac"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Medina Flores Leonardo José]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="18" y="40" width="61" height="20" uuid="093302ab-8972-42ad-a8a3-663b73c2be4f"/>
+				<textElement textAlignment="Right">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Estudiante:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="64" splitType="Stretch">
+			<staticText>
+				<reportElement x="43" y="44" width="100" height="20" uuid="c3203d37-562f-423a-8dda-5fb914b4c1d6"/>
+				<text><![CDATA[CLIENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="171" y="44" width="100" height="20" uuid="22e7d6f2-58f6-4abb-8472-b32758df8c2d"/>
+				<text><![CDATA[CORREO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="305" y="44" width="100" height="20" uuid="16b1292c-6fec-4f06-ba0d-2ee2dfd0dbb2"/>
+				<text><![CDATA[TOTAL GASTADO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="424" y="44" width="127" height="20" uuid="0d3158c4-11b4-40fe-8f25-403bbe8ed323"/>
+				<text><![CDATA[CANTIDAD DE COMPRAS]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement x="43" y="13" width="100" height="20" uuid="fe08a676-03a6-4590-b01d-a9b2ef2a86a0"/>
+				<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="171" y="13" width="100" height="20" uuid="1dd4d585-335a-472d-a23f-0ebb5e627e33"/>
+				<textFieldExpression><![CDATA[$F{correo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="305" y="13" width="100" height="20" uuid="d6e9bb2c-6983-467f-ad60-b3b561c0d0bc"/>
+				<textFieldExpression><![CDATA[$F{total_gastado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="424" y="13" width="110" height="20" uuid="95bf68aa-b2e9-4e08-b17f-5d1dfb4583fc"/>
+				<textFieldExpression><![CDATA[$F{cantidad_compras}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="10" y="0" width="541" height="1" uuid="9c195863-c09e-4deb-8bcc-2c7dfcb7b1fc"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

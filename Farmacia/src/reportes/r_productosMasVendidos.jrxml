@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_bocetoPrincipal" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="47270df0-93dd-4e88-b3bf-e7904e4fe380">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="p_anio" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[
+WITH ventas_2023 AS (
+    SELECT 
+        dp.id_producto,
+        EXTRACT(MONTH FROM p.fecha_hora) AS mes_numero,
+        SUM(dp.cantidad) AS cantidad_2023
+    FROM pedido_detalle_producto_forma dp
+    INNER JOIN pedido p ON dp.id_pedido = p.id_pedido
+    WHERE EXTRACT(YEAR FROM p.fecha_hora) = $P{p_anio}-1
+	AND p.estado_pedido = 'Completado'
+    GROUP BY dp.id_producto, EXTRACT(MONTH FROM p.fecha_hora)
+),
+ventas_2024 AS (
+    SELECT 
+        dp.id_producto,
+        EXTRACT(MONTH FROM p.fecha_hora) AS mes_numero,
+        TO_CHAR(p.fecha_hora, 'TMMonth') AS mes,
+        prod.nombre AS producto_2024,
+        SUM(dp.cantidad) AS cantidad_2024
+    FROM pedido_detalle_producto_forma dp
+    INNER JOIN pedido p ON dp.id_pedido = p.id_pedido
+    INNER JOIN producto_farmaceutico prod ON dp.id_producto = prod.id_producto
+    WHERE EXTRACT(YEAR FROM p.fecha_hora) = $P{p_anio}
+      AND p.estado_pedido = 'Completado'
+    GROUP BY dp.id_producto, EXTRACT(MONTH FROM p.fecha_hora), TO_CHAR(p.fecha_hora, 'TMMonth'), prod.nombre
+)
+SELECT DISTINCT ON (v2024.mes_numero)
+    v2024.mes,
+    v2024.producto_2024,
+    v2024.cantidad_2024,
+    COALESCE(v2023.cantidad_2023, 0) AS cantidad_2023,
+    (v2024.cantidad_2024 - COALESCE(v2023.cantidad_2023, 0)) AS variacion
+FROM ventas_2024 v2024
+LEFT JOIN ventas_2023 v2023
+  ON v2024.id_producto = v2023.id_producto
+  AND v2024.mes_numero = v2023.mes_numero
+ORDER BY v2024.mes_numero, v2024.cantidad_2024 DESC;
+]]>
+	</queryString>
+	<field name="mes" class="java.lang.String"/>
+	<field name="producto_2024" class="java.lang.String"/>
+	<field name="cantidad_2024" class="java.lang.Long"/>
+	<field name="cantidad_2023" class="java.lang.Long"/>
+	<field name="variacion" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="111" splitType="Stretch">
+			<staticText>
+				<reportElement x="31" y="28" width="326" height="59" forecolor="#003366" uuid="dfc0c294-a278-4eeb-93fa-5076aa37fac0"/>
+				<textElement>
+					<font size="22" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Reporte de productos más vendidos mensualmente]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-20" y="-12" width="600" height="1" uuid="576abc07-f37d-4df0-8936-77c76806c15b"/>
+				<graphicElement>
+					<pen lineWidth="20.0" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</line>
+			<image>
+				<reportElement x="371" y="28" width="184" height="64" uuid="a108bf46-ae8b-4a3a-8470-3ff427f53494"/>
+				<imageExpression><![CDATA["C:\\Users\\Katia\\Documents\\NetBeansProjects\\TrabajoFinal\\pry_dae_farmacia\\Farmacia\\src\\img\\logo.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="88" splitType="Stretch">
+			<line>
+				<reportElement x="-20" y="0" width="600" height="1" uuid="a7749c8d-29eb-424d-ad43-8903e12d60f0"/>
+				<graphicElement>
+					<pen lineWidth="5.0" lineColor="#003366"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="31" y="24" width="61" height="20" uuid="cff688f9-e1f9-4432-978b-d72bedb33d20"/>
+				<textElement textAlignment="Right">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Compañia: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="31" y="52" width="61" height="20" uuid="8db37735-c639-48d6-9c4d-98980e8b83e0"/>
+				<textElement textAlignment="Right">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Estudiante:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="113" y="52" width="205" height="20" uuid="1fe3c1b9-6036-4656-aa07-914394c2d4c4"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Katia Fiorela Gil Alcántara]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="113" y="24" width="137" height="20" uuid="c6e1958e-754d-4f71-9f43-3b842659f913"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[FarmaSalud]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-20" y="87" width="600" height="1" uuid="85816ef1-e1e0-4fcd-8cff-af8ffb5b2d0b"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#003366"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="79" splitType="Stretch">
+			<line>
+				<reportElement x="86" y="69" width="401" height="2" uuid="40a61c99-eeed-4fc6-994d-832ac3d9079a"/>
+				<graphicElement>
+					<pen lineWidth="3.0" lineColor="#666666"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="97" y="37" width="32" height="20" uuid="7dc5b0b7-02a3-4b15-b87d-ccd2171f6cf1"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="134" y="37" width="89" height="20" uuid="15ff0021-5311-4fa3-9fdd-3e3f4bb976de"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Producto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="223" y="37" width="88" height="20" uuid="5670725e-f45b-4b91-9bd1-3e51df28853a"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad actual]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="333" y="35" width="75" height="34" uuid="a1c47810-1e07-4ec3-956b-6b621ff3aef8"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad del año pasado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="423" y="37" width="52" height="20" uuid="aa391fb2-5660-43b0-a44b-a2a71671f3ff"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Variación]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="42" splitType="Stretch">
+			<line>
+				<reportElement x="82" y="34" width="401" height="1" uuid="0474ff7f-a30e-45a2-b488-60bbfa8f9ed3"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#666666"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="92" y="14" width="32" height="20" uuid="673e51cc-4f94-4498-8aa3-b16be9be948e"/>
+				<textFieldExpression><![CDATA[$F{mes}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="129" y="14" width="89" height="20" uuid="bed65be0-3adc-4659-b7be-3f1268cf2762"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{producto_2024}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="218" y="14" width="88" height="20" uuid="4e000a9a-1230-40c0-bb92-413a3b81b94b"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{cantidad_2024}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="307" y="14" width="96" height="20" uuid="dd3d35d9-da46-464c-902d-2c6d3898d657"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{cantidad_2023}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="418" y="14" width="52" height="20" uuid="1a154a59-debe-4c01-a64d-a32ef6fd38f3"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{variacion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="12" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="43" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy h.mm a">
+				<reportElement x="31" y="15" width="100" height="20" uuid="9dfe3bd8-41e2-4983-ad0a-d97439e6a717"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="407" y="15" width="80" height="20" uuid="cef9403b-b694-414d-b901-74f5d219ba52"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="487" y="15" width="40" height="20" uuid="fb2dc3e0-2f75-407b-a97b-d3b51c2525d7"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="261" splitType="Stretch">
+			<pie3DChart>
+				<chart>
+					<reportElement x="113" y="29" width="347" height="207" uuid="f53589cf-c5fe-4057-a3f7-2837f225e44c"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<keyExpression><![CDATA[$F{producto_2024}]]></keyExpression>
+					<valueExpression><![CDATA[$F{cantidad_2024}]]></valueExpression>
+				</pieDataset>
+				<pie3DPlot labelFormat="{0} ({2})" legendLabelFormat="{0} ({2})">
+					<plot/>
+					<itemLabel/>
+				</pie3DPlot>
+			</pie3DChart>
+		</band>
+	</summary>
+</jasperReport>

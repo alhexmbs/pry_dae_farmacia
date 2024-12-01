@@ -67,6 +67,11 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenuItem13 = new javax.swing.JMenuItem();
         jMenuItem14 = new javax.swing.JMenuItem();
         jMenuItem15 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem26 = new javax.swing.JMenuItem();
+        mnuVariaciones = new javax.swing.JMenuItem();
+        mnuRptVencer = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
@@ -248,7 +253,12 @@ public class frmFarmacia extends javax.swing.JFrame {
         });
         jMenu10.add(jMenuItem24);
 
-        jMenuItem25.setText("Reporte productos más comprados por mes");
+        jMenuItem25.setText("Reporte productos más vendidos mensualmente");
+        jMenuItem25.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem25ActionPerformed(evt);
+            }
+        });
         jMenu10.add(jMenuItem25);
 
         jMenuItem10.setText("Reporte de ventas");
@@ -283,7 +293,7 @@ public class frmFarmacia extends javax.swing.JFrame {
         });
         jMenu10.add(jMenuItem13);
 
-        jMenuItem14.setText("Reporte de productos de baja rotacion");
+        jMenuItem14.setText("Reporte de productos más vendidos en el último mes");
         jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem14ActionPerformed(evt);
@@ -298,6 +308,46 @@ public class frmFarmacia extends javax.swing.JFrame {
             }
         });
         jMenu10.add(jMenuItem15);
+
+        jMenuItem3.setText("Reporte de Cliente con Mayor Consumo");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed1(evt);
+            }
+        });
+        jMenu10.add(jMenuItem3);
+
+        jMenuItem6.setText("Reporte de Productos sin Ventas Registradas");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu10.add(jMenuItem6);
+
+        jMenuItem26.setText("Reporte de Ventas según Comprobantes");
+        jMenuItem26.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem26ActionPerformed(evt);
+            }
+        });
+        jMenu10.add(jMenuItem26);
+
+        mnuVariaciones.setText("Reporte de Análisis de Variación Porcentual de Ventas Mensuales por Mes");
+        mnuVariaciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuVariacionesActionPerformed(evt);
+            }
+        });
+        jMenu10.add(mnuVariaciones);
+
+        mnuRptVencer.setText("Reporte de Productos Próximos a Vencer: Análisi y Sugerencias");
+        mnuRptVencer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuRptVencerActionPerformed(evt);
+            }
+        });
+        jMenu10.add(mnuRptVencer);
 
         jMenuBar1.add(jMenu10);
 
@@ -402,7 +452,7 @@ public class frmFarmacia extends javax.swing.JFrame {
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
 
         // TODO add your handling code here:
-        jdManUsuario objUM = new jdManUsuario(null, true);
+        jdMantComprobante objUM = new jdMantComprobante(null, true);
         objUM.setLocationRelativeTo(null);
         objUM.setVisible(true);
     }
@@ -462,7 +512,9 @@ public class frmFarmacia extends javax.swing.JFrame {
 
     private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
         if (rolUsuario.equals("Administrador")) {
-            JOptionPane.showMessageDialog(this, "En mantenimiento");
+            jdReporteProductoBajaRotacion objL = new jdReporteProductoBajaRotacion(null, true);
+            objL.setLocationRelativeTo(null);
+            objL.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "No tiene acceso a esta secci n");
         }
@@ -542,7 +594,7 @@ public class frmFarmacia extends javax.swing.JFrame {
 
     private void jMenuItem23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem23ActionPerformed
         if (rolUsuario.equals("Administrador")) {
-            jdR_MentasMensuales obkatiaReporte1 = new jdR_MentasMensuales(null, true);
+            jdR_Katia_MentasMensuales obkatiaReporte1 = new jdR_Katia_MentasMensuales(null, true);
             obkatiaReporte1.setLocationRelativeTo(null);
             obkatiaReporte1.setVisible(true);
         } else {
@@ -572,12 +624,74 @@ public class frmFarmacia extends javax.swing.JFrame {
 
     private void jMenuItem24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem24ActionPerformed
         if (rolUsuario.equals("Administrador")) {
-            jdR_PerdidasProductosCaducados obkatiaReporte1 = new jdR_PerdidasProductosCaducados(null, true);
+            jdR_Katia_PerdidasProductosCaducados obkatiaReporte1 = new jdR_Katia_PerdidasProductosCaducados(null, true);
             obkatiaReporte1.setLocationRelativeTo(null);
             obkatiaReporte1.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "No tiene acceso a esta seccion");
         }    }//GEN-LAST:event_jMenuItem24ActionPerformed
+
+    private void jMenuItem25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem25ActionPerformed
+        if (rolUsuario.equals("Administrador")) {
+            jdR_Katia_ProductosMasVendidos obkatiaReporte1 = new jdR_Katia_ProductosMasVendidos(null, true);
+            obkatiaReporte1.setLocationRelativeTo(null);
+            obkatiaReporte1.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta seccion");
+        }    }//GEN-LAST:event_jMenuItem25ActionPerformed
+
+    private void jMenuItem3ActionPerformed1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed1
+
+        if (rolUsuario.equals("Administrador")) {
+            jdReporteClienteMayorConsumo obj = new jdReporteClienteMayorConsumo(null, true);
+            obj.setLocationRelativeTo(null);
+            obj.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta seccion");
+        }
+    }//GEN-LAST:event_jMenuItem3ActionPerformed1
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TODO add your handling code here:
+        if (rolUsuario.equals("Administrador")) {
+            jd_ProdSinVentas_JU objPR = new jd_ProdSinVentas_JU(this, true);
+            objPR.setLocationRelativeTo(null);
+            objPR.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta seccion");
+        }
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void mnuVariacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuVariacionesActionPerformed
+        if (rolUsuario.equals("Administrador")) {
+            jdR_Vidaurre_1 objReporte = new jdR_Vidaurre_1(this, true);
+            objReporte.setLocationRelativeTo(null);
+            objReporte.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta seccion");
+        }
+    }//GEN-LAST:event_mnuVariacionesActionPerformed
+
+    private void mnuRptVencerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRptVencerActionPerformed
+        if (rolUsuario.equals("Administrador")) {
+            jdR_Vidaurre_2 objReporte = new jdR_Vidaurre_2(this, true);
+            objReporte.setLocationRelativeTo(null);
+            objReporte.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta seccion");
+        }
+    }//GEN-LAST:event_mnuRptVencerActionPerformed
+
+    private void jMenuItem26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem26ActionPerformed
+        // TODO add your handling code here:
+        if (rolUsuario.equals("Administrador")) {
+            jd_VentasComprobante_JU objReporte = new jd_VentasComprobante_JU(this, true);
+            objReporte.setLocationRelativeTo(null);
+            objReporte.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta seccion");
+        }
+    }//GEN-LAST:event_jMenuItem26ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -613,8 +727,11 @@ public class frmFarmacia extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem23;
     private javax.swing.JMenuItem jMenuItem24;
     private javax.swing.JMenuItem jMenuItem25;
+    private javax.swing.JMenuItem jMenuItem26;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
@@ -627,5 +744,7 @@ public class frmFarmacia extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JMenuItem mnuAsignarCajas;
+    private javax.swing.JMenuItem mnuRptVencer;
+    private javax.swing.JMenuItem mnuVariaciones;
     // End of variables declaration//GEN-END:variables
 }

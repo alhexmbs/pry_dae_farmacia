@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_VentasComprobante" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="47270df0-93dd-4e88-b3bf-e7904e4fe380">
+	<property name="ireport.zoom" value="1.0263162364614138"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT
+    tc.tipo_comprobante,
+    COUNT(cv.id_comprobante) AS cantidad_comprobantes_emitidos,
+    SUM(cv.importe_total) AS total_recaudado
+FROM
+    comprobante_venta cv
+JOIN 
+    tipo_comprobante tc ON cv.id_tipo_comprobante = tc.id_tipo_comprobante
+GROUP BY
+    tc.tipo_comprobante
+ORDER BY
+    total_recaudado DESC;]]>
+	</queryString>
+	<field name="tipo_comprobante" class="java.lang.String"/>
+	<field name="cantidad_comprobantes_emitidos" class="java.lang.Long"/>
+	<field name="total_recaudado" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="111" splitType="Stretch">
+			<staticText>
+				<reportElement x="31" y="27" width="341" height="60" forecolor="#003366" uuid="dfc0c294-a278-4eeb-93fa-5076aa37fac0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="22" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Reporte de ventas según tipo de comprobante]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-20" y="-12" width="600" height="1" uuid="576abc07-f37d-4df0-8936-77c76806c15b"/>
+				<graphicElement>
+					<pen lineWidth="20.0" lineColor="#CCCCCC"/>
+				</graphicElement>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="88" splitType="Stretch">
+			<line>
+				<reportElement x="-20" y="0" width="600" height="1" uuid="a7749c8d-29eb-424d-ad43-8903e12d60f0"/>
+				<graphicElement>
+					<pen lineWidth="5.0" lineColor="#003366"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="31" y="24" width="61" height="20" uuid="cff688f9-e1f9-4432-978b-d72bedb33d20"/>
+				<textElement textAlignment="Right">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Compañia: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="31" y="52" width="61" height="20" uuid="8db37735-c639-48d6-9c4d-98980e8b83e0"/>
+				<textElement textAlignment="Right">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Estudiante:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="113" y="52" width="205" height="20" uuid="1fe3c1b9-6036-4656-aa07-914394c2d4c4"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Urcia Chapoñan Jesus]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="113" y="24" width="137" height="20" uuid="c6e1958e-754d-4f71-9f43-3b842659f913"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[FarmaSalud]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-20" y="87" width="600" height="1" uuid="85816ef1-e1e0-4fcd-8cff-af8ffb5b2d0b"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#003366"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="51" splitType="Stretch">
+			<staticText>
+				<reportElement x="100" y="15" width="100" height="20" uuid="9544632c-6e4d-4ea8-9448-b69eb08a9955"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Comprobante]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="231" y="15" width="93" height="20" uuid="452e2333-e7b9-4527-9e00-8b6a0ae3d996"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cant. Vendidos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="355" y="15" width="100" height="20" uuid="54a97299-2230-4274-af5c-230e2a5ab392"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Recaudado]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="63" splitType="Stretch">
+			<textField>
+				<reportElement x="100" y="21" width="100" height="20" uuid="d4ad1a0a-44f0-488d-94a5-bb4a4436ed1f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tipo_comprobante}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="231" y="21" width="93" height="20" uuid="de7718a6-ed64-45dd-8613-66b743a94a0b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cantidad_comprobantes_emitidos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="356" y="21" width="100" height="20" uuid="99a83818-33eb-48ab-b25d-6c7252af502c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{total_recaudado}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy h.mm a">
+				<reportElement x="31" y="15" width="100" height="20" uuid="9dfe3bd8-41e2-4983-ad0a-d97439e6a717"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="407" y="15" width="80" height="20" uuid="cef9403b-b694-414d-b901-74f5d219ba52"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="487" y="15" width="40" height="20" uuid="fb2dc3e0-2f75-407b-a97b-d3b51c2525d7"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="246" splitType="Stretch">
+			<pieChart>
+				<chart>
+					<reportElement x="100" y="21" width="355" height="203" uuid="cd6793d8-98f8-4ff7-b05f-2f871fe267a5"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<keyExpression><![CDATA[$F{tipo_comprobante}]]></keyExpression>
+					<valueExpression><![CDATA[$F{cantidad_comprobantes_emitidos}]]></valueExpression>
+				</pieDataset>
+				<piePlot>
+					<plot/>
+					<itemLabel/>
+				</piePlot>
+			</pieChart>
+		</band>
+	</summary>
+</jasperReport>

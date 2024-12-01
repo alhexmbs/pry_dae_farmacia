@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteVidaurre1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="73060de3-bad4-44dd-94ef-0a776b7c6f82">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="anio" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="producto" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="forma" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[WITH ventas_mensuales AS (
+    SELECT
+        EXTRACT(MONTH FROM p.fecha_hora) AS mes,  -- Extraer solo el número del mes (1-12)
+        pf.nombre AS producto,                     -- Nombre del producto
+        ff.forma_farmaceutica AS forma_producto,   -- Forma farmacéutica del producto
+        SUM(d.cantidad * d.precio_final) AS total_ventas, -- Sumar cantidad * precio_final para obtener total de ventas por producto
+        SUM(d.cantidad) AS cantidad_vendida        -- Sumar las cantidades vendidas
+    FROM
+        pedido p
+    INNER JOIN
+        pedido_detalle_producto_forma d ON p.id_pedido = d.id_pedido
+    INNER JOIN
+        producto_farmaceutico pf ON d.id_producto = pf.id_producto
+    INNER JOIN
+        forma_farmaceutica ff ON d.id_frm_farma = ff.id_frm_farma  -- Unimos con la forma farmacéutica
+    WHERE
+        EXTRACT(YEAR FROM p.fecha_hora) = $P{anio}  -- Filtrar por el año 2024
+        AND pf.nombre IN ($P{producto})  -- Filtrar por productos
+        AND ff.forma_farmaceutica IN ($P{forma})  -- Filtrar por formas farmacéuticas
+    GROUP BY
+        mes, producto, forma_producto  -- Agrupamos por mes, producto y forma
+    ORDER BY
+        mes
+),
+variacion_ventas AS (
+    SELECT
+        vm.mes,
+        vm.producto,
+        vm.forma_producto,
+        vm.total_ventas,
+        vm.cantidad_vendida,
+        COALESCE(LAG(vm.total_ventas) OVER (PARTITION BY vm.producto, vm.forma_producto ORDER BY vm.mes), 0) AS ventas_previas,  -- COALESCE para ventas previas
+        COALESCE(
+            CASE
+                WHEN LAG(vm.total_ventas) OVER (PARTITION BY vm.producto, vm.forma_producto ORDER BY vm.mes) IS NULL THEN 0
+                ELSE ROUND(((vm.total_ventas - LAG(vm.total_ventas) OVER (PARTITION BY vm.producto, vm.forma_producto ORDER BY vm.mes)) / LAG(vm.total_ventas) OVER (PARTITION BY vm.producto, vm.forma_producto ORDER BY vm.mes)) * 100, 2)
+            END,
+            0
+        ) AS variacion_porcentual  -- COALESCE para variación porcentual
+    FROM
+        ventas_mensuales vm
+)
+SELECT
+    vv.mes,
+    vv.producto,
+    vv.forma_producto,
+    vv.cantidad_vendida,
+    vv.total_ventas,
+    vv.ventas_previas,
+    vv.variacion_porcentual
+FROM
+    variacion_ventas vv
+ORDER BY
+    vv.mes;]]>
+	</queryString>
+	<field name="mes" class="java.math.BigDecimal"/>
+	<field name="producto" class="java.lang.String"/>
+	<field name="forma_producto" class="java.lang.String"/>
+	<field name="cantidad_vendida" class="java.lang.Long"/>
+	<field name="total_ventas" class="java.math.BigDecimal"/>
+	<field name="ventas_previas" class="java.math.BigDecimal"/>
+	<field name="variacion_porcentual" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="92" splitType="Stretch">
+			<staticText>
+				<reportElement x="10" y="10" width="529" height="66" forecolor="#003366" uuid="b9adf6f2-603d-45f4-848c-cdf0c84c7f49"/>
+				<textElement textAlignment="Center">
+					<font size="24" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Reporte de Análisis de Variación Porcentual de Ventas Mensuales por mes]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="84" splitType="Stretch">
+			<staticText>
+				<reportElement x="10" y="38" width="61" height="20" uuid="0869e1d3-fadd-4e5d-afe2-14a2df240efe"/>
+				<textElement textAlignment="Right">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Estudiante:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="10" width="61" height="20" uuid="f2cfff54-bf04-4f03-8262-414a40736ee4"/>
+				<textElement textAlignment="Right">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Compañia: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="92" y="38" width="205" height="20" uuid="9233a9ac-2c21-4554-b5ba-f9b4c198fbbb"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Vidaurre Santistevan Joseph]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="92" y="10" width="137" height="20" uuid="cd773171-2e73-4eb9-bafa-48c2d3371810"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[FarmaSalud]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="100" splitType="Stretch">
+			<staticText>
+				<reportElement x="15" y="36" width="38" height="20" uuid="5c3ab37c-7ba5-40d8-8519-b532e9c3908b"/>
+				<text><![CDATA[Mes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="62" y="36" width="85" height="20" uuid="18bf08e6-aecd-4c0b-b211-a62ab59e74b9"/>
+				<text><![CDATA[Producto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="157" y="34" width="100" height="40" uuid="3a81fdcd-46e3-44f4-af27-3be0cd51dfa3"/>
+				<text><![CDATA[Forma Producto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="268" y="34" width="67" height="40" uuid="30fd0479-c98d-4dff-a83e-90ca0b4a8c1f"/>
+				<text><![CDATA[Total Ventas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="409" y="34" width="64" height="40" uuid="64b3d935-32dc-4457-b9f6-7a5189f06491"/>
+				<text><![CDATA[Cantidad Vendida]]></text>
+			</staticText>
+			<line>
+				<reportElement x="15" y="74" width="524" height="1" uuid="9ed75066-5381-4370-b5a4-d0ec058ca3a4"/>
+				<graphicElement>
+					<pen lineWidth="3.0" lineColor="#666666"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="477" y="35" width="72" height="38" uuid="852c4ee6-6b0d-4b5a-85d3-a1138ccae33d"/>
+				<text><![CDATA[Variación Porcentual]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="345" y="34" width="60" height="40" uuid="e92c72f9-1291-42c8-9c62-f2c45bd25608"/>
+				<text><![CDATA[Ventas Previas]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="59" splitType="Stretch">
+			<textField>
+				<reportElement x="10" y="14" width="38" height="20" uuid="625288eb-9f7b-4596-b4e3-8ef890eef4ef"/>
+				<textFieldExpression><![CDATA[$F{mes}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="63" y="14" width="85" height="20" uuid="77457311-2d6c-42f0-8d8c-9d5d5b3f1689"/>
+				<textFieldExpression><![CDATA[$F{producto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="157" y="14" width="100" height="20" uuid="3b5f9ec4-4018-4b8f-82c5-a62a67d9b861"/>
+				<textFieldExpression><![CDATA[$F{forma_producto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="268" y="14" width="67" height="20" uuid="a78cbe81-eaf7-41b8-bf6d-318dc5d66f01"/>
+				<textFieldExpression><![CDATA[$F{total_ventas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="409" y="14" width="48" height="20" uuid="8db71e39-985d-4eaf-a390-e7853281891e"/>
+				<textFieldExpression><![CDATA[$F{cantidad_vendida}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="477" y="14" width="62" height="20" uuid="d9e1dedb-d412-4129-b35f-df4a71142caa"/>
+				<textFieldExpression><![CDATA[$F{variacion_porcentual}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="14" y="48" width="524" height="1" uuid="f28b5a8b-b37e-4848-953d-b60aa2153c17"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#666666"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="345" y="14" width="55" height="20" uuid="15193a18-21f7-4dfc-8ca4-0f69f289c275"/>
+				<textFieldExpression><![CDATA[$F{ventas_previas}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="30" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="41" splitType="Stretch">
+			<textField evaluationTime="Report">
+				<reportElement x="477" y="10" width="40" height="20" uuid="bfaed7dc-54b7-44e4-b7c0-da03e7bde1b0"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="386" y="10" width="80" height="20" uuid="fc5e1090-c9ad-40be-95a2-3533ab2a726a"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy h.mm a">
+				<reportElement x="10" y="10" width="100" height="20" uuid="999e1f25-8eea-4734-8bd3-281fa474e8d1"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="278" splitType="Stretch">
+			<bar3DChart>
+				<chart>
+					<reportElement x="34" y="12" width="483" height="253" uuid="aafb5171-1c09-47a4-a1f2-f624d739e887"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Ventas"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{mes}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{total_ventas}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["Cantidad"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{mes}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{cantidad_vendida}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["Variación"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{mes}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{variacion_porcentual}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</bar3DPlot>
+			</bar3DChart>
+		</band>
+	</summary>
+</jasperReport>

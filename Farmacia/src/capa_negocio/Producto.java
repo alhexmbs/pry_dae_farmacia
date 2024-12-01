@@ -35,26 +35,36 @@ public class Producto {
             throw new Exception("Error al consultar productos farmacéuticos --> " + e.getMessage());
         }
     }
+    
+    public ResultSet listarParaCombo() throws Exception {
+        strSQL = "SELECT * FROM PRODUCTO_FARMACEUTICO";    
+
+        try {
+            rs = objconectar.consultarBD(strSQL);
+            return rs;
+        } catch (Exception e) {
+            throw new Exception("Error al consultar productos farmacéuticos --> " + e.getMessage());
+        }
+    }
 
     public ResultSet listardetalle(String filtro) throws Exception {
-    strSQL = "SELECT dtf.*, fm.forma_farmaceutica, pro.nombre, fa.nombre_fabricante " +
-             "FROM detalle_producto_forma dtf " +
-             "INNER JOIN forma_farmaceutica fm ON dtf.id_frm_farma = fm.id_frm_farma " +
-             "INNER JOIN producto_farmaceutico pro ON pro.id_producto = dtf.id_producto " +
-             "INNER JOIN fabricante fa ON fa.id_fabricante = dtf.id_fabricante";
+        strSQL = "SELECT dtf.*, fm.forma_farmaceutica, pro.nombre, fa.nombre_fabricante "
+                + "FROM detalle_producto_forma dtf "
+                + "INNER JOIN forma_farmaceutica fm ON dtf.id_frm_farma = fm.id_frm_farma "
+                + "INNER JOIN producto_farmaceutico pro ON pro.id_producto = dtf.id_producto "
+                + "INNER JOIN fabricante fa ON fa.id_fabricante = dtf.id_fabricante";
 
-    if (filtro != null && !filtro.isEmpty()) {
-        strSQL += " WHERE " + filtro;
+        if (filtro != null && !filtro.isEmpty()) {
+            strSQL += " WHERE " + filtro;
+        }
+
+        try {
+            rs = objconectar.consultarBD(strSQL);
+            return rs;
+        } catch (Exception e) {
+            throw new Exception("Error al consultar productos farmacéuticos --> " + e.getMessage());
+        }
     }
-
-    try {
-        rs = objconectar.consultarBD(strSQL);
-        return rs;
-    } catch (Exception e) {
-        throw new Exception("Error al consultar productos farmacéuticos --> " + e.getMessage());
-    }
-}
-
 
     // Listar todos los productos sin filtro
     public ResultSet listarProductos() throws Exception {
@@ -81,7 +91,7 @@ public class Producto {
 
         strSQL = "INSERT INTO producto_farmaceutico (id_producto, nombre, nro_reg_sanitario, condicion_venta, id_promocion, id_rubro) "
                 + "VALUES (" + id_producto + ", '" + nombre + "', '" + nro_reg_sanitario + "', '" + condicion_venta + "', "
-                + id_promocion + ", " + id_rubro+")";
+                + id_promocion + ", " + id_rubro + ")";
         try {
             objconectar.ejecutarBd(strSQL);
         } catch (Exception e) {
@@ -124,23 +134,23 @@ public class Producto {
     }
 
     // Modificar detalle de producto en DETALLE_PRODUCTO_FORMA
-   public void modificarDetalleProductoForma(Integer id_frm_farma, Integer id_producto, Integer stock, double precio_venta,
-        char estado, String principio_activo, String dosis, Integer id_fabricante) throws Exception {
-    String strSQL = "UPDATE detalle_producto_forma SET "
-            + "stock = " + stock + ", "
-            + "precio_venta = " + precio_venta + ", "
-            + "estado = '" + estado + "', "
-            + "principio_activo = '" + principio_activo + "', "
-            + "dosis = '" + dosis + "', "
-            + "id_fabricante = " + id_fabricante + " "
-            + "WHERE id_frm_farma = " + id_frm_farma + " AND id_producto = " + id_producto;
+    public void modificarDetalleProductoForma(Integer id_frm_farma, Integer id_producto, Integer stock, double precio_venta,
+            char estado, String principio_activo, String dosis, Integer id_fabricante) throws Exception {
+        String strSQL = "UPDATE detalle_producto_forma SET "
+                + "stock = " + stock + ", "
+                + "precio_venta = " + precio_venta + ", "
+                + "estado = '" + estado + "', "
+                + "principio_activo = '" + principio_activo + "', "
+                + "dosis = '" + dosis + "', "
+                + "id_fabricante = " + id_fabricante + " "
+                + "WHERE id_frm_farma = " + id_frm_farma + " AND id_producto = " + id_producto;
 
-    try {
-        objconectar.ejecutarBd(strSQL);
-    } catch (Exception e) {
-        throw new Exception("Error al modificar el detalle del producto en DETALLE_PRODUCTO_FORMA --> " + e.getMessage());
+        try {
+            objconectar.ejecutarBd(strSQL);
+        } catch (Exception e) {
+            throw new Exception("Error al modificar el detalle del producto en DETALLE_PRODUCTO_FORMA --> " + e.getMessage());
+        }
     }
-}
 
     // Buscar un producto por nombre
     public int buscarProductoPorNombre(String nombre) throws Exception {
@@ -169,23 +179,21 @@ public class Producto {
         }
     }
 
-  public ResultSet buscarDetalle(Integer idFormaFar, Integer producto) throws Exception {
-    String strSQL = "SELECT dtf.*, fm.forma_farmaceutica, pro.nombre, fa.nombre_fabricante " +
-                    "FROM detalle_producto_forma dtf " +
-                    "INNER JOIN forma_farmaceutica fm ON dtf.id_frm_farma = fm.id_frm_farma " +
-                    "INNER JOIN producto_farmaceutico pro ON pro.id_producto = dtf.id_producto " +
-                    "INNER JOIN fabricante fa ON fa.id_fabricante = dtf.id_fabricante " +
-                    "WHERE dtf.id_frm_farma = '" + idFormaFar + "' AND dtf.id_producto = '" + producto + "'";
+    public ResultSet buscarDetalle(Integer idFormaFar, Integer producto) throws Exception {
+        String strSQL = "SELECT dtf.*, fm.forma_farmaceutica, pro.nombre, fa.nombre_fabricante "
+                + "FROM detalle_producto_forma dtf "
+                + "INNER JOIN forma_farmaceutica fm ON dtf.id_frm_farma = fm.id_frm_farma "
+                + "INNER JOIN producto_farmaceutico pro ON pro.id_producto = dtf.id_producto "
+                + "INNER JOIN fabricante fa ON fa.id_fabricante = dtf.id_fabricante "
+                + "WHERE dtf.id_frm_farma = '" + idFormaFar + "' AND dtf.id_producto = '" + producto + "'";
 
-    try {
-        rs = objconectar.consultarBD(strSQL);
-        return rs;
-    } catch (Exception e) {
-        throw new Exception("Error al buscar el producto y su tipo --> " + e.getMessage());
+        try {
+            rs = objconectar.consultarBD(strSQL);
+            return rs;
+        } catch (Exception e) {
+            throw new Exception("Error al buscar el producto y su tipo --> " + e.getMessage());
+        }
     }
-}
-
-
 
     // Obtener código de producto por nombre
     public Integer obtenerCodigoProducto(String nombreProducto) throws Exception {
@@ -202,7 +210,6 @@ public class Producto {
         return 0;
     }
 
-    
     public void eliminarProducto(Integer cod) throws Exception {
         String verificarSql = "SELECT COUNT(*) FROM detalle_producto_forma WHERE id_producto = " + cod;
 
@@ -220,8 +227,6 @@ public class Producto {
         }
     }
 
-    
-    
     // Dar de baja un producto actualizando el estado a 'I'
     public void darDeBajaDetalleProducto(int id_producto, int id_frm_farma) throws Exception {
         strSQL = "UPDATE detalle_producto_forma SET estado = 'I' WHERE id_producto = " + id_producto + " AND id_frm_farma = " + id_frm_farma;
