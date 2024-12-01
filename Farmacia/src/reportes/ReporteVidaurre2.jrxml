@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteVidaurre2" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c34b82f0-3071-46e7-841a-4ca7cab24f3e">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[WITH productos_proximos_vencer AS (
+    SELECT
+        pf.id_producto,                       -- ID del producto
+        pf.nombre AS producto,                -- Nombre del producto
+        ff.forma_farmaceutica,                -- Forma farmacéutica del producto
+        l.fecha_vencimiento,                  -- Fecha de vencimiento del lote
+        SUM(d.cantidad) AS stock_vendido,     -- Total de la cantidad vendida del producto
+        SUM(l.cantidad_lote) AS stock_total   -- Stock total disponible del producto
+    FROM
+        producto_farmaceutico pf
+    INNER JOIN
+        pedido_detalle_producto_forma d ON pf.id_producto = d.id_producto  -- Relación con detalle de pedido
+    INNER JOIN
+        pedido p ON d.id_pedido = p.id_pedido
+    LEFT JOIN
+        lote l ON pf.id_producto = l.id_producto  -- Relación con el lote
+    LEFT JOIN
+        forma_farmaceutica ff ON l.id_frm_farma = ff.id_frm_farma  -- Relación con la forma farmacéutica desde lote
+    WHERE
+        EXTRACT(YEAR FROM p.fecha_hora) = EXTRACT(YEAR FROM CURRENT_DATE)  -- Filtramos por el año actual
+        AND l.fecha_vencimiento BETWEEN '2022-01-01' AND '2024-12-30'  -- Rango de fecha de vencimiento
+    GROUP BY
+        pf.id_producto, pf.nombre, ff.forma_farmaceutica, l.fecha_vencimiento
+    ORDER BY
+        l.fecha_vencimiento  -- Ordenamos por fecha de vencimiento
+)
+SELECT
+    ppv.producto,
+    ppv.forma_farmaceutica,
+    TO_CHAR(ppv.fecha_vencimiento, 'YYYY-MM-DD') AS fecha_vencimiento,
+    ppv.stock_total,
+    ppv.stock_vendido,
+    ppv.stock_total - ppv.stock_vendido AS stock_disponible,
+    CASE
+        WHEN ppv.stock_total - ppv.stock_vendido < 10 THEN 'Promoción urgente'
+        WHEN ppv.fecha_vencimiento <= CURRENT_DATE + INTERVAL '30 days' THEN 'Promoción de venta rápida'
+        WHEN ppv.stock_total - ppv.stock_vendido >= 50 THEN 'Redistribución'
+        ELSE 'Sin acción sugerida'
+    END AS accion_sugerida  -- Sugerencias de acciones basadas en el stock disponible
+FROM
+    productos_proximos_vencer ppv;]]>
+	</queryString>
+	<field name="producto" class="java.lang.String"/>
+	<field name="forma_farmaceutica" class="java.lang.String"/>
+	<field name="fecha_vencimiento" class="java.lang.String"/>
+	<field name="stock_total" class="java.lang.Long"/>
+	<field name="stock_vendido" class="java.lang.Long"/>
+	<field name="stock_disponible" class="java.lang.Long"/>
+	<field name="accion_sugerida" class="java.lang.String"/>
+	<group name="GrupoPorAccionSugerida">
+		<groupExpression><![CDATA[$F{accion_sugerida}]]></groupExpression>
+		<groupHeader>
+			<band height="90">
+				<line>
+					<reportElement x="13" y="77" width="524" height="1" uuid="137b3596-e443-4978-98e6-1fe235c2d2e1"/>
+					<graphicElement>
+						<pen lineWidth="3.0" lineColor="#666666"/>
+					</graphicElement>
+				</line>
+				<textField>
+					<reportElement x="123" y="11" width="149" height="20" uuid="259cc5f5-c060-4c5c-b6bd-7eafb56edc25"/>
+					<textFieldExpression><![CDATA[$F{accion_sugerida}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="13" y="45" width="100" height="20" uuid="565116eb-592a-444c-8f82-5ed4dc644c9a"/>
+					<text><![CDATA[Producto]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="123" y="45" width="100" height="20" uuid="f28dd10d-fdea-47ff-b6c1-3896b9278ab2"/>
+					<text><![CDATA[Forma Farmaceutica]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="232" y="45" width="113" height="20" uuid="e7970bbc-d831-4638-9af1-0aaae470cbfb"/>
+					<text><![CDATA[Fecha de Vencimiento]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="355" y="45" width="44" height="32" uuid="1cb928f5-877a-41d3-b6ba-8930e4411ad7"/>
+					<text><![CDATA[Stock Total]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="411" y="45" width="54" height="32" uuid="2e6661db-323e-4705-9efe-da5796ad6320"/>
+					<text><![CDATA[Stock Vendido]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="477" y="44" width="65" height="33" uuid="9c01c9d1-2f47-4553-a293-ad50973371a3"/>
+					<text><![CDATA[Stock Disponible]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="13" y="11" width="100" height="20" uuid="cf75c42f-dae0-44d8-9d64-c3a2fcb6f847"/>
+					<text><![CDATA[Acción Sugerida:]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="50"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="88" splitType="Stretch">
+			<staticText>
+				<reportElement x="13" y="11" width="529" height="66" forecolor="#003366" uuid="07ff7507-5c20-48fe-a48e-1a348453bddf"/>
+				<textElement textAlignment="Center">
+					<font size="24" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Reporte de Productos Próximos a Vencer: Análisis de Stock y Sugerencias de Acción]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="72" splitType="Stretch">
+			<staticText>
+				<reportElement x="95" y="13" width="137" height="20" uuid="7cc92cdb-dfc4-4330-a3c1-4d8a911763f7"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[FarmaSalud]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="13" width="61" height="20" uuid="8247372c-325b-4e26-90be-11d54f7b86df"/>
+				<textElement textAlignment="Right">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Compañia: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="95" y="41" width="205" height="20" uuid="83a1340a-9bac-4b62-a77a-bd1adf717246"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Vidaurre Santistevan Joseph]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="41" width="61" height="20" uuid="9833db13-c5ad-48c8-9005-191bb359fee8"/>
+				<textElement textAlignment="Right">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Estudiante:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="17" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="56" splitType="Stretch">
+			<textField>
+				<reportElement x="13" y="11" width="100" height="20" uuid="b3f33f92-b921-45a6-a036-6d3a181a20b6"/>
+				<textFieldExpression><![CDATA[$F{producto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="123" y="11" width="100" height="20" uuid="c914a0e9-143e-4c61-a74d-5ca292e9b529"/>
+				<textFieldExpression><![CDATA[$F{forma_farmaceutica}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="13" y="43" width="524" height="1" uuid="ad417acd-f242-4826-93e9-3780a1eb90a2"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#666666"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="232" y="11" width="100" height="20" uuid="0497ed88-71cb-40a7-a8f4-295e0fe6e514"/>
+				<textFieldExpression><![CDATA[$F{fecha_vencimiento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="355" y="11" width="44" height="20" uuid="03cdb9fd-e99c-4581-9cba-630855502961"/>
+				<textFieldExpression><![CDATA[$F{stock_total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="411" y="11" width="54" height="20" uuid="6127a3f2-44f8-4597-a552-351f211eaa9e"/>
+				<textFieldExpression><![CDATA[$F{stock_vendido}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="477" y="11" width="53" height="20" uuid="f4c37295-b178-4910-991f-3be7981bff2a"/>
+				<textFieldExpression><![CDATA[$F{stock_disponible}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="23" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy h.mm a">
+				<reportElement x="23" y="0" width="100" height="20" uuid="0be2eda5-1426-417b-8cce-2f98fd192f30"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="490" y="0" width="40" height="20" uuid="5709c0c5-fcc0-451a-bc75-5e3d363be53e"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="399" y="0" width="80" height="20" uuid="559ae2f0-cfa1-4510-94b5-d68132bf618a"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

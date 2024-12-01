@@ -7,7 +7,7 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT 
+		<![CDATA[SELECT
     l.fecha_vencimiento,
     l.id_lote,
     l.cantidad_lote AS cantidad_inicial,
@@ -16,8 +16,8 @@
     ((l.cantidad_lote - COALESCE(SUM(pdpf.cantidad), 0)) * l.precio_compra) AS perdida,
     l.precio_compra
 FROM lote l
-LEFT JOIN pedido_detalle_producto_forma pdpf 
-    ON l.id_frm_farma = pdpf.id_frm_farma 
+LEFT JOIN pedido_detalle_producto_forma pdpf
+    ON l.id_frm_farma = pdpf.id_frm_farma
    AND l.id_producto = pdpf.id_producto
 WHERE l.fecha_vencimiento < CURRENT_DATE
   AND EXTRACT(YEAR FROM l.fecha_vencimiento) = $P{p_anio}
