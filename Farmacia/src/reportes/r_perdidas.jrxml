@@ -41,8 +41,8 @@ ORDER BY l.fecha_vencimiento;]]>
 	<title>
 		<band height="111" splitType="Stretch">
 			<staticText>
-				<reportElement x="31" y="28" width="326" height="59" forecolor="#003366" uuid="dfc0c294-a278-4eeb-93fa-5076aa37fac0"/>
-				<textElement>
+				<reportElement x="0" y="28" width="555" height="59" forecolor="#003366" uuid="dfc0c294-a278-4eeb-93fa-5076aa37fac0"/>
+				<textElement textAlignment="Center">
 					<font size="22" isBold="true" isUnderline="false"/>
 				</textElement>
 				<text><![CDATA[Reporte de pérdidas por  lotes vencidos]]></text>
@@ -53,10 +53,6 @@ ORDER BY l.fecha_vencimiento;]]>
 					<pen lineWidth="20.0" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</line>
-			<image>
-				<reportElement x="371" y="28" width="184" height="64" uuid="1b5dcdbc-47bc-4acf-927d-645ff24d252a"/>
-				<imageExpression><![CDATA["C:\\Users\\Katia\\Documents\\NetBeansProjects\\TrabajoFinal\\pry_dae_farmacia\\Farmacia\\src\\img\\logo.png"]]></imageExpression>
-			</image>
 		</band>
 	</title>
 	<pageHeader>
