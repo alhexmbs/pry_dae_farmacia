@@ -3,6 +3,9 @@
 	<property name="ireport.zoom" value="1.771561000000001"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<parameter name="limite" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT 
     p.id_producto,
@@ -19,9 +22,8 @@ WHERE
 GROUP BY 
     p.id_producto, p.nombre  
 ORDER BY 
-    unidades_vendidas DESC;  
-
-]]>
+    unidades_vendidas DESC  
+LIMIT $P{limite};]]>
 	</queryString>
 	<field name="id_producto" class="java.lang.Integer"/>
 	<field name="nombre" class="java.lang.String"/>
