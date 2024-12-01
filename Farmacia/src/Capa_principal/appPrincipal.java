@@ -9,7 +9,6 @@ public class appPrincipal {
         JdInicioSesion objm = new JdInicioSesion(null, true);
         objm.setLocationRelativeTo(null);
         objm.setVisible(true);
-<<<<<<< HEAD
         /*...probando**/
        
         

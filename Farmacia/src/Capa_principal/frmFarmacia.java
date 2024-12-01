@@ -72,8 +72,10 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenuItem26 = new javax.swing.JMenuItem();
         mnuVariaciones = new javax.swing.JMenuItem();
         mnuRptVencer = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem27 = new javax.swing.JMenuItem();
+        jMenuItem28 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenu11 = new javax.swing.JMenu();
         jMenuItem16 = new javax.swing.JMenuItem();
@@ -349,18 +351,34 @@ public class frmFarmacia extends javax.swing.JFrame {
         });
         jMenu10.add(mnuRptVencer);
 
-        jMenuBar1.add(jMenu10);
-
-        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pago.png"))); // NOI18N
-        jMenu3.setText("Pagos");
-
-        jMenuItem7.setText("Gestionar pagos");
+        jMenuItem7.setText("Alex Burga: Reporte de promociones");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem7ActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem7);
+        jMenu10.add(jMenuItem7);
+
+        jMenuItem27.setText("Alex Burga: Reporte de promociones segun un rango");
+        jMenuItem27.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem27ActionPerformed(evt);
+            }
+        });
+        jMenu10.add(jMenuItem27);
+
+        jMenuItem28.setText("Alex Burga: Reporte margen de ganancias");
+        jMenuItem28.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem28ActionPerformed(evt);
+            }
+        });
+        jMenu10.add(jMenuItem28);
+
+        jMenuBar1.add(jMenu10);
+
+        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pago.png"))); // NOI18N
+        jMenu3.setText("Pagos");
 
         jMenuItem8.setText("Comprobantes");
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
@@ -438,16 +456,6 @@ public class frmFarmacia extends javax.swing.JFrame {
         jdPedido obj = new jdPedido(null, false);
         obj.setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
-
-    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        if (rolUsuario.equals("Administrador")) {
-            jdPago_Admin pagoAdmin = new jdPago_Admin(this, true);
-            pagoAdmin.setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(this, "No tiene acceso a esta sección");
-        }
-
-    }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
 
@@ -693,6 +701,36 @@ public class frmFarmacia extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem26ActionPerformed
 
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        if (rolUsuario.equals("Administrador")) {
+            jdReportePromociones objReporte = new jdReportePromociones(this, true);
+            objReporte.setLocationRelativeTo(null);
+            objReporte.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta seccion");
+        }
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem27ActionPerformed
+        if (rolUsuario.equals("Administrador")) {
+            jdReportePromocionesRango objReporte = new jdReportePromocionesRango(this, true);
+            objReporte.setLocationRelativeTo(null);
+            objReporte.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta seccion");
+        }
+    }//GEN-LAST:event_jMenuItem27ActionPerformed
+
+    private void jMenuItem28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem28ActionPerformed
+        if (rolUsuario.equals("Administrador")) {
+            jdReporteMargenGanancia objReporte = new jdReporteMargenGanancia(this, true);
+            objReporte.setLocationRelativeTo(null);
+            objReporte.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta seccion");
+        }
+    }//GEN-LAST:event_jMenuItem28ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -728,6 +766,8 @@ public class frmFarmacia extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem24;
     private javax.swing.JMenuItem jMenuItem25;
     private javax.swing.JMenuItem jMenuItem26;
+    private javax.swing.JMenuItem jMenuItem27;
+    private javax.swing.JMenuItem jMenuItem28;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;

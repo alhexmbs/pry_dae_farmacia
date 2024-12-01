@@ -8,11 +8,9 @@ import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import net.sf.jasperreports.swing.JRViewer;
 
+public class jdReporteMargenGanancia extends javax.swing.JDialog {
 
-public class jdReportePromociones extends javax.swing.JDialog {
-
-    
-    public jdReportePromociones(java.awt.Frame parent, boolean modal) {
+    public jdReporteMargenGanancia(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.vistareporte.setVisible(false);
@@ -20,7 +18,7 @@ public class jdReportePromociones extends javax.swing.JDialog {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setSize(screenSize);
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -45,7 +43,7 @@ public class jdReportePromociones extends javax.swing.JDialog {
         );
         vistareporteLayout.setVerticalGroup(
             vistareporteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 438, Short.MAX_VALUE)
+            .addGap(0, 398, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -58,7 +56,7 @@ public class jdReportePromociones extends javax.swing.JDialog {
                     .addComponent(vistareporte)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnVerReporte)
-                        .addGap(0, 653, Short.MAX_VALUE)))
+                        .addGap(0, 634, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -78,18 +76,17 @@ public class jdReportePromociones extends javax.swing.JDialog {
         try {
             Container contenedor = this.vistareporte;
             contenedor.setLayout(new BorderLayout());
-            
-            JRViewer objReporte = new Reporte().reporteInterno("reporte_promociones.jasper", null);
+
+            JRViewer objReporte = new Reporte().reporteInterno("reporte_margen_ganancias.jasper", null);
             contenedor.add(objReporte);
             objReporte.setVisible(true);
             this.vistareporte.setVisible(true);
-            
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage() + " ERROR en Reporte", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnVerReporteActionPerformed
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnVerReporte;

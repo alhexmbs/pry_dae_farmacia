@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_margen_ganancias" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d9863361-05d5-4ba2-a9b9-8fa81143fb9b">
+	<property name="ireport.zoom" value="2.143588810000002"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT
+    pf.nombre AS producto,
+    dpf.precio_venta AS precio_venta,
+    l.precio_compra AS precio_compra,
+    (dpf.precio_venta - l.precio_compra) AS margen_ganancia,
+    ROUND(((dpf.precio_venta - l.precio_compra) / l.precio_compra) * 100, 2) AS porcentaje_ganancia
+FROM
+    DETALLE_PRODUCTO_FORMA dpf
+JOIN
+    PRODUCTO_FARMACEUTICO pf ON dpf.id_producto = pf.id_producto
+JOIN
+    LOTE l ON dpf.id_frm_farma = l.id_frm_farma AND dpf.id_producto = l.id_producto
+ORDER BY
+    margen_ganancia DESC;]]>
+	</queryString>
+	<field name="producto" class="java.lang.String"/>
+	<field name="precio_venta" class="java.math.BigDecimal"/>
+	<field name="precio_compra" class="java.math.BigDecimal"/>
+	<field name="margen_ganancia" class="java.math.BigDecimal"/>
+	<field name="porcentaje_ganancia" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="154" splitType="Stretch">
+			<staticText>
+				<reportElement x="79" y="22" width="378" height="29" forecolor="#003366" uuid="a34e9ef8-2ed0-40c2-b3b0-e9e85cb89955"/>
+				<textElement>
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE MARGEN DE GANANCIA]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="61" width="555" height="1" uuid="b2a7c4c6-384a-418f-b2ca-f95547894e74"/>
+				<graphicElement>
+					<pen lineWidth="3.0" lineStyle="Double" lineColor="#003366"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="27" y="82" width="73" height="18" uuid="2681239d-e95b-44bf-b920-7e0f0a69df03"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Compañia:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="27" y="110" width="73" height="20" uuid="588c3ab1-7c89-4a47-a1d6-a8846741b0fe"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estudiante:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="82" width="114" height="20" uuid="9e98f53f-62c6-4484-b5a4-aeb43d0d2dc6"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[FarmaSalud]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="110" width="114" height="20" uuid="c2d7ae71-c26b-4363-a010-44e6ab902d32"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Burga Silva Alex Manuel]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="144" width="555" height="1" uuid="1b5e1f1c-4aa5-4179-9584-88db24ebf96d"/>
+				<graphicElement>
+					<pen lineColor="#003366"/>
+				</graphicElement>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="39" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="df51651d-eeb1-4afe-b1db-65127591b2ec"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Producto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="310" y="0" width="116" height="20" uuid="8bfd5534-e84f-4056-b17e-15de412058b8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Margen de ganancia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="426" y="0" width="129" height="20" uuid="86b8cdd1-c4f3-426f-b11e-04891111bd79"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Porcentaje de ganancia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="0" width="100" height="20" uuid="f48febf9-43ec-404e-94fa-697725281906"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Precio de compra]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="210" y="0" width="92" height="20" uuid="06bd5188-50f3-490f-9d9e-70c8347de922"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Precio de venta]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="30" width="555" height="1" uuid="8b17063f-57a1-4a31-a87f-bb3f2ddadd89"/>
+				<graphicElement>
+					<pen lineWidth="3.0"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="40" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="12" width="100" height="20" uuid="c59c134b-1f94-4da4-ad4a-939a95ee7b0a"/>
+				<textFieldExpression><![CDATA[$F{producto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="315" y="12" width="111" height="20" uuid="3e6c10fc-8492-4d6e-828e-8d444c50cc0a"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{margen_ganancia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="426" y="12" width="129" height="20" uuid="13e66f3a-164c-47d6-a83d-3a917c475626"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{porcentaje_ganancia} + "%"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="12" width="100" height="20" uuid="21e2fac2-0cd6-4c15-8c11-c1923857bc7d"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{precio_compra}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="202" y="12" width="100" height="20" uuid="fc6bb6f3-aa42-4205-a28a-1d5fdcf98d48"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{precio_venta}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="36" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy h.mm a">
+				<reportElement x="30" y="25" width="100" height="20" uuid="7f19a1b2-b735-46a8-abbe-f38d8da589ea"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="415" y="25" width="80" height="20" uuid="799f428b-359d-4204-bec3-e85cacabc433"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="495" y="25" width="40" height="20" uuid="5b0d81f2-a730-4907-8cef-7fc6bc70979e"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="50" splitType="Stretch"/>
+	</summary>
+</jasperReport>
