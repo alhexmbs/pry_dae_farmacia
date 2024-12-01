@@ -130,7 +130,6 @@
                                   <Component id="jLabel76" alignment="1" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel78" alignment="1" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel70" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel1" alignment="1" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -145,7 +144,6 @@
                                   <Component id="txtHorarioUsuario" max="32767" attributes="0"/>
                                   <Component id="cboRol" alignment="0" max="32767" attributes="0"/>
                                   <Component id="txtUsername" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="chkVigenciaUsuario" min="-2" pref="85" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -220,11 +218,7 @@
                       </Group>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel71" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
-                              <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="chkVigenciaUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="jLabel71" min="-2" pref="29" max="-2" attributes="0"/>
                           <Component id="jdateFechaNacUsuario" min="-2" pref="29" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="30" max="32767" attributes="0"/>
@@ -593,16 +587,6 @@
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
-            </Component>
-            <Component class="javax.swing.JLabel" name="jLabel1">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Estado :"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JCheckBox" name="chkVigenciaUsuario">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Vigente"/>
-              </Properties>
             </Component>
           </SubComponents>
         </Container>

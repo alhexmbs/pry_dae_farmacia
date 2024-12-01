@@ -7,6 +7,8 @@ package Capa_principal;
 import capa_negocio.Reporte;
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import net.sf.jasperreports.swing.JRViewer;
 
@@ -33,21 +35,13 @@ public class jdReporteProductoBajaRotacion extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        DskReporte = new javax.swing.JDesktopPane();
         btnVerReporte = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        txtlimite = new javax.swing.JTextField();
+        panel = new javax.swing.JDesktopPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        javax.swing.GroupLayout DskReporteLayout = new javax.swing.GroupLayout(DskReporte);
-        DskReporte.setLayout(DskReporteLayout);
-        DskReporteLayout.setHorizontalGroup(
-            DskReporteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        DskReporteLayout.setVerticalGroup(
-            DskReporteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 452, Short.MAX_VALUE)
-        );
 
         btnVerReporte.setText("VER REPORTE");
         btnVerReporte.addActionListener(new java.awt.event.ActionListener() {
@@ -56,23 +50,54 @@ public class jdReporteProductoBajaRotacion extends javax.swing.JDialog {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        jLabel1.setText("Reporte de productos más vendidos en el último mes");
+
+        jLabel2.setText("Limite:");
+
+        javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
+        panel.setLayout(panelLayout);
+        panelLayout.setHorizontalGroup(
+            panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        panelLayout.setVerticalGroup(
+            panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 443, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(DskReporte)
             .addGroup(layout.createSequentialGroup()
-                .addGap(64, 64, 64)
-                .addComponent(btnVerReporte)
-                .addContainerGap(491, Short.MAX_VALUE))
+                .addGap(71, 71, 71)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 539, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(188, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtlimite, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnVerReporte)
+                        .addGap(138, 138, 138))))
+            .addComponent(panel)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(btnVerReporte)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                .addComponent(DskReporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnVerReporte)
+                    .addComponent(jLabel2)
+                    .addComponent(txtlimite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -80,14 +105,18 @@ public class jdReporteProductoBajaRotacion extends javax.swing.JDialog {
 
     private void btnVerReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerReporteActionPerformed
         try {
-            Container contenedor = this.DskReporte;
+            Container contenedor = this.panel;
             contenedor.setLayout(new BorderLayout());
+            
+            Map parametros = new HashMap();
 
-            JRViewer objReporte = new Reporte().reporteInterno("RepProductoconBajaRotacion.jasper", null);
+            parametros.put("limite", Integer.parseInt(txtlimite.getText()));
+
+            JRViewer objReporte = new Reporte().reporteInterno("RepProductoconBajaRotacion.jasper", parametros);
             contenedor.add(objReporte);
             objReporte.setVisible(true);
 
-            this.DskReporte.setVisible(true);
+            this.panel.setVisible(true);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error reporte frm-->" +e.getMessage());
         }
@@ -99,7 +128,10 @@ public class jdReporteProductoBajaRotacion extends javax.swing.JDialog {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JDesktopPane DskReporte;
     private javax.swing.JButton btnVerReporte;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JDesktopPane panel;
+    private javax.swing.JTextField txtlimite;
     // End of variables declaration//GEN-END:variables
 }

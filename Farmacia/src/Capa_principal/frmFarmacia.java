@@ -68,6 +68,7 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenuItem14 = new javax.swing.JMenuItem();
         jMenuItem15 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
@@ -289,7 +290,7 @@ public class frmFarmacia extends javax.swing.JFrame {
         });
         jMenu10.add(jMenuItem13);
 
-        jMenuItem14.setText("Reporte de productos de baja rotacion");
+        jMenuItem14.setText("Reporte de productos más vendidos en el último mes");
         jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem14ActionPerformed(evt);
@@ -312,6 +313,14 @@ public class frmFarmacia extends javax.swing.JFrame {
             }
         });
         jMenu10.add(jMenuItem3);
+
+        jMenuItem6.setText("Reporte de Productos sin Ventas Registradas");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu10.add(jMenuItem6);
 
         jMenuBar1.add(jMenu10);
 
@@ -615,6 +624,17 @@ public class frmFarmacia extends javax.swing.JFrame {
         }  
     }//GEN-LAST:event_jMenuItem3ActionPerformed1
 
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TODO add your handling code here:
+        if (rolUsuario.equals("Administrador")) {
+            jd_ProdSinVentas_JU objPR = new jd_ProdSinVentas_JU(this, true);
+            objPR.setLocationRelativeTo(null);
+            objPR.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta seccion");
+        }
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -652,6 +672,7 @@ public class frmFarmacia extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
