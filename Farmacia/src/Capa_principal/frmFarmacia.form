@@ -292,6 +292,19 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem6ActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mnuVariaciones">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Reporte de An&#xe1;lisis de Variaci&#xf3;n Porcentual de Ventas Mensuales por Mes"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuVariacionesActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mnuRptVencer">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Reporte de Productos Pr&#xf3;ximos a Vencer: An&#xe1;lisi y Sugerencias"/>
+              </Properties>
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu3">

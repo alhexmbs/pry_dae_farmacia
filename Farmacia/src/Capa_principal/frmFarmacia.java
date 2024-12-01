@@ -69,6 +69,8 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenuItem15 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
+        mnuVariaciones = new javax.swing.JMenuItem();
+        mnuRptVencer = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
@@ -321,6 +323,17 @@ public class frmFarmacia extends javax.swing.JFrame {
             }
         });
         jMenu10.add(jMenuItem6);
+
+        mnuVariaciones.setText("Reporte de Análisis de Variación Porcentual de Ventas Mensuales por Mes");
+        mnuVariaciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuVariacionesActionPerformed(evt);
+            }
+        });
+        jMenu10.add(mnuVariaciones);
+
+        mnuRptVencer.setText("Reporte de Productos Próximos a Vencer: Análisi y Sugerencias");
+        jMenu10.add(mnuRptVencer);
 
         jMenuBar1.add(jMenu10);
 
@@ -635,6 +648,16 @@ public class frmFarmacia extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
+    private void mnuVariacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuVariacionesActionPerformed
+         if (rolUsuario.equals("Administrador")) {
+            jdR_Katia_MentasMensuales obkatiaReporte1 = new jdR_Katia_MentasMensuales(null, true);
+            obkatiaReporte1.setLocationRelativeTo(null);
+            obkatiaReporte1.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "No tiene acceso a esta seccion");
+        }
+    }//GEN-LAST:event_mnuVariacionesActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -685,5 +708,7 @@ public class frmFarmacia extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JMenuItem mnuAsignarCajas;
+    private javax.swing.JMenuItem mnuRptVencer;
+    private javax.swing.JMenuItem mnuVariaciones;
     // End of variables declaration//GEN-END:variables
 }

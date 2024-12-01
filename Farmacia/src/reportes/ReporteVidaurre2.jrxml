@@ -3,6 +3,12 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<parameter name="fechaIni" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechFin" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[WITH productos_proximos_vencer AS (
     SELECT
@@ -24,7 +30,7 @@
         forma_farmaceutica ff ON l.id_frm_farma = ff.id_frm_farma  -- Relación con la forma farmacéutica desde lote
     WHERE
         EXTRACT(YEAR FROM p.fecha_hora) = EXTRACT(YEAR FROM CURRENT_DATE)  -- Filtramos por el año actual
-        AND l.fecha_vencimiento BETWEEN '2022-01-01' AND '2024-12-30'  -- Rango de fecha de vencimiento
+        AND l.fecha_vencimiento BETWEEN $P{fechaIni} AND $P{fechFin}  -- Rango de fecha de vencimiento
     GROUP BY
         pf.id_producto, pf.nombre, ff.forma_farmaceutica, l.fecha_vencimiento
     ORDER BY
