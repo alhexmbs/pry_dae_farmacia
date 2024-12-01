@@ -168,6 +168,9 @@ GROUP BY
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{stock_actual}]]></textFieldExpression>
 			</textField>
+			<line>
+				<reportElement x="43" y="0" width="1" height="21" uuid="a2c181d8-4866-422b-9632-aabeccc96e4e"/>
+			</line>
 		</band>
 	</detail>
 	<columnFooter>

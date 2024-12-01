@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_VentasComprobante" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="47270df0-93dd-4e88-b3bf-e7904e4fe380">
-	<property name="ireport.zoom" value="1.1289478601075547"/>
+	<property name="ireport.zoom" value="1.0263162364614138"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<queryString>
-		<![CDATA[select * from rubro]]>
+		<![CDATA[SELECT
+    tc.tipo_comprobante,
+    COUNT(cv.id_comprobante) AS cantidad_comprobantes_emitidos,
+    SUM(cv.importe_total) AS total_recaudado
+FROM
+    comprobante_venta cv
+JOIN 
+    tipo_comprobante tc ON cv.id_tipo_comprobante = tc.id_tipo_comprobante
+GROUP BY
+    tc.tipo_comprobante
+ORDER BY
+    total_recaudado DESC;]]>
 	</queryString>
-	<field name="id_rubro" class="java.lang.Integer"/>
-	<field name="nombre_rubro" class="java.lang.String"/>
-	<field name="estado" class="java.lang.Boolean"/>
+	<field name="tipo_comprobante" class="java.lang.String"/>
+	<field name="cantidad_comprobantes_emitidos" class="java.lang.Long"/>
+	<field name="total_recaudado" class="java.math.BigDecimal"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -74,10 +85,48 @@
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="89" splitType="Stretch"/>
+		<band height="51" splitType="Stretch">
+			<staticText>
+				<reportElement x="100" y="15" width="100" height="20" uuid="9544632c-6e4d-4ea8-9448-b69eb08a9955"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Comprobante]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="231" y="15" width="93" height="20" uuid="452e2333-e7b9-4527-9e00-8b6a0ae3d996"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cant. Vendidos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="355" y="15" width="100" height="20" uuid="54a97299-2230-4274-af5c-230e2a5ab392"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Recaudado]]></text>
+			</staticText>
+		</band>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch"/>
+		<band height="63" splitType="Stretch">
+			<textField>
+				<reportElement x="100" y="21" width="100" height="20" uuid="d4ad1a0a-44f0-488d-94a5-bb4a4436ed1f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tipo_comprobante}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="231" y="21" width="93" height="20" uuid="de7718a6-ed64-45dd-8613-66b743a94a0b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cantidad_comprobantes_emitidos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="356" y="21" width="100" height="20" uuid="99a83818-33eb-48ab-b25d-6c7252af502c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{total_recaudado}]]></textFieldExpression>
+			</textField>
+		</band>
 	</detail>
 	<columnFooter>
 		<band height="45" splitType="Stretch"/>
@@ -100,6 +149,23 @@
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="42" splitType="Stretch"/>
+		<band height="246" splitType="Stretch">
+			<pieChart>
+				<chart>
+					<reportElement x="100" y="21" width="355" height="203" uuid="cd6793d8-98f8-4ff7-b05f-2f871fe267a5"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<keyExpression><![CDATA[$F{tipo_comprobante}]]></keyExpression>
+					<valueExpression><![CDATA[$F{cantidad_comprobantes_emitidos}]]></valueExpression>
+				</pieDataset>
+				<piePlot>
+					<plot/>
+					<itemLabel/>
+				</piePlot>
+			</pieChart>
+		</band>
 	</summary>
 </jasperReport>
