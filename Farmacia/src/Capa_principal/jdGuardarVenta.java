@@ -198,8 +198,7 @@ public class jdGuardarVenta extends javax.swing.JDialog {
                 int opcion = JOptionPane.showConfirmDialog(rootPane, "Esta seguro de guardar esta venta?", "Confirmacion", JOptionPane.YES_NO_OPTION);
                 if (opcion == 0) {
                     System.out.println("========= ANTES DE FINALIZA ===================================");
-                    dialog1.registrarVenta();
-//                  objPedido.registrarVenta(total, usuario, idCliente, (JTable) tblProducto);
+                  objPedido.registrarVenta(total, usuario, idCliente, (JTable) tblProducto);
                     System.out.println("========= DESPUES DE FINALIZA ===================================");
                     JOptionPane.showMessageDialog(rootPane, "La venta se registro exitosamente", "SISTEMA", JOptionPane.INFORMATION_MESSAGE);
 

@@ -1099,19 +1099,6 @@ public class jdPedido extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_txtCantidadKeyReleased
 
-    public void registrarVenta() {
-        String nroDocumento = txtDocCliente.getText();
-        int usuario = 1;
-        float total = Float.parseFloat(lblTotalPagar.getText());
-        
-        try {
-            int idCliente = objCliente.buscarClientePorDoc(nroDocumento);
-            objPedido.registrarVenta(total, usuario, idCliente, (JTable) tblProducto);
-        } catch (Exception ex) {
-            Logger.getLogger(jdPedido.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
         try {
