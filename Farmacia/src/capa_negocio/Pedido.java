@@ -112,6 +112,15 @@ public class Pedido {
                 psDetalle.executeBatch(); // Ejecutar lote de inserciones
                 psActualizar.executeBatch(); // Ejecutar lote de actualizaciones
             }
+            
+            //Para sumar la cantidad de transacciones al usuario_caja
+            String sqlTransaccion = "update usuario_caja set transacciones_realizadas = transacciones_realizadas + 1 "
+                    + "where id_usuario = ? and fecha_hora_apertura::date = CURRENT_DATE";
+            try (PreparedStatement psTransacciones = con.prepareStatement(sqlTransaccion)){
+                psTransacciones.setInt(1, usuario);
+                psTransacciones.executeUpdate();
+            }
+            
 
             // Confirmar la transacción
             con.commit();
