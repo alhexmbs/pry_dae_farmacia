@@ -178,6 +178,21 @@ public class Producto {
             throw new Exception("Error al buscar producto farmacéutico --> " + e.getMessage());
         }
     }
+    
+    public String buscarProductoModificado(Integer id_producto) throws Exception {
+        strSQL = "select pf.*, pro.dscto as descuento,  rb.nombre_rubro as rubro from producto_farmaceutico pf inner join promocion pro on pro.id_promocion = pf.id_promocion \n"
+                + "inner join rubro rb on rb.id_rubro = pf.id_rubro where pf.id_producto =" + id_producto;
+
+        try {
+            rs = objconectar.consultarBD(strSQL);
+            if (rs.next()) {
+                return rs.getString("nombre");
+            }
+        } catch (Exception e) {
+            throw new Exception("Error al buscar producto farmacéutico --> " + e.getMessage());
+        }
+        return "";
+    }
 
     public ResultSet buscarDetalle(Integer idFormaFar, Integer producto) throws Exception {
         String strSQL = "SELECT dtf.*, fm.forma_farmaceutica, pro.nombre, fa.nombre_fabricante "

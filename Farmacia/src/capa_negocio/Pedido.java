@@ -85,9 +85,9 @@ public class Pedido {
 
                     int id_frm_farma = Integer.parseInt(tblDetalle.getValueAt(i, 0).toString());
                     int id_producto = Integer.parseInt(tblDetalle.getValueAt(i, 1).toString());
-                    int cantidad = Integer.parseInt(tblDetalle.getValueAt(i, 2).toString());
-                    float precio_unitario = Float.parseFloat(tblDetalle.getValueAt(i, 3).toString());
-                    String descuentos[] = tblDetalle.getValueAt(i, 4).toString().split(",");
+                    int cantidad = Integer.parseInt(tblDetalle.getValueAt(i, 4).toString());
+                    float precio_unitario = Float.parseFloat(tblDetalle.getValueAt(i, 5).toString());
+                    String descuentos[] = tblDetalle.getValueAt(i, 6).toString().split(",");
                     float descuento = precio_unitario * (Float.parseFloat(descuentos[0]) / 100);
                     float dscto_aplicado = descuento;
                     float precio_final = precio_unitario - descuento;

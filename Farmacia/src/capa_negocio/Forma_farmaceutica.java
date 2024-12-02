@@ -60,6 +60,19 @@ public class Forma_farmaceutica {
             throw new Exception("Error al buscar la forma farmaceutica--> " + e.getMessage());
         }
     }
+    
+    public String buscarFormaFarmaceuticaModificado(Integer cod) throws Exception {
+        strsql = "select * from forma_farmaceutica where  id_frm_farma =" + cod;
+        try {
+            rs = objconectar.consultarBD(strsql);
+            if (rs.next()) {
+                return rs.getString("forma_farmaceutica");
+            }
+        } catch (Exception e) {
+            throw new Exception("Error al buscar la forma farmaceutica--> " + e.getMessage());
+        }
+        return "";
+    }
 
     public Integer generarCodigoformafarmaceutica() throws Exception {
         strsql = "select coalesce (max(id_frm_farma),0)+1 as codigo from forma_farmaceutica";

@@ -25,7 +25,6 @@ public class jdGuardarVenta extends javax.swing.JDialog {
     float total = 0.0f;
     int idCliente = 0;
     int usuario = 0;
-   
 
     /**
      * Creates new form jdGuardarVenta
@@ -35,7 +34,6 @@ public class jdGuardarVenta extends javax.swing.JDialog {
         this.dialog1 = pedido;
         initComponents();
         listarCrombantes();
-        txtFecha.setEditable(false);
     }
 
     private void listarCrombantes() {
@@ -70,8 +68,6 @@ public class jdGuardarVenta extends javax.swing.JDialog {
         jPanel3 = new javax.swing.JPanel();
         jLabel71 = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
-        jLabel72 = new javax.swing.JLabel();
-        txtFecha = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         cboComprobante = new javax.swing.JComboBox<>();
 
@@ -114,12 +110,6 @@ public class jdGuardarVenta extends javax.swing.JDialog {
         jLabel71.setForeground(new java.awt.Color(51, 51, 51));
         jLabel71.setText("Venta:");
 
-        jLabel72.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel72.setText("Fecha:");
-
-        txtFecha.setBackground(new java.awt.Color(239, 237, 220));
-        txtFecha.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-
         jLabel1.setText("Tipo de Comprobante:");
 
         cboComprobante.setBackground(new java.awt.Color(246, 244, 235));
@@ -137,15 +127,10 @@ public class jdGuardarVenta extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(84, 84, 84)
-                                .addComponent(jLabel72))
-                            .addComponent(jLabel1))
-                        .addGap(28, 28, 28)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtFecha)
-                            .addComponent(cboComprobante, 0, 171, Short.MAX_VALUE))))
+                        .addGap(12, 12, 12)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(cboComprobante, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -155,15 +140,11 @@ public class jdGuardarVenta extends javax.swing.JDialog {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel71)
                     .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel72))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(cboComprobante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26))
+                .addGap(61, 61, 61))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -187,7 +168,7 @@ public class jdGuardarVenta extends javax.swing.JDialog {
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnGuardarVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                         .addComponent(btnCancelarVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -216,8 +197,12 @@ public class jdGuardarVenta extends javax.swing.JDialog {
 
                 int opcion = JOptionPane.showConfirmDialog(rootPane, "Esta seguro de guardar esta venta?", "Confirmacion", JOptionPane.YES_NO_OPTION);
                 if (opcion == 0) {
-                    objPedido.registrarVenta(total, usuario, idCliente, (JTable) tblProducto);
+                    System.out.println("========= ANTES DE FINALIZA ===================================");
+                    dialog1.registrarVenta();
+//                  objPedido.registrarVenta(total, usuario, idCliente, (JTable) tblProducto);
+                    System.out.println("========= DESPUES DE FINALIZA ===================================");
                     JOptionPane.showMessageDialog(rootPane, "La venta se registro exitosamente", "SISTEMA", JOptionPane.INFORMATION_MESSAGE);
+
                     dispose();
                     dialog1.vaciar();
                     dialog1.asignarFechaActual();
@@ -240,10 +225,8 @@ public class jdGuardarVenta extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> cboComprobante;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel71;
-    private javax.swing.JLabel jLabel72;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JTextField txtFecha;
     // End of variables declaration//GEN-END:variables
 }

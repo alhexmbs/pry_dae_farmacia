@@ -2,7 +2,9 @@ package Capa_principal;
 
 import capa_negocio.Cliente;
 import capa_negocio.Detalle_Producto_Farmaceutico;
+import capa_negocio.Forma_farmaceutica;
 import capa_negocio.Pedido;
+import capa_negocio.Producto;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,6 +23,8 @@ public class jdPedido extends javax.swing.JDialog {
     Pedido objPedido = new Pedido();
     Detalle_Producto_Farmaceutico objDetalle_Producto_Farmaceutico = new Detalle_Producto_Farmaceutico();
     Cliente objCliente = new Cliente();
+    Producto objProducto = new Producto();
+    Forma_farmaceutica objFormaFarma = new Forma_farmaceutica();
     Pedido pedido = new Pedido();
     int codigo_pedido;
 
@@ -860,10 +864,10 @@ public class jdPedido extends javax.swing.JDialog {
 
         DefaultTableModel modelo = (DefaultTableModel) tblProducto.getModel();
         for (int i = 0; i < modelo.getRowCount(); i++) {
-            valorVenta += Float.parseFloat(modelo.getValueAt(i, 2).toString()) * Float.parseFloat(modelo.getValueAt(i, 3).toString());
-            String descuentos[] = modelo.getValueAt(i, 4).toString().split(",");
-            valorDescuento += ((Float.parseFloat(descuentos[0]) / 100) * Float.parseFloat(modelo.getValueAt(i, 3).toString()) * Float.parseFloat(modelo.getValueAt(i, 2).toString()));
-            subtotal += Float.parseFloat(modelo.getValueAt(i, 6).toString());
+            valorVenta += Float.parseFloat(modelo.getValueAt(i, 4).toString()) * Float.parseFloat(modelo.getValueAt(i, 5).toString());
+            String descuentos[] = modelo.getValueAt(i, 6).toString().split(",");
+            valorDescuento += ((Float.parseFloat(descuentos[0]) / 100) * Float.parseFloat(modelo.getValueAt(i, 5).toString()) * Float.parseFloat(modelo.getValueAt(i, 4).toString()));
+            subtotal += Float.parseFloat(modelo.getValueAt(i, 8).toString());
         }
 
         igv = subtotal * 0.18f;
@@ -878,14 +882,33 @@ public class jdPedido extends javax.swing.JDialog {
 
     private void llenarTablaInicial() {
         DefaultTableModel modelo = new DefaultTableModel();
+
+// Agregar las columnas al modelo
         modelo.addColumn("Id Frm Forma");
         modelo.addColumn("Id Producto");
+        modelo.addColumn("Forma");
+        modelo.addColumn("Producto");
         modelo.addColumn("Cantidad");
         modelo.addColumn("Precio Unitario");
         modelo.addColumn("Descuento");
         modelo.addColumn("Precio Final");
         modelo.addColumn("Subtotal");
+
+// Asignar el modelo a la tabla
         tblProducto.setModel(modelo);
+
+// Ocultar la columna "Id Frm Forma" (índice 0)
+        tblProducto.getColumnModel().getColumn(0).setMinWidth(0);
+        tblProducto.getColumnModel().getColumn(0).setMaxWidth(0);
+        tblProducto.getColumnModel().getColumn(0).setWidth(0);
+        tblProducto.getColumnModel().getColumn(0).setPreferredWidth(0);
+
+// Ocultar la columna "Id Producto" (índice 1)
+        tblProducto.getColumnModel().getColumn(1).setMinWidth(0);
+        tblProducto.getColumnModel().getColumn(1).setMaxWidth(0);
+        tblProducto.getColumnModel().getColumn(1).setWidth(0);
+        tblProducto.getColumnModel().getColumn(1).setPreferredWidth(0);
+
     }
 
     private void agregarProducto(int idProducto, int forma, int cantidad) {
@@ -912,7 +935,7 @@ public class jdPedido extends javax.swing.JDialog {
             System.out.println("llegado2");
             System.out.println("Es repetido? " + repetido);
             if (repetido == true) {
-                int aux = Integer.parseInt(this.tblProducto.getValueAt(numFila, 2).toString());
+                int aux = Integer.parseInt(this.tblProducto.getValueAt(numFila, 4).toString());
                 cantidad += aux;
                 modelo.removeRow(numFila);
             }
@@ -927,10 +950,13 @@ public class jdPedido extends javax.swing.JDialog {
 
             set1 = objDetalle_Producto_Farmaceutico.obtenerDetalle_Producto_Forma(forma, idProducto);
             System.out.println("Probando Probando");
+
             while (set1.next()) {
                 modelo.addRow(new Object[]{
                     set1.getInt("id_frm_farma"),
                     set1.getInt("id_producto"),
+                    objFormaFarma.buscarFormaFarmaceuticaModificado(set1.getInt("id_frm_farma")),
+                    objProducto.buscarProductoModificado(set1.getInt("id_producto")),
                     cantidad,
                     set1.getFloat("precio_venta"),
                     set1.getInt("dscto") + ",%",
@@ -1045,10 +1071,10 @@ public class jdPedido extends javax.swing.JDialog {
     }
 
     private void txtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyTyped
-        char c = evt.getKeyChar(); 
+        char c = evt.getKeyChar();
 
         if (!Character.isDigit(c)) {
-            evt.consume(); 
+            evt.consume();
         }
     }//GEN-LAST:event_txtCantidadKeyTyped
 
@@ -1073,6 +1099,20 @@ public class jdPedido extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_txtCantidadKeyReleased
 
+    public void registrarVenta() {
+        String nroDocumento = txtDocCliente.getText();
+        int usuario = 1;
+        float total = Float.parseFloat(lblTotalPagar.getText());
+        
+        try {
+            int idCliente = objCliente.buscarClientePorDoc(nroDocumento);
+            objPedido.registrarVenta(total, usuario, idCliente, (JTable) tblProducto);
+        } catch (Exception ex) {
+            Logger.getLogger(jdPedido.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
         try {
             String nroDocumento = txtDocCliente.getText();
@@ -1085,7 +1125,6 @@ public class jdPedido extends javax.swing.JDialog {
                 int idCliente = objCliente.buscarClientePorDoc(nroDocumento);
 
                 float total = Float.parseFloat(lblTotalPagar.getText());
-                objPedido.registrarVenta(total, usuario, idCliente, (JTable) tblProducto);
 
                 jdGuardarVenta objGuardar = new jdGuardarVenta(null, true, this);
                 objGuardar.usuario = usuario;
@@ -1094,7 +1133,6 @@ public class jdPedido extends javax.swing.JDialog {
                 objGuardar.tblProducto = (JTable) tblProducto;
                 objGuardar.setVisible(true);
                 objGuardar.setLocationRelativeTo(null);
-
             }
 
         } catch (Exception ex) {
