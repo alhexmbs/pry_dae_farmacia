@@ -2,7 +2,9 @@ package Capa_principal;
 
 import capa_negocio.Cliente;
 import capa_negocio.Detalle_Producto_Farmaceutico;
+import capa_negocio.Forma_farmaceutica;
 import capa_negocio.Pedido;
+import capa_negocio.Producto;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,6 +24,8 @@ public class jdPedido extends javax.swing.JDialog {
     Detalle_Producto_Farmaceutico objDetalle_Producto_Farmaceutico = new Detalle_Producto_Farmaceutico();
     Cliente objCliente = new Cliente();
     Pedido pedido = new Pedido();
+    Producto objProducto = new Producto();
+    Forma_farmaceutica objForma_farmaceutica = new Forma_farmaceutica();
     int codigo_pedido;
 
     // Datos del formulario
@@ -860,10 +864,10 @@ public class jdPedido extends javax.swing.JDialog {
 
         DefaultTableModel modelo = (DefaultTableModel) tblProducto.getModel();
         for (int i = 0; i < modelo.getRowCount(); i++) {
-            valorVenta += Float.parseFloat(modelo.getValueAt(i, 2).toString()) * Float.parseFloat(modelo.getValueAt(i, 3).toString());
-            String descuentos[] = modelo.getValueAt(i, 4).toString().split(",");
-            valorDescuento += ((Float.parseFloat(descuentos[0]) / 100) * Float.parseFloat(modelo.getValueAt(i, 3).toString()) * Float.parseFloat(modelo.getValueAt(i, 2).toString()));
-            subtotal += Float.parseFloat(modelo.getValueAt(i, 6).toString());
+            valorVenta += Float.parseFloat(modelo.getValueAt(i, 4).toString()) * Float.parseFloat(modelo.getValueAt(i, 5).toString());
+            String descuentos[] = modelo.getValueAt(i, 6).toString().split(",");
+            valorDescuento += ((Float.parseFloat(descuentos[0]) / 100) * Float.parseFloat(modelo.getValueAt(i, 5).toString()) * Float.parseFloat(modelo.getValueAt(i, 4).toString()));
+            subtotal += Float.parseFloat(modelo.getValueAt(i, 8).toString());
         }
 
         igv = subtotal * 0.18f;
@@ -880,6 +884,8 @@ public class jdPedido extends javax.swing.JDialog {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("Id Frm Forma");
         modelo.addColumn("Id Producto");
+        modelo.addColumn("Forma");
+        modelo.addColumn("Producto");
         modelo.addColumn("Cantidad");
         modelo.addColumn("Precio Unitario");
         modelo.addColumn("Descuento");
@@ -912,7 +918,7 @@ public class jdPedido extends javax.swing.JDialog {
             System.out.println("llegado2");
             System.out.println("Es repetido? " + repetido);
             if (repetido == true) {
-                int aux = Integer.parseInt(this.tblProducto.getValueAt(numFila, 2).toString());
+                int aux = Integer.parseInt(this.tblProducto.getValueAt(numFila, 4).toString());
                 cantidad += aux;
                 modelo.removeRow(numFila);
             }
@@ -931,6 +937,8 @@ public class jdPedido extends javax.swing.JDialog {
                 modelo.addRow(new Object[]{
                     set1.getInt("id_frm_farma"),
                     set1.getInt("id_producto"),
+                    objProducto.buscarProductoModificado(set1.getInt("id_frm_farma")),
+                    objForma_farmaceutica.buscarFormaFarmaceuticaModificado(set1.getInt("id_producto")),
                     cantidad,
                     set1.getFloat("precio_venta"),
                     set1.getInt("dscto") + ",%",
@@ -1085,7 +1093,6 @@ public class jdPedido extends javax.swing.JDialog {
                 int idCliente = objCliente.buscarClientePorDoc(nroDocumento);
 
                 float total = Float.parseFloat(lblTotalPagar.getText());
-                objPedido.registrarVenta(total, usuario, idCliente, (JTable) tblProducto);
 
                 jdGuardarVenta objGuardar = new jdGuardarVenta(null, true, this);
                 objGuardar.usuario = usuario;
