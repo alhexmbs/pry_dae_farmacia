@@ -185,6 +185,11 @@ public class jdManUsuario extends javax.swing.JDialog {
         });
 
         cboTipoDoc.setBackground(new java.awt.Color(239, 237, 220));
+        cboTipoDoc.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cboTipoDocItemStateChanged(evt);
+            }
+        });
 
         jdateFechaNacUsuario.setBackground(new java.awt.Color(239, 237, 220));
         jdateFechaNacUsuario.setDateFormatString("yyyy-MM-dd");
@@ -563,7 +568,7 @@ public class jdManUsuario extends javax.swing.JDialog {
         btnSexoUsuario.clearSelection();
         txtSueldoUsuario.setText("");
         txtHorarioUsuario.setText("");
-        cboTipoDoc.setSelectedIndex(-1);
+        cboTipoDoc.setSelectedIndex(0);
         txtNumDocUsuario.setText("");
         txtUsername.setText("");
         //txtContrasena.setText("");
@@ -899,8 +904,8 @@ public class jdManUsuario extends javax.swing.JDialog {
             case "DNI":
                 limite = 8;
                 break;
-            case "Carné de Extranjería":
-                limite = 12;
+            case "RUC":
+                limite = 11;
                 break;
             case "Pasaporte":
                 limite = 15;
@@ -1035,6 +1040,11 @@ public class jdManUsuario extends javax.swing.JDialog {
     private void txtUsernameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsernameKeyTyped
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUsernameKeyTyped
+
+    private void cboTipoDocItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboTipoDocItemStateChanged
+        // TODO add your handling code here:
+        txtNumDocUsuario.setText("");
+    }//GEN-LAST:event_cboTipoDocItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
