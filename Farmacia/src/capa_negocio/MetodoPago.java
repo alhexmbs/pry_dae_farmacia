@@ -34,9 +34,9 @@ public class MetodoPago {
     }
 
     // Registrar un nuevo método de pago
-    public void registrarMetodoPago(int idMetodoPago, String metodo, String descripcion) throws Exception {
-        strSQL = "INSERT INTO metodo_pago (id_metodo_pago, metodo_pago, descripcion) "
-                + "VALUES (" + idMetodoPago + ", '" + metodo + "', '" + descripcion + "')";
+    public void registrarMetodoPago(int idMetodoPago, String metodo, String descripcion, Boolean estado) throws Exception {
+        strSQL = "INSERT INTO metodo_pago (id_metodo_pago, metodo_pago, descripcion, estado) "
+                + "VALUES (" + idMetodoPago + ", '" + metodo + "', '" + descripcion + "', '" + estado + "')";
         try {
             objConectar.ejecutarBd(strSQL);
         } catch (Exception e) {
@@ -68,11 +68,11 @@ public class MetodoPago {
 
     // Eliminar un método de pago
     public void eliminarMetodoPago(int idMetodoPago) throws Exception {
-        strSQL = "DELETE FROM metodo_pago WHERE id_metodo_pago = " + idMetodoPago;
+        strSQL = "UPDATE metodo_pago SET estado = false WHERE id_metodo_pago = " + idMetodoPago;
         try {
             objConectar.ejecutarBd(strSQL);
         } catch (Exception e) {
-            throw new Exception("Error al eliminar el método de pago -->" + e.getMessage());
+            throw new Exception("Error al dar de baja el método de pago -->" + e.getMessage());
         }
     }
 }

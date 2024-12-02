@@ -144,6 +144,16 @@ public class Pedido {
         }
     }
 
+    public void actualizarEstadoPedido(int idPedido) throws Exception {
+
+        strSQL = "UPDATE pedido SET estado_pedido = 'Pagado' WHERE id_pedido = " + idPedido;
+        try {
+            objConectar.ejecutarBd(strSQL);
+        } catch (Exception e) {
+            throw new Exception("Error al actualizar el pedido -->" + e.getMessage());
+        }
+    }
+
     public void eliminarPedido(int idPedido) throws Exception {
         strSQL = "DELETE FROM pedido WHERE id_pedido = " + idPedido;
         try {
@@ -185,6 +195,29 @@ public class Pedido {
             objConectar.ejecutarBd(strSQL);
         } catch (Exception e) {
             throw new Exception("Error al actualizar el estado del pedido -->" + e.getMessage());
+        }
+    }
+
+    public int obtenerUltimoIdPedido() throws Exception {
+        strSQL = "SELECT COALESCE(MAX(id_pedido), 0) AS ultimo_id FROM pedido";
+        try {
+            rs = objConectar.consultarBD(strSQL);
+            if (rs.next()) {
+                return rs.getInt("ultimo_id");
+            } else {
+                throw new Exception("No se pudo obtener el último ID del pedido.");
+            }
+        } catch (Exception e) {
+            throw new Exception("Error al obtener el último ID del pedido: " + e.getMessage());
+        } finally {
+            // Asegúrate de cerrar el ResultSet si tu método consultarBD no lo hace
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (Exception ex) {
+                    // Manejo de excepción al cerrar el ResultSet
+                }
+            }
         }
     }
 
