@@ -92,26 +92,26 @@ LIMIT 10;]]>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch">
-			<textField>
-				<reportElement x="43" y="13" width="100" height="20" uuid="fe08a676-03a6-4590-b01d-a9b2ef2a86a0"/>
-				<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="171" y="13" width="100" height="20" uuid="1dd4d585-335a-472d-a23f-0ebb5e627e33"/>
-				<textFieldExpression><![CDATA[$F{correo}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="305" y="13" width="100" height="20" uuid="d6e9bb2c-6983-467f-ad60-b3b561c0d0bc"/>
-				<textFieldExpression><![CDATA[$F{total_gastado}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="424" y="13" width="110" height="20" uuid="95bf68aa-b2e9-4e08-b17f-5d1dfb4583fc"/>
-				<textFieldExpression><![CDATA[$F{cantidad_compras}]]></textFieldExpression>
-			</textField>
+		<band height="48" splitType="Stretch">
 			<line>
 				<reportElement x="10" y="0" width="541" height="1" uuid="9c195863-c09e-4deb-8bcc-2c7dfcb7b1fc"/>
 			</line>
+			<textField>
+				<reportElement x="43" y="1" width="100" height="20" uuid="063c9e92-05bd-4c06-a913-ebc4949355f1"/>
+				<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="171" y="1" width="100" height="20" uuid="49ccf132-9d8f-499d-81ce-eb6b0e4a79e3"/>
+				<textFieldExpression><![CDATA[$F{correo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="305" y="1" width="100" height="20" uuid="83885586-9f5c-4709-9dc2-8e2789cf27fe"/>
+				<textFieldExpression><![CDATA[$F{total_gastado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="424" y="0" width="113" height="20" uuid="e10889bd-4a51-4cd0-ac90-ed3ee5e07250"/>
+				<textFieldExpression><![CDATA[$F{cantidad_compras}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>

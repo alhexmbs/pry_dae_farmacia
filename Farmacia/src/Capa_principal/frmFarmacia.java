@@ -295,7 +295,7 @@ public class frmFarmacia extends javax.swing.JFrame {
         });
         jMenu10.add(jMenuItem13);
 
-        jMenuItem14.setText("Reporte de productos más vendidos en el último mes");
+        jMenuItem14.setText(" Reporte de Productos con Mayor Tiempo en Inventario");
         jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem14ActionPerformed(evt);

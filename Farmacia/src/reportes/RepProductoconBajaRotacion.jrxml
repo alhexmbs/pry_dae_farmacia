@@ -8,26 +8,38 @@
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT 
-    p.id_producto,
-    p.nombre,
-    COALESCE(SUM(dpp.cantidad), 0) AS unidades_vendidas  
+    p.id_producto,  
+    p.nombre AS producto,  
+    dpf.stock,  
+    COALESCE(SUM(pdpf.cantidad), 0) AS total_vendido,  
+    CASE
+        WHEN COALESCE(SUM(pdpf.cantidad), 0) = 0 THEN 'Nunca vendido'
+        ELSE 'Vendidos'
+    END AS estado_venta,
+    EXTRACT(DAY FROM CURRENT_DATE - MIN(ped.fecha_hora)) AS dias_en_inventario  
 FROM 
     producto_farmaceutico p
 LEFT JOIN 
-    PEDIDO_DETALLE_PRODUCTO_FORMA dpp ON p.id_producto = dpp.id_producto  
+    pedido_detalle_producto_forma pdpf ON p.id_producto = pdpf.id_producto  
 LEFT JOIN 
-    pedido pe ON dpp.id_pedido = pe.id_pedido  
-WHERE 
-    pe.fecha_hora > CURRENT_DATE - INTERVAL '30 days'  
+    detalle_producto_forma dpf ON p.id_producto = dpf.id_producto  
+LEFT JOIN 
+    pedido ped ON pdpf.id_pedido = ped.id_pedido  
 GROUP BY 
-    p.id_producto, p.nombre  
+    p.id_producto, p.nombre, dpf.stock
+HAVING 
+    EXTRACT(DAY FROM CURRENT_DATE - MIN(ped.fecha_hora)) > 30  
 ORDER BY 
-    unidades_vendidas DESC  
-LIMIT $P{limite};]]>
+     dias_en_inventario desc  
+LIMIT $P{limite};
+]]>
 	</queryString>
 	<field name="id_producto" class="java.lang.Integer"/>
-	<field name="nombre" class="java.lang.String"/>
-	<field name="unidades_vendidas" class="java.lang.Long"/>
+	<field name="producto" class="java.lang.String"/>
+	<field name="stock" class="java.lang.Integer"/>
+	<field name="total_vendido" class="java.lang.Long"/>
+	<field name="estado_venta" class="java.lang.String"/>
+	<field name="dias_en_inventario" class="java.math.BigDecimal"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -38,7 +50,7 @@ LIMIT $P{limite};]]>
 				<textElement textAlignment="Center">
 					<font size="22" isBold="true" isUnderline="false"/>
 				</textElement>
-				<text><![CDATA[Reporte de productos más vendidos en el último mes]]></text>
+				<text><![CDATA[ Reporte de Productos con Mayor Tiempo en Inventario]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -80,16 +92,29 @@ LIMIT $P{limite};]]>
 				<reportElement x="19" y="49" width="536" height="1" uuid="8d353984-6266-4867-8f4a-f69e4f9efc9f"/>
 			</line>
 			<staticText>
-				<reportElement x="74" y="29" width="100" height="20" uuid="709e3019-ca3e-4f0c-af71-3492587a73a3"/>
+				<reportElement x="19" y="29" width="100" height="20" uuid="709e3019-ca3e-4f0c-af71-3492587a73a3"/>
+				<textElement textAlignment="Center"/>
 				<text><![CDATA[ID PRODUCTO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="238" y="29" width="100" height="20" uuid="8ab19ad9-d475-49a1-9ac3-2c475c00b106"/>
+				<reportElement x="119" y="30" width="100" height="20" uuid="8ab19ad9-d475-49a1-9ac3-2c475c00b106"/>
+				<textElement textAlignment="Center"/>
 				<text><![CDATA[PRODUCTO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="405" y="21" width="111" height="20" uuid="1ad20d55-8b9f-41dc-a0ea-927a99af30ca"/>
+				<reportElement x="305" y="29" width="111" height="20" uuid="1ad20d55-8b9f-41dc-a0ea-927a99af30ca"/>
+				<textElement textAlignment="Center"/>
 				<text><![CDATA[UNIDADES VENDIDAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="238" y="30" width="40" height="20" uuid="e63d0a10-2330-415f-808f-387c6bfafbb2"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[STOCK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="441" y="30" width="114" height="20" uuid="0d6fd0b2-a7a5-4cbb-ab8b-276607829566"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[DIAS EN INVENTARIO]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -99,19 +124,29 @@ LIMIT $P{limite};]]>
 				<reportElement x="19" y="20" width="536" height="1" uuid="6fb454b0-e5bf-4a69-86bc-f39a00bfb359"/>
 			</line>
 			<textField>
-				<reportElement x="74" y="1" width="100" height="20" uuid="3dd226ad-5d08-4c7f-917e-2f191e4b8c6e"/>
+				<reportElement x="19" y="0" width="100" height="20" uuid="b7e3b092-4ea2-4484-b163-63ab0b9c201b"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{id_producto}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="238" y="0" width="100" height="20" uuid="1b587f3c-c5aa-4ddf-bdee-dbd5ac6d59a1"/>
+				<reportElement x="119" y="1" width="100" height="20" uuid="d205cd63-7ab2-4198-9e8b-7fe838c76fcb"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{producto}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="414" y="1" width="100" height="20" uuid="e82f8f34-9b47-411d-aced-a1cd9fb6f1a1"/>
+				<reportElement x="316" y="0" width="100" height="20" uuid="af9fba8a-eef4-43e3-8325-731b8352577d"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{unidades_vendidas}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{total_vendido}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="238" y="0" width="46" height="20" uuid="7f27cc5a-b78f-4531-b9af-b94b075967c9"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{stock}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="441" y="1" width="114" height="20" uuid="de67b663-73cc-4880-b3f8-137a9554faf0"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{dias_en_inventario}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
