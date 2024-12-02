@@ -68,7 +68,7 @@ public class Usuario {
 
     public void insertarUsuarioMD5(int idUsuario, String nombre, String apPaterno, String apMaterno, String numDoc, String fechaNac, String direccion, String numCelular, boolean sexo, float sueldo, String horario, String username, String email, int idRol, int idTipoDoc) throws Exception {
         strSQL = "INSERT INTO usuario (id_usuario, nombre, ape_paterno, ape_materno, nro_documento, fecha_nacimiento, direccion, nro_celular, sexo, sueldo, horario, username, email, contrasena, estado, id_rol, id_tipo_doc) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, md5('1234' || ? || 'FIJO383'), true, ?, ?, ?)";
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, md5('1234' || ? || 'FIJO383'), true, ?, ?)";
 
         try {
             Connection micon = null;
@@ -90,9 +90,9 @@ public class Usuario {
             sp.setString(12, username);
             sp.setString(13, email);
             sp.setString(14, username);
-            sp.setBoolean(15, true);
-            sp.setInt(16, idRol);
-            sp.setInt(17, idTipoDoc);
+            //sp.setBoolean(15, true);
+            sp.setInt(15, idRol);
+            sp.setInt(16, idTipoDoc);
 
             sp.executeUpdate();
         } catch (Exception ex) {
