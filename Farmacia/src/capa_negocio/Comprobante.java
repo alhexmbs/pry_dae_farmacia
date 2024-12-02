@@ -34,7 +34,7 @@ public class Comprobante {
 
     // Generar el próximo código de comprobante
     public int generarCodigoComprobante() throws Exception {
-        strsql = "SELECT COALESCE(MAX(id_comprobante), 0) + 1 AS codigo FROM COMPROBANTE";
+        strsql = "SELECT COALESCE(MAX(id_comprobante), 0) + 1 AS codigo FROM COMPROBANTE_VENTA";
         try {
             rs = objconectar.consultarBD(strsql);
             if (rs.next()) {
@@ -48,7 +48,7 @@ public class Comprobante {
 
     // Registrar un nuevo comprobante
     public void registrarComprobante(int id_comprobante, String serie_nro_comprobante, Date fecha_emision, float importe_total, int id_cliente, int id_usuario, int id_tipo_comprobante, int id_pedido) throws Exception {
-        strsql = "INSERT INTO COMPROBANTE_VENTA (id_comprobante, serie_nro_comprobante, fecha_emision, importe_total, id_cliente, id_usuario, id_tipo_comprobante, id_pedido) VALUES ("
+        strsql = "INSERT INTO COMPROBANTE_VENTA (id_comprobante, serie_nro_comprobante, fecha_hora, importe_total, id_cliente, id_usuario, id_tipo_comprobante, id_pedido) VALUES ("
                 + id_comprobante + ", '" + serie_nro_comprobante + "', '" + fecha_emision + "', " + importe_total + ", " + id_cliente + ", " + id_usuario + ", " + id_tipo_comprobante + ", " + id_pedido + ")";
         try {
             objconectar.ejecutarBd(strsql);
@@ -58,29 +58,26 @@ public class Comprobante {
     }
 
     // Modificar un comprobante existente
-   
-
     // Eliminar un comprobante
     public void eliminarComprobante(int id_comprobante) throws Exception {
-    strsql = "DELETE FROM COMPROBANTE_VENTA WHERE id_comprobante = " + id_comprobante;
-    try {
-        objconectar.ejecutarBd(strsql);  // Suponiendo que ejecutarBd ejecuta una consulta SQL
-    } catch (Exception e) {
-        throw new Exception("Error al eliminar comprobante --> " + e.getMessage());
+        strsql = "DELETE FROM COMPROBANTE_VENTA WHERE id_comprobante = " + id_comprobante;
+        try {
+            objconectar.ejecutarBd(strsql);  // Suponiendo que ejecutarBd ejecuta una consulta SQL
+        } catch (Exception e) {
+            throw new Exception("Error al eliminar comprobante --> " + e.getMessage());
+        }
     }
-}
-
 
     public ResultSet buscarComprobantePorCliente(int id_cliente) throws Exception {
         strsql = strsql = "SELECT cv.id_comprobante, cv.serie_nro_comprobante, cv.fecha_hora, cv.importe_total, "
-                            + "c.id_cliente, c.nombre AS cliente_nombre, tc.tipo_comprobante, cv.id_pedido, "
-                            + "cv.id_usuario, U.username "
-                            + "FROM COMPROBANTE_VENTA cv "
-                            + "INNER JOIN CLIENTE c ON cv.id_cliente = c.id_cliente "
-                            + "INNER JOIN TIPO_COMPROBANTE tc ON cv.id_tipo_comprobante = tc.id_tipo_comprobante "
-                            + "INNER JOIN PEDIDO p ON cv.id_pedido = p.id_pedido "
-                            + "INNER JOIN USUARIO U on U.id_usuario = p.id_usuario "
-                            + "WHERE c.id_cliente = " + id_cliente;
+                + "c.id_cliente, c.nombre AS cliente_nombre, tc.tipo_comprobante, cv.id_pedido, "
+                + "cv.id_usuario, U.username "
+                + "FROM COMPROBANTE_VENTA cv "
+                + "INNER JOIN CLIENTE c ON cv.id_cliente = c.id_cliente "
+                + "INNER JOIN TIPO_COMPROBANTE tc ON cv.id_tipo_comprobante = tc.id_tipo_comprobante "
+                + "INNER JOIN PEDIDO p ON cv.id_pedido = p.id_pedido "
+                + "INNER JOIN USUARIO U on U.id_usuario = p.id_usuario "
+                + "WHERE c.id_cliente = " + id_cliente;
         try {
             rs = objconectar.consultarBD(strsql);
             return rs;
@@ -96,6 +93,39 @@ public class Comprobante {
             return rs;  // Retornar el ResultSet con los tipos de comprobante
         } catch (Exception e) {
             throw new Exception("Error al listar los tipos de comprobante: " + e.getMessage());
+        }
+    }
+
+    public String generarSerieCorrelativo(String serie) throws Exception {
+        strsql = "SELECT MAX(serie_nro_comprobante) AS last_comprobante "
+                + "FROM COMPROBANTE_VENTA "
+                + "WHERE serie_nro_comprobante LIKE '" + serie + "-%'";
+        try {
+            rs = objconectar.consultarBD(strsql);
+            int nextCorrelativo = 1; // Correlativo inicial
+
+            if (rs.next()) {
+                String lastComprobante = rs.getString("last_comprobante");
+                if (lastComprobante != null && !lastComprobante.isEmpty()) {
+                    // Extraer la parte correlativa del último comprobante
+                    String[] parts = lastComprobante.split("-");
+                    if (parts.length == 2) {
+                        try {
+                            int lastCorrelativo = Integer.parseInt(parts[1]);
+                            nextCorrelativo = lastCorrelativo + 1;
+                        } catch (NumberFormatException nfe) {
+                            throw new Exception("Formato de correlativo inválido en el último comprobante.");
+                        }
+                    }
+                }
+            }
+
+            // Formatear el correlativo con ceros a la izquierda (6 dígitos)
+            String correlativo = String.format("%06d", nextCorrelativo);
+            // Combinar serie y correlativo
+            return serie + "-" + correlativo;
+        } catch (Exception e) {
+            throw new Exception("Error al generar serie y correlativo del comprobante: " + e.getMessage());
         }
     }
 

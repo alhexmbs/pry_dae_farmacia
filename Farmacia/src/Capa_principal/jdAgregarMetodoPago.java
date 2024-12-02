@@ -24,6 +24,7 @@ public class jdAgregarMetodoPago extends javax.swing.JDialog {
         modelo.addColumn("ID");
         modelo.addColumn("Metodo pago");
         modelo.addColumn("Descripcion");
+        modelo.addColumn("Estado");
 
         tblMetodos.setModel(modelo);
 
@@ -36,6 +37,7 @@ public class jdAgregarMetodoPago extends javax.swing.JDialog {
                 fila[0] = rs.getInt("id_metodo_pago");
                 fila[1] = rs.getString("metodo_pago");
                 fila[2] = rs.getString("descripcion");
+                fila[3] = rs.getString("estado");
 
                 modelo.addRow(fila);
             }
@@ -99,6 +101,7 @@ public class jdAgregarMetodoPago extends javax.swing.JDialog {
         txtaDescripcion = new javax.swing.JTextArea();
         txtIdMetodo = new javax.swing.JTextField();
         txtMetodo = new javax.swing.JTextField();
+        btnLimpiar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Metodo de pago");
@@ -134,7 +137,7 @@ public class jdAgregarMetodoPago extends javax.swing.JDialog {
 
         btnEliminar.setBackground(new java.awt.Color(236, 177, 89));
         btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnEliminar.setText("ELIMINAR");
+        btnEliminar.setText("DAR DE BAJA");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarActionPerformed(evt);
@@ -169,6 +172,15 @@ public class jdAgregarMetodoPago extends javax.swing.JDialog {
         txtaDescripcion.setRows(5);
         jScrollPane2.setViewportView(txtaDescripcion);
 
+        btnLimpiar.setBackground(new java.awt.Color(236, 177, 89));
+        btnLimpiar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -184,7 +196,7 @@ public class jdAgregarMetodoPago extends javax.swing.JDialog {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(0, 172, Short.MAX_VALUE)
+                                .addGap(0, 152, Short.MAX_VALUE)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
                                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -204,9 +216,12 @@ public class jdAgregarMetodoPago extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnAgregar)))
                         .addGap(18, 18, 18)
-                        .addComponent(btnModificar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnEliminar)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(btnModificar)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnEliminar))
+                            .addComponent(btnLimpiar, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -226,7 +241,9 @@ public class jdAgregarMetodoPago extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLimpiar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtIdBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -273,6 +290,7 @@ public class jdAgregarMetodoPago extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+
         try {
             if (btnAgregar.getText().equals("NUEVO")) {
                 btnAgregar.setText("GUARDAR");
@@ -282,14 +300,14 @@ public class jdAgregarMetodoPago extends javax.swing.JDialog {
                 int idMetodo = Integer.parseInt(txtIdMetodo.getText());
                 String metodo = txtMetodo.getText();
                 String descripcion = txtaDescripcion.getText();
-
+                Boolean estado = true;
                 if (!metodo.isEmpty()) {
-
-                    objMetodo.registrarMetodoPago(idMetodo, metodo, descripcion);
+                    objMetodo.registrarMetodoPago(idMetodo, metodo, descripcion, estado);
                     btnAgregar.setText("NUEVO");
-                    limpiarCampos();
+
                     listarMetodosPago();
                     JOptionPane.showMessageDialog(this, "Metodo pago guardado correctamente");
+                    limpiarCampos();
                 } else {
                     JOptionPane.showMessageDialog(this, "Ingrese información en todos los campos");
                 }
@@ -333,9 +351,9 @@ public class jdAgregarMetodoPago extends javax.swing.JDialog {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         try {
             if (txtIdMetodo.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Debe ingresar un id de metodo de pago a eliminar");
+                JOptionPane.showMessageDialog(this, "Debe ingresar un id de metodo de pago a dar de baja");
             } else {
-                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea eliminar este método de pago?");
+                int confirmacion = JOptionPane.showConfirmDialog(this, "¿Desea dar de baja este método de pago?");
                 if (confirmacion == JOptionPane.YES_OPTION) {
 
                     objMetodo.eliminarMetodoPago(Integer.parseInt(txtIdMetodo.getText()));
@@ -344,13 +362,13 @@ public class jdAgregarMetodoPago extends javax.swing.JDialog {
 
                     listarMetodosPago();
 
-                    JOptionPane.showMessageDialog(this, "Metodo de pago eliminado correctamente");
+                    JOptionPane.showMessageDialog(this, "Metodo de pago dado de baja correctamente");
                 }
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Error en la conversión de datos: " + e.getMessage());
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al eliminar metodo de pago: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error al dar de baja metodo de pago: " + e.getMessage());
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
@@ -367,12 +385,17 @@ public class jdAgregarMetodoPago extends javax.swing.JDialog {
         btnBuscarActionPerformed(null);
     }//GEN-LAST:event_tblMetodosMouseClicked
 
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        limpiarCampos();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
