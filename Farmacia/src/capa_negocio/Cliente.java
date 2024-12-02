@@ -39,7 +39,7 @@ public class Cliente {
         strSQL = "select * \n"
                 + "from cliente cl \n"
                 + "inner join tipo_doc td on cl.id_tipo_doc = td.id_tipo_doc\n"
-                + "where cl.nro_documento like '%"+dni+"%'";
+                + "where cl.nro_documento like '%"+dni+"%' order by 1 desc ";
 
         try {
             rs = objConectar.consultarBD(strSQL);

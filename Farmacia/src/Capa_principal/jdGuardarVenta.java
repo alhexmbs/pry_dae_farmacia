@@ -122,6 +122,9 @@ public class jdGuardarVenta extends javax.swing.JDialog {
 
         jLabel1.setText("Tipo de Comprobante:");
 
+        cboComprobante.setBackground(new java.awt.Color(246, 244, 235));
+        cboComprobante.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -217,6 +220,7 @@ public class jdGuardarVenta extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(rootPane, "La venta se registro exitosamente", "SISTEMA", JOptionPane.INFORMATION_MESSAGE);
                     dispose();
                     dialog1.vaciar();
+                    dialog1.asignarFechaActual();
                 } else {
                 }
             }
