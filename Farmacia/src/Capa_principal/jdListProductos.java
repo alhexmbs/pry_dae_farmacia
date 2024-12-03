@@ -429,7 +429,12 @@ public class jdListProductos extends javax.swing.JDialog {
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        // TODO add your handling code here:
+        txtNombreProducto.setText("");
+        cboFabricante.setSelectedIndex(0);
+        cboFabricante.setSelectedIndex(0);
+        spnMin.setValue(0);
+        spnMax.setValue(0);
+        
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void tblProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductoMouseClicked
@@ -469,7 +474,7 @@ public class jdListProductos extends javax.swing.JDialog {
     }//GEN-LAST:event_spnMinStateChanged
 
     private void btnRegresar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresar1ActionPerformed
-        // TODO add your handling code here:
+        listar();
     }//GEN-LAST:event_btnRegresar1ActionPerformed
 
 
