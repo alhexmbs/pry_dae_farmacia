@@ -430,7 +430,7 @@ public class jdListProductos extends javax.swing.JDialog {
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         txtNombreProducto.setText("");
-        cboFabricante.setSelectedIndex(0);
+        cboFormaFarmaceutica.setSelectedIndex(0);
         cboFabricante.setSelectedIndex(0);
         spnMin.setValue(0);
         spnMax.setValue(0);
