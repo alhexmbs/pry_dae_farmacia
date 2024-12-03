@@ -43,7 +43,8 @@ public class jdReporteProductoBajaRotacion extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        btnVerReporte.setText("VER REPORTE");
+        btnVerReporte.setBackground(new java.awt.Color(236, 177, 89));
+        btnVerReporte.setText("Ver Reporte");
         btnVerReporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVerReporteActionPerformed(evt);

@@ -50,7 +50,8 @@ public class jdReporteClienteMayorConsumo extends javax.swing.JDialog {
             .addGap(0, 281, Short.MAX_VALUE)
         );
 
-        btnVerReporte.setText("VER REPORTE");
+        btnVerReporte.setBackground(new java.awt.Color(236, 177, 89));
+        btnVerReporte.setText("Ver Reporte");
         btnVerReporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVerReporteActionPerformed(evt);
@@ -65,7 +66,7 @@ public class jdReporteClienteMayorConsumo extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(147, Short.MAX_VALUE)
+                .addContainerGap(157, Short.MAX_VALUE)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(114, 114, 114)
                 .addComponent(btnVerReporte)
