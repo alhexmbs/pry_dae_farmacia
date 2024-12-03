@@ -20,7 +20,7 @@ public class jdListTipoComprobante extends javax.swing.JDialog {
     TipoCompobante objC = new TipoCompobante();
 
     //
-    jdPedido objJdPedido = new jdPedido(null, true);
+//    jdPedido objJdPedido = new jdPedido(null, true);
 
     /**
      * Creates new form jdListTipoComprobante

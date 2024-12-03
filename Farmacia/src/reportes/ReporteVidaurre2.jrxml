@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteVidaurre2" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c34b82f0-3071-46e7-841a-4ca7cab24f3e">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="43"/>
 	<parameter name="fechaIni" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -142,7 +142,7 @@ FROM
 				<textElement>
 					<font isBold="false"/>
 				</textElement>
-				<text><![CDATA[Vidaurre Santistevan Joseph]]></text>
+				<text><![CDATA[Vidaurre Santistevan, Joseph]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="13" y="41" width="61" height="20" uuid="9833db13-c5ad-48c8-9005-191bb359fee8"/>
@@ -150,6 +150,27 @@ FROM
 					<font isBold="true" isUnderline="true"/>
 				</textElement>
 				<text><![CDATA[Estudiante:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="389" y="0" width="144" height="20" uuid="3bdf14fb-d282-4f1c-9994-a50c8c148ef9"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Promoción urgente: vence en 10 días]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="389" y="26" width="166" height="20" uuid="fbcc42e6-b802-48fa-ac2c-b78896c74dec"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Promoción de venta rápida: vence en 30 días]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="389" y="52" width="124" height="20" uuid="6bcdc5be-2067-482d-88bd-53c5ee2cb034"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Redistribución: + de 50 unidades]]></text>
 			</staticText>
 		</band>
 	</pageHeader>

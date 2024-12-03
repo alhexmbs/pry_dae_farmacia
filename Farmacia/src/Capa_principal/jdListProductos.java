@@ -444,9 +444,11 @@ public class jdListProductos extends javax.swing.JDialog {
             String dosis = tblProducto.getValueAt(tblProducto.getSelectedRow(), 7).toString();
             int farma = Integer.parseInt(tblProducto.getValueAt(tblProducto.getSelectedRow(), 10).toString());
             int producto = Integer.parseInt(tblProducto.getValueAt(tblProducto.getSelectedRow(), 11).toString());
+            String nombreForma = tblProducto.getValueAt(tblProducto.getSelectedRow(), 1).toString();
             dialog1.nombreProducto = nombre;
             dialog1.stockProducto = stock;
             dialog1.vdfForma = farma;
+            dialog1.nombreForma = nombreForma;
             dialog1.vdfProducto = producto;
             dialog1.concentracionProducto = dosis;
             dialog1.precioProducto = precio;

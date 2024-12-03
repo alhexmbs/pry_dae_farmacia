@@ -272,10 +272,13 @@ public class jdGuardarVenta extends javax.swing.JDialog {
                     int id_pago = objPago.generarNuevoIdPago();
                     int id_metodo_pago = cboMetodos.getSelectedIndex();
                     String estado = "Pagado";
+                    
                     objPago.registrarPago(id_pago, total, estado, id_pedido, usuario, idCliente, id_metodo_pago);
                     objPedido.actualizarEstadoPedido(id_pedido);
                     
                     // Limpiar y actualizar el diálogo
+                    dialog1.asignarFechaActual();
+                    dialog1.asignarNumPedidol();
                     dispose();
                     dialog1.vaciar();
                     dialog1.asignarFechaActual();
