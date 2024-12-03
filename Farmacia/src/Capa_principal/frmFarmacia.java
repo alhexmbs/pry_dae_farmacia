@@ -81,7 +81,6 @@ public class frmFarmacia extends javax.swing.JFrame {
         jMenu11 = new javax.swing.JMenu();
         jMenuItem16 = new javax.swing.JMenuItem();
         mnuAsignarCajas = new javax.swing.JMenuItem();
-        jMenuItem22 = new javax.swing.JMenuItem();
 
         jMenuItem4.setText("jMenuItem4");
 
@@ -418,14 +417,6 @@ public class frmFarmacia extends javax.swing.JFrame {
         });
         jMenu11.add(mnuAsignarCajas);
 
-        jMenuItem22.setText("Control diario");
-        jMenuItem22.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem22ActionPerformed(evt);
-            }
-        });
-        jMenu11.add(jMenuItem22);
-
         jMenuBar1.add(jMenu11);
 
         setJMenuBar(jMenuBar1);
@@ -462,8 +453,15 @@ public class frmFarmacia extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        jdPedido obj = new jdPedido(null, false, rolUsuario, idUsu, idCajita);
-        obj.setVisible(true);
+        if(rolUsuario.equals("Administrador")){
+            JOptionPane.showMessageDialog(this, "Está acción no le pertenece al rol "+rolUsuario);
+        }else if(idCajita <= 0){
+            JOptionPane.showMessageDialog(this, "Aún no tiene una caja asignada");
+        }else{
+            jdPedido obj = new jdPedido(null, false, rolUsuario, idUsu, idCajita);
+            obj.setVisible(true);
+        }
+        
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -623,10 +621,6 @@ public class frmFarmacia extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMenuItem23ActionPerformed
 
-    private void jMenuItem22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem22ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem22ActionPerformed
-
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
         try {
@@ -782,7 +776,6 @@ public class frmFarmacia extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem20;
     private javax.swing.JMenuItem jMenuItem21;
-    private javax.swing.JMenuItem jMenuItem22;
     private javax.swing.JMenuItem jMenuItem23;
     private javax.swing.JMenuItem jMenuItem24;
     private javax.swing.JMenuItem jMenuItem25;

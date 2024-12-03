@@ -25,8 +25,8 @@ public class Usuario_Caja {
     }
     
     public void asignarCajaUsuario(Integer idUsuario, Integer idCaja, float montoInicial) throws Exception{
-        strSQL = "INSERT INTO USUARIO_CAJA (id_usuario, id_caja, monto_inicial, fecha_hora_apertura, transacciones_realizadas) "
-                + "VALUES (" + idUsuario + ", " + idCaja + ", " + montoInicial + ", CURRENT_TIMESTAMP, 0)";
+        strSQL = "INSERT INTO USUARIO_CAJA (id_usuario, id_caja, monto_inicial, monto_final, fecha_hora_apertura, transacciones_realizadas) "
+                + "VALUES (" + idUsuario + ", " + idCaja + ", " + montoInicial + ", " + montoInicial + ", CURRENT_TIMESTAMP, 0)";
         
         try{
             objConectar.ejecutarBd(strSQL);
